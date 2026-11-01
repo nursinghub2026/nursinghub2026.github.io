@@ -49,8 +49,6 @@ h1.ttl{font-size:clamp(24px,6.5vw,36px);font-weight:900;margin-top:16px;directio
 .cta:hover{transform:translateY(-3px)}
 .cta:disabled{opacity:.6;cursor:wait;transform:none}
 .err{color:#ffb4bb;font-size:13px;font-weight:700;min-height:20px;line-height:1.8;text-align:center}
-.tag{cursor:pointer;-webkit-user-select:none;user-select:none}
-.tag small{display:block;font-size:10px;color:#9fb3c8;margin-top:6px}
 
 /* ===== MAIN ===== */
 .wrap{max-width:1100px;margin:-36px auto 0;padding:0 16px 30px;position:relative;z-index:2}
@@ -156,25 +154,25 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
 
   <!-- تسجيل الدخول -->
   <div class="card-dark" id="loginCard">
-    <h2><i class="fa-solid fa-user-doctor"></i> غرفة العمليات.. للمشرفين بس</h2>
-    <p class="sub">اكتب اسمك الثلاثي وكلمة المرور. اسمك هيتسجل في «سجل المشرفين»، يعني اللي هيغلط هنعرفه </p>
+    <h2><i class="fa-solid fa-user-doctor"></i> تسجيل دخول المشرفين</h2>
+    <p class="sub">اكتب اسمك الثلاثي وكلمة المرور. سيتم تسجيل اسمك في سجل المشرفين.</p>
     <form class="lf" id="loginForm" autocomplete="off">
       <div>
         <label for="nameInput">الاسم الثلاثي</label>
-        <input type="text" id="nameInput" placeholder="زي البطاقة بالظبط، مش اسم الدلع" maxlength="60" required autocomplete="name">
-        <div class="hint">يعني 3 أسماء على الأقل: اسمك واسم أبوك واسم جدك.</div>
+        <input type="text" id="nameInput" placeholder="الاسم الثلاثي كما في البطاقة" maxlength="60" required autocomplete="name">
+        <div class="hint">3 أسماء على الأقل: اسمك واسم الأب واسم الجد.</div>
       </div>
       <div>
         <label for="pwInput">كلمة المرور</label>
-        <input type="password" id="pwInput" placeholder="الباسورد (ومتقولوش لحد)" required autocomplete="current-password">
+        <input type="password" id="pwInput" placeholder="كلمة المرور" required autocomplete="current-password">
       </div>
-      <button class="cta" type="submit" id="loginBtn"><i class="fa-solid fa-key"></i> افتح الباب</button>
+      <button class="cta" type="submit" id="loginBtn"><i class="fa-solid fa-key"></i> دخول</button>
       <div class="err" id="loginErr"></div>
     </form>
   </div>
 
   <!-- ترحيب بعد الدخول -->
-  <div class="card-dark tag hidden" id="greetCard">
+  <div class="card-dark hidden" id="greetCard">
     <h2 id="greetTitle"></h2>
     <p class="sub" id="greetTag"></p>
   </div>
@@ -186,7 +184,7 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
 <section id="homePage">
   <div class="notice">
     <i class="fa-solid fa-cloud"></i>
-    البيانات بتتحفظ في Google Sheets والملفات في Google Drive، وبتظهر للطلاب على أي جهاز. يعني اللي بتعمله هنا الكل هيشوفه، فركّز
+    البيانات بتتحفظ في Google Sheets والملفات في Google Drive، وبتظهر للطلاب على أي جهاز. أي تعديل هنا بيظهر للجميع.
   </div>
 
   <div class="stats">
@@ -198,7 +196,7 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
   </div>
 
   <div class="panel">
-    <h2 class="panel-title"><i class="fa-solid fa-plus-circle"></i> <span id="lectureFormTitle">محاضرة جديدة، ودماغ جديدة </span></h2>
+    <h2 class="panel-title"><i class="fa-solid fa-plus-circle"></i> <span id="lectureFormTitle">إضافة محاضرة جديدة</span></h2>
     <form id="lectureForm">
       <input type="hidden" id="lectureId">
       <div class="form-grid">
@@ -210,7 +208,7 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
             <option value="">اختر المستوى</option>
             <option>First Year</option><option>Second Year</option><option>Third Year</option><option>Fourth Year</option>
           </select></div>
-        <div class="field full"><label>وصف المحاضرة</label><textarea id="lectureDescription" placeholder="وصف مختصر للمحاضرة... (من غير روايات)"></textarea></div>
+        <div class="field full"><label>وصف المحاضرة</label><textarea id="lectureDescription" placeholder="وصف مختصر للمحاضرة..."></textarea></div>
         <div class="field"><label>حالة المحاضرة</label>
           <select id="lectureStatus"><option value="published">منشورة</option><option value="draft">مسودة</option></select></div>
       </div>
@@ -231,8 +229,8 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
   </div>
 
   <div class="panel">
-    <h2 class="panel-title"><i class="fa-solid fa-shield-halved"></i> سجل المشرفين 🕵️</h2>
-    <p class="help" style="margin-bottom:12px">هنا بتتسجل أسامي اللي دخلوا واللي عدّلوا في المحتوى. الدفتر بيشوف كل حاجة.</p>
+    <h2 class="panel-title"><i class="fa-solid fa-shield-halved"></i> سجل المشرفين</h2>
+    <p class="help" style="margin-bottom:12px">يعرض أسماء المشرفين الذين دخلوا أو عدّلوا في المحتوى.</p>
     <div id="logTeam" class="team"></div>
     <div id="logList"></div>
     <div class="form-actions">
@@ -267,7 +265,7 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
       <div class="form-grid">
         <div class="field full">
           <label>Content Title - عنوان المحتوى *</label>
-          <input id="contentTitle" required placeholder="اكتب عنوان المحتوى (عنوان واضح، مش «جديد 2 نهائي نهائي») ">
+          <input id="contentTitle" required placeholder="اكتب عنوان المحتوى">
         </div>
         <div class="field full">
           <label>Content Description - وصف المحتوى</label>
@@ -318,27 +316,8 @@ const SECTIONS = {
 };
 const ALLOWED_EXT = ["pdf","doc","docx","ppt","pptx","jpg","jpeg","png","webp","mp4","mp3","txt"];
 
-const TAGLINES = [
-  "المحتوى اللي بتضيفه النهارده هو نجاح زمايلك بكرة.. يعني ضغط بسيط 😅",
-  "الملف اللي مش بيتفتح زي المريض اللي مش بيرد: الاتنين بيوتّروا 😂",
-  "متنساش تدوس حفظ.. الصفحة لسه مش بتقرأ أفكارك 🧠",
-  "كل محاضرة بتضيفها بتوفّر على زميلك سهرة كاملة ☕",
-  "ارفع الملفات براحة.. 20 ميجا بس، مش مكتبة الإسكندرية 📚",
-  "المشرف الشاطر مبيحذفش حاجة قبل ما يفكر مرتين.. وبعدين يحذف 😎",
-  "لو الصفحة بطيئة فالأغلب النت.. ولو النت كويس يبقى الغلط عندنا 🙃",
-  "عنوان واضح للمحتوى أحسن من «ملف جديد نهائي 2» 😄",
-  "إنت مش بتعدّل محتوى، إنت بتنقذ طلبة من الضياع 🦸"
-];
-const LOAD_MSGS = [
-  "بنحمّل البيانات.. استنى زي ما بتستنى نتيجة الامتحان ⏳",
-  "ثواني، الداتا بتلبس وتيجي 👔",
-  "بنجيب المحاضرات من جوجل.. هي اللي بتتأخر مش إحنا 😅"
-];
-const UPLOAD_MSGS = [
-  "جاري رفع الملف.. متقفلش الصفحة وإلا هنعيط سوا 😂",
-  "الملف في الطريق لـ Drive.. استحمل 🚚"
-];
-const rnd = a => a[Math.floor(Math.random()*a.length)];
+const LOAD_MSG = "جاري تحميل البيانات...";
+const UPLOAD_MSG = "جاري رفع الملف إلى Google Drive... لا تغلق الصفحة.";
 
 let PW = sessionStorage.getItem("NPH_PW") || "";
 let ADMIN = sessionStorage.getItem("NPH_ADMIN") || "";
@@ -398,7 +377,7 @@ function fileToBase64(file){
   });
 }
 function netMsg(err,fallback){
-  return err.message === "Failed to fetch" ? (fallback || "مفيش اتصال بالسيرفر.. اتأكد من النت 📶") : err.message;
+  return err.message === "Failed to fetch" ? (fallback || "تعذر الاتصال بالسيرفر. تأكد من الإنترنت.") : err.message;
 }
 
 /* =====================================
@@ -423,10 +402,10 @@ function validName(raw){
   const name = raw.replace(/\s+/g," ").trim();
   const words = name.split(" ").filter(Boolean);
   if (words.length < 3) return {ok:false,msg: words.length < 2
-    ? "ده اسم ولا اختصار؟ 😄 عايزينه ثلاثي: اسمك واسم أبوك واسم جدك."
-    : "لسه ناقص اسم! ثلاثي يعني 3 أسماء مش 2 😄"};
+    ? "من فضلك اكتب الاسم ثلاثي: اسمك واسم الأب واسم الجد."
+    : "الاسم ناقص، المطلوب 3 أسماء على الأقل."};
   const re = /^[\u0600-\u06FFa-zA-Z]{2,}$/;
-  if (!words.every(w => re.test(w))) return {ok:false,msg:"الاسم فيه حاجة غريبة 🤨 حروف بس من غير أرقام أو رموز."};
+  if (!words.every(w => re.test(w))) return {ok:false,msg:"الاسم يجب أن يحتوي على حروف فقط بدون أرقام أو رموز."};
   return {ok:true,name:name};
 }
 
@@ -439,7 +418,6 @@ function showLogin(){
   $("appRoot").classList.add("hidden");
   $("logoutBtn").classList.add("hidden");
 }
-function newTag(){ $("greetTag").textContent = rnd(TAGLINES); }
 function showApp(){
   setHero(true);
   $("loginCard").classList.add("hidden");
@@ -447,10 +425,9 @@ function showApp(){
   $("appRoot").classList.remove("hidden");
   $("logoutBtn").classList.remove("hidden");
   const first = ADMIN.split(" ")[0] || "";
-  $("greetTitle").textContent = "أهلًا يا دكتور " + first + " 👨‍⚕️";
-  newTag();
+  $("greetTitle").textContent = "أهلًا يا دكتور " + first;
+  $("greetTag").textContent = "تم تسجيل الدخول باسم: " + ADMIN;
 }
-$("greetCard").addEventListener("click",newTag);
 
 $("loginForm").addEventListener("submit",async e => {
   e.preventDefault();
@@ -469,8 +446,8 @@ $("loginForm").addEventListener("submit",async e => {
   }catch(err){
     PW = ""; ADMIN = "";
     $("loginErr").textContent = err.message === "Failed to fetch"
-      ? "مقدرناش نوصل للسيرفر 📶 اتأكد من النت ومن رابط النشر."
-      : "الباسورد غلط.. ركّز وجرّب تاني، مفيش هزار هنا 😅";
+      ? "تعذر الاتصال بالسيرفر. تأكد من الإنترنت ومن رابط النشر."
+      : "كلمة المرور غير صحيحة، حاول مرة أخرى.";
   }
   $("loginBtn").disabled = false;
 });
@@ -480,11 +457,11 @@ $("logoutBtn").addEventListener("click",() => {
   sessionStorage.removeItem("NPH_ADMIN");
   PW = ""; ADMIN = ""; lectures = []; selectedLectureId = null;
   showLogin();
-  toast("مع السلامة يا دكتور 👋 متنساش تقفل الباب وراك");
+  toast("تم تسجيل الخروج.");
 });
 
 async function startApp(){
-  busy(true,rnd(LOAD_MSGS));
+  busy(true,LOAD_MSG);
   try{
     const data = await api("adminList");
     lectures = data.lectures || [];
@@ -498,11 +475,11 @@ async function startApp(){
 }
 
 $("refreshBtn").addEventListener("click",async () => {
-  busy(true,rnd(LOAD_MSGS));
+  busy(true,LOAD_MSG);
   try{
     lectures = (await api("adminList")).lectures || [];
     renderAll();
-    toast("اتحدّثت ✅");
+    toast("تم التحديث.");
   }catch(err){ toast(netMsg(err),true); }
   busy(false);
 });
@@ -519,10 +496,10 @@ function fmtTime(t){
 function renderLog(log){
   const team = $("logTeam"), box = $("logList");
   team.innerHTML = ""; box.innerHTML = "";
-  if (!log.length){ box.appendChild(el("div","empty","السجل فاضي.. إنت أول واحد هنا 👶")); return; }
+  if (!log.length){ box.appendChild(el("div","empty","السجل فارغ حاليًا.")); return; }
   const names = [];
   log.forEach(r => { if (r.name && names.indexOf(r.name) === -1) names.push(r.name); });
-  names.forEach(n => team.appendChild(el("span","","👤 " + n)));
+  names.forEach(n => team.appendChild(el("span","",n)));
   log.slice(0,50).forEach(r => {
     const row = el("div","logrow");
     const ic = el("div","ic"); ic.appendChild(el("i","fa-solid fa-user-check"));
@@ -536,13 +513,13 @@ function renderLog(log){
 async function loadLog(){
   const box = $("logList");
   $("logTeam").innerHTML = "";
-  box.innerHTML = ""; box.appendChild(el("div","empty","بنسأل الدفتر مين كان هنا.. 🕵️"));
+  box.innerHTML = ""; box.appendChild(el("div","empty","جاري تحميل السجل..."));
   try{
     const d = await api("adminLog");
     renderLog(d.log || []);
   }catch(err){
     box.innerHTML = "";
-    box.appendChild(el("div","empty","السجل لسه مش متفعّل على السيرفر 🛠️ (محتاج تحديث Google Apps Script)"));
+    box.appendChild(el("div","empty","السجل غير مفعّل على السيرفر بعد (يلزم تحديث Google Apps Script)."));
   }
 }
 $("logRefreshBtn").addEventListener("click",loadLog);
@@ -586,17 +563,17 @@ lectureForm.addEventListener("submit",e => {
   else lectures[i] = Object.assign({},backup,lec);
   lectureForm.reset(); setValue("lectureId","");
   $("lectureSaveBtn").textContent = "إضافة المحاضرة";
-  $("lectureFormTitle").textContent = "محاضرة جديدة، ودماغ جديدة 🧠";
+  $("lectureFormTitle").textContent = "إضافة محاضرة جديدة";
   renderAll();
-  toast(id ? "اتعدّلت المحاضرة ✅" : "اتضافت المحاضرة 🎉 الطلبة هيدعولك");
+  toast(id ? "تم تعديل المحاضرة." : "تمت إضافة المحاضرة.");
   api("saveLecture",{lecture:lec}).then(loadLog).catch(err => {
     if (backup) lectures[i] = backup; else lectures = lectures.filter(x => String(x.id) !== String(lec.id));
-    renderAll(); toast("مااتحفظتش 😬 " + netMsg(err),true);
+    renderAll(); toast("لم يتم الحفظ: " + netMsg(err),true);
   });
 });
 $("lectureCancelBtn").addEventListener("click",() => setTimeout(() => {
   setValue("lectureId",""); $("lectureSaveBtn").textContent = "إضافة المحاضرة";
-  $("lectureFormTitle").textContent = "محاضرة جديدة، ودماغ جديدة 🧠";
+  $("lectureFormTitle").textContent = "إضافة محاضرة جديدة";
 },0));
 
 function editLecture(id){
@@ -605,16 +582,16 @@ function editLecture(id){
   setValue("lectureSubject",x.subject); setValue("lectureLevel",x.level);
   setValue("lectureDescription",x.description); setValue("lectureStatus",x.status);
   $("lectureSaveBtn").textContent = "تحديث المحاضرة";
-  $("lectureFormTitle").textContent = "تعديل المحاضرة ✏️";
+  $("lectureFormTitle").textContent = "تعديل المحاضرة";
   window.scrollTo({top:0,behavior:"smooth"});
 }
 function deleteLecture(id){
-  if (!confirm("هتحذف المحاضرة وكل ملفاتها نهائي، وفي الحياة مفيش Ctrl+Z 😅 متأكد؟")) return;
+  if (!confirm("سيتم حذف المحاضرة وكل ملفاتها نهائيًا. هل أنت متأكد؟")) return;
   const backup = lectures.slice();
   lectures = lectures.filter(x => String(x.id) !== String(id));
   renderAll();
-  toast("اتحذفت 🗑️");
-  api("deleteLecture",{id}).then(loadLog).catch(err => { lectures = backup; renderAll(); toast("مااتحذفتش 😬 " + netMsg(err),true); });
+  toast("تم حذف المحاضرة.");
+  api("deleteLecture",{id}).then(loadLog).catch(err => { lectures = backup; renderAll(); toast("لم يتم الحذف: " + netMsg(err),true); });
 }
 function openLecture(id){
   selectedLectureId = id;
@@ -626,7 +603,7 @@ function openLecture(id){
 }
 function renderLectures(){
   const list = $("lecturesList"); list.innerHTML = "";
-  if (!lectures.length){ list.appendChild(el("div","empty","مفيش محاضرات.. هدوء زي أيام الإجازة 😎 ضيف أول محاضرة من النموذج اللي فوق.")); return; }
+  if (!lectures.length){ list.appendChild(el("div","empty","لا توجد محاضرات بعد. أضف أول محاضرة من النموذج بالأعلى.")); return; }
   lectures.forEach(l => {
     const card = el("div","lecture-card");
     const info = el("div","");
@@ -680,16 +657,16 @@ $("contentForm").addEventListener("submit",async function(e){
 
   if (file){
     if (!ALLOWED_EXT.includes(extOf(file.name))){
-      toast("نوع الملف ده مش مدعوم 🙅 المدعوم: " + ALLOWED_EXT.join(", ").toUpperCase(),true);
+      toast("نوع الملف غير مدعوم. المدعوم: " + ALLOWED_EXT.join(", ").toUpperCase(),true);
       return;
     }
     if (file.size > MAX_FILE_MB*1024*1024){
-      toast("الملف أكبر من " + MAX_FILE_MB + " ميجا 🐘 قلّل حجمه أو قسّمه.",true);
+      toast("حجم الملف أكبر من " + MAX_FILE_MB + " ميجا. قلّل الحجم أو قسّم الملف.",true);
       return;
     }
   }
 
-  busy(true,file ? rnd(UPLOAD_MSGS) : "جاري الحفظ...");
+  busy(true,file ? UPLOAD_MSG : "جاري الحفظ...");
   try{
     const item = {
       id:id || "", lectureId:lecture.id, section:currentTab,
@@ -703,10 +680,10 @@ $("contentForm").addEventListener("submit",async function(e){
     if (i === -1) list.push(saved); else list[i] = saved;
 
     resetForm(); renderContent(); updateStats();
-    toast(id ? "اتعدّل المحتوى ✅" : "اتضاف المحتوى 🎉 عاش يا دكتور");
+    toast(id ? "تم تعديل المحتوى." : "تمت إضافة المحتوى.");
     loadLog();
   }catch(err){
-    toast(netMsg(err,"مفيش اتصال بالسيرفر 📶 جرّب ملف أصغر أو اتأكد من النت."),true);
+    toast(netMsg(err,"تعذر الاتصال بالسيرفر. جرّب ملفًا أصغر أو تأكد من الإنترنت."),true);
   }
   busy(false);
 });
@@ -717,7 +694,7 @@ function editItem(item){
   setValue("contentDescription",item.description);
   $("contentFile").value = ""; $("filePreview").textContent = "";
   const cf = $("currentFile");
-  if (item.file){ cf.textContent = "الملف الحالي: "+item.file.name+" — سيبه فاضي لو عايز تحتفظ بيه، أو اختار ملف جديد يستبدله."; cf.classList.remove("hidden"); }
+  if (item.file){ cf.textContent = "الملف الحالي: "+item.file.name+" — اتركه فارغًا للاحتفاظ به، أو اختر ملفًا جديدًا لاستبداله."; cf.classList.remove("hidden"); }
   else cf.classList.add("hidden");
   $("contentSaveBtn").textContent = "تحديث المحتوى";
   $("formTitle").textContent = "تعديل محتوى - " + SECTIONS[currentTab].en;
@@ -725,13 +702,13 @@ function editItem(item){
 }
 
 async function deleteItem(lecture,item){
-  if (!confirm("هتحذف المحتوى وملفه نهائي. متأكد ولا إيدك سبقتك؟ 😄")) return;
+  if (!confirm("سيتم حذف المحتوى وملفه نهائيًا. هل أنت متأكد؟")) return;
   busy(true,"جاري الحذف...");
   try{
     await api("deleteItem",{id:item.id});
     lecture.sections[currentTab] = lecture.sections[currentTab].filter(x => String(x.id) !== String(item.id));
     resetForm(); renderContent(); updateStats();
-    toast("اتحذف 🗑️");
+    toast("تم حذف المحتوى.");
     loadLog();
   }catch(err){ toast(netMsg(err),true); }
   busy(false);
@@ -741,7 +718,7 @@ function renderContent(){
   const lecture = getLecture(); if (!lecture) return;
   const list = $("contentList"); list.innerHTML = "";
   const items = (lecture.sections && lecture.sections[currentTab]) || [];
-  if (!items.length){ list.appendChild(el("div","empty","القسم ده فاضي زي جيبي آخر الشهر 😅 ضيف أول محتوى.")); return; }
+  if (!items.length){ list.appendChild(el("div","empty","لا توجد محتويات في هذا القسم بعد.")); return; }
   items.forEach(item => {
     const card = el("div","item-card");
     const info = el("div","item-info");
@@ -783,4 +760,4 @@ function renderAll(){
 if (PW && ADMIN) startApp(); else { PW = ""; ADMIN = ""; showLogin(); }
 </script>
 </body>
-        </html>
+                                                             </html>
