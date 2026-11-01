@@ -14,107 +14,131 @@ body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b;overflow-x:
 img{max-width:100%}
 
 /* ===== HERO ===== */
-.hero{position:relative;overflow:hidden;text-align:center;padding:34px 16px 78px;border-radius:0 0 40px 40px;
-  background:linear-gradient(180deg,#fff 0%,#fff 26%,#e9f5f6 40%,#a6d3d8 54%,#2a6a80 74%,#1b263b 100%)}
-.wm{position:absolute;top:0;right:0;left:0;height:440px;display:flex;justify-content:center;align-items:flex-start;gap:2vw;
-  pointer-events:none;opacity:.24;-webkit-mask-image:linear-gradient(#000 38%,transparent 100%);mask-image:linear-gradient(#000 38%,transparent 100%)}
-.wm img{width:min(46vw,310px);height:auto;object-fit:contain;margin-top:8px;mix-blend-mode:multiply}
-.hero>*:not(.wm){position:relative;z-index:1}
-.uni{font-size:19px;font-weight:900;letter-spacing:1px;direction:ltr;color:#1b263b;margin-top:6px}
+.hero{position:relative;overflow:hidden;text-align:center;padding:26px 16px 72px;border-radius:0 0 40px 40px;
+  background:linear-gradient(180deg,#fff 0%,#fff 34%,#e9f5f6 46%,#a6d3d8 58%,#2a6a80 76%,#1b263b 100%)}
+.logos{display:flex;justify-content:center;align-items:center;gap:clamp(14px,5vw,44px)}
+.logos img{width:clamp(120px,33vw,200px);height:clamp(120px,33vw,200px);object-fit:contain;mix-blend-mode:multiply}
+.uni{font-size:19px;font-weight:900;letter-spacing:1px;direction:ltr;color:#1b263b;margin-top:14px}
 .fac{font-size:15px;font-weight:800;color:#087f8c;margin-top:4px;direction:ltr}
 .dep{font-size:11px;color:#475569;margin-top:4px;direction:ltr;font-weight:600}
-h1{font-size:clamp(26px,7vw,40px);font-weight:900;margin-top:22px;direction:ltr;color:#1b263b}
+h1{font-size:clamp(26px,7vw,40px);font-weight:900;margin-top:20px;direction:ltr;color:#1b263b}
 .line{width:70px;height:4px;background:#087f8c;border-radius:9px;margin:14px auto 22px}
-.welcome{max-width:600px;margin:90px auto 0;background:rgba(27,38,59,.9);border:1px solid #ffffff2e;border-radius:20px;padding:22px 20px;box-shadow:0 12px 30px #0004;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.welcome{max-width:600px;margin:70px auto 0;background:rgba(27,38,59,.9);border:1px solid #ffffff2e;border-radius:20px;padding:22px 20px;box-shadow:0 12px 30px #0004;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .welcome p{color:#e8eef6;font-size:clamp(14px,3.8vw,16px);line-height:2.1}
 .welcome .dua{display:block;margin-top:10px;color:#fff;font-size:clamp(15px,4vw,17px);font-weight:800}
 .cta{display:inline-flex;align-items:center;gap:12px;margin-top:26px;background:linear-gradient(135deg,#087f8c,#2bb5bd);color:#fff;text-decoration:none;padding:15px 34px;border-radius:14px;font-size:clamp(15px,4vw,17px);font-weight:900;box-shadow:0 8px 22px #0006;transition:.3s}
 .cta:hover{transform:translateY(-3px)}
 
-/* ===== SECTIONS ===== */
-.wrap{max-width:1000px;margin:-34px auto 0;padding:0 16px;position:relative;z-index:2}
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+/* ===== MAIN ===== */
+.wrap{max-width:1000px;margin:-36px auto 0;padding:0 16px;position:relative;z-index:2}
+
+/* الآية */
+.vb{position:relative;overflow:hidden;background:linear-gradient(135deg,#0a5c4a 0%,#087f8c 55%,#2bb5bd 100%);border-radius:24px;padding:26px 18px 22px;text-align:center;color:#fff;box-shadow:0 14px 34px #087f8c55}
+.vb::before,.vb::after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:#ffffff14}
+.vb::before{top:-80px;right:-60px}
+.vb::after{bottom:-90px;left:-50px}
+.vb>*{position:relative;z-index:1}
+.vb .ico{width:54px;height:54px;border-radius:50%;background:#ffffff26;display:grid;place-items:center;margin:0 auto 8px;font-size:23px;color:#ffe9a8}
+.vb .q{font-family:'Amiri',serif;font-size:clamp(28px,8vw,46px);line-height:2;color:#ffe9a8;font-weight:700;text-shadow:0 2px 8px #0004}
+.vb .r{display:inline-block;margin-top:6px;background:#ffffff22;border-radius:20px;padding:4px 16px;font-size:12px;font-weight:700;color:#e3f7f8}
+
+/* الأزرار الرئيسية */
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.abtn{font-family:inherit;border:0;border-radius:22px;padding:24px 10px;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:0 10px 26px #0003;transition:.25s}
+.abtn:hover{transform:translateY(-4px)}
+.abtn i{font-size:34px}
+.abtn b{font-size:clamp(15px,4.4vw,19px);font-weight:900}
+.abtn small{font-size:12px;opacity:.92;font-weight:600}
+.a1{background:linear-gradient(135deg,#0b8a6f,#087f8c)}
+.a2{background:linear-gradient(135deg,#7053a6,#b16c20)}
+
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:20px}
 .feature{background:#fff;border-radius:16px;padding:20px 10px;text-align:center;box-shadow:0 6px 20px #1b263b12;transition:.3s}
 .feature:hover{transform:translateY(-4px)}
 .feature i{font-size:26px;color:#087f8c;margin-bottom:10px}
 .feature h3{font-size:14px;font-weight:800}
-.sec{margin:34px 0 8px}
-.sec h2{font-size:clamp(19px,5vw,23px);font-weight:900;display:flex;align-items:center;gap:10px}
-.sec h2 i{color:#087f8c}
-.sec>p{color:#64748b;font-size:14px;margin-top:6px;line-height:1.9}
 
-/* verses */
-.verses{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:16px}
-.verse{background:linear-gradient(160deg,#1b263b,#16405a 70%,#087f8c);color:#fff;border-radius:18px;padding:20px;text-align:center;box-shadow:0 8px 22px #1b263b26}
-.verse small{display:inline-block;background:#ffffff22;border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;margin-bottom:10px}
-.verse .q{font-family:'Amiri',serif;font-size:clamp(20px,5.4vw,25px);line-height:2.1}
-.verse .r{margin-top:8px;font-size:12px;color:#b8e9ec}
+/* ===== النافذة ===== */
+.ov{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(10,18,32,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:12px;z-index:100}
+.ov.show{display:flex}
+.md{background:#fff;width:100%;max-width:640px;max-height:90vh;display:flex;flex-direction:column;border-radius:24px;overflow:hidden;box-shadow:0 24px 60px #0007;animation:pop .25s ease}
+@keyframes pop{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.mh{background:var(--c);color:#fff;padding:14px 16px 14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.mh h4{font-size:clamp(16px,4.6vw,20px);font-weight:900;line-height:1.6}
+.x{background:#ffffff2b;border:0;color:#fff;width:38px;height:38px;min-width:38px;border-radius:50%;font-size:18px;cursor:pointer}
+.mbody{overflow-y:auto;padding:18px;-webkit-overflow-scrolling:touch}
+.mfoot{display:flex;gap:10px;padding:12px 18px 18px;border-top:1px solid #eef2f6}
+.mfoot button{flex:1;font-family:inherit;border:0;border-radius:12px;padding:13px;font-size:15px;font-weight:800;cursor:pointer}
+.cp{background:var(--c);color:#fff}
+.bk{background:#edf1f6;color:#1b263b}
+.hidden{display:none!important}
 
-/* tips */
-.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin-top:16px}
-.tip{background:#fff;border-radius:16px;padding:20px;box-shadow:0 6px 20px #1b263b0f;border-right:5px solid #087f8c}
-.tip.hl{border-right-color:#c0392b;background:#fff9f8}
-.tip .ic{width:44px;height:44px;border-radius:12px;background:#e4f5f5;color:#087f8c;display:grid;place-items:center;font-size:20px;margin-bottom:10px}
-.tip.hl .ic{background:#fdeceb;color:#c0392b}
-.tip h3{font-size:16px;font-weight:900;margin-bottom:6px}
-.tip p{font-size:14px;color:#475569;line-height:2}
-
-/* adhkar */
-.grp{margin-top:22px}
-.grp h3{font-size:17px;font-weight:900;display:flex;align-items:center;gap:10px;color:var(--c)}
-.grp h3 i{width:36px;height:36px;border-radius:10px;background:var(--c);color:#fff;display:grid;place-items:center;font-size:16px}
-.btns{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:12px}
-.dbtn{font-family:inherit;background:#fff;border:1px solid #e4eaf0;border-right:5px solid var(--c);border-radius:13px;padding:13px 14px;text-align:right;font-size:14px;font-weight:700;color:#1b263b;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 3px 10px #1b263b0a;transition:.2s}
-.dbtn:hover{transform:translateY(-2px);box-shadow:0 8px 18px #1b263b18}
+/* قائمة الأدعية */
+.grp{margin-bottom:20px}
+.grp h3{font-size:16px;font-weight:900;display:flex;align-items:center;gap:10px;color:var(--g)}
+.grp h3 i{width:34px;height:34px;border-radius:10px;background:var(--g);color:#fff;display:grid;place-items:center;font-size:15px}
+.btns{display:grid;grid-template-columns:1fr;gap:9px;margin-top:10px}
+.dbtn{font-family:inherit;background:#fff;border:1px solid #e4eaf0;border-right:5px solid var(--g);border-radius:13px;padding:13px 14px;text-align:right;font-size:14px;font-weight:700;color:#1b263b;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 3px 10px #1b263b0a;transition:.2s}
+.dbtn:hover{transform:translateX(-3px);box-shadow:0 8px 18px #1b263b18}
 .dbtn span{flex:1}
 .dbtn em{font-style:normal;font-size:10px;font-weight:800;background:#f0f4f8;color:#475569;padding:3px 8px;border-radius:12px;white-space:nowrap}
 .dbtn em.q{background:#e6f5f5;color:#087f8c}
 
-/* modal */
-.ov{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(10,18,32,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:14px;z-index:100}
-.ov.show{display:flex}
-.md{background:#fff;width:100%;max-width:580px;max-height:90vh;overflow:auto;border-radius:24px;box-shadow:0 24px 60px #0007;animation:pop .25s ease}
-@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
-.mh{background:var(--c);color:#fff;padding:20px 22px;text-align:center}
-.mh .bd{display:inline-block;background:#ffffff2b;border-radius:20px;padding:4px 14px;font-size:12px;font-weight:800}
-.mh h4{font-size:clamp(17px,4.6vw,20px);font-weight:900;margin-top:10px;line-height:1.7}
-.mb{padding:24px 22px 10px;text-align:center}
-.mt{font-family:'Amiri',serif;font-size:clamp(22px,6vw,28px);line-height:2.2;color:#1b263b;white-space:pre-line}
-.mi{display:grid;gap:8px;margin-top:18px;text-align:right}
+/* تفاصيل الدعاء */
+.dt{text-align:center}
+.bd{display:inline-block;background:#f0f4f8;color:var(--c);border-radius:20px;padding:4px 14px;font-size:12px;font-weight:800}
+.dt h5{font-size:clamp(17px,4.6vw,20px);font-weight:900;margin:10px 0 4px;line-height:1.7}
+.dtx{font-family:'Amiri',serif;font-size:clamp(22px,6vw,28px);line-height:2.2;color:#1b263b;white-space:pre-line;margin:8px 0 6px}
+.mi{display:grid;gap:8px;margin-top:14px;text-align:right}
 .mi div{background:#f3f6fa;border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.9;color:#334155}
 .mi b{color:#1b263b}
-.ma{display:flex;gap:10px;padding:16px 22px 22px}
-.ma button{flex:1;font-family:inherit;border:0;border-radius:12px;padding:13px;font-size:15px;font-weight:800;cursor:pointer}
-.cp{background:var(--c);color:#fff}
-.cl{background:#edf1f6;color:#1b263b}
 
-/* suggestions */
-.box{background:#fff;border-radius:18px;padding:24px;margin:34px 0;box-shadow:0 6px 20px #1b263b12}
+/* النصائح */
+.verses{display:grid;gap:12px;margin-bottom:16px}
+.verse{background:linear-gradient(160deg,#1b263b,#16405a 70%,#087f8c);color:#fff;border-radius:18px;padding:18px;text-align:center}
+.verse small{display:inline-block;background:#ffffff22;border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;margin-bottom:8px}
+.verse .q{font-family:'Amiri',serif;font-size:clamp(20px,5.4vw,25px);line-height:2.1}
+.verse .r{margin-top:6px;font-size:12px;color:#b8e9ec}
+.tips{display:grid;gap:12px}
+.tip{background:#fff;border-radius:16px;padding:16px 18px;box-shadow:0 4px 14px #1b263b10;border:1px solid #eef2f6;border-right:5px solid #087f8c}
+.tip.hl{border-right-color:#c0392b;background:#fff9f8}
+.tip .ic{width:42px;height:42px;border-radius:12px;background:#e4f5f5;color:#087f8c;display:grid;place-items:center;font-size:19px;margin-bottom:8px}
+.tip.hl .ic{background:#fdeceb;color:#c0392b}
+.tip h3{font-size:16px;font-weight:900;margin-bottom:5px}
+.tip p{font-size:14px;color:#475569;line-height:2}
+
+/* الاقتراحات */
+.box{background:#fff;border-radius:20px;padding:24px;margin:30px 0;box-shadow:0 6px 20px #1b263b12}
 .box h2{font-size:clamp(18px,5vw,21px);font-weight:900;display:flex;align-items:center;gap:10px}
 .box h2 i{color:#087f8c}
-.box p{color:#64748b;font-size:14px;margin:6px 0 16px}
-.box input:not(.hp),.box textarea{width:100%;padding:13px;border:1px solid #e2e8f0;border-radius:11px;font-family:inherit;font-size:14px;outline:none;margin-bottom:12px}
-.box input:focus,.box textarea:focus{border-color:#087f8c}
-.box textarea{min-height:110px;resize:vertical}
+.box>p{color:#64748b;font-size:14px;margin:6px 0 14px;line-height:1.9}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.chips label{cursor:pointer}
+.chips input{position:absolute;width:0;height:0;opacity:0}
+.chips span{display:inline-block;padding:8px 16px;border-radius:20px;border:1px solid #e2e8f0;background:#f8fafc;font-size:13px;font-weight:700;color:#475569;transition:.2s}
+.chips input:checked+span{background:#087f8c;color:#fff;border-color:#087f8c}
+.box input[type=text],.box textarea{width:100%;padding:13px;border:1px solid #e2e8f0;border-radius:11px;font-family:inherit;font-size:14px;outline:none;margin-bottom:12px}
+.box input[type=text]:focus,.box textarea:focus{border-color:#087f8c}
+.box textarea{min-height:120px;resize:vertical}
 .send{background:#087f8c;color:#fff;border:0;border-radius:11px;padding:13px 28px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer}
 .send:disabled{opacity:.6}
 #msg{font-size:13px;margin-top:12px;min-height:20px;font-weight:700}
-/* حقل مخفي للبوتات بدون ما يوسّع الصفحة */
 .hp{position:absolute;width:0;height:0;opacity:0;overflow:hidden;border:0;padding:0;margin:0;pointer-events:none}
 
 footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font-size:12px;direction:ltr;line-height:2}
 .dev{font-size:10px;opacity:.65;margin-top:6px}
 
-@media(min-width:900px){.wm{height:480px}.welcome{margin-top:110px}}
-@media(max-width:420px){.hero{padding:26px 12px 70px}.welcome{margin-top:70px;padding:18px 14px}.btns{grid-template-columns:1fr}}
+@media(min-width:900px){.btns{grid-template-columns:1fr 1fr}.welcome{margin-top:90px}}
+@media(max-width:420px){.hero{padding:22px 12px 66px}.welcome{margin-top:56px;padding:18px 14px}.abtn{padding:20px 8px}}
+@media(max-width:340px){.acts{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <section class="hero">
-  <div class="wm" aria-hidden="true">
-    <img src="1000268547.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/6c2q5L98/1000268547.jpg'" alt="">
-    <img src="1000268546.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/3yk560vR/1000268546.jpg'" alt="">
+  <div class="logos">
+    <img src="1000268547.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/6c2q5L98/1000268547.jpg'" alt="شعار جامعة بورسعيد">
+    <img src="1000268546.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/3yk560vR/1000268546.jpg'" alt="شعار كلية التمريض">
   </div>
 
   <div class="uni">PORT SAID UNIVERSITY</div>
@@ -137,6 +161,19 @@ footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font
 
 <main class="wrap">
 
+  <!-- الآية -->
+  <div class="vb">
+    <div class="ico"><i class="fa-solid fa-heart-pulse"></i></div>
+    <div class="q">﴿ وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ ﴾</div>
+    <span class="r">سورة الشعراء - آية 80</span>
+  </div>
+
+  <!-- زرّين النوافذ -->
+  <div class="acts">
+    <button class="abtn a1" id="btnDuas" type="button"><i class="fa-solid fa-hands-praying"></i><b>الأدعية والأذكار</b><small>اضغط وشوف</small></button>
+    <button class="abtn a2" id="btnTips" type="button"><i class="fa-solid fa-graduation-cap"></i><b>نصايح للمذاكرة</b><small>اضغط وشوف</small></button>
+  </div>
+
   <div class="features">
     <div class="feature"><i class="fa-solid fa-book-open"></i><h3>شرح وملخصات المحاضرات</h3></div>
     <div class="feature"><i class="fa-solid fa-hand-holding-medical"></i><h3>المهارات العملية</h3></div>
@@ -144,73 +181,21 @@ footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font
     <div class="feature"><i class="fa-solid fa-clipboard-question"></i><h3>كويزات تفاعلية</h3></div>
   </div>
 
-  <!-- نصائح المذاكرة -->
-  <div class="sec">
-    <h2><i class="fa-solid fa-graduation-cap"></i> نصايح للمذاكرة</h2>
-    <p>مش مجرد مادة وهتخلص. إنت بتتعلم حاجة ممكن تحافظ على حياة ناس.</p>
-  </div>
-
-  <div class="verses">
-    <div class="verse"><small>استشهاد قرآني</small>
-      <div class="q">﴿ قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ ﴾</div>
-      <div class="r">سورة الزمر - آية 9</div></div>
-    <div class="verse"><small>استشهاد قرآني</small>
-      <div class="q">﴿ وَقُلِ اعْمَلُوا فَسَيَرَى اللَّهُ عَمَلَكُمْ وَرَسُولُهُ وَالْمُؤْمِنُونَ ﴾</div>
-      <div class="r">سورة التوبة - آية 105</div></div>
-    <div class="verse"><small>استشهاد قرآني</small>
-      <div class="q">﴿ وَمَنْ أَحْيَاهَا فَكَأَنَّمَا أَحْيَا النَّاسَ جَمِيعًا ﴾</div>
-      <div class="r">سورة المائدة - آية 32</div></div>
-  </div>
-
-  <div class="tips">
-    <div class="tip hl"><div class="ic"><i class="fa-solid fa-heart-pulse"></i></div>
-      <h3>ذاكر بضمير</h3>
-      <p>هتبقى مسؤول قدام ربنا عن أرواح ناس. المهارة اللي تتعلمها غلط ممكن تأذي مريض، واللي تتقنها ممكن تنقذ حياة. اجعل نيتك إنك تتعلم عشان تخدم الناس صح.</p></div>
-    <div class="tip"><div class="ic"><i class="fa-solid fa-circle-play"></i></div>
-      <h3>اتفرج على الفيديوهات</h3>
-      <p>شوف فيديو المهارة أكتر من مرة قبل ما تطبقها. ركّز على ترتيب الخطوات وإزاي بيمسك الأدوات، وبعدين وقّف الفيديو وكرر بإيدك.</p></div>
-    <div class="tip"><div class="ic"><i class="fa-solid fa-lightbulb"></i></div>
-      <h3>افهم ليه، متحفظش بس</h3>
-      <p>اسأل نفسك على كل خطوة: بنعمل كده ليه؟ لما تفهم السبب، هتفتكر الخطوة حتى لو اتلخبطت وقت العملي.</p></div>
-    <div class="tip"><div class="ic"><i class="fa-solid fa-hands"></i></div>
-      <h3>اتدرب بإيدك</h3>
-      <p>العملي بيتعلم بالتكرار. جرّب المهارة على دمية أو مع زميلك أكتر من مرة لحد ما تبقى طبيعية.</p></div>
-    <div class="tip"><div class="ic"><i class="fa-solid fa-clipboard-check"></i></div>
-      <h3>راجع بالشيك ليست</h3>
-      <p>اتدرب مع زميلك: واحد ينفذ وواحد يقيّم بالشيك ليست، وبدّلوا. أي خطوة بتتنسى هتظهر وإنتوا بتتدربوا مش في الامتحان.</p></div>
-    <div class="tip"><div class="ic"><i class="fa-solid fa-comments"></i></div>
-      <h3>اشرح لغيرك</h3>
-      <p>لو قدرت تشرح المهارة لحد تاني بصوت عالي، يبقى فهمتها فعلاً. ولو اتلخبطت، تعرف إنت واقف فين.</p></div>
-    <div class="tip"><div class="ic"><i class="fa-solid fa-clock"></i></div>
-      <h3>نظّم وقتك</h3>
-      <p>ذاكر على دفعات قصيرة (25 دقيقة وبعدها راحة 5)، وراجع نفس اليوم اللي خدت فيه المحاضرة. ده أثبت من المذاكرة ليلة الامتحان.</p></div>
-    <div class="tip"><div class="ic"><i class="fa-solid fa-hand-sparkles"></i></div>
-      <h3>الأمان والنظافة الأول</h3>
-      <p>اتعود من أول مرة على غسل الإيدين والتحقق من اسم المريض والأدوات. العادة الصح دي هي اللي بتحمي المريض وتحميك.</p></div>
-    <div class="tip"><div class="ic"><i class="fa-solid fa-circle-question"></i></div>
-      <h3>اسأل ومتتكسفش</h3>
-      <p>لو في خطوة مش واضحة اسأل الدكتور أو المشرف. السؤال دلوقتي أحسن بكتير من الغلط قدام مريض.</p></div>
-    <div class="tip"><div class="ic"><i class="fa-solid fa-bed"></i></div>
-      <h3>نام وكُل كويس</h3>
-      <p>قبل العملي نام كفاية وكُل حاجة خفيفة. الإرهاق بيضيّع التركيز، والتركيز هو اللي بيمنع الأخطاء.</p></div>
-  </div>
-
-  <!-- الأدعية والأذكار -->
-  <div class="sec">
-    <h2><i class="fa-solid fa-hands-praying"></i> أدعية وأذكار</h2>
-    <p>اضغط على أي دعاء يفتحلك في نافذة، ومعاه مصدره ووقته وعدد مراته.</p>
-  </div>
-  <div id="adhkar"></div>
-
   <!-- الاقتراحات -->
   <div class="box">
-    <h2><i class="fa-solid fa-lightbulb"></i> صندوق الاقتراحات</h2>
-    <p>عندك فكرة أو ملاحظة تحسّن الموقع؟ قولنا عليها.</p>
+    <h2><i class="fa-solid fa-comment-dots"></i> اقتراح، نصيحة، أو أي حاجة</h2>
+    <p>عندك فكرة تحسّن الموقع، أو نصيحة تفيد زمايلك، أو أي حاجة عايز تقولهالنا؟ اكتبها هنا.</p>
     <form id="sgForm">
-      <input id="sgName" placeholder="اسمك (لو حابب)" maxlength="60">
-      <textarea id="sgMsg" placeholder="اكتب اقتراحك هنا..." maxlength="500" required></textarea>
-      <input class="hp" id="sgWeb" tabindex="-1" autocomplete="off" aria-hidden="true">
-      <button class="send" id="sgBtn" type="submit"><i class="fa-solid fa-paper-plane"></i> ابعت الاقتراح</button>
+      <div class="chips">
+        <label><input type="radio" name="sgt" value="اقتراح" checked><span>💡 اقتراح</span></label>
+        <label><input type="radio" name="sgt" value="نصيحة"><span>🤝 نصيحة</span></label>
+        <label><input type="radio" name="sgt" value="ملاحظة"><span>📝 ملاحظة</span></label>
+        <label><input type="radio" name="sgt" value="شكر"><span>❤️ شكر</span></label>
+      </div>
+      <input type="text" id="sgName" placeholder="اسمك (لو حابب)" maxlength="60">
+      <textarea id="sgMsg" placeholder="اكتب اللي عايز تقوله هنا..." maxlength="450" required></textarea>
+      <input type="text" class="hp" id="sgWeb" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="send" id="sgBtn" type="submit"><i class="fa-solid fa-paper-plane"></i> ابعت</button>
       <div id="msg"></div>
     </form>
   </div>
@@ -225,14 +210,19 @@ footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font
 <!-- النافذة المنبثقة -->
 <div class="ov" id="ov" role="dialog" aria-modal="true">
   <div class="md" id="md">
-    <div class="mh" id="mh"><span class="bd" id="mBd"></span><h4 id="mTitle"></h4></div>
-    <div class="mb"><div class="mt" id="mText"></div><div class="mi" id="mInfo"></div></div>
-    <div class="ma"><button class="cp" id="mCopy"><i class="fa-regular fa-copy"></i> نسخ</button><button class="cl" id="mClose">إغلاق</button></div>
+    <div class="mh"><h4 id="mTitle"></h4><button class="x" id="mX" type="button" aria-label="إغلاق"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="mbody" id="mBody"></div>
+    <div class="mfoot hidden" id="mFoot">
+      <button class="cp" id="mCopy" type="button"><i class="fa-regular fa-copy"></i> نسخ</button>
+      <button class="bk" id="mBack" type="button"><i class="fa-solid fa-arrow-right"></i> رجوع للقائمة</button>
+    </div>
   </div>
 </div>
 
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
+const $ = id => document.getElementById(id);
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e}
 
 /* ===== الأدعية والأذكار ===== */
 const Q = "آية قرآنية", S = "من السنّة النبوية";
@@ -278,46 +268,102 @@ const GROUPS = [
  ]}
 ];
 
-const $ = id => document.getElementById(id);
-function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e}
+/* ===== نصايح المذاكرة ===== */
+const VERSES = [
+ {q:"﴿ قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ ﴾",r:"سورة الزمر - آية 9"},
+ {q:"﴿ وَقُلِ اعْمَلُوا فَسَيَرَى اللَّهُ عَمَلَكُمْ وَرَسُولُهُ وَالْمُؤْمِنُونَ ﴾",r:"سورة التوبة - آية 105"},
+ {q:"﴿ وَمَنْ أَحْيَاهَا فَكَأَنَّمَا أَحْيَا النَّاسَ جَمِيعًا ﴾",r:"سورة المائدة - آية 32"}
+];
+const TIPS = [
+ {ic:"fa-heart-pulse",hl:1,h:"ذاكر بضمير",p:"هتبقى مسؤول قدام ربنا عن أرواح ناس. المهارة اللي تتعلمها غلط ممكن تأذي مريض، واللي تتقنها ممكن تنقذ حياة. اجعل نيتك إنك تتعلم عشان تخدم الناس صح."},
+ {ic:"fa-circle-play",h:"اتفرج على الفيديوهات",p:"شوف فيديو المهارة أكتر من مرة قبل ما تطبقها. ركّز على ترتيب الخطوات وإزاي بيمسك الأدوات، وبعدين وقّف الفيديو وكرر بإيدك."},
+ {ic:"fa-lightbulb",h:"افهم ليه، متحفظش بس",p:"اسأل نفسك على كل خطوة: بنعمل كده ليه؟ لما تفهم السبب، هتفتكر الخطوة حتى لو اتلخبطت وقت العملي."},
+ {ic:"fa-hands",h:"اتدرب بإيدك",p:"العملي بيتعلم بالتكرار. جرّب المهارة على دمية أو مع زميلك أكتر من مرة لحد ما تبقى طبيعية."},
+ {ic:"fa-clipboard-check",h:"راجع بالشيك ليست",p:"اتدرب مع زميلك: واحد ينفذ وواحد يقيّم بالشيك ليست، وبدّلوا. أي خطوة بتتنسى هتظهر وإنتوا بتتدربوا مش في الامتحان."},
+ {ic:"fa-comments",h:"اشرح لغيرك",p:"لو قدرت تشرح المهارة لحد تاني بصوت عالي، يبقى فهمتها فعلاً. ولو اتلخبطت، تعرف إنت واقف فين."},
+ {ic:"fa-clock",h:"نظّم وقتك",p:"ذاكر على دفعات قصيرة (25 دقيقة وبعدها راحة 5)، وراجع نفس اليوم اللي خدت فيه المحاضرة. ده أثبت من المذاكرة ليلة الامتحان."},
+ {ic:"fa-hand-sparkles",h:"الأمان والنظافة الأول",p:"اتعود من أول مرة على غسل الإيدين والتحقق من اسم المريض والأدوات. العادة الصح دي هي اللي بتحمي المريض وتحميك."},
+ {ic:"fa-circle-question",h:"اسأل ومتتكسفش",p:"لو في خطوة مش واضحة اسأل الدكتور أو المشرف. السؤال دلوقتي أحسن بكتير من الغلط قدام مريض."},
+ {ic:"fa-bed",h:"نام وكُل كويس",p:"قبل العملي نام كفاية وكُل حاجة خفيفة. الإرهاق بيضيّع التركيز، والتركيز هو اللي بيمنع الأخطاء."}
+];
 
-/* بناء الأزرار */
-const root = $("adhkar");
-GROUPS.forEach(g => {
-  const box = el("div","grp"); box.style.setProperty("--c",g.c);
-  const h = el("h3"); h.appendChild(el("i","fa-solid "+g.ic)); h.appendChild(document.createTextNode(g.t));
-  box.appendChild(h);
-  const btns = el("div","btns");
-  g.items.forEach(it => {
-    const b = el("button","dbtn"); b.type = "button";
-    b.appendChild(el("span","",it.n));
-    b.appendChild(el("em",it.k===Q?"q":"",it.k===Q?"قرآن":"سنّة"));
-    b.addEventListener("click",() => openModal(it,g.c));
-    btns.appendChild(b);
-  });
-  box.appendChild(btns); root.appendChild(box);
-});
-
-/* النافذة */
+/* ===== النافذة ===== */
 let cur = null, lastFocus = null;
-function openModal(it,c){
-  cur = it; lastFocus = document.activeElement;
-  $("md").style.setProperty("--c",c);
-  $("mBd").textContent = it.k;
-  $("mTitle").textContent = it.n;
-  $("mText").textContent = it.x;
-  const info = $("mInfo"); info.innerHTML = "";
-  const row = (l,v) => { const d = el("div"); d.appendChild(el("b","",l+": ")); d.appendChild(document.createTextNode(v)); info.appendChild(d); };
+
+function setHead(title,color){ $("md").style.setProperty("--c",color); $("mTitle").textContent = title; }
+function resetBody(){ const b = $("mBody"); b.innerHTML = ""; b.scrollTop = 0; return b; }
+
+function showList(){
+  setHead("الأدعية والأذكار","#0b8a6f");
+  $("mFoot").classList.add("hidden");
+  const body = resetBody();
+  GROUPS.forEach(g => {
+    const box = el("div","grp"); box.style.setProperty("--g",g.c);
+    const h = el("h3"); h.appendChild(el("i","fa-solid "+g.ic)); h.appendChild(document.createTextNode(g.t));
+    box.appendChild(h);
+    const btns = el("div","btns");
+    g.items.forEach(it => {
+      const b = el("button","dbtn"); b.type = "button";
+      b.appendChild(el("span","",it.n));
+      b.appendChild(el("em",it.k===Q?"q":"",it.k===Q?"قرآن":"سنّة"));
+      b.addEventListener("click",() => showDetail(it,g.c));
+      btns.appendChild(b);
+    });
+    box.appendChild(btns); body.appendChild(box);
+  });
+}
+
+function showDetail(it,color){
+  cur = it;
+  setHead(it.n,color);
+  const body = resetBody();
+  const d = el("div","dt");
+  d.appendChild(el("span","bd",it.k));
+  d.appendChild(el("div","dtx",it.x));
+  const info = el("div","mi");
+  const row = (l,v) => { const r = el("div"); r.appendChild(el("b","",l+": ")); r.appendChild(document.createTextNode(v)); info.appendChild(r); };
   row("المصدر",it.s); row("وقته",it.w); if (it.cnt) row("عدد المرات",it.cnt);
+  d.appendChild(info); body.appendChild(d);
   $("mCopy").innerHTML = '<i class="fa-regular fa-copy"></i> نسخ';
+  $("mFoot").classList.remove("hidden");
+}
+
+function showTips(){
+  setHead("نصايح للمذاكرة","#7053a6");
+  $("mFoot").classList.add("hidden");
+  const body = resetBody();
+  const vs = el("div","verses");
+  VERSES.forEach(v => {
+    const c = el("div","verse");
+    c.appendChild(el("small","","استشهاد قرآني"));
+    c.appendChild(el("div","q",v.q)); c.appendChild(el("div","r",v.r));
+    vs.appendChild(c);
+  });
+  body.appendChild(vs);
+  const tl = el("div","tips");
+  TIPS.forEach(t => {
+    const c = el("div","tip"+(t.hl?" hl":""));
+    const ic = el("div","ic"); ic.appendChild(el("i","fa-solid "+t.ic));
+    c.append(ic, el("h3","",t.h), el("p","",t.p));
+    tl.appendChild(c);
+  });
+  body.appendChild(tl);
+}
+
+function openModal(kind){
+  lastFocus = document.activeElement;
+  kind === "duas" ? showList() : showTips();
   $("ov").classList.add("show"); document.body.style.overflow = "hidden";
-  $("mClose").focus();
 }
 function closeModal(){
   $("ov").classList.remove("show"); document.body.style.overflow = "";
   if (lastFocus) lastFocus.focus();
 }
-$("mClose").addEventListener("click",closeModal);
+
+$("btnDuas").addEventListener("click",() => openModal("duas"));
+$("btnTips").addEventListener("click",() => openModal("tips"));
+$("mX").addEventListener("click",closeModal);
+$("mBack").addEventListener("click",showList);
 $("ov").addEventListener("click",e => { if (e.target.id === "ov") closeModal(); });
 document.addEventListener("keydown",e => { if (e.key === "Escape") closeModal(); });
 $("mCopy").addEventListener("click",async () => {
@@ -328,17 +374,18 @@ $("mCopy").addEventListener("click",async () => {
   $("mCopy").innerHTML = '<i class="fa-solid fa-check"></i> تم النسخ';
 });
 
-/* الاقتراحات */
+/* ===== الاقتراحات ===== */
 $("sgForm").addEventListener("submit",async e => {
   e.preventDefault();
   const btn = $("sgBtn"), msg = $("msg");
+  const type = (document.querySelector('input[name="sgt"]:checked') || {}).value || "اقتراح";
   btn.disabled = true; msg.style.color = "#64748b"; msg.textContent = "ثواني وبنبعت...";
   try{
     const res = await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body:JSON.stringify({action:"suggest",name:$("sgName").value,message:$("sgMsg").value,website:$("sgWeb").value})});
+      body:JSON.stringify({action:"suggest",name:$("sgName").value,message:"["+type+"] "+$("sgMsg").value,website:$("sgWeb").value})});
     const data = await res.json();
     if(!data.ok) throw new Error(data.error);
-    e.target.reset(); msg.style.color = "#198754"; msg.textContent = "وصلنا اقتراحك، شكرًا ليك! ❤️";
+    e.target.reset(); msg.style.color = "#198754"; msg.textContent = "وصلتنا رسالتك، شكرًا ليك! ❤️";
   }catch(err){
     msg.style.color = "#dc3545";
     msg.textContent = err.message === "Failed to fetch" ? "مقدرناش نبعت، اتأكد من النت وجرّب تاني." : err.message;
@@ -347,4 +394,4 @@ $("sgForm").addEventListener("submit",async e => {
 });
 </script>
 </body>
-                                                                    </html>
+  </html>
