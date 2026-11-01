@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lectures | Nursing Practical Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b}
+.header{background:#1b263b;color:#fff;padding:25px 6%;border-bottom:5px solid #087f8c}
+.header-top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.brand{direction:ltr;text-align:left}
+.brand h2{font-size:20px;font-weight:900}
+.brand p{color:#31c3c9;font-size:11px;margin-top:4px}
+.home-btn{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:9px 17px;border-radius:9px;font-size:13px}
+.home-btn:hover{background:#087f8c}
+.intro{text-align:center;padding:38px 15px 25px}
+.intro h1{font-size:29px;font-weight:900}
+.intro p{color:#64748b;font-size:14px;margin-top:8px;line-height:2}
+.line{width:60px;height:4px;background:#087f8c;margin:14px auto;border-radius:10px}
+.search-area{max-width:650px;margin:15px auto 30px;padding:0 15px}
+.search-box{display:flex;align-items:center;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:5px 15px;box-shadow:0 3px 12px #1b263b0a}
+.search-box i{color:#087f8c;font-size:18px}
+.search-box input{border:none;outline:none;width:100%;padding:13px;font-family:'Cairo',sans-serif;font-size:14px;background:transparent}
+.container{max-width:1100px;margin:auto;padding:0 20px 50px}
+.section-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.section-heading h2{font-size:19px;font-weight:900}
+.count{background:#e0f4f4;color:#087f8c;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:800}
+.lectures-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.lecture-card{background:#fff;border:1px solid #e8edf3;border-radius:15px;padding:22px;transition:.3s;box-shadow:0 4px 15px #1b263b08}
+.lecture-card:hover{transform:translateY(-5px);box-shadow:0 10px 25px #1b263b12;border-color:#087f8c55}
+.card-icon{width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:#e4f5f5;color:#087f8c;border-radius:12px;font-size:21px;margin-bottom:17px}
+.lecture-number{color:#087f8c;font-size:11px;font-weight:900;direction:ltr;text-align:right}
+.lecture-card h3{font-size:17px;font-weight:800;margin:8px 0}
+.lecture-card .ar{font-size:13px;color:#475569;font-weight:700}
+.lecture-card p{color:#718096;font-size:12px;line-height:1.9;min-height:45px;margin-top:6px}
+.card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:20px;padding-top:15px;border-top:1px solid #edf0f4}
+.card-footer span{color:#64748b;font-size:11px}
+.open-btn{background:#087f8c;color:#fff;border:none;border-radius:8px;padding:9px 15px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:800;cursor:pointer;text-decoration:none}
+.open-btn:hover{background:#065f69}
+.empty{display:none;text-align:center;padding:35px;color:#64748b}
+footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:22px 10px;font-size:12px;direction:ltr;line-height:2}
+@media(max-width:480px){.header{padding:20px 15px}.brand h2{font-size:17px}.intro h1{font-size:24px}.lectures-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-top">
+    <div class="brand">
+      <h2>Nursing Practical Hub</h2>
+      <p>PORT SAID UNIVERSITY | FACULTY OF NURSING</p>
+    </div>
+    <a href="index.html" class="home-btn"><i class="fa-solid fa-house"></i> الرئيسية</a>
+  </div>
+</header>
+
+<section class="intro">
+  <h1>المحاضرات التعليمية</h1>
+  <div class="line"></div>
+  <p>اختر المحاضرة التي تريد دراستها وابدأ رحلة التعلم والتدريب العملي.</p>
+</section>
+
+<div class="search-area">
+  <div class="search-box">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="text" id="searchInput" placeholder="ابحث عن محاضرة...">
+  </div>
+</div>
+
+<main class="container">
+  <div class="section-heading">
+    <h2><i class="fa-solid fa-book-open" style="color:#087f8c"></i> قائمة المحاضرات</h2>
+    <span class="count" id="lectureCount">0 محاضرات</span>
+  </div>
+
+  <div class="lectures-grid" id="lecturesGrid"></div>
+
+  <div class="empty" id="emptyMessage">
+    <i class="fa-solid fa-magnifying-glass" style="font-size:30px"></i>
+    <p id="emptyText">لم يتم العثور على محاضرات مطابقة للبحث.</p>
+  </div>
+</main>
+
+<footer>
+  Nursing Practical Hub<br>Faculty of Nursing – Port Said University
+</footer>
+
+<script src="config.js"></script>
+<script>
+const ICONS = ["fa-book-medical","fa-user-nurse","fa-heart-pulse","fa-droplet","fa-stethoscope","fa-syringe","fa-hand-holding-medical","fa-notes-medical"];
+
+function el(tag,cls,text){
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+let lectures = [];
+let statusText = "جاري تحميل المحاضرات...";
+
+async function loadLectures(){
+  const res = await fetch(API_URL);
+  const data = await res.json();
+  if (!data.ok) throw new Error(data.error || "خطأ");
+  return Array.isArray(data.lectures) ? data.lectures : [];
+}
+
+function renderLectures(){
+  const grid = document.getElementById("lecturesGrid");
+  grid.innerHTML = "";
+
+  lectures.forEach((l,i) => {
+    const card = el("div","lecture-card");
+    card.dataset.search = [l.title,l.titleAr,l.subject,l.level,l.description].join(" ").toLowerCase();
+
+    const icon = el("div","card-icon");
+    icon.appendChild(el("i","fa-solid "+ICONS[i % ICONS.length]));
+
+    card.appendChild(icon);
+    card.appendChild(el("div","lecture-number","LECTURE " + String(i+1).padStart(2,"0")));
+    card.appendChild(el("h3","",l.title));
+    if (l.titleAr) card.appendChild(el("div","ar",l.titleAr));
+    card.appendChild(el("p","",l.description || (l.subject + " - " + l.level)));
+
+    const footer = el("div","card-footer");
+    footer.appendChild(el("span","",l.subject));
+
+    const a = el("a","open-btn","فتح المحاضرة ");
+    a.href = "Lecture.html?id=" + encodeURIComponent(l.id);
+    a.appendChild(el("i","fa-solid fa-arrow-left"));
+    footer.appendChild(a);
+
+    card.appendChild(footer);
+    grid.appendChild(card);
+  });
+
+  searchLectures();
+}
+
+function searchLectures(){
+  const filter = document.getElementById("searchInput").value.toLowerCase().trim();
+  let visible = 0;
+
+  document.querySelectorAll(".lecture-card").forEach(card => {
+    const show = card.dataset.search.includes(filter);
+    card.style.display = show ? "block" : "none";
+    if (show) visible++;
+  });
+
+  document.getElementById("lectureCount").textContent = visible + " محاضرات";
+  document.getElementById("emptyText").textContent = lectures.length
+    ? "لم يتم العثور على محاضرات مطابقة للبحث."
+    : statusText;
+  document.getElementById("emptyMessage").style.display = visible === 0 ? "block" : "none";
+}
+
+document.getElementById("searchInput").addEventListener("input",searchLectures);
+
+searchLectures();
+loadLectures().then(list => {
+  lectures = list;
+  statusText = "لا توجد محاضرات منشورة حاليًا.";
+  renderLectures();
+}).catch(err => {
+  statusText = "تعذر تحميل المحاضرات. تأكد من الاتصال بالإنترنت وحاول مرة أخرى.";
+  searchLectures();
+});
+</script>
+</body>
+</html>

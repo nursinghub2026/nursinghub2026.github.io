@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing Practical Hub | Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--navy:#1b263b;--teal:#087f8c;--bg:#f4f7fb;--white:#fff;--text:#263449;--muted:#7b8798;--border:#e4eaf0;--red:#dc3545;--green:#198754}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text)}
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+.header{background:var(--navy);color:#fff;padding:17px 5%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-bottom:4px solid var(--teal)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:47px;height:47px;border-radius:13px;background:var(--teal);display:grid;place-items:center;font-size:21px}
+.brand h2{font-size:17px}.brand p{font-size:11px;color:#c5d0df}
+.home-link{color:#fff;text-decoration:none;font-size:12px;padding:9px 13px;border:1px solid #ffffff40;border-radius:9px}
+.container{width:93%;max-width:1200px;margin:28px auto}
+.welcome{margin-bottom:22px}
+.welcome h1{font-size:25px;color:var(--navy);font-weight:800}
+.welcome p{font-size:13px;color:var(--muted)}
+.notice{background:#fff8e6;color:#80621c;border:1px solid #f1dfae;padding:12px 15px;border-radius:10px;margin-bottom:20px;font-size:12px;line-height:1.9}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:13px;margin-bottom:25px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:13px;padding:17px;display:flex;align-items:center;gap:13px}
+.stat-icon{width:45px;height:45px;border-radius:12px;background:#e6f5f5;color:var(--teal);display:grid;place-items:center;font-size:19px}
+.stat-card h3{font-size:22px;color:var(--navy)}.stat-card p{font-size:11px;color:var(--muted)}
+.panel{background:#fff;border:1px solid var(--border);border-radius:15px;padding:22px;margin-bottom:20px}
+.panel-title{font-size:17px;color:var(--navy);font-weight:800;margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.panel-title i{color:var(--teal)}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.field{display:flex;flex-direction:column;gap:7px}
+.field.full{grid-column:1/-1}
+.field label{font-size:12px;color:var(--navy);font-weight:700}
+.field input,.field select,.field textarea{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:9px;background:#fff;color:var(--text);outline:none;font-size:13px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px #087f8c12}
+.field textarea{min-height:100px;resize:vertical}
+.help{font-size:10px;color:var(--muted);line-height:1.8}
+.btn{border:none;border-radius:9px;padding:10px 16px;font-size:12px;font-weight:700}
+.primary{background:var(--teal);color:#fff}.secondary{background:#edf1f6;color:var(--navy)}
+.danger{background:#fff0f1;color:var(--red)}.success{background:#e8f7ee;color:var(--green)}
+.form-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.items-list{display:grid;gap:11px}
+.item-card{border:1px solid var(--border);border-radius:11px;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.item-info{flex:1;min-width:200px}
+.item-info h3{font-size:13px;color:var(--navy)}
+.item-info p{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.8;overflow-wrap:anywhere;white-space:pre-wrap}
+.file-chip{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-size:11px;color:var(--teal);background:#e6f5f5;padding:4px 10px;border-radius:20px;overflow-wrap:anywhere}
+.item-actions{display:flex;gap:7px;flex-wrap:wrap}
+.item-actions button{border:none;border-radius:7px;padding:7px 11px;font-size:11px;font-weight:700}
+.empty{text-align:center;padding:25px;color:var(--muted);font-size:12px}
+.status{display:inline-block;font-size:10px;padding:3px 9px;border-radius:20px;margin-top:5px}
+.published{background:#e8f7ee;color:var(--green)}.draft{background:#fff5dd;color:#a87912}
+.hidden{display:none!important}
+.lecture-card{background:#fff;border:1px solid var(--border);border-radius:13px;padding:17px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.lecture-card h3{font-size:15px;color:var(--navy)}.lecture-card p{font-size:11px;color:var(--muted);margin-top:4px}
+.open-lecture{background:var(--teal);color:#fff;border:0;padding:9px 14px;border-radius:8px;font-size:11px;font-weight:700}
+.manage-heading{background:var(--navy);color:#fff;padding:20px;border-radius:13px;margin-bottom:18px}
+.manage-heading h2{font-size:20px}.manage-heading p{font-size:12px;color:#cbd5e1;margin-top:5px}
+.back-btn{border:none;background:#e9eef4;color:var(--navy);padding:9px 14px;border-radius:9px;font-size:12px;font-weight:700}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:18px 0}
+.tab{background:#fff;border:1px solid var(--border);border-radius:11px;padding:14px 7px;text-align:center;color:var(--muted);font-size:12px;font-weight:700}
+.tab i{display:block;font-size:21px;margin-bottom:7px}
+.tab small{display:block;font-size:10px;font-weight:600;margin-top:2px}
+.tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}.tab.active i{color:#60d0d2}
+.file-area{border:2px dashed #cbd7e2;border-radius:12px;padding:18px;background:#f9fbfd;text-align:center}
+.file-area i{font-size:29px;color:var(--teal)}
+.file-area p{font-size:12px;margin-top:6px}
+.file-area input{width:100%;margin-top:12px;font-size:12px}
+.file-preview{font-size:11px;color:var(--teal);margin-top:10px;overflow-wrap:anywhere}
+.current-file{font-size:11px;background:#fff8e6;color:#80621c;border-radius:8px;padding:8px 11px;margin-top:10px}
+@media(max-width:650px){
+.container{width:94%;margin:20px auto}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
+.panel{padding:16px}.welcome h1{font-size:21px}.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="brand">
+    <div class="brand-icon"><i class="fa-solid fa-user-shield"></i></div>
+    <div><h2>Nursing Practical Hub</h2><p>Administration Dashboard</p></div>
+  </div>
+  <a class="home-link" href="index.html"><i class="fa-solid fa-house"></i> الصفحة الرئيسية</a>
+</header>
+
+<main class="container">
+
+<!-- HOME -->
+<section id="homePage">
+  <div class="welcome">
+    <h1>إدارة المحاضرات</h1>
+    <p>أضف المحاضرات ثم افتح كل محاضرة لإدارة محتواها.</p>
+  </div>
+
+  <div class="notice">
+    <i class="fa-solid fa-circle-info"></i>
+    كل محاضرة لها أربعة أقسام مستقلة: Explanation وPractical Skills وChecklist وQuiz، وكلها تستخدم نفس نموذج الإضافة (عنوان + وصف + ملف).
+    <br><b>تنبيه:</b> كل ما تضيفه هنا يُحفظ في Google Sheets وGoogle Drive ويظهر للطلاب مباشرة (المحاضرات «المنشورة» فقط).
+  </div>
+
+  <div class="stats">
+    <div class="stat-card"><div class="stat-icon"><i class="fa-solid fa-book-open"></i></div><div><h3 id="statLectures">0</h3><p>إجمالي المحاضرات</p></div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="fa-solid fa-book"></i></div><div><h3 id="statExplanation">0</h3><p>الشروحات</p></div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="fa-solid fa-stethoscope"></i></div><div><h3 id="statSkills">0</h3><p>المهارات العملية</p></div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="fa-solid fa-clipboard-check"></i></div><div><h3 id="statChecklists">0</h3><p>قوائم التقييم</p></div></div>
+    <div class="stat-card"><div class="stat-icon"><i class="fa-solid fa-brain"></i></div><div><h3 id="statQuizzes">0</h3><p>الكويزات</p></div></div>
+  </div>
+
+  <div class="panel">
+    <h2 class="panel-title"><i class="fa-solid fa-plus-circle"></i> إضافة محاضرة جديدة</h2>
+    <form id="lectureForm">
+      <input type="hidden" id="lectureId">
+      <div class="form-grid">
+        <div class="field"><label>اسم المحاضرة بالإنجليزية *</label><input id="lectureTitle" required placeholder="History of Nursing"></div>
+        <div class="field"><label>اسم المحاضرة بالعربية *</label><input id="lectureTitleAr" required placeholder="تاريخ التمريض"></div>
+        <div class="field"><label>المادة الدراسية *</label><input id="lectureSubject" required placeholder="Fundamentals of Nursing"></div>
+        <div class="field"><label>المستوى الدراسي *</label>
+          <select id="lectureLevel" required>
+            <option value="">اختر المستوى</option>
+            <option>First Year</option><option>Second Year</option><option>Third Year</option><option>Fourth Year</option>
+          </select></div>
+        <div class="field full"><label>وصف المحاضرة</label><textarea id="lectureDescription" placeholder="وصف مختصر للمحاضرة..."></textarea></div>
+        <div class="field"><label>حالة المحاضرة</label>
+          <select id="lectureStatus"><option value="published">منشورة</option><option value="draft">مسودة</option></select></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn primary" type="submit" id="lectureSaveBtn">إضافة المحاضرة</button>
+        <button class="btn secondary" type="reset" id="lectureCancelBtn">مسح الحقول</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2 class="panel-title"><i class="fa-solid fa-list"></i> المحاضرات الموجودة</h2>
+    <div id="lecturesList" class="items-list"></div>
+    <div class="form-actions"><button class="btn secondary" id="exportBtn"><i class="fa-solid fa-file-export"></i> تصدير بيانات JSON (بدون الملفات)</button></div>
+  </div>
+</section>
+
+<!-- MANAGE ONE LECTURE -->
+<section id="managePage" class="hidden">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:15px">
+    <button class="back-btn" id="backHome"><i class="fa-solid fa-arrow-right"></i> رجوع للمحاضرات</button>
+    <span class="help">إدارة محتوى المحاضرة</span>
+  </div>
+
+  <div class="manage-heading">
+    <h2 id="selectedLectureTitle">اسم المحاضرة</h2>
+    <p id="selectedLectureInfo">المادة الدراسية</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="explanation"><i class="fa-solid fa-book-open"></i>Explanation<small>الشرح</small></button>
+    <button class="tab" data-tab="skills"><i class="fa-solid fa-stethoscope"></i>Practical Skills<small>المهارات العملية</small></button>
+    <button class="tab" data-tab="checklists"><i class="fa-solid fa-clipboard-check"></i>Checklist<small>قائمة التحقق</small></button>
+    <button class="tab" data-tab="quizzes"><i class="fa-solid fa-brain"></i>Quiz<small>الاختبار</small></button>
+  </div>
+
+  <!-- UNIFIED FORM (same for all 4 sections) -->
+  <div class="panel">
+    <h2 class="panel-title"><i class="fa-solid fa-circle-plus"></i> <span id="formTitle">إضافة محتوى</span></h2>
+    <form id="contentForm">
+      <input type="hidden" id="contentId">
+      <div class="form-grid">
+        <div class="field full">
+          <label>Content Title - عنوان المحتوى *</label>
+          <input id="contentTitle" required placeholder="اكتب عنوان المحتوى">
+        </div>
+        <div class="field full">
+          <label>Content Description - وصف المحتوى</label>
+          <textarea id="contentDescription" placeholder="اكتب وصفًا أو تفاصيل المحتوى..."></textarea>
+        </div>
+        <div class="field full">
+          <label>Upload File - إضافة ملف</label>
+          <div class="file-area">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p>اختر ملفًا من ملفات الهاتف أو الجهاز</p>
+            <input id="contentFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.webp,.mp4,.mp3,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,image/jpeg,image/png,image/webp,video/mp4,audio/mpeg,text/plain">
+            <div id="filePreview" class="file-preview"></div>
+          </div>
+          <div id="currentFile" class="current-file hidden"></div>
+          <span class="help">المدعوم: PDF, DOC/DOCX, PPT/PPTX, JPG/PNG/WEBP, MP4, MP3, TXT. على الهاتف اختر «الملفات / Files» من نافذة الاختيار. الحد الأقصى المقترح لحجم الملف 20 ميجابايت، والملفات تُرفع إلى Google Drive.</span>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn primary" type="submit" id="contentSaveBtn">إضافة المحتوى</button>
+        <button class="btn secondary" type="button" id="contentCancelBtn">مسح / إلغاء التعديل</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2 class="panel-title"><i class="fa-solid fa-list"></i> <span id="listTitle">المحتويات</span></h2>
+    <div id="contentList" class="items-list"></div>
+  </div>
+</section>
+
+</main>
+
+<footer style="text-align:center;padding:25px;color:#7b8798;font-size:11px">
+  Nursing Practical Hub © 2026<br>Faculty of Nursing - Port Said University
+</footer>
+
+<script src="config.js"></script>
+<script>
+const SECTIONS = {
+  explanation:{en:"Explanation",ar:"الشرح"},
+  skills:{en:"Practical Skills",ar:"المهارات العملية"},
+  checklists:{en:"Checklist",ar:"قائمة التحقق"},
+  quizzes:{en:"Quiz",ar:"الاختبار"}
+};
+const ALLOWED_EXT = ["pdf","doc","docx","ppt","pptx","jpg","jpeg","png","webp","mp4","mp3","txt"];
+const MAX_MB = 20;
+
+let lectures = [];
+let selectedLectureId = null;
+let currentTab = "explanation";
+let PASSWORD = "";
+
+const $ = id => document.getElementById(id);
+const getValue = id => $(id).value.trim();
+const setValue = (id,v) => { $(id).value = v ?? ""; };
+const same = (a,b) => String(a) === String(b);
+const getLecture = () => lectures.find(x => same(x.id,selectedLectureId));
+function el(tag,cls,text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+function formatSize(b) { return b >= 1048576 ? (b/1048576).toFixed(2)+" MB" : (b/1024).toFixed(1)+" KB"; }
+function extOf(name) { return (name.split(".").pop() || "").toLowerCase(); }
+function iconFor(name) {
+  const e = extOf(name);
+  if (e==="pdf") return "fa-file-pdf";
+  if (["doc","docx"].includes(e)) return "fa-file-word";
+  if (["ppt","pptx"].includes(e)) return "fa-file-powerpoint";
+  if (["jpg","jpeg","png","webp"].includes(e)) return "fa-file-image";
+  if (e==="mp4") return "fa-file-video";
+  if (e==="mp3") return "fa-file-audio";
+  return "fa-file-lines";
+}
+function blankSections() { return {explanation:[],skills:[],checklists:[],quizzes:[]}; }
+const viewUrl = id => "https://drive.google.com/file/d/" + encodeURIComponent(id) + "/view";
+const downloadUrl = id => "https://drive.google.com/uc?export=download&id=" + encodeURIComponent(id);
+
+/* ===== API ===== */
+async function api(action, payload) {
+  const res = await fetch(API_URL, {
+    method: "POST",
+    headers: {"Content-Type":"text/plain;charset=utf-8"},
+    body: JSON.stringify(Object.assign({action, password:PASSWORD}, payload || {}))
+  });
+  const data = await res.json();
+  if (!data.ok) throw new Error(data.error || "حدث خطأ غير معروف");
+  return data;
+}
+
+/* ===== شاشة الانتظار + تسجيل الدخول ===== */
+const busy = document.createElement("div");
+busy.style.cssText = "display:none;position:fixed;inset:0;background:rgba(15,28,45,.6);z-index:9998;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px";
+busy.textContent = "جاري الحفظ... انتظر قليلًا";
+document.body.appendChild(busy);
+
+async function run(fn) {
+  busy.style.display = "flex";
+  try { return await fn(); }
+  catch (err) { alert("حدث خطأ: " + err.message); }
+  finally { busy.style.display = "none"; }
+}
+
+const login = document.createElement("div");
+login.style.cssText = "position:fixed;inset:0;background:#1b263b;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px";
+login.innerHTML = '<div style="background:#fff;border-radius:16px;padding:26px;width:100%;max-width:360px;text-align:center">' +
+  '<h2 style="color:#1b263b;margin-bottom:6px">لوحة التحكم</h2>' +
+  '<p style="color:#6b7787;font-size:13px;margin-bottom:16px">أدخل كلمة المرور للدخول</p>' +
+  '<input id="pwInput" type="password" placeholder="كلمة المرور" style="width:100%;padding:12px;border:1px solid #cbd7e2;border-radius:10px;font-size:15px;margin-bottom:12px">' +
+  '<button id="pwBtn" style="width:100%;padding:12px;border:none;border-radius:10px;background:#087f8c;color:#fff;font-size:15px;font-weight:700">دخول</button>' +
+  '<p id="pwMsg" style="color:#c0392b;font-size:12px;margin-top:12px;min-height:16px"></p></div>';
+document.body.appendChild(login);
+
+async function tryLogin(pw) {
+  const msg = document.getElementById("pwMsg");
+  if (typeof API_URL === "undefined" || API_URL.indexOf("script.google.com") === -1) {
+    msg.textContent = "رابط الـ API غير مضبوط في ملف config.js"; return;
+  }
+  PASSWORD = pw;
+  msg.textContent = "جاري التحقق...";
+  try {
+    await refresh();
+    sessionStorage.setItem("NPH_PW", pw);
+    login.style.display = "none";
+    msg.textContent = "";
+  } catch (err) {
+    PASSWORD = "";
+    sessionStorage.removeItem("NPH_PW");
+    msg.textContent = err.message;
+  }
+}
+document.getElementById("pwBtn").addEventListener("click",() => tryLogin(document.getElementById("pwInput").value));
+document.getElementById("pwInput").addEventListener("keydown",e => { if (e.key === "Enter") tryLogin(e.target.value); });
+
+async function refresh() {
+  const r = await api("adminList");
+  lectures = r.lectures || [];
+  lectures.forEach(l => {
+    if (!l.sections) l.sections = blankSections();
+    Object.keys(SECTIONS).forEach(k => { if (!Array.isArray(l.sections[k])) l.sections[k] = []; });
+  });
+  renderAll();
+}
+
+/* ===== NAVIGATION ===== */
+function showPage(p) {
+  $("homePage").classList.add("hidden");
+  $("managePage").classList.add("hidden");
+  $(p).classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+$("backHome").addEventListener("click",() => { selectedLectureId = null; showPage("homePage"); renderAll(); });
+
+function updateStats() {
+  const sum = k => lectures.reduce((n,l) => n + l.sections[k].length,0);
+  $("statLectures").textContent = lectures.length;
+  $("statExplanation").textContent = sum("explanation");
+  $("statSkills").textContent = sum("skills");
+  $("statChecklists").textContent = sum("checklists");
+  $("statQuizzes").textContent = sum("quizzes");
+}
+
+/* ===== LECTURES ===== */
+const lectureForm = $("lectureForm");
+lectureForm.addEventListener("submit",e => {
+  e.preventDefault();
+  const id = getValue("lectureId");
+  const data = {
+    id: id || "",
+    title:getValue("lectureTitle"), titleAr:getValue("lectureTitleAr"),
+    subject:getValue("lectureSubject"), level:getValue("lectureLevel"),
+    description:getValue("lectureDescription"), status:getValue("lectureStatus")
+  };
+  run(async () => {
+    await api("saveLecture",{lecture:data});
+    await refresh();
+    lectureForm.reset(); setValue("lectureId","");
+    $("lectureSaveBtn").textContent = "إضافة المحاضرة";
+    alert(id ? "تم تعديل المحاضرة." : "تمت إضافة المحاضرة بنجاح.");
+  });
+});
+$("lectureCancelBtn").addEventListener("click",() => setTimeout(() => {
+  setValue("lectureId",""); $("lectureSaveBtn").textContent = "إضافة المحاضرة";
+},0));
+
+function editLecture(id) {
+  const x = lectures.find(l => same(l.id,id)); if (!x) return;
+  setValue("lectureId",x.id); setValue("lectureTitle",x.title); setValue("lectureTitleAr",x.titleAr);
+  setValue("lectureSubject",x.subject); setValue("lectureLevel",x.level);
+  setValue("lectureDescription",x.description); setValue("lectureStatus",x.status);
+  $("lectureSaveBtn").textContent = "تحديث المحاضرة";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function deleteLecture(id) {
+  if (!confirm("هل تريد حذف المحاضرة وكل محتوياتها وملفاتها؟")) return;
+  run(async () => { await api("deleteLecture",{id}); await refresh(); });
+}
+function openLecture(id) {
+  selectedLectureId = id;
+  const l = getLecture(); if (!l) return;
+  $("selectedLectureTitle").textContent = l.titleAr + " | " + l.title;
+  $("selectedLectureInfo").textContent = l.subject + " - " + l.level;
+  showPage("managePage");
+  switchTab("explanation");
+}
+function renderLectures() {
+  const list = $("lecturesList"); list.innerHTML = "";
+  if (!lectures.length) { list.appendChild(el("div","empty","لا توجد محاضرات بعد. أضف أول محاضرة من النموذج.")); return; }
+  lectures.forEach(l => {
+    const card = el("div","lecture-card");
+    const info = el("div","");
+    info.appendChild(el("h3","",l.titleAr+" | "+l.title));
+    info.appendChild(el("p","",l.subject+" | "+l.level));
+    info.appendChild(el("span","status "+(l.status==="published"?"published":"draft"),l.status==="published"?"منشورة":"مسودة"));
+    const act = el("div","item-actions");
+    const o = el("button","open-lecture","إدارة محتوى المحاضرة"); o.addEventListener("click",() => openLecture(l.id));
+    const e = el("button","secondary","تعديل"); e.addEventListener("click",() => editLecture(l.id));
+    const d = el("button","danger","حذف"); d.addEventListener("click",() => deleteLecture(l.id));
+    act.append(o,e,d); card.append(info,act); list.appendChild(card);
+  });
+}
+
+/* ===== TABS ===== */
+document.querySelectorAll(".tab").forEach(b => b.addEventListener("click",() => switchTab(b.dataset.tab)));
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active",b.dataset.tab === tab));
+  const s = SECTIONS[tab];
+  $("listTitle").textContent = "محتويات " + s.en + " - " + s.ar;
+  resetForm();
+  renderContent();
+}
+
+/* ===== CONTENT FORM ===== */
+function resetForm() {
+  $("contentForm").reset();
+  setValue("contentId","");
+  $("filePreview").textContent = "";
+  $("currentFile").classList.add("hidden");
+  $("contentSaveBtn").textContent = "إضافة المحتوى";
+  $("formTitle").textContent = "إضافة محتوى - " + SECTIONS[currentTab].en;
+}
+$("contentCancelBtn").addEventListener("click",resetForm);
+
+$("contentFile").addEventListener("change",function() {
+  const f = this.files[0];
+  $("filePreview").textContent = f ? "الملف المختار: "+f.name+" - "+formatSize(f.size) : "";
+});
+
+function toBase64(file) {
+  return new Promise((resolve,reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(String(r.result).split(",")[1]);
+    r.onerror = () => reject(r.error);
+    r.readAsDataURL(file);
+  });
+}
+
+$("contentForm").addEventListener("submit",function(e) {
+  e.preventDefault();
+  const lecture = getLecture(); if (!lecture) return;
+  const id = getValue("contentId");
+  const file = $("contentFile").files[0];
+
+  if (file && !ALLOWED_EXT.includes(extOf(file.name))) {
+    alert("نوع الملف غير مدعوم. المدعوم: " + ALLOWED_EXT.join(", ").toUpperCase());
+    return;
+  }
+  if (file && file.size > MAX_MB * 1048576) {
+    alert("حجم الملف أكبر من " + MAX_MB + " ميجابايت. صغّره أو قسّمه.");
+    return;
+  }
+
+  run(async () => {
+    const item = {
+      id: id || "",
+      lectureId: lecture.id,
+      section: currentTab,
+      title: getValue("contentTitle"),
+      description: getValue("contentDescription")
+    };
+    if (file) {
+      item.file = {name:file.name, type:file.type || "application/octet-stream", data: await toBase64(file)};
+    }
+    await api("saveItem",{item});
+    await refresh();
+    resetForm();
+    alert(id ? "تم تعديل المحتوى." : "تمت إضافة المحتوى.");
+  });
+});
+
+function editItem(item) {
+  setValue("contentId",item.id);
+  setValue("contentTitle",item.title);
+  setValue("contentDescription",item.description);
+  $("contentFile").value = ""; $("filePreview").textContent = "";
+  const cf = $("currentFile");
+  if (item.file) { cf.textContent = "الملف الحالي: "+item.file.name+" — اتركه فارغًا للاحتفاظ به، أو اختر ملفًا جديدًا لاستبداله."; cf.classList.remove("hidden"); }
+  else cf.classList.add("hidden");
+  $("contentSaveBtn").textContent = "تحديث المحتوى";
+  $("formTitle").textContent = "تعديل محتوى - " + SECTIONS[currentTab].en;
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function deleteItem(item) {
+  if (!confirm("حذف هذا المحتوى وملفه؟")) return;
+  run(async () => { await api("deleteItem",{id:item.id}); await refresh(); resetForm(); });
+}
+
+function renderContent() {
+  const lecture = getLecture(); if (!lecture) return;
+  const list = $("contentList"); list.innerHTML = "";
+  const items = lecture.sections[currentTab];
+  if (!items.length) { list.appendChild(el("div","empty","لا توجد محتويات في هذا القسم بعد.")); return; }
+  items.forEach(item => {
+    const card = el("div","item-card");
+    const info = el("div","item-info");
+    info.appendChild(el("h3","",item.title));
+    if (item.description) info.appendChild(el("p","",item.description));
+    if (item.file) {
+      const chip = el("span","file-chip");
+      chip.append(el("i","fa-solid "+iconFor(item.file.name)),document.createTextNode(item.file.name+" ("+formatSize(item.file.size)+")"));
+      info.appendChild(chip);
+    }
+    const act = el("div","item-actions");
+    if (item.file) {
+      const o = el("a","success","فتح"); o.href = viewUrl(item.file.id); o.target = "_blank"; o.rel = "noopener";
+      o.style.cssText = "text-decoration:none;display:inline-block";
+      const d = el("a","secondary","تحميل"); d.href = downloadUrl(item.file.id); d.target = "_blank"; d.rel = "noopener";
+      d.style.cssText = "text-decoration:none;display:inline-block";
+      act.append(o,d);
+    }
+    const e = el("button","secondary","تعديل"); e.addEventListener("click",() => editItem(item));
+    const r = el("button","danger","حذف"); r.addEventListener("click",() => deleteItem(item));
+    act.append(e,r);
+    card.append(info,act); list.appendChild(card);
+  });
+}
+
+/* ===== EXPORT ===== */
+$("exportBtn").addEventListener("click",() => {
+  const blob = new Blob([JSON.stringify(lectures,null,2)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob); a.download = "nursing-hub-data.json"; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href),10000);
+});
+
+function renderAll() {
+  renderLectures(); updateStats();
+  if (selectedLectureId !== null && getLecture()) renderContent();
+}
+
+/* ===== START ===== */
+const savedPw = sessionStorage.getItem("NPH_PW");
+if (savedPw) tryLogin(savedPw);
+</script>
+</body>
+</html>

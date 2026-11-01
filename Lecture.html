@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lecture | Nursing Practical Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b}
+.header{background:#1b263b;color:#fff;padding:25px 6%;border-bottom:5px solid #087f8c}
+.header-top{display:flex;justify-content:space-between;align-items:center;gap:15px;flex-wrap:wrap}
+.brand{direction:ltr;text-align:left}
+.brand h2{font-size:20px;font-weight:900}
+.brand p{color:#31c3c9;font-size:11px;margin-top:4px}
+.home-btn{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:9px 17px;border-radius:9px;font-size:13px}
+.home-btn:hover{background:#087f8c}
+.container{max-width:1000px;margin:28px auto;padding:0 18px 50px}
+.lecture-head{background:#1b263b;color:#fff;border-radius:15px;padding:24px;margin-bottom:20px}
+.lecture-head h1{font-size:23px;font-weight:900}
+.lecture-head .en{font-size:15px;color:#31c3c9;margin-top:4px;direction:ltr;text-align:right}
+.lecture-head .meta{font-size:12px;color:#cbd5e1;margin-top:10px}
+.lecture-head p{font-size:13px;color:#d5dce8;margin-top:10px;line-height:2}
+.tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:20px}
+.tab{background:#fff;border:1px solid #e4eaf0;border-radius:12px;padding:14px 6px;text-align:center;color:#7b8798;font-family:'Cairo',sans-serif;font-size:12px;font-weight:800;cursor:pointer}
+.tab i{display:block;font-size:21px;margin-bottom:7px}
+.tab small{display:block;font-size:10px;font-weight:600;margin-top:2px}
+.tab.active{background:#1b263b;color:#fff;border-color:#1b263b}
+.tab.active i{color:#60d0d2}
+.items{display:grid;gap:13px}
+.item{background:#fff;border:1px solid #e8edf3;border-radius:14px;padding:18px;box-shadow:0 4px 15px #1b263b08}
+.item h3{font-size:15px;font-weight:800}
+.item p{color:#64748b;font-size:13px;line-height:2;margin-top:6px;white-space:pre-wrap;overflow-wrap:anywhere}
+.file-chip{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:#087f8c;background:#e6f5f5;padding:5px 11px;border-radius:20px;overflow-wrap:anywhere}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.btn{border:none;border-radius:8px;padding:9px 15px;font-family:'Cairo',sans-serif;font-size:12px;font-weight:800;cursor:pointer}
+.btn.open{background:#087f8c;color:#fff}
+.btn.dl{background:#edf1f6;color:#1b263b}
+.preview{margin-top:12px}
+.preview img,.preview video{max-width:100%;border-radius:10px}
+.preview audio{width:100%}
+.empty{text-align:center;padding:35px;color:#64748b;background:#fff;border-radius:14px;border:1px solid #e8edf3;font-size:13px}
+footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:22px 10px;font-size:12px;direction:ltr;line-height:2}
+@media(max-width:560px){.header{padding:20px 15px}.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.lecture-head h1{font-size:20px}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-top">
+    <div class="brand">
+      <h2>Nursing Practical Hub</h2>
+      <p>PORT SAID UNIVERSITY | FACULTY OF NURSING</p>
+    </div>
+    <a href="Lectures.html" class="home-btn"><i class="fa-solid fa-arrow-right"></i> كل المحاضرات</a>
+  </div>
+</header>
+
+<main class="container" id="app"></main>
+
+<footer>
+  Nursing Practical Hub<br>Faculty of Nursing – Port Said University
+</footer>
+
+<script src="config.js"></script>
+<script>
+const SECTIONS = {
+  explanation:{en:"Explanation",ar:"الشرح",icon:"fa-book-open"},
+  skills:{en:"Practical Skills",ar:"المهارات العملية",icon:"fa-stethoscope"},
+  checklists:{en:"Checklist",ar:"قائمة التحقق",icon:"fa-clipboard-check"},
+  quizzes:{en:"Quiz",ar:"الاختبار",icon:"fa-brain"}
+};
+
+let lecture = null;
+let currentTab = "explanation";
+const app = document.getElementById("app");
+
+function el(tag,cls,text){
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+function formatSize(b){ return b >= 1048576 ? (b/1048576).toFixed(2)+" MB" : (b/1024).toFixed(1)+" KB"; }
+function extOf(n){ return (n.split(".").pop() || "").toLowerCase(); }
+function iconFor(n){
+  const e = extOf(n);
+  if (e==="pdf") return "fa-file-pdf";
+  if (["doc","docx"].includes(e)) return "fa-file-word";
+  if (["ppt","pptx"].includes(e)) return "fa-file-powerpoint";
+  if (["jpg","jpeg","png","webp"].includes(e)) return "fa-file-image";
+  if (e==="mp4") return "fa-file-video";
+  if (e==="mp3") return "fa-file-audio";
+  return "fa-file-lines";
+}
+
+const viewUrl = id => "https://drive.google.com/file/d/" + encodeURIComponent(id) + "/view";
+const downloadUrl = id => "https://drive.google.com/uc?export=download&id=" + encodeURIComponent(id);
+const imageUrl = id => "https://drive.google.com/thumbnail?id=" + encodeURIComponent(id) + "&sz=w1200";
+
+async function loadLecture(){
+  const id = new URLSearchParams(location.search).get("id");
+  const res = await fetch(API_URL);
+  const data = await res.json();
+  if (!data.ok) throw new Error(data.error || "خطأ");
+  return (data.lectures || []).find(l => String(l.id) === String(id)) || null;
+}
+
+function renderPage(){
+  app.innerHTML = "";
+
+  const head = el("div","lecture-head");
+  head.appendChild(el("h1","",lecture.titleAr || lecture.title));
+  head.appendChild(el("div","en",lecture.title));
+  head.appendChild(el("div","meta",lecture.subject + " | " + lecture.level));
+  if (lecture.description) head.appendChild(el("p","",lecture.description));
+  app.appendChild(head);
+
+  const tabs = el("div","tabs");
+  Object.keys(SECTIONS).forEach(key => {
+    const s = SECTIONS[key];
+    const b = el("button","tab"+(key===currentTab?" active":""));
+    b.appendChild(el("i","fa-solid "+s.icon));
+    b.appendChild(document.createTextNode(s.en));
+    b.appendChild(el("small","",s.ar));
+    b.addEventListener("click",() => { currentTab = key; renderPage(); });
+    tabs.appendChild(b);
+  });
+  app.appendChild(tabs);
+
+  const wrap = el("div","items");
+  const items = (lecture.sections && lecture.sections[currentTab]) || [];
+
+  if (!items.length) {
+    wrap.appendChild(el("div","empty","لا يوجد محتوى في هذا القسم بعد."));
+  } else {
+    items.forEach(item => {
+      const card = el("div","item");
+      card.appendChild(el("h3","",item.title));
+      if (item.description) card.appendChild(el("p","",item.description));
+
+      if (item.file) {
+        const chip = el("span","file-chip");
+        chip.appendChild(el("i","fa-solid "+iconFor(item.file.name)));
+        chip.appendChild(document.createTextNode(item.file.name+" ("+formatSize(item.file.size)+")"));
+        card.appendChild(chip);
+
+        const e = extOf(item.file.name);
+        if (["jpg","jpeg","png","webp"].includes(e)) {
+          const preview = el("div","preview");
+          const img = document.createElement("img");
+          img.src = imageUrl(item.file.id);
+          img.alt = item.title;
+          img.loading = "lazy";
+          preview.appendChild(img);
+          card.appendChild(preview);
+        }
+
+        const act = el("div","actions");
+        const o = el("a","btn open","فتح الملف");
+        o.href = viewUrl(item.file.id); o.target = "_blank"; o.rel = "noopener";
+        const d = el("a","btn dl","تحميل");
+        d.href = downloadUrl(item.file.id); d.target = "_blank"; d.rel = "noopener";
+        act.append(o,d);
+        card.appendChild(act);
+      }
+      wrap.appendChild(card);
+    });
+  }
+  app.appendChild(wrap);
+}
+
+app.appendChild(el("div","empty","جاري تحميل المحاضرة..."));
+loadLecture().then(l => {
+  lecture = l;
+  app.innerHTML = "";
+  if (!lecture) {
+    app.appendChild(el("div","empty","المحاضرة غير موجودة أو غير منشورة. ارجع لقائمة المحاضرات وافتحها من هناك."));
+  } else {
+    document.title = lecture.title + " | Nursing Practical Hub";
+    renderPage();
+  }
+}).catch(() => {
+  app.innerHTML = "";
+  app.appendChild(el("div","empty","تعذر تحميل المحاضرة. تأكد من الاتصال بالإنترنت وحاول مرة أخرى."));
+});
+</script>
+</body>
+</html>
