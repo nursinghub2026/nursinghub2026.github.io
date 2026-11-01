@@ -1,325 +1,120 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Nursing Practical Hub</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Cairo', sans-serif;
-      background: #1b263b;
-      min-height: 100vh;
-    }
-
-    .top-section {
-      background: #ffffff;
-      padding: 30px 15px 38px;
-      text-align: center;
-    }
-
-    .logos {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 28px;
-      margin-bottom: 22px;
-    }
-
-    .logos img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
-      border-radius: 12px;
-    }
-
-    .university {
-      color: #1b263b;
-      font-size: 19px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      direction: ltr;
-    }
-
-    .faculty {
-      color: #087f8c;
-      font-size: 16px;
-      font-weight: 800;
-      margin-top: 5px;
-      direction: ltr;
-    }
-
-    .department {
-      color: #64748b;
-      font-size: 12px;
-      font-weight: 700;
-      margin-top: 4px;
-      direction: ltr;
-    }
-
-    .main-title {
-      color: #1b263b;
-      font-size: 34px;
-      font-weight: 900;
-      margin-top: 25px;
-      line-height: 1.5;
-      direction: ltr;
-    }
-
-    .title-line {
-      width: 65px;
-      height: 4px;
-      background: #087f8c;
-      border-radius: 10px;
-      margin: 12px auto;
-    }
-
-    .subtitle {
-      color: #64748b;
-      font-size: 14px;
-      margin-top: 8px;
-      line-height: 2;
-    }
-
-    .bottom-section {
-      background: #1b263b;
-      border-top: 5px solid #087f8c;
-      min-height: 350px;
-      padding: 40px 20px 35px;
-      text-align: center;
-      color: white;
-    }
-
-    .welcome-title {
-      font-size: 25px;
-      font-weight: 900;
-      margin-bottom: 12px;
-    }
-
-    .description {
-      color: #d5dce8;
-      font-size: 14px;
-      line-height: 2.1;
-      max-width: 650px;
-      margin: 0 auto 28px;
-    }
-
-    .btn-main {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      background: #087f8c;
-      color: white;
-      text-decoration: none;
-      padding: 14px 32px;
-      border-radius: 12px;
-      font-family: 'Cairo', sans-serif;
-      font-size: 16px;
-      font-weight: 800;
-      transition: 0.3s;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.2);
-    }
-
-    .btn-main:hover {
-      background: #0a9aa8;
-      transform: translateY(-3px);
-    }
-
-    .features {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 40px;
-    }
-
-    .feature {
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 14px;
-      padding: 20px 12px;
-      width: 155px;
-      transition: 0.3s;
-    }
-
-    .feature:hover {
-      background: rgba(8,127,140,0.2);
-      transform: translateY(-4px);
-    }
-
-    .feature i {
-      color: #31c3c9;
-      font-size: 25px;
-      margin-bottom: 12px;
-    }
-
-    .feature h3 {
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.12);
-      color: #aeb9ca;
-      font-size: 12px;
-      line-height: 2;
-      direction: ltr;
-    }
-
-    @media (max-width: 480px) {
-      .top-section {
-        padding: 25px 12px 30px;
-      }
-
-      .logos {
-        gap: 20px;
-      }
-
-      .logos img {
-        width: 85px;
-        height: 85px;
-      }
-
-      .university {
-        font-size: 16px;
-      }
-
-      .faculty {
-        font-size: 14px;
-      }
-
-      .department {
-        font-size: 10px;
-      }
-
-      .main-title {
-        font-size: 26px;
-      }
-
-      .welcome-title {
-        font-size: 21px;
-      }
-
-      .feature {
-        width: 140px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing Practical Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b}
+.hero{background:linear-gradient(160deg,#1b263b 0%,#16405a 60%,#087f8c 100%);color:#fff;text-align:center;padding:40px 18px 64px;border-radius:0 0 42px 42px}
+.logos{display:flex;justify-content:center;gap:22px;margin-bottom:22px}
+.logos span{width:104px;height:104px;background:#fff;border-radius:50%;display:grid;place-items:center;box-shadow:0 8px 24px #0005}
+.logos img{width:82px;height:82px;object-fit:contain}
+.uni{font-size:18px;font-weight:900;letter-spacing:1px;direction:ltr}
+.fac{font-size:15px;font-weight:800;color:#5fe0e6;margin-top:4px;direction:ltr}
+.dep{font-size:11px;color:#b8c6d8;margin-top:4px;direction:ltr}
+h1{font-size:36px;font-weight:900;margin-top:24px;direction:ltr}
+.line{width:70px;height:4px;background:#31c3c9;border-radius:9px;margin:14px auto}
+.welcome{max-width:600px;margin:18px auto 0;background:#ffffff14;border:1px solid #ffffff2e;border-radius:18px;padding:20px 22px}
+.welcome p{color:#e8eef6;font-size:16px;line-height:2.1}
+.welcome .dua{display:block;margin-top:10px;color:#fff;font-size:17px;font-weight:800}
+.cta{display:inline-flex;align-items:center;gap:12px;margin-top:26px;background:#fff;color:#087f8c;text-decoration:none;padding:15px 36px;border-radius:14px;font-size:17px;font-weight:900;box-shadow:0 8px 22px #0004;transition:.3s}
+.cta:hover{transform:translateY(-3px)}
+.wrap{max-width:900px;margin:-30px auto 0;padding:0 18px}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.feature{background:#fff;border-radius:16px;padding:22px 12px;text-align:center;box-shadow:0 6px 20px #1b263b12;transition:.3s}
+.feature:hover{transform:translateY(-4px)}
+.feature i{font-size:28px;color:#087f8c;margin-bottom:10px}
+.feature h3{font-size:15px;font-weight:800}
+.box{background:#fff;border-radius:18px;padding:26px;margin:28px 0;box-shadow:0 6px 20px #1b263b12}
+.box h2{font-size:20px;font-weight:900;display:flex;align-items:center;gap:10px}
+.box h2 i{color:#087f8c}
+.box p{color:#64748b;font-size:14px;margin:6px 0 16px}
+.box input,.box textarea{width:100%;padding:13px;border:1px solid #e2e8f0;border-radius:11px;font-family:inherit;font-size:14px;outline:none;margin-bottom:12px}
+.box input:focus,.box textarea:focus{border-color:#087f8c}
+.box textarea{min-height:110px;resize:vertical}
+.send{background:#087f8c;color:#fff;border:0;border-radius:11px;padding:13px 28px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer}
+.send:disabled{opacity:.6}
+#msg{font-size:13px;margin-top:12px;min-height:20px;font-weight:700}
+.hp{position:absolute;left:-9999px}
+footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font-size:12px;direction:ltr;line-height:2}
+.dev{font-size:10px;opacity:.65;margin-top:6px}
+@media(max-width:480px){h1{font-size:28px}.logos span{width:88px;height:88px}.logos img{width:68px;height:68px}.welcome p{font-size:15px}}
+</style>
 </head>
-
 <body>
 
-  <section class="top-section">
+<section class="hero">
+  <div class="logos">
+    <span><img src="1000268547.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/6c2q5L98/1000268547.jpg'" alt="شعار جامعة بورسعيد"></span>
+    <span><img src="1000268546.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/3yk560vR/1000268546.jpg'" alt="شعار كلية التمريض"></span>
+  </div>
+  <div class="uni">PORT SAID UNIVERSITY</div>
+  <div class="fac">FACULTY OF NURSING</div>
+  <div class="dep">MEDICAL-SURGICAL NURSING DEPARTMENT</div>
+  <h1>Nursing Practical Hub</h1>
+  <div class="line"></div>
 
-    <!-- LOGOS -->
-    <div class="logos">
-
-      <img
-        src="1000268547.jpg"
-        onerror="this.onerror=null;this.src='https://i.ibb.co/6c2q5L98/1000268547.jpg'"
-        alt="شعار جامعة بورسعيد">
-
-      <img
-        src="1000268546.jpg"
-        onerror="this.onerror=null;this.src='https://i.ibb.co/3yk560vR/1000268546.jpg'"
-        alt="شعار كلية التمريض">
-
-    </div>
-
-    <div class="university">
-      PORT SAID UNIVERSITY
-    </div>
-
-    <div class="faculty">
-      FACULTY OF NURSING
-    </div>
-
-    <div class="department">
-      MEDICAL-SURGICAL NURSING DEPARTMENT
-    </div>
-
-    <h1 class="main-title">
-      Nursing Practical Hub
-    </h1>
-
-    <div class="title-line"></div>
-
-    <p class="subtitle">
-      منصة تعليمية تفاعلية للتدريب العملي والمهارات التمريضية
+  <div class="welcome">
+    <p>
+      عملنالك المنصة دي عشان تساعدك في مادة العملي.
+      هتلاقي عندك المحاضرات وملخصاتها، وطرق تطبيق المهارات، والشيك ليست،
+      وكويزات تفاعلية هتساعدك تتقن المهارة.
     </p>
+    <span class="dua">ومتنسانَاش بدعوة حلوة ❤️</span>
+  </div>
 
-  </section>
+  <a href="Lectures.html" class="cta"><i class="fa-solid fa-door-open"></i> ادخل على المحاضرات</a>
+</section>
 
+<main class="wrap">
+  <div class="features">
+    <div class="feature"><i class="fa-solid fa-book-open"></i><h3>شرح وملخصات المحاضرات</h3></div>
+    <div class="feature"><i class="fa-solid fa-hand-holding-medical"></i><h3>المهارات العملية</h3></div>
+    <div class="feature"><i class="fa-solid fa-list-check"></i><h3>الشيك ليست</h3></div>
+    <div class="feature"><i class="fa-solid fa-clipboard-question"></i><h3>كويزات تفاعلية</h3></div>
+  </div>
 
-  <section class="bottom-section">
+  <div class="box">
+    <h2><i class="fa-solid fa-lightbulb"></i> صندوق الاقتراحات</h2>
+    <p>عندك فكرة أو ملاحظة تحسّن الموقع؟ قولنا عليها.</p>
+    <form id="sgForm">
+      <input id="sgName" placeholder="اسمك (لو حابب)" maxlength="60">
+      <textarea id="sgMsg" placeholder="اكتب اقتراحك هنا..." maxlength="500" required></textarea>
+      <input class="hp" id="sgWeb" tabindex="-1" autocomplete="off">
+      <button class="send" id="sgBtn" type="submit"><i class="fa-solid fa-paper-plane"></i> ابعت الاقتراح</button>
+      <div id="msg"></div>
+    </form>
+  </div>
+</main>
 
-    <h2 class="welcome-title">
-      أهلاً بك في منصة التمريض العملي
-    </h2>
+<footer>
+  Nursing Practical Hub<br>Faculty of Nursing – Port Said University
+  <div class="dev">تم تطويره بواسطة Abdelrhman Wael</div>
+</footer>
 
-    <p class="description">
-      منصتك التعليمية لمراجعة المحاضرات، وفهم المهارات التمريضية،
-      والتدريب على خطوات الأداء العملي، واختبار معلوماتك بطريقة تفاعلية.
-    </p>
-
-    <!-- LOCAL NAVIGATION -->
-
-    <a href="Lectures.html" class="btn-main">
-
-      <i class="fa-solid fa-door-open"></i>
-
-      الدخول للمحاضرات
-
-    </a>
-
-
-    <div class="features">
-
-      <div class="feature">
-        <i class="fa-solid fa-book-open"></i>
-        <h3>شرح المحاضرات</h3>
-      </div>
-
-      <div class="feature">
-        <i class="fa-solid fa-hand-holding-medical"></i>
-        <h3>المهارات العملية</h3>
-      </div>
-
-      <div class="feature">
-        <i class="fa-solid fa-list-check"></i>
-        <h3>Checklists</h3>
-      </div>
-
-      <div class="feature">
-        <i class="fa-solid fa-clipboard-question"></i>
-        <h3>الاختبارات التفاعلية</h3>
-      </div>
-
-    </div>
-
-
-    <footer>
-      Nursing Practical Hub
-      <br>
-      Faculty of Nursing – Port Said University
-      <br>
-      Medical-Surgical Nursing Department
-    </footer>
-
-  </section>
-
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
+document.getElementById("sgForm").addEventListener("submit",async e => {
+  e.preventDefault();
+  const btn = document.getElementById("sgBtn"), msg = document.getElementById("msg");
+  btn.disabled = true; msg.style.color = "#64748b"; msg.textContent = "ثواني وبنبعت...";
+  try{
+    const res = await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({action:"suggest",name:document.getElementById("sgName").value,
+        message:document.getElementById("sgMsg").value,website:document.getElementById("sgWeb").value})});
+    const data = await res.json();
+    if(!data.ok) throw new Error(data.error);
+    e.target.reset(); msg.style.color = "#198754"; msg.textContent = "وصلنا اقتراحك، شكرًا ليك! ❤️";
+  }catch(err){
+    msg.style.color = "#dc3545";
+    msg.textContent = err.message === "Failed to fetch" ? "مقدرناش نبعت، اتأكد من النت وجرّب تاني." : err.message;
+  }
+  btn.disabled = false;
+});
+</script>
 </body>
-</html>
+  </html>
