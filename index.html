@@ -3,55 +3,120 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#1b263b">
 <title>Nursing Practical Hub</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b}
-.hero{background:linear-gradient(160deg,#1b263b 0%,#16405a 60%,#087f8c 100%);color:#fff;text-align:center;padding:40px 18px 64px;border-radius:0 0 42px 42px}
-.logos{display:flex;justify-content:center;gap:22px;margin-bottom:22px}
-.logos span{width:104px;height:104px;background:#fff;border-radius:50%;display:grid;place-items:center;box-shadow:0 8px 24px #0005}
-.logos img{width:82px;height:82px;object-fit:contain}
-.uni{font-size:18px;font-weight:900;letter-spacing:1px;direction:ltr}
-.fac{font-size:15px;font-weight:800;color:#5fe0e6;margin-top:4px;direction:ltr}
-.dep{font-size:11px;color:#b8c6d8;margin-top:4px;direction:ltr}
-h1{font-size:36px;font-weight:900;margin-top:24px;direction:ltr}
-.line{width:70px;height:4px;background:#31c3c9;border-radius:9px;margin:14px auto}
-.welcome{max-width:600px;margin:18px auto 0;background:#ffffff14;border:1px solid #ffffff2e;border-radius:18px;padding:20px 22px}
-.welcome p{color:#e8eef6;font-size:16px;line-height:2.1}
-.welcome .dua{display:block;margin-top:10px;color:#fff;font-size:17px;font-weight:800}
-.cta{display:inline-flex;align-items:center;gap:12px;margin-top:26px;background:#fff;color:#087f8c;text-decoration:none;padding:15px 36px;border-radius:14px;font-size:17px;font-weight:900;box-shadow:0 8px 22px #0004;transition:.3s}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
+body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b;overflow-x:hidden;width:100%}
+img{max-width:100%}
+
+/* ===== HERO ===== */
+.hero{position:relative;overflow:hidden;text-align:center;padding:34px 16px 78px;border-radius:0 0 40px 40px;
+  background:linear-gradient(180deg,#fff 0%,#fff 26%,#e9f5f6 40%,#a6d3d8 54%,#2a6a80 74%,#1b263b 100%)}
+.wm{position:absolute;top:0;right:0;left:0;height:440px;display:flex;justify-content:center;align-items:flex-start;gap:2vw;
+  pointer-events:none;opacity:.24;-webkit-mask-image:linear-gradient(#000 38%,transparent 100%);mask-image:linear-gradient(#000 38%,transparent 100%)}
+.wm img{width:min(46vw,310px);height:auto;object-fit:contain;margin-top:8px;mix-blend-mode:multiply}
+.hero>*:not(.wm){position:relative;z-index:1}
+.uni{font-size:19px;font-weight:900;letter-spacing:1px;direction:ltr;color:#1b263b;margin-top:6px}
+.fac{font-size:15px;font-weight:800;color:#087f8c;margin-top:4px;direction:ltr}
+.dep{font-size:11px;color:#475569;margin-top:4px;direction:ltr;font-weight:600}
+h1{font-size:clamp(26px,7vw,40px);font-weight:900;margin-top:22px;direction:ltr;color:#1b263b}
+.line{width:70px;height:4px;background:#087f8c;border-radius:9px;margin:14px auto 22px}
+.welcome{max-width:600px;margin:90px auto 0;background:rgba(27,38,59,.9);border:1px solid #ffffff2e;border-radius:20px;padding:22px 20px;box-shadow:0 12px 30px #0004;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.welcome p{color:#e8eef6;font-size:clamp(14px,3.8vw,16px);line-height:2.1}
+.welcome .dua{display:block;margin-top:10px;color:#fff;font-size:clamp(15px,4vw,17px);font-weight:800}
+.cta{display:inline-flex;align-items:center;gap:12px;margin-top:26px;background:linear-gradient(135deg,#087f8c,#2bb5bd);color:#fff;text-decoration:none;padding:15px 34px;border-radius:14px;font-size:clamp(15px,4vw,17px);font-weight:900;box-shadow:0 8px 22px #0006;transition:.3s}
 .cta:hover{transform:translateY(-3px)}
-.wrap{max-width:900px;margin:-30px auto 0;padding:0 18px}
-.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
-.feature{background:#fff;border-radius:16px;padding:22px 12px;text-align:center;box-shadow:0 6px 20px #1b263b12;transition:.3s}
+
+/* ===== SECTIONS ===== */
+.wrap{max-width:1000px;margin:-34px auto 0;padding:0 16px;position:relative;z-index:2}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.feature{background:#fff;border-radius:16px;padding:20px 10px;text-align:center;box-shadow:0 6px 20px #1b263b12;transition:.3s}
 .feature:hover{transform:translateY(-4px)}
-.feature i{font-size:28px;color:#087f8c;margin-bottom:10px}
-.feature h3{font-size:15px;font-weight:800}
-.box{background:#fff;border-radius:18px;padding:26px;margin:28px 0;box-shadow:0 6px 20px #1b263b12}
-.box h2{font-size:20px;font-weight:900;display:flex;align-items:center;gap:10px}
+.feature i{font-size:26px;color:#087f8c;margin-bottom:10px}
+.feature h3{font-size:14px;font-weight:800}
+.sec{margin:34px 0 8px}
+.sec h2{font-size:clamp(19px,5vw,23px);font-weight:900;display:flex;align-items:center;gap:10px}
+.sec h2 i{color:#087f8c}
+.sec>p{color:#64748b;font-size:14px;margin-top:6px;line-height:1.9}
+
+/* verses */
+.verses{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:16px}
+.verse{background:linear-gradient(160deg,#1b263b,#16405a 70%,#087f8c);color:#fff;border-radius:18px;padding:20px;text-align:center;box-shadow:0 8px 22px #1b263b26}
+.verse small{display:inline-block;background:#ffffff22;border-radius:20px;padding:3px 12px;font-size:11px;font-weight:700;margin-bottom:10px}
+.verse .q{font-family:'Amiri',serif;font-size:clamp(20px,5.4vw,25px);line-height:2.1}
+.verse .r{margin-top:8px;font-size:12px;color:#b8e9ec}
+
+/* tips */
+.tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;margin-top:16px}
+.tip{background:#fff;border-radius:16px;padding:20px;box-shadow:0 6px 20px #1b263b0f;border-right:5px solid #087f8c}
+.tip.hl{border-right-color:#c0392b;background:#fff9f8}
+.tip .ic{width:44px;height:44px;border-radius:12px;background:#e4f5f5;color:#087f8c;display:grid;place-items:center;font-size:20px;margin-bottom:10px}
+.tip.hl .ic{background:#fdeceb;color:#c0392b}
+.tip h3{font-size:16px;font-weight:900;margin-bottom:6px}
+.tip p{font-size:14px;color:#475569;line-height:2}
+
+/* adhkar */
+.grp{margin-top:22px}
+.grp h3{font-size:17px;font-weight:900;display:flex;align-items:center;gap:10px;color:var(--c)}
+.grp h3 i{width:36px;height:36px;border-radius:10px;background:var(--c);color:#fff;display:grid;place-items:center;font-size:16px}
+.btns{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:12px}
+.dbtn{font-family:inherit;background:#fff;border:1px solid #e4eaf0;border-right:5px solid var(--c);border-radius:13px;padding:13px 14px;text-align:right;font-size:14px;font-weight:700;color:#1b263b;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;box-shadow:0 3px 10px #1b263b0a;transition:.2s}
+.dbtn:hover{transform:translateY(-2px);box-shadow:0 8px 18px #1b263b18}
+.dbtn span{flex:1}
+.dbtn em{font-style:normal;font-size:10px;font-weight:800;background:#f0f4f8;color:#475569;padding:3px 8px;border-radius:12px;white-space:nowrap}
+.dbtn em.q{background:#e6f5f5;color:#087f8c}
+
+/* modal */
+.ov{position:fixed;top:0;right:0;bottom:0;left:0;background:rgba(10,18,32,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;padding:14px;z-index:100}
+.ov.show{display:flex}
+.md{background:#fff;width:100%;max-width:580px;max-height:90vh;overflow:auto;border-radius:24px;box-shadow:0 24px 60px #0007;animation:pop .25s ease}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.mh{background:var(--c);color:#fff;padding:20px 22px;text-align:center}
+.mh .bd{display:inline-block;background:#ffffff2b;border-radius:20px;padding:4px 14px;font-size:12px;font-weight:800}
+.mh h4{font-size:clamp(17px,4.6vw,20px);font-weight:900;margin-top:10px;line-height:1.7}
+.mb{padding:24px 22px 10px;text-align:center}
+.mt{font-family:'Amiri',serif;font-size:clamp(22px,6vw,28px);line-height:2.2;color:#1b263b;white-space:pre-line}
+.mi{display:grid;gap:8px;margin-top:18px;text-align:right}
+.mi div{background:#f3f6fa;border-radius:12px;padding:10px 14px;font-size:13px;line-height:1.9;color:#334155}
+.mi b{color:#1b263b}
+.ma{display:flex;gap:10px;padding:16px 22px 22px}
+.ma button{flex:1;font-family:inherit;border:0;border-radius:12px;padding:13px;font-size:15px;font-weight:800;cursor:pointer}
+.cp{background:var(--c);color:#fff}
+.cl{background:#edf1f6;color:#1b263b}
+
+/* suggestions */
+.box{background:#fff;border-radius:18px;padding:24px;margin:34px 0;box-shadow:0 6px 20px #1b263b12}
+.box h2{font-size:clamp(18px,5vw,21px);font-weight:900;display:flex;align-items:center;gap:10px}
 .box h2 i{color:#087f8c}
 .box p{color:#64748b;font-size:14px;margin:6px 0 16px}
-.box input,.box textarea{width:100%;padding:13px;border:1px solid #e2e8f0;border-radius:11px;font-family:inherit;font-size:14px;outline:none;margin-bottom:12px}
+.box input:not(.hp),.box textarea{width:100%;padding:13px;border:1px solid #e2e8f0;border-radius:11px;font-family:inherit;font-size:14px;outline:none;margin-bottom:12px}
 .box input:focus,.box textarea:focus{border-color:#087f8c}
 .box textarea{min-height:110px;resize:vertical}
 .send{background:#087f8c;color:#fff;border:0;border-radius:11px;padding:13px 28px;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer}
 .send:disabled{opacity:.6}
 #msg{font-size:13px;margin-top:12px;min-height:20px;font-weight:700}
-.hp{position:absolute;left:-9999px}
+/* حقل مخفي للبوتات بدون ما يوسّع الصفحة */
+.hp{position:absolute;width:0;height:0;opacity:0;overflow:hidden;border:0;padding:0;margin:0;pointer-events:none}
+
 footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font-size:12px;direction:ltr;line-height:2}
 .dev{font-size:10px;opacity:.65;margin-top:6px}
-@media(max-width:480px){h1{font-size:28px}.logos span{width:88px;height:88px}.logos img{width:68px;height:68px}.welcome p{font-size:15px}}
+
+@media(min-width:900px){.wm{height:480px}.welcome{margin-top:110px}}
+@media(max-width:420px){.hero{padding:26px 12px 70px}.welcome{margin-top:70px;padding:18px 14px}.btns{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 <section class="hero">
-  <div class="logos">
-    <span><img src="1000268547.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/6c2q5L98/1000268547.jpg'" alt="شعار جامعة بورسعيد"></span>
-    <span><img src="1000268546.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/3yk560vR/1000268546.jpg'" alt="شعار كلية التمريض"></span>
+  <div class="wm" aria-hidden="true">
+    <img src="1000268547.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/6c2q5L98/1000268547.jpg'" alt="">
+    <img src="1000268546.jpg" onerror="this.onerror=null;this.src='https://i.ibb.co/3yk560vR/1000268546.jpg'" alt="">
   </div>
+
   <div class="uni">PORT SAID UNIVERSITY</div>
   <div class="fac">FACULTY OF NURSING</div>
   <div class="dep">MEDICAL-SURGICAL NURSING DEPARTMENT</div>
@@ -71,6 +136,7 @@ footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font
 </section>
 
 <main class="wrap">
+
   <div class="features">
     <div class="feature"><i class="fa-solid fa-book-open"></i><h3>شرح وملخصات المحاضرات</h3></div>
     <div class="feature"><i class="fa-solid fa-hand-holding-medical"></i><h3>المهارات العملية</h3></div>
@@ -78,17 +144,77 @@ footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font
     <div class="feature"><i class="fa-solid fa-clipboard-question"></i><h3>كويزات تفاعلية</h3></div>
   </div>
 
+  <!-- نصائح المذاكرة -->
+  <div class="sec">
+    <h2><i class="fa-solid fa-graduation-cap"></i> نصايح للمذاكرة</h2>
+    <p>مش مجرد مادة وهتخلص. إنت بتتعلم حاجة ممكن تحافظ على حياة ناس.</p>
+  </div>
+
+  <div class="verses">
+    <div class="verse"><small>استشهاد قرآني</small>
+      <div class="q">﴿ قُلْ هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ ﴾</div>
+      <div class="r">سورة الزمر - آية 9</div></div>
+    <div class="verse"><small>استشهاد قرآني</small>
+      <div class="q">﴿ وَقُلِ اعْمَلُوا فَسَيَرَى اللَّهُ عَمَلَكُمْ وَرَسُولُهُ وَالْمُؤْمِنُونَ ﴾</div>
+      <div class="r">سورة التوبة - آية 105</div></div>
+    <div class="verse"><small>استشهاد قرآني</small>
+      <div class="q">﴿ وَمَنْ أَحْيَاهَا فَكَأَنَّمَا أَحْيَا النَّاسَ جَمِيعًا ﴾</div>
+      <div class="r">سورة المائدة - آية 32</div></div>
+  </div>
+
+  <div class="tips">
+    <div class="tip hl"><div class="ic"><i class="fa-solid fa-heart-pulse"></i></div>
+      <h3>ذاكر بضمير</h3>
+      <p>هتبقى مسؤول قدام ربنا عن أرواح ناس. المهارة اللي تتعلمها غلط ممكن تأذي مريض، واللي تتقنها ممكن تنقذ حياة. اجعل نيتك إنك تتعلم عشان تخدم الناس صح.</p></div>
+    <div class="tip"><div class="ic"><i class="fa-solid fa-circle-play"></i></div>
+      <h3>اتفرج على الفيديوهات</h3>
+      <p>شوف فيديو المهارة أكتر من مرة قبل ما تطبقها. ركّز على ترتيب الخطوات وإزاي بيمسك الأدوات، وبعدين وقّف الفيديو وكرر بإيدك.</p></div>
+    <div class="tip"><div class="ic"><i class="fa-solid fa-lightbulb"></i></div>
+      <h3>افهم ليه، متحفظش بس</h3>
+      <p>اسأل نفسك على كل خطوة: بنعمل كده ليه؟ لما تفهم السبب، هتفتكر الخطوة حتى لو اتلخبطت وقت العملي.</p></div>
+    <div class="tip"><div class="ic"><i class="fa-solid fa-hands"></i></div>
+      <h3>اتدرب بإيدك</h3>
+      <p>العملي بيتعلم بالتكرار. جرّب المهارة على دمية أو مع زميلك أكتر من مرة لحد ما تبقى طبيعية.</p></div>
+    <div class="tip"><div class="ic"><i class="fa-solid fa-clipboard-check"></i></div>
+      <h3>راجع بالشيك ليست</h3>
+      <p>اتدرب مع زميلك: واحد ينفذ وواحد يقيّم بالشيك ليست، وبدّلوا. أي خطوة بتتنسى هتظهر وإنتوا بتتدربوا مش في الامتحان.</p></div>
+    <div class="tip"><div class="ic"><i class="fa-solid fa-comments"></i></div>
+      <h3>اشرح لغيرك</h3>
+      <p>لو قدرت تشرح المهارة لحد تاني بصوت عالي، يبقى فهمتها فعلاً. ولو اتلخبطت، تعرف إنت واقف فين.</p></div>
+    <div class="tip"><div class="ic"><i class="fa-solid fa-clock"></i></div>
+      <h3>نظّم وقتك</h3>
+      <p>ذاكر على دفعات قصيرة (25 دقيقة وبعدها راحة 5)، وراجع نفس اليوم اللي خدت فيه المحاضرة. ده أثبت من المذاكرة ليلة الامتحان.</p></div>
+    <div class="tip"><div class="ic"><i class="fa-solid fa-hand-sparkles"></i></div>
+      <h3>الأمان والنظافة الأول</h3>
+      <p>اتعود من أول مرة على غسل الإيدين والتحقق من اسم المريض والأدوات. العادة الصح دي هي اللي بتحمي المريض وتحميك.</p></div>
+    <div class="tip"><div class="ic"><i class="fa-solid fa-circle-question"></i></div>
+      <h3>اسأل ومتتكسفش</h3>
+      <p>لو في خطوة مش واضحة اسأل الدكتور أو المشرف. السؤال دلوقتي أحسن بكتير من الغلط قدام مريض.</p></div>
+    <div class="tip"><div class="ic"><i class="fa-solid fa-bed"></i></div>
+      <h3>نام وكُل كويس</h3>
+      <p>قبل العملي نام كفاية وكُل حاجة خفيفة. الإرهاق بيضيّع التركيز، والتركيز هو اللي بيمنع الأخطاء.</p></div>
+  </div>
+
+  <!-- الأدعية والأذكار -->
+  <div class="sec">
+    <h2><i class="fa-solid fa-hands-praying"></i> أدعية وأذكار</h2>
+    <p>اضغط على أي دعاء يفتحلك في نافذة، ومعاه مصدره ووقته وعدد مراته.</p>
+  </div>
+  <div id="adhkar"></div>
+
+  <!-- الاقتراحات -->
   <div class="box">
     <h2><i class="fa-solid fa-lightbulb"></i> صندوق الاقتراحات</h2>
     <p>عندك فكرة أو ملاحظة تحسّن الموقع؟ قولنا عليها.</p>
     <form id="sgForm">
       <input id="sgName" placeholder="اسمك (لو حابب)" maxlength="60">
       <textarea id="sgMsg" placeholder="اكتب اقتراحك هنا..." maxlength="500" required></textarea>
-      <input class="hp" id="sgWeb" tabindex="-1" autocomplete="off">
+      <input class="hp" id="sgWeb" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button class="send" id="sgBtn" type="submit"><i class="fa-solid fa-paper-plane"></i> ابعت الاقتراح</button>
       <div id="msg"></div>
     </form>
   </div>
+
 </main>
 
 <footer>
@@ -96,16 +222,120 @@ footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font
   <div class="dev">تم تطويره بواسطة Abdelrhman Wael</div>
 </footer>
 
+<!-- النافذة المنبثقة -->
+<div class="ov" id="ov" role="dialog" aria-modal="true">
+  <div class="md" id="md">
+    <div class="mh" id="mh"><span class="bd" id="mBd"></span><h4 id="mTitle"></h4></div>
+    <div class="mb"><div class="mt" id="mText"></div><div class="mi" id="mInfo"></div></div>
+    <div class="ma"><button class="cp" id="mCopy"><i class="fa-regular fa-copy"></i> نسخ</button><button class="cl" id="mClose">إغلاق</button></div>
+  </div>
+</div>
+
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
-document.getElementById("sgForm").addEventListener("submit",async e => {
+
+/* ===== الأدعية والأذكار ===== */
+const Q = "آية قرآنية", S = "من السنّة النبوية";
+const GROUPS = [
+ {t:"للعلم والمذاكرة",ic:"fa-book-open",c:"#087f8c",items:[
+  {n:"دعاء قبل المذاكرة",k:S,x:"اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي،\nوَعَلِّمْنِي مَا يَنْفَعُنِي،\nوَزِدْنِي عِلْمًا",s:"رواه الترمذي وابن ماجه",w:"قبل المذاكرة"},
+  {n:"رَبِّ زِدْنِي عِلْمًا",k:Q,x:"﴿ وَقُل رَّبِّ زِدْنِي عِلْمًا ﴾",s:"سورة طه - آية 114",w:"في أي وقت"},
+  {n:"شرح الصدر وتيسير الأمر",k:Q,x:"﴿ رَبِّ اشْرَحْ لِي صَدْرِي * وَيَسِّرْ لِي أَمْرِي * وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي * يَفْقَهُوا قَوْلِي ﴾",s:"سورة طه - الآيات 25 إلى 28",w:"قبل المذاكرة أو الامتحان"},
+  {n:"الاستعاذة من علم لا ينفع",k:S,x:"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ،\nوَمِنْ قَلْبٍ لَا يَخْشَعُ،\nوَمِنْ نَفْسٍ لَا تَشْبَعُ،\nوَمِنْ دَعْوَةٍ لَا يُسْتَجَابُ لَهَا",s:"رواه مسلم",w:"في أي وقت"},
+  {n:"كفارة المجلس (بعد المذاكرة)",k:S,x:"سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ،\nأَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا أَنْتَ،\nأَسْتَغْفِرُكَ وَأَتُوبُ إِلَيْكَ",s:"رواه الترمذي وأبو داود",w:"عند الانتهاء من المذاكرة أو أي مجلس"}
+ ]},
+ {t:"للامتحان والعملي",ic:"fa-pen-to-square",c:"#7053a6",items:[
+  {n:"تيسير الأمر",k:S,x:"اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا،\nوَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا",s:"رواه ابن حبان (صحّحه ابن حبان وابن حجر)",w:"عند صعوبة المذاكرة وقبل الامتحان"},
+  {n:"التوكل على الله",k:Q,x:"﴿ حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ ۖ عَلَيْهِ تَوَكَّلْتُ ۖ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ ﴾",s:"سورة التوبة - آية 129",w:"في أي وقت، وقبل الامتحان"},
+  {n:"التوفيق بالله",k:Q,x:"﴿ وَمَا تَوْفِيقِي إِلَّا بِاللَّهِ ۚ عَلَيْهِ تَوَكَّلْتُ وَإِلَيْهِ أُنِيبُ ﴾",s:"سورة هود - آية 88",w:"في أي وقت"},
+  {n:"دعاء النسيان والخطأ",k:Q,x:"﴿ رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا ﴾",s:"سورة البقرة - من آية 286",w:"في أي وقت"},
+  {n:"الرحمة والرشد في الأمر",k:Q,x:"﴿ رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا ﴾",s:"سورة الكهف - آية 10",w:"في أي وقت"}
+ ]},
+ {t:"للمريض والعمل",ic:"fa-user-nurse",c:"#198754",items:[
+  {n:"الرقية للمريض",k:S,x:"أَسْأَلُ اللَّهَ الْعَظِيمَ،\nرَبَّ الْعَرْشِ الْعَظِيمِ،\nأَنْ يَشْفِيَكَ",s:"رواه أبو داود والترمذي",w:"عند زيارة المريض",cnt:"7 مرات"},
+  {n:"اللهم رب الناس أذهب البأس",k:S,x:"اللَّهُمَّ رَبَّ النَّاسِ، أَذْهِبِ الْبَأْسَ،\nاشْفِ أَنْتَ الشَّافِي،\nلَا شِفَاءَ إِلَّا شِفَاؤُكَ،\nشِفَاءً لَا يُغَادِرُ سَقَمًا",s:"متفق عليه (البخاري ومسلم)",w:"عند الدعاء للمريض"},
+  {n:"وإذا مرضت فهو يشفين",k:Q,x:"﴿ وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ ﴾",s:"سورة الشعراء - آية 80",w:"في أي وقت"},
+  {n:"دعاء الخروج من البيت",k:S,x:"بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ،\nوَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",s:"رواه أبو داود والترمذي",w:"عند الخروج للكلية أو المستشفى"}
+ ]},
+ {t:"أذكار الصباح",ic:"fa-sun",c:"#b16c20",items:[
+  {n:"آية الكرسي",k:Q,x:"﴿ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَن ذَا الَّذِي يَشْفَعُ عِندَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ ﴾",s:"سورة البقرة - آية 255",w:"صباحًا ومساءً، وقبل النوم",cnt:"مرة واحدة"},
+  {n:"المعوذات (الإخلاص والفلق والناس)",k:Q,x:"بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\n﴿ قُلْ هُوَ اللَّهُ أَحَدٌ * اللَّهُ الصَّمَدُ * لَمْ يَلِدْ وَلَمْ يُولَدْ * وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ﴾\n\n﴿ قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ * مِن شَرِّ مَا خَلَقَ * وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ * وَمِن شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ * وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ ﴾\n\n﴿ قُلْ أَعُوذُ بِرَبِّ النَّاسِ * مَلِكِ النَّاسِ * إِلَٰهِ النَّاسِ * مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ * الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ * مِنَ الْجِنَّةِ وَالنَّاسِ ﴾",s:"رواه أبو داود والترمذي",w:"صباحًا ومساءً",cnt:"3 مرات"},
+  {n:"اللهم بك أصبحنا",k:S,x:"اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا،\nوَبِكَ نَحْيَا، وَبِكَ نَمُوتُ،\nوَإِلَيْكَ النُّشُورُ",s:"رواه الترمذي",w:"في الصباح",cnt:"مرة واحدة"},
+  {n:"الرضا بالله ربًا",k:S,x:"رَضِيتُ بِاللَّهِ رَبًّا،\nوَبِالْإِسْلَامِ دِينًا،\nوَبِمُحَمَّدٍ ﷺ نَبِيًّا",s:"رواه أبو داود والترمذي وأحمد",w:"صباحًا ومساءً",cnt:"3 مرات"},
+  {n:"بسم الله الذي لا يضر مع اسمه شيء",k:S,x:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ،\nوَهُوَ السَّمِيعُ الْعَلِيمُ",s:"رواه أبو داود والترمذي",w:"صباحًا ومساءً",cnt:"3 مرات"},
+  {n:"سبحان الله وبحمده",k:S,x:"سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",s:"رواه مسلم",w:"صباحًا ومساءً",cnt:"100 مرة"}
+ ]},
+ {t:"أذكار المساء والنوم",ic:"fa-moon",c:"#3d5a80",items:[
+  {n:"اللهم بك أمسينا",k:S,x:"اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا،\nوَبِكَ نَحْيَا، وَبِكَ نَمُوتُ،\nوَإِلَيْكَ الْمَصِيرُ",s:"رواه الترمذي",w:"في المساء",cnt:"مرة واحدة"},
+  {n:"أعوذ بكلمات الله التامات",k:S,x:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",s:"رواه مسلم",w:"في المساء",cnt:"3 مرات"},
+  {n:"دعاء النوم",k:S,x:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",s:"رواه البخاري",w:"عند النوم",cnt:"مرة واحدة"},
+  {n:"الاستغفار",k:S,x:"أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ،\nالْحَيَّ الْقَيُّومَ، وَأَتُوبُ إِلَيْهِ",s:"رواه أبو داود والترمذي",w:"في أي وقت، وقبل النوم"}
+ ]},
+ {t:"للراحة والطمأنينة",ic:"fa-heart",c:"#0b8a6f",items:[
+  {n:"ألا بذكر الله تطمئن القلوب",k:Q,x:"﴿ أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ ﴾",s:"سورة الرعد - من آية 28",w:"عند القلق أو الضغط"},
+  {n:"إن مع العسر يسرًا",k:Q,x:"﴿ فَإِنَّ مَعَ الْعُسْرِ يُسْرًا * إِنَّ مَعَ الْعُسْرِ يُسْرًا ﴾",s:"سورة الشرح - الآيتان 5 و6",w:"عند الضيق"},
+  {n:"الاستعاذة من الهم والحزن",k:S,x:"اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ،\nوَالْعَجْزِ وَالْكَسَلِ،\nوَالْبُخْلِ وَالْجُبْنِ،\nوَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ",s:"رواه البخاري",w:"في أي وقت"}
+ ]}
+];
+
+const $ = id => document.getElementById(id);
+function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e}
+
+/* بناء الأزرار */
+const root = $("adhkar");
+GROUPS.forEach(g => {
+  const box = el("div","grp"); box.style.setProperty("--c",g.c);
+  const h = el("h3"); h.appendChild(el("i","fa-solid "+g.ic)); h.appendChild(document.createTextNode(g.t));
+  box.appendChild(h);
+  const btns = el("div","btns");
+  g.items.forEach(it => {
+    const b = el("button","dbtn"); b.type = "button";
+    b.appendChild(el("span","",it.n));
+    b.appendChild(el("em",it.k===Q?"q":"",it.k===Q?"قرآن":"سنّة"));
+    b.addEventListener("click",() => openModal(it,g.c));
+    btns.appendChild(b);
+  });
+  box.appendChild(btns); root.appendChild(box);
+});
+
+/* النافذة */
+let cur = null, lastFocus = null;
+function openModal(it,c){
+  cur = it; lastFocus = document.activeElement;
+  $("md").style.setProperty("--c",c);
+  $("mBd").textContent = it.k;
+  $("mTitle").textContent = it.n;
+  $("mText").textContent = it.x;
+  const info = $("mInfo"); info.innerHTML = "";
+  const row = (l,v) => { const d = el("div"); d.appendChild(el("b","",l+": ")); d.appendChild(document.createTextNode(v)); info.appendChild(d); };
+  row("المصدر",it.s); row("وقته",it.w); if (it.cnt) row("عدد المرات",it.cnt);
+  $("mCopy").innerHTML = '<i class="fa-regular fa-copy"></i> نسخ';
+  $("ov").classList.add("show"); document.body.style.overflow = "hidden";
+  $("mClose").focus();
+}
+function closeModal(){
+  $("ov").classList.remove("show"); document.body.style.overflow = "";
+  if (lastFocus) lastFocus.focus();
+}
+$("mClose").addEventListener("click",closeModal);
+$("ov").addEventListener("click",e => { if (e.target.id === "ov") closeModal(); });
+document.addEventListener("keydown",e => { if (e.key === "Escape") closeModal(); });
+$("mCopy").addEventListener("click",async () => {
+  if (!cur) return;
+  const txt = cur.n + "\n\n" + cur.x + "\n\n" + cur.s;
+  try { await navigator.clipboard.writeText(txt); }
+  catch(e){ const t = document.createElement("textarea"); t.value = txt; document.body.appendChild(t); t.select(); try{document.execCommand("copy")}catch(x){} t.remove(); }
+  $("mCopy").innerHTML = '<i class="fa-solid fa-check"></i> تم النسخ';
+});
+
+/* الاقتراحات */
+$("sgForm").addEventListener("submit",async e => {
   e.preventDefault();
-  const btn = document.getElementById("sgBtn"), msg = document.getElementById("msg");
+  const btn = $("sgBtn"), msg = $("msg");
   btn.disabled = true; msg.style.color = "#64748b"; msg.textContent = "ثواني وبنبعت...";
   try{
     const res = await fetch(API_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body:JSON.stringify({action:"suggest",name:document.getElementById("sgName").value,
-        message:document.getElementById("sgMsg").value,website:document.getElementById("sgWeb").value})});
+      body:JSON.stringify({action:"suggest",name:$("sgName").value,message:$("sgMsg").value,website:$("sgWeb").value})});
     const data = await res.json();
     if(!data.ok) throw new Error(data.error);
     e.target.reset(); msg.style.color = "#198754"; msg.textContent = "وصلنا اقتراحك، شكرًا ليك! ❤️";
@@ -117,4 +347,4 @@ document.getElementById("sgForm").addEventListener("submit",async e => {
 });
 </script>
 </body>
-</html>
+                                                                    </html>
