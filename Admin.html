@@ -17,7 +17,7 @@ button{cursor:pointer}
 img{max-width:100%}
 .hidden{display:none!important}
 
-/* ===== HERO (نفس روح الصفحة الرئيسية) ===== */
+/* ===== HERO ===== */
 .hero{position:relative;overflow:hidden;text-align:center;padding:18px 16px 72px;border-radius:0 0 40px 40px;
   background:linear-gradient(180deg,#fff 0%,#fff 34%,#e9f5f6 46%,#a6d3d8 58%,#2a6a80 76%,#1b263b 100%)}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
@@ -276,11 +276,11 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
           <div class="file-area">
             <i class="fa-solid fa-cloud-arrow-up"></i>
             <p>اختر ملفًا من الهاتف أو الجهاز</p>
-            <input id="contentFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.webp,.mp4,.mp3,.txt,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,image/jpeg,image/png,image/webp,video/mp4,audio/mpeg,text/plain">
+            <input id="contentFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png,.webp,.mp4,.mp3,.txt,.html,.htm,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,image/jpeg,image/png,image/webp,video/mp4,audio/mpeg,text/plain,text/html">
             <div id="filePreview" class="file-preview"></div>
           </div>
           <div id="currentFile" class="current-file hidden"></div>
-          <span class="help">المدعوم: PDF, DOC/DOCX, PPT/PPTX, JPG/PNG/WEBP, MP4, MP3, TXT. الحد الأقصى 20 ميجا للملف. الملف بيترفع على Google Drive.</span>
+          <span class="help">المدعوم: PDF, DOC/DOCX, PPT/PPTX, JPG/PNG/WEBP, MP4, MP3, TXT, HTML. الحد الأقصى 20 ميجا للملف. ملف HTML بيتفتح للطلاب كصفحة ويب كاملة، فلازم يكون مكتفي بنفسه (الصور والتنسيق جواه أو بروابط كاملة). ارفع ملفات HTML من مصدر موثوق بس.</span>
         </div>
       </div>
       <div class="form-actions">
@@ -314,7 +314,7 @@ const SECTIONS = {
   checklists:{en:"Checklist",ar:"قائمة التحقق"},
   quizzes:{en:"Quiz",ar:"الاختبار"}
 };
-const ALLOWED_EXT = ["pdf","doc","docx","ppt","pptx","jpg","jpeg","png","webp","mp4","mp3","txt"];
+const ALLOWED_EXT = ["pdf","doc","docx","ppt","pptx","jpg","jpeg","png","webp","mp4","mp3","txt","html","htm"];
 
 const LOAD_MSG = "جاري تحميل البيانات...";
 const UPLOAD_MSG = "جاري رفع الملف إلى Google Drive... لا تغلق الصفحة.";
@@ -342,6 +342,7 @@ function formatSize(b){ return b >= 1048576 ? (b/1048576).toFixed(2)+" MB" : (b/
 function extOf(n){ return (n.split(".").pop() || "").toLowerCase(); }
 function iconFor(n){
   const e = extOf(n);
+  if (["html","htm"].includes(e)) return "fa-file-code";
   if (e==="pdf") return "fa-file-pdf";
   if (["doc","docx"].includes(e)) return "fa-file-word";
   if (["ppt","pptx"].includes(e)) return "fa-file-powerpoint";
@@ -731,7 +732,10 @@ function renderContent(){
     }
     const act = el("div","item-actions");
     if (item.file){
-      const o = el("a","success","فتح"); o.href = viewUrl(item.file.id); o.target = "_blank"; o.rel = "noopener";
+      const isH = ["html","htm"].includes(extOf(item.file.name));
+      const o = el("a","success",isH ? "فتح الصفحة" : "فتح");
+      o.href = isH ? "view.html?f="+encodeURIComponent(item.file.id) : viewUrl(item.file.id);
+      o.target = "_blank"; o.rel = "noopener";
       const d = el("a","secondary","تحميل"); d.href = downloadUrl(item.file.id); d.target = "_blank"; d.rel = "noopener";
       act.append(o,d);
     }
@@ -760,4 +764,4 @@ function renderAll(){
 if (PW && ADMIN) startApp(); else { PW = ""; ADMIN = ""; showLogin(); }
 </script>
 </body>
-                                                             </html>
+          </html>
