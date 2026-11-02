@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جاري فتح الصفحة...</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#f3f6fa}
+body{font-family:Tahoma,Arial,sans-serif;color:#1b263b}
+#st{display:grid;place-items:center;min-height:100%;text-align:center;padding:20px}
+.b{background:#fff;border-radius:20px;padding:30px 24px;box-shadow:0 8px 26px #1b263b18;max-width:420px;width:100%}
+.s{width:42px;height:42px;border:4px solid #d9eef0;border-top-color:#087f8c;border-radius:50%;margin:0 auto 14px;animation:r 1s linear infinite}
+@keyframes r{to{transform:rotate(360deg)}}
+p{font-size:15px;line-height:2}
+a{display:inline-block;margin-top:14px;background:#087f8c;color:#fff;text-decoration:none;padding:11px 24px;border-radius:12px;font-weight:700}
+iframe{position:fixed;top:0;right:0;bottom:0;left:0;width:100%;height:100%;border:0;background:#fff}
+</style>
+</head>
+<body>
+<div id="st"><div class="b" id="b"><div class="s" id="sp"></div><p id="m">ثواني وهنفتحلك الصفحة...</p></div></div>
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
+const f = new URLSearchParams(location.search).get("f");
+
+function fail(t){
+  document.getElementById("sp").style.display = "none";
+  document.getElementById("m").textContent = t;
+  const a = document.createElement("a"); a.href = "Lectures.html"; a.textContent = "رجوع للمحاضرات";
+  document.getElementById("b").appendChild(a);
+}
+
+(async () => {
+  if (!f) return fail("الملف مش متحدد.");
+  try {
+    const res = await fetch(API_URL + "?html=" + encodeURIComponent(f));
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || "خطأ");
+    document.title = data.name || "صفحة";
+    /* إطار معزول: السكريبتات تشتغل لكن مفيش وصول لبيانات موقعك */
+    const fr = document.createElement("iframe");
+    fr.setAttribute("sandbox","allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals allow-downloads");
+    fr.srcdoc = data.html;
+    document.body.innerHTML = "";
+    document.body.appendChild(fr);
+  } catch (e) {
+    fail(e.message === "Failed to fetch" ? "مقدرناش نفتح الصفحة. اتأكد من النت وجرّب تاني." : "الصفحة دي مش موجودة أو اتحذفت.");
+  }
+})();
+</script>
+</body>
+</html>
