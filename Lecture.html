@@ -8,7 +8,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b}
+html{overflow-x:hidden;-webkit-text-size-adjust:100%}
+body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b;overflow-x:hidden}
 .bar{background:#1b263b;color:#fff;padding:16px 6%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:4px solid #087f8c}
 .brand{direction:ltr;font-size:17px;font-weight:900}
 .back{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:9px 16px;border-radius:10px;font-size:13px}
@@ -33,6 +34,7 @@ body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b}
 .btn{border-radius:11px;padding:13px 24px;font-size:15px;font-weight:800;text-decoration:none;display:inline-block}
 .open{background:#087f8c;color:#fff}
 .dl{background:#edf1f6;color:#1b263b}
+.chr{background:#4285f4;color:#fff}
 .empty{text-align:center;padding:40px;color:#64748b;background:#fff;border-radius:16px;font-size:16px}
 footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font-size:12px;direction:ltr;line-height:2}
 .dev{font-size:10px;opacity:.65;margin-top:6px}
@@ -68,12 +70,24 @@ let lecture = null, tab = "explanation";
 
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e}
 const ext = n => (n.split(".").pop() || "").toLowerCase();
+const isHtml = n => ["html","htm"].includes(ext(n));
 const size = b => b >= 1048576 ? (b/1048576).toFixed(2)+" MB" : (b/1024).toFixed(1)+" KB";
 function icon(n){const e=ext(n);
   if(e==="pdf")return"fa-file-pdf";if(["doc","docx"].includes(e))return"fa-file-word";
   if(["ppt","pptx"].includes(e))return"fa-file-powerpoint";if(["jpg","jpeg","png","webp"].includes(e))return"fa-file-image";
-  if(e==="mp4")return"fa-file-video";if(e==="mp3")return"fa-file-audio";return"fa-file-lines"}
+  if(e==="mp4")return"fa-file-video";if(e==="mp3")return"fa-file-audio";
+  if(["html","htm"].includes(e))return"fa-file-code";return"fa-file-lines"}
 function msg(t){app.innerHTML="";app.appendChild(el("div","empty",t))}
+
+/* رابط فتح الصفحة في Chrome (موبايل فقط، ولو المتصفح الحالي مش Chrome) */
+function chromeLink(u){
+  const ua = navigator.userAgent;
+  const inChrome = /Chrome\//.test(ua) && !/EdgA|Edg\/|OPR|SamsungBrowser|CriOS/.test(ua);
+  if (/CriOS/.test(ua) || inChrome) return null;
+  if (/Android/i.test(ua)) return "intent://" + u.replace(/^https?:\/\//,"") + "#Intent;scheme=" + (u.indexOf("https")===0?"https":"http") + ";package=com.android.chrome;end";
+  if (/iPhone|iPad|iPod/i.test(ua)) return u.replace(/^https:/,"googlechromes:").replace(/^http:/,"googlechrome:");
+  return null;
+}
 
 function render(){
   app.innerHTML = "";
@@ -108,9 +122,18 @@ function render(){
         pv.appendChild(img); c.appendChild(pv);
       }
       const a = el("div","acts");
-      const o = el("a","btn open","افتح الملف"); o.href = "https://drive.google.com/file/d/"+it.file.id+"/view"; o.target = "_blank"; o.rel = "noopener";
+      if (isHtml(it.file.name)) {
+        const viewer = new URL("view.html?f="+encodeURIComponent(it.file.id), location.href).href;
+        const o = el("a","btn open","افتح الصفحة"); o.href = viewer; o.target = "_blank"; o.rel = "noopener";
+        a.appendChild(o);
+        const cl = chromeLink(viewer);
+        if (cl) { const b = el("a","btn chr","افتح في Chrome"); b.href = cl; a.appendChild(b); }
+      } else {
+        const o = el("a","btn open","افتح الملف"); o.href = "https://drive.google.com/file/d/"+it.file.id+"/view"; o.target = "_blank"; o.rel = "noopener";
+        a.appendChild(o);
+      }
       const d = el("a","btn dl","نزّل الملف"); d.href = "https://drive.google.com/uc?export=download&id="+it.file.id; d.target = "_blank"; d.rel = "noopener";
-      a.append(o,d); c.appendChild(a);
+      a.appendChild(d); c.appendChild(a);
     }
     wrap.appendChild(c);
   });
