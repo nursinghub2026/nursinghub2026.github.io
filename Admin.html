@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-:root{--navy:#1b263b;--teal:#087f8c;--teal2:#2bb5bd;--bg:#f3f6fa;--text:#263449;--muted:#7b8798;--border:#e4eaf0;--red:#dc3545;--green:#198754}
+:root{--navy:#1b263b;--teal:#087f8c;--teal2:#2bb5bd;--bg:#f3f6fa;--text:#263449;--muted:#7b8798;--border:#e4eaf0;--red:#dc3545;--green:#198754;--purple:#7053a6}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
 body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;width:100%}
@@ -88,12 +88,21 @@ h1.ttl{font-size:clamp(24px,6.5vw,36px);font-weight:900;margin-top:16px;directio
 .status{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:5px}
 .published{background:#e8f7ee;color:var(--green)}.draft{background:#fff5dd;color:#a87912}
 .lecture-card{border:1px solid var(--border);border-right:5px solid var(--teal);border-radius:14px;padding:15px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.lecture-card.theory{border-right-color:var(--purple)}
 .lecture-card h3{font-size:15px;color:var(--navy);font-weight:800}.lecture-card p{font-size:11px;color:var(--muted);margin-top:4px}
 .open-lecture{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;border:0;padding:9px 14px;border-radius:10px;font-size:11px;font-weight:800}
+.lecture-card.theory .open-lecture{background:linear-gradient(135deg,#5b3f93,#8c6fc4)}
+.group-title{font-size:14px;font-weight:900;color:var(--teal);margin:6px 0 10px;display:flex;align-items:center;gap:8px}
+.group-title.theory{color:var(--purple);margin-top:22px}
+.group-title small{font-size:11px;color:var(--muted);font-weight:700}
+.track-badge{display:inline-block;font-size:10px;font-weight:800;padding:3px 10px;border-radius:20px;margin-top:5px;margin-left:6px;background:#e6f5f5;color:var(--teal)}
+.track-badge.theory{background:#efe9f8;color:var(--purple)}
 .manage-heading{background:linear-gradient(135deg,#0a5c4a,var(--teal) 60%,var(--teal2));color:#fff;padding:20px;border-radius:22px;margin-bottom:18px;box-shadow:0 12px 28px #087f8c44}
+.manage-heading.theory{background:linear-gradient(135deg,#3b2f6b,var(--purple) 60%,#a07bd0);box-shadow:0 12px 28px #7053a644}
 .manage-heading h2{font-size:20px;font-weight:900}.manage-heading p{font-size:12px;color:#e3f7f8;margin-top:5px}
 .back-btn{border:none;background:#fff;color:var(--navy);padding:10px 16px;border-radius:20px;font-size:12px;font-weight:800;box-shadow:0 3px 10px #1b263b10}
 .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0}
+.tabs.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .tab{background:#fff;border:0;border-radius:16px;padding:14px 7px;text-align:center;color:var(--muted);font-size:12px;font-weight:800;box-shadow:0 6px 20px #1b263b10;transition:.25s}
 .tab:hover{transform:translateY(-3px)}
 .tab i{display:block;font-size:21px;margin-bottom:7px}
@@ -200,6 +209,11 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
     <form id="lectureForm">
       <input type="hidden" id="lectureId">
       <div class="form-grid">
+        <div class="field full"><label>نوع المحاضرة *</label>
+          <select id="lectureTrack" required>
+            <option value="practical">عملي (شرح، مهارات، شيك ليست، كويز)</option>
+            <option value="theory">نظري (شرح وملخصات، كويز)</option>
+          </select></div>
         <div class="field"><label>اسم المحاضرة بالإنجليزية *</label><input id="lectureTitle" required placeholder="History of Nursing"></div>
         <div class="field"><label>اسم المحاضرة بالعربية *</label><input id="lectureTitleAr" required placeholder="تاريخ التمريض"></div>
         <div class="field"><label>المادة الدراسية *</label><input id="lectureSubject" required placeholder="Fundamentals of Nursing"></div>
@@ -221,7 +235,13 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
 
   <div class="panel">
     <h2 class="panel-title"><i class="fa-solid fa-list"></i> المحاضرات الموجودة</h2>
+
+    <div class="group-title"><i class="fa-solid fa-hand-holding-medical"></i> المحاضرات العملية <small id="cntPractical"></small></div>
     <div id="lecturesList" class="items-list"></div>
+
+    <div class="group-title theory"><i class="fa-solid fa-book-open"></i> المحاضرات النظرية <small id="cntTheory"></small></div>
+    <div id="theoryList" class="items-list"></div>
+
     <div class="form-actions">
       <button class="btn secondary" id="refreshBtn" type="button"><i class="fa-solid fa-rotate"></i> تحديث من Google</button>
       <button class="btn secondary" id="exportBtn" type="button"><i class="fa-solid fa-file-export"></i> تصدير بيانات JSON</button>
@@ -246,16 +266,16 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
     <span class="help">إدارة محتوى المحاضرة</span>
   </div>
 
-  <div class="manage-heading">
+  <div class="manage-heading" id="manageHeading">
     <h2 id="selectedLectureTitle">اسم المحاضرة</h2>
     <p id="selectedLectureInfo">المادة الدراسية</p>
   </div>
 
-  <div class="tabs">
-    <button class="tab active" data-tab="explanation" type="button"><i class="fa-solid fa-book-open"></i>Explanation<small>الشرح</small></button>
-    <button class="tab" data-tab="skills" type="button"><i class="fa-solid fa-stethoscope"></i>Practical Skills<small>المهارات العملية</small></button>
-    <button class="tab" data-tab="checklists" type="button"><i class="fa-solid fa-clipboard-check"></i>Checklist<small>قائمة التحقق</small></button>
-    <button class="tab" data-tab="quizzes" type="button"><i class="fa-solid fa-brain"></i>Quiz<small>الاختبار</small></button>
+  <div class="tabs" id="tabsBar">
+    <button class="tab active" data-tab="explanation" type="button"></button>
+    <button class="tab" data-tab="skills" type="button"></button>
+    <button class="tab" data-tab="checklists" type="button"></button>
+    <button class="tab" data-tab="quizzes" type="button"></button>
   </div>
 
   <div class="panel">
@@ -309,10 +329,15 @@ footer{background:var(--navy);color:#aeb9ca;text-align:center;padding:24px 12px;
 const API_URL = "https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
 const MAX_FILE_MB = 20;
 const SECTIONS = {
-  explanation:{en:"Explanation",ar:"الشرح"},
-  skills:{en:"Practical Skills",ar:"المهارات العملية"},
-  checklists:{en:"Checklist",ar:"قائمة التحقق"},
-  quizzes:{en:"Quiz",ar:"الاختبار"}
+  explanation:{en:"Explanation",ar:"الشرح",icon:"fa-book-open"},
+  skills:{en:"Practical Skills",ar:"المهارات العملية",icon:"fa-stethoscope"},
+  checklists:{en:"Checklist",ar:"قائمة التحقق",icon:"fa-clipboard-check"},
+  quizzes:{en:"Quiz",ar:"الاختبار",icon:"fa-brain"}
+};
+/* النظري: قسمين بس بأسماء مختلفة (نفس مفاتيح التخزين) */
+const THEORY_SECTIONS = {
+  explanation:{en:"Explanation & Summaries",ar:"شرح وملخصات",icon:"fa-book-open"},
+  quizzes:{en:"Quiz",ar:"كويز",icon:"fa-brain"}
 };
 const ALLOWED_EXT = ["pdf","doc","docx","ppt","pptx","jpg","jpeg","png","webp","mp4","mp3","txt","html","htm"];
 
@@ -332,6 +357,9 @@ const $ = id => document.getElementById(id);
 const getValue = id => $(id).value.trim();
 const setValue = (id,v) => { $(id).value = v ?? ""; };
 const getLecture = () => lectures.find(x => String(x.id) === String(selectedLectureId));
+const trackOf = l => (l && l.track === "theory") ? "theory" : "practical";
+const sectionsFor = l => trackOf(l) === "theory" ? THEORY_SECTIONS : SECTIONS;
+const secLabel = tab => (sectionsFor(getLecture())[tab] || SECTIONS[tab]);
 function el(tag,cls,text){
   const e = document.createElement(tag);
   if (cls) e.className = cls;
@@ -556,7 +584,8 @@ lectureForm.addEventListener("submit",e => {
     id: id || (crypto.randomUUID ? crypto.randomUUID() : Date.now()+"-"+Math.random().toString(36).slice(2)),
     title:getValue("lectureTitle"), titleAr:getValue("lectureTitleAr"),
     subject:getValue("lectureSubject"), level:getValue("lectureLevel"),
-    description:getValue("lectureDescription"), status:getValue("lectureStatus")
+    description:getValue("lectureDescription"), status:getValue("lectureStatus"),
+    track:getValue("lectureTrack") === "theory" ? "theory" : "practical"
   };
   const i = lectures.findIndex(x => String(x.id) === String(lec.id));
   const backup = i === -1 ? null : lectures[i];
@@ -582,6 +611,7 @@ function editLecture(id){
   setValue("lectureId",x.id); setValue("lectureTitle",x.title); setValue("lectureTitleAr",x.titleAr);
   setValue("lectureSubject",x.subject); setValue("lectureLevel",x.level);
   setValue("lectureDescription",x.description); setValue("lectureStatus",x.status);
+  setValue("lectureTrack",trackOf(x));
   $("lectureSaveBtn").textContent = "تحديث المحاضرة";
   $("lectureFormTitle").textContent = "تعديل المحاضرة";
   window.scrollTo({top:0,behavior:"smooth"});
@@ -597,26 +627,54 @@ function deleteLecture(id){
 function openLecture(id){
   selectedLectureId = id;
   const l = getLecture(); if (!l) return;
+  const th = trackOf(l) === "theory";
   $("selectedLectureTitle").textContent = l.titleAr + " | " + l.title;
-  $("selectedLectureInfo").textContent = l.subject + " - " + l.level;
+  $("selectedLectureInfo").textContent = (th ? "نظري" : "عملي") + " • " + l.subject + " - " + l.level;
+  $("manageHeading").classList.toggle("theory",th);
+  buildTabs(l);
   showPage("managePage");
   switchTab("explanation");
 }
-function renderLectures(){
-  const list = $("lecturesList"); list.innerHTML = "";
-  if (!lectures.length){ list.appendChild(el("div","empty","لا توجد محاضرات بعد. أضف أول محاضرة من النموذج بالأعلى.")); return; }
-  lectures.forEach(l => {
-    const card = el("div","lecture-card");
-    const info = el("div","");
-    info.appendChild(el("h3","",l.titleAr+" | "+l.title));
-    info.appendChild(el("p","",l.subject+" | "+l.level));
-    info.appendChild(el("span","status "+(l.status==="published"?"published":"draft"),l.status==="published"?"منشورة":"مسودة"));
-    const act = el("div","item-actions");
-    const o = el("button","open-lecture","إدارة المحتوى"); o.type = "button"; o.addEventListener("click",() => openLecture(l.id));
-    const e = el("button","secondary","تعديل"); e.type = "button"; e.addEventListener("click",() => editLecture(l.id));
-    const d = el("button","danger","حذف"); d.type = "button"; d.addEventListener("click",() => deleteLecture(l.id));
-    act.append(o,e,d); card.append(info,act); list.appendChild(card);
+
+/* يبني أزرار الأقسام حسب نوع المحاضرة (النظري: قسمين بس) */
+function buildTabs(l){
+  const SEC = sectionsFor(l);
+  const bar = $("tabsBar");
+  bar.classList.toggle("two",trackOf(l) === "theory");
+  bar.querySelectorAll(".tab").forEach(b => {
+    const k = b.dataset.tab, s = SEC[k];
+    b.classList.toggle("hidden",!s);
+    if (!s) return;
+    b.innerHTML = "";
+    b.append(el("i","fa-solid "+s.icon),document.createTextNode(s.en),el("small","",s.ar));
   });
+}
+
+function renderOne(l,box){
+  const th = trackOf(l) === "theory";
+  const card = el("div","lecture-card"+(th ? " theory" : ""));
+  const info = el("div","");
+  info.appendChild(el("h3","",l.titleAr+" | "+l.title));
+  info.appendChild(el("p","",l.subject+" | "+l.level));
+  info.appendChild(el("span","track-badge"+(th ? " theory" : ""),th ? "نظري" : "عملي"));
+  info.appendChild(el("span","status "+(l.status==="published"?"published":"draft"),l.status==="published"?"منشورة":"مسودة"));
+  const act = el("div","item-actions");
+  const o = el("button","open-lecture","إدارة المحتوى"); o.type = "button"; o.addEventListener("click",() => openLecture(l.id));
+  const e = el("button","secondary","تعديل"); e.type = "button"; e.addEventListener("click",() => editLecture(l.id));
+  const d = el("button","danger","حذف"); d.type = "button"; d.addEventListener("click",() => deleteLecture(l.id));
+  act.append(o,e,d); card.append(info,act); box.appendChild(card);
+}
+function renderLectures(){
+  const pl = $("lecturesList"), tl = $("theoryList");
+  pl.innerHTML = ""; tl.innerHTML = "";
+  const prac = lectures.filter(l => trackOf(l) === "practical");
+  const theo = lectures.filter(l => trackOf(l) === "theory");
+  $("cntPractical").textContent = "(" + prac.length + ")";
+  $("cntTheory").textContent = "(" + theo.length + ")";
+  if (!prac.length) pl.appendChild(el("div","empty","لا توجد محاضرات عملية بعد."));
+  if (!theo.length) tl.appendChild(el("div","empty","لا توجد محاضرات نظرية بعد."));
+  prac.forEach(l => renderOne(l,pl));
+  theo.forEach(l => renderOne(l,tl));
 }
 
 /* =====================================
@@ -626,7 +684,7 @@ document.querySelectorAll(".tab").forEach(b => b.addEventListener("click",() => 
 function switchTab(tab){
   currentTab = tab;
   document.querySelectorAll(".tab").forEach(b => b.classList.toggle("active",b.dataset.tab === tab));
-  const s = SECTIONS[tab];
+  const s = secLabel(tab);
   $("listTitle").textContent = "محتويات " + s.en + " - " + s.ar;
   resetForm();
   renderContent();
@@ -641,7 +699,7 @@ function resetForm(){
   $("filePreview").textContent = "";
   $("currentFile").classList.add("hidden");
   $("contentSaveBtn").textContent = "إضافة المحتوى";
-  $("formTitle").textContent = "إضافة محتوى - " + SECTIONS[currentTab].en;
+  $("formTitle").textContent = "إضافة محتوى - " + secLabel(currentTab).en;
 }
 $("contentCancelBtn").addEventListener("click",resetForm);
 
@@ -698,7 +756,7 @@ function editItem(item){
   if (item.file){ cf.textContent = "الملف الحالي: "+item.file.name+" — اتركه فارغًا للاحتفاظ به، أو اختر ملفًا جديدًا لاستبداله."; cf.classList.remove("hidden"); }
   else cf.classList.add("hidden");
   $("contentSaveBtn").textContent = "تحديث المحتوى";
-  $("formTitle").textContent = "تعديل محتوى - " + SECTIONS[currentTab].en;
+  $("formTitle").textContent = "تعديل محتوى - " + secLabel(currentTab).en;
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -764,4 +822,4 @@ function renderAll(){
 if (PW && ADMIN) startApp(); else { PW = ""; ADMIN = ""; showLogin(); }
 </script>
 </body>
-          </html>
+    </html>
