@@ -20,6 +20,7 @@ body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b;overflow-x:
 .lhead .meta{font-size:14px;color:#cbd5e1;margin-top:12px}
 .lhead p{font-size:16px;color:#e2e8f0;margin-top:12px;line-height:2}
 .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:20px}
+.tabs.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .tab{background:#fff;border:1px solid #e4eaf0;border-radius:14px;padding:16px 6px;text-align:center;color:#7b8798;font-family:inherit;font-size:14px;font-weight:800;cursor:pointer;transition:.2s}
 .tab i{display:block;font-size:24px;margin-bottom:8px}
 .tab small{display:block;font-size:12px;font-weight:600;margin-top:2px}
@@ -36,6 +37,14 @@ body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b;overflow-x:
 .dl{background:#edf1f6;color:#1b263b}
 .chr{background:#4285f4;color:#fff}
 .empty{text-align:center;padding:40px;color:#64748b;background:#fff;border-radius:16px;font-size:16px}
+/* ألوان النظري */
+body.theory .bar{border-bottom-color:#7053a6}
+body.theory .lhead{background:linear-gradient(160deg,#1b263b,#3b2f6b 65%,#7053a6)}
+body.theory .lhead .en{color:#d9c8f5}
+body.theory .tab.active{background:#7053a6;border-color:#7053a6;box-shadow:0 6px 16px #7053a644}
+body.theory .item{border-right-color:#7053a6}
+body.theory .chip{color:#7053a6;background:#efe9f8}
+body.theory .open{background:#7053a6}
 footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font-size:12px;direction:ltr;line-height:2}
 .dev{font-size:10px;opacity:.65;margin-top:6px}
 @media(max-width:560px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.lhead h1{font-size:23px}.item h3{font-size:19px}.item p{font-size:16px}}
@@ -45,7 +54,7 @@ footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font
 
 <div class="bar">
   <div class="brand">Nursing Practical Hub</div>
-  <a href="Lectures.html" class="back"><i class="fa-solid fa-arrow-right"></i> كل المحاضرات</a>
+  <a href="Lectures.html" class="back" id="backLink"><i class="fa-solid fa-arrow-right"></i> كل المحاضرات</a>
 </div>
 
 <main class="container" id="app"><div class="empty"><i class="fa-solid fa-spinner fa-spin"></i> ثواني وجاي...</div></main>
@@ -63,6 +72,11 @@ const SECTIONS = {
   skills:{en:"Practical Skills",ar:"المهارات العملية",icon:"fa-stethoscope"},
   checklists:{en:"Checklist",ar:"قائمة التحقق",icon:"fa-clipboard-check"},
   quizzes:{en:"Quiz",ar:"الاختبار",icon:"fa-brain"}
+};
+/* النظري: قسمين بس */
+const THEORY_SECTIONS = {
+  explanation:{en:"Explanation & Summaries",ar:"شرح وملخصات",icon:"fa-book-open"},
+  quizzes:{en:"Quiz",ar:"كويز",icon:"fa-brain"}
 };
 const app = document.getElementById("app");
 const lid = new URLSearchParams(location.search).get("id");
@@ -90,15 +104,23 @@ function chromeLink(u){
 }
 
 function render(){
+  const theory = lecture.track === "theory";
+  const SEC = theory ? THEORY_SECTIONS : SECTIONS;
+  if (!SEC[tab]) tab = "explanation";
+  document.body.classList.toggle("theory", theory);
+  const back = document.getElementById("backLink");
+  back.href = "Lectures.html?track=" + (theory ? "theory" : "practical");
+  back.innerHTML = '<i class="fa-solid fa-arrow-right"></i> ' + (theory ? "المحاضرات النظرية" : "المحاضرات العملية");
+
   app.innerHTML = "";
   const h = el("div","lhead");
   h.append(el("h1","",lecture.titleAr || lecture.title), el("div","en",lecture.title), el("div","meta",lecture.subject+" | "+lecture.level));
   if (lecture.description) h.appendChild(el("p","",lecture.description));
   app.appendChild(h);
 
-  const tabs = el("div","tabs");
-  Object.keys(SECTIONS).forEach(k => {
-    const s = SECTIONS[k], b = el("button","tab"+(k===tab?" active":""));
+  const tabs = el("div","tabs"+(theory ? " two" : ""));
+  Object.keys(SEC).forEach(k => {
+    const s = SEC[k], b = el("button","tab"+(k===tab?" active":""));
     b.append(el("i","fa-solid "+s.icon), document.createTextNode(s.en), el("small","",s.ar));
     b.addEventListener("click",() => { tab = k; render(); });
     tabs.appendChild(b);
