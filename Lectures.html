@@ -10,9 +10,11 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b}
 .hero{background:linear-gradient(160deg,#1b263b,#16405a 65%,#087f8c);color:#fff;padding:24px 6% 50px;border-radius:0 0 34px 34px;text-align:center}
+.hero.theory{background:linear-gradient(160deg,#1b263b,#3b2f6b 65%,#7053a6)}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:26px}
 .brand{direction:ltr;text-align:left;font-size:18px;font-weight:900}
 .brand small{display:block;color:#5fe0e6;font-size:10px;margin-top:3px;font-weight:600}
+.links{display:flex;gap:8px;flex-wrap:wrap}
 .home{color:#fff;text-decoration:none;border:1px solid #ffffff55;padding:9px 16px;border-radius:10px;font-size:13px}
 .hero h1{font-size:32px;font-weight:900}
 .hero p{color:#d5dce8;font-size:15px;margin-top:8px}
@@ -36,6 +38,14 @@ body{font-family:'Cairo',sans-serif;background:#f3f6fa;color:#1b263b}
 .foot span{color:#64748b;font-size:12px}
 .open{background:#087f8c;color:#fff;text-decoration:none;border-radius:10px;padding:11px 18px;font-size:14px;font-weight:800;white-space:nowrap}
 .open:hover{background:#065f69}
+/* ألوان النظري */
+body.theory .card{border-top-color:#7053a6}
+body.theory .ic{background:#efe9f8;color:#7053a6}
+body.theory .num{color:#7053a6}
+body.theory .open{background:#7053a6}
+body.theory .open:hover{background:#573f87}
+body.theory .count{background:#efe9f8;color:#7053a6}
+body.theory .sbox i{color:#7053a6}
 .msg{text-align:center;padding:36px;color:#64748b;font-size:15px}
 footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font-size:12px;direction:ltr;line-height:2}
 .dev{font-size:10px;opacity:.65;margin-top:6px}
@@ -44,19 +54,22 @@ footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font
 </head>
 <body>
 
-<header class="hero">
+<header class="hero" id="hero">
   <div class="top">
     <div class="brand">Nursing Practical Hub<small>PORT SAID UNIVERSITY | FACULTY OF NURSING</small></div>
-    <a href="index.html" class="home"><i class="fa-solid fa-house"></i> الرئيسية</a>
+    <div class="links">
+      <a href="Lectures.html?track=practical" class="home" id="swLink"></a>
+      <a href="index.html" class="home"><i class="fa-solid fa-house"></i> الرئيسية</a>
+    </div>
   </div>
-  <h1>المحاضرات التعليمية</h1>
-  <p>اختار المحاضرة اللي عايز تذاكرها وابدأ اتدرب عملي.</p>
+  <h1 id="pgTitle">المحاضرات التعليمية</h1>
+  <p id="pgSub">اختار المحاضرة اللي عايز تذاكرها وابدأ اتدرب عملي.</p>
 </header>
 
 <div class="search"><div class="sbox"><i class="fa-solid fa-magnifying-glass"></i><input id="q" placeholder="دوّر على محاضرة..."></div></div>
 
 <main class="container">
-  <div class="head"><h2><i class="fa-solid fa-book-open" style="color:#087f8c"></i> قائمة المحاضرات</h2><span class="count" id="count">0 محاضرات</span></div>
+  <div class="head"><h2><i class="fa-solid fa-book-open" id="hIcon" style="color:#087f8c"></i> <span id="hTitle">قائمة المحاضرات</span></h2><span class="count" id="count">0 محاضرات</span></div>
   <div class="grid" id="grid"></div>
   <div class="msg" id="msg"><i class="fa-solid fa-spinner fa-spin"></i> ثواني وجاي...</div>
 </main>
@@ -70,15 +83,34 @@ footer{background:#1b263b;color:#aeb9ca;text-align:center;padding:24px 12px;font
 const API_URL = "https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
 const CK = "NPH_PUB_V1";
 const ICONS = ["fa-book-medical","fa-user-nurse","fa-heart-pulse","fa-droplet","fa-stethoscope","fa-syringe","fa-hand-holding-medical","fa-notes-medical"];
+const TRACK = new URLSearchParams(location.search).get("track") === "theory" ? "theory" : "practical";
+const trackOf = l => l.track === "theory" ? "theory" : "practical";
 let lectures = [], loaded = false, failed = false;
 
 function el(t,c,x){const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e}
 
+/* تجهيز الصفحة حسب النوع */
+(function setup(){
+  const th = TRACK === "theory";
+  if (th) { document.body.classList.add("theory"); document.getElementById("hero").classList.add("theory"); }
+  document.getElementById("pgTitle").textContent = th ? "المحاضرات النظرية" : "المحاضرات العملية";
+  document.getElementById("pgSub").textContent = th
+    ? "شرح وملخصات وكويزات المحاضرات النظرية في أساسيات التمريض."
+    : "اختار المحاضرة اللي عايز تذاكرها وابدأ اتدرب عملي.";
+  document.getElementById("hTitle").textContent = th ? "قائمة المحاضرات النظرية" : "قائمة المحاضرات العملية";
+  document.getElementById("hIcon").style.color = th ? "#7053a6" : "#087f8c";
+  document.title = (th ? "النظري" : "العملي") + " | Nursing Practical Hub";
+  const sw = document.getElementById("swLink");
+  sw.href = "Lectures.html?track=" + (th ? "practical" : "theory");
+  sw.innerHTML = th ? '<i class="fa-solid fa-hand-holding-medical"></i> العملي' : '<i class="fa-solid fa-book-open"></i> النظري';
+})();
+
 function render(){
   const grid = document.getElementById("grid"); grid.innerHTML = "";
   const f = document.getElementById("q").value.toLowerCase().trim();
+  const mine = lectures.filter(l => trackOf(l) === TRACK);
   let n = 0;
-  lectures.forEach((l,i) => {
+  mine.forEach((l,i) => {
     const hay = [l.title,l.titleAr,l.subject,l.level,l.description].join(" ").toLowerCase();
     if (!hay.includes(f)) return;
     n++;
@@ -97,7 +129,7 @@ function render(){
   if (!loaded) { m.style.display = "block"; return; }
   m.innerHTML = "";
   m.textContent = failed && !lectures.length ? "مقدرناش نحمّل المحاضرات. اتأكد من النت وجرّب تاني."
-    : (n ? "" : (lectures.length ? "مفيش نتايج مطابقة للبحث." : "مفيش محاضرات منشورة دلوقتي."));
+    : (n ? "" : (mine.length ? "مفيش نتايج مطابقة للبحث." : "مفيش محاضرات منشورة دلوقتي."));
   m.style.display = n ? "none" : "block";
 }
 
