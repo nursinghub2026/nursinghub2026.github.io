@@ -1,49 +1,82 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الاقتراحات | FOUNDATIONS</title>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>الاقتراحات والاستفسارات | FOUNDATIONS</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="style.css">
 <style>
-.cols{display:grid;grid-template-columns:360px 1fr;gap:18px;align-items:start}
-@media(max-width:820px){.cols{grid-template-columns:1fr}}
-.sg{padding:16px;margin-bottom:12px}
-.sg .t{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
-.sg p{font-size:14px;line-height:2;white-space:pre-wrap;overflow-wrap:anywhere}
-.sg small{color:var(--mut);font-size:11px}
-.rp{margin-top:10px;background:#e9f6f6;border-right:4px solid var(--teal);border-radius:12px;padding:10px 14px}
-.rp b{font-size:12px;color:var(--teal);display:block;margin-bottom:3px}.rp p{font-size:13px}
-#m{font-size:13px;font-weight:700;margin-top:10px;min-height:20px}
+.cols{display:grid;grid-template-columns:400px 1fr;gap:22px;align-items:start}
+@media(max-width:900px){.cols{grid-template-columns:1fr}}
+.fm{position:sticky;top:76px}
+@media(max-width:900px){.fm{position:static}}
+.ty{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.ty label{cursor:pointer}.ty input{position:absolute;opacity:0;width:0;height:0}
+.ty span{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:16px;border:1.5px solid var(--line);background:#f8fafc;font-size:13px;font-weight:800;color:var(--ink2);transition:.2s;text-align:center}
+.ty span i{font-size:18px;color:var(--teal)}
+.ty input:checked+span{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;border-color:transparent;box-shadow:0 8px 18px rgba(14,143,148,.3)}
+.ty input:checked+span i{color:#fff}
+.cc{text-align:left;font-size:11px;color:var(--mut);direction:ltr;margin-top:-8px;margin-bottom:12px}
+.sg{padding:22px;margin-bottom:16px}
+.sh2{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.av{width:46px;height:46px;flex:none;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:18px;color:#fff;background:linear-gradient(135deg,#0e8f94,#08172b)}
+.sh2 b{display:block;font-size:15px;line-height:1.4}.sh2 small{color:var(--mut);font-size:12px}
+.sh2 .pill{margin-right:auto}
+.sg p.m{font-size:16.5px;line-height:2.15;white-space:pre-wrap;overflow-wrap:anywhere;color:#1e2f43;font-weight:500}
+.rp{position:relative;margin-top:16px;border-radius:20px;padding:16px 18px;background:linear-gradient(135deg,#eaf7f7,#f3fbfb);border:1px solid rgba(14,143,148,.25)}
+.rp .rh{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.rp .rh i{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;display:grid;place-items:center;font-size:14px}
+.rp .rh b{font-size:14px;color:#0b6f73}
+.rp p{font-size:15.5px;line-height:2.1;white-space:pre-wrap;overflow-wrap:anywhere;color:#0d2a3a}
+.wt{margin-top:14px;font-size:12.5px;color:var(--mut);display:flex;align-items:center;gap:8px}
+#m{font-size:14px;font-weight:700;margin-top:12px;min-height:22px;text-align:center}
 .hp{position:absolute;width:0;height:0;opacity:0;pointer-events:none}
 </style></head><body>
+<div class="ph" style="background:linear-gradient(160deg,#08172b,#0d2f4a 55%,#0e8f94)"><div class="k"><i class="fa-solid fa-comments"></i> YOUR VOICE</div><h1>الاقتراحات والاستفسارات</h1><p>عندك سؤال أو فكرة؟ ابعتها وإحنا بنقرأ كل رسالة وبنرد عليها.</p></div>
 <main class="wrap"><div class="cols">
-  <form class="card" id="f">
-    <div class="h2"><i class="fa-solid fa-pen-to-square"></i> ابعت اقتراحك</div>
-    <div class="field"><label>النوع</label><select id="ty"><option>اقتراح</option><option>نصيحة</option><option>ملاحظة</option><option>شكر</option></select></div>
-    <div class="field"><label>الاسم (اختياري)</label><input id="nm" maxlength="60"></div>
-    <div class="field"><label>رسالتك</label><textarea id="ms" maxlength="450" required></textarea></div>
+  <form class="card fm" id="f">
+    <div class="sect"><i class="fa-solid fa-pen-to-square"></i><div>ابعت رسالتك<small>الاسم اختياري</small></div></div>
+    <div class="ty">
+      <label><input type="radio" name="ty" value="اقتراح" checked><span><i class="fa-solid fa-lightbulb"></i>اقتراح</span></label>
+      <label><input type="radio" name="ty" value="استفسار"><span><i class="fa-solid fa-circle-question"></i>استفسار</span></label>
+      <label><input type="radio" name="ty" value="نصيحة"><span><i class="fa-solid fa-handshake-angle"></i>نصيحة</span></label>
+      <label><input type="radio" name="ty" value="ملاحظة"><span><i class="fa-solid fa-note-sticky"></i>ملاحظة</span></label>
+      <label><input type="radio" name="ty" value="شكر"><span><i class="fa-solid fa-heart"></i>شكر</span></label>
+    </div>
+    <div class="field"><label>اسمك (اختياري)</label><input id="nm" maxlength="60" placeholder="ممكن تسيبه فاضي"></div>
+    <div class="field"><label>رسالتك</label><textarea id="ms" maxlength="440" required placeholder="اكتب سؤالك أو فكرتك بالتفصيل..." style="min-height:150px"></textarea></div>
+    <div class="cc" id="cc">0 / 440</div>
     <input class="hp" id="wb" tabindex="-1" autocomplete="off">
-    <button class="btn" id="sb" style="width:100%"><i class="fa-solid fa-paper-plane"></i> إرسال</button><div id="m"></div>
+    <button class="btn full lg" id="sb"><i class="fa-solid fa-paper-plane"></i> إرسال</button><div id="m"></div>
   </form>
-  <div><div class="h2"><i class="fa-solid fa-list"></i> اقتراحات الزمايل</div>
-    <div class="seg"><button class="on" data-f="all">الكل</button><button data-f="rep">اللي اتردّ عليها</button></div>
-    <div id="ls"><div class="empty">جاري التحميل...</div></div></div>
+  <div>
+    <div class="sect"><i class="fa-solid fa-comments"></i><div>رسائل الزمايل والردود<small id="sub"></small></div></div>
+    <div class="chips" id="fl"></div>
+    <div id="ls"><div class="sk"></div></div>
+  </div>
 </div></main>
 <script src="nav.js"></script>
 <script>
-const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e};
+const $=i=>document.getElementById(i);
 let D=[],flt="all";
-function draw(){const b=document.getElementById("ls");b.innerHTML="";
-  const L=D.filter(s=>flt==="all"||s.reply);
-  if(!L.length){b.appendChild(el("div","empty","مفيش اقتراحات هنا لسه."));return}
-  L.forEach(s=>{const c=el("div","card sg"),t=el("div","t");
-    t.append(el("span","pill",s.type||"اقتراح"),el("small","",(s.name||"طالب")+" - "+(isNaN(new Date(s.time))?"":new Date(s.time).toLocaleDateString("ar-EG"))));
-    c.append(t,el("p","",s.message));
-    if(s.reply){const r=el("div","rp");r.append(el("b","","رد الإدارة"),el("p","",s.reply));c.appendChild(r)}
+const FL=[["all","الكل"],["استفسار","استفسارات"],["اقتراح","اقتراحات"],["rep","تم الرد عليها"]];
+function chips(){const b=$("fl");b.innerHTML="";FL.forEach(f=>b.appendChild(h("button",{class:"chip"+(flt===f[0]?" on":""),onclick:()=>{flt=f[0];chips();draw()}},f[1])))}
+function draw(){const b=$("ls");b.innerHTML="";
+  const L=D.map(s=>Object.assign({},s,parseSg(s))).filter(s=>flt==="all"||(flt==="rep"?!!s.reply:s.type===flt));
+  $("sub").textContent=D.length+" رسالة، "+D.filter(s=>s.reply).length+" اتردّ عليها";
+  if(!L.length){b.appendChild(h("div",{class:"empty card"},ic("fa-inbox"),"مفيش رسائل هنا لسه."));return}
+  L.forEach(s=>{const nm=(s.name||"").trim()||"طالب";
+    const c=h("div",{class:"card sg rv"},
+      h("div",{class:"sh2"},h("div",{class:"av"},nm.charAt(0)),h("div",null,h("b",null,nm),h("small",null,ago(s.time))),h("span",{class:"pill "+(s.type==="استفسار"?"vio":(s.type==="شكر"?"red":"teal"))},s.type)),
+      h("p",{class:"m"},s.message));
+    if(s.reply)c.appendChild(h("div",{class:"rp"},h("div",{class:"rh"},ic("fa-shield-heart"),h("b",null,"رد الإدارة")),h("p",null,s.reply)));
+    else c.appendChild(h("div",{class:"wt"},ic("fa-hourglass-half"),"في انتظار رد الإدارة"));
     b.appendChild(c)})}
-document.querySelectorAll(".seg button").forEach(x=>x.onclick=()=>{document.querySelectorAll(".seg button").forEach(y=>y.classList.remove("on"));x.classList.add("on");flt=x.dataset.f;draw()});
-async function load(){try{const d=await(await fetch(API+"?suggestions=1")).json();if(!d.ok)throw 0;D=d.suggestions;draw()}catch(e){document.getElementById("ls").innerHTML='<div class="empty">مقدرناش نحمّل الاقتراحات.</div>'}}
-document.getElementById("f").onsubmit=async e=>{e.preventDefault();const b=document.getElementById("sb"),m=document.getElementById("m");
-  b.disabled=true;m.style.color="#6b7a8c";m.textContent="جاري الإرسال...";
-  try{const d=await(await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"suggest",type:ty.value,name:nm.value,message:ms.value,website:wb.value})})).json();
-    if(!d.ok)throw new Error(d.error);e.target.reset();m.style.color="#198754";m.textContent="وصلتنا رسالتك، شكرًا ليك.";load()}
-  catch(err){m.style.color="#c62839";m.textContent=err.message==="Failed to fetch"?"اتأكد من النت وجرّب تاني.":err.message}
+async function load(){try{const d=await(await fetch(API+"?suggestions=1")).json();if(!d.ok)throw 0;D=d.suggestions||[];draw()}catch(e){$("ls").innerHTML="";$("ls").appendChild(h("div",{class:"empty card"},ic("fa-triangle-exclamation"),"مقدرناش نحمّل الرسائل. اتأكد من النت وجرّب تاني."))}}
+$("ms").oninput=()=>{$("cc").textContent=$("ms").value.length+" / 440"};
+$("f").onsubmit=async e=>{e.preventDefault();const b=$("sb"),m=$("m");
+  const type=(document.querySelector('input[name="ty"]:checked')||{}).value||"اقتراح";
+  const msg=$("ms").value.trim();if(msg.length<3){m.style.color="#c0283a";m.textContent="اكتب رسالتك الأول.";return}
+  b.disabled=true;m.style.color="#657689";m.textContent="جاري الإرسال...";
+  const body={action:"suggest",type:type==="استفسار"?"اقتراح":type,name:$("nm").value,message:type==="استفسار"?"[استفسار] "+msg:msg,website:$("wb").value};
+  try{const d=await(await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)})).json();
+    if(!d.ok)throw new Error(d.error);e.target.reset();$("cc").textContent="0 / 440";m.style.color="#17844f";m.textContent="وصلتنا رسالتك، شكرًا ليك. هنرد عليك هنا في أقرب وقت.";load()}
+  catch(err){m.style.color="#c0283a";m.textContent=err.message==="Failed to fetch"?"اتأكد من النت وجرّب تاني.":err.message}
   b.disabled=false};
-load();
+chips();load();
 </script></body></html>
