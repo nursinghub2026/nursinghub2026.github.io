@@ -1,13 +1,23 @@
 const API="https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
 const BRAND={name:"FOUNDATIONS",sub:"FUNDAMENTALS OF NURSING"};
 const PAGES=[["index.html","الرئيسية"],["Lectures.html?track=theory","النظري"],["Lectures.html?track=practical","العملي"],["adhkar.html","الأدعية والأذكار"],["tips.html","نصايح المذاكرة"],["suggestions.html","الاقتراحات"]];
+function ap(e,c){if(c==null||c===false)return;if(Array.isArray(c)){c.forEach(x=>ap(e,x));return}e.appendChild(c.nodeType?c:document.createTextNode(String(c)))}
+function h(t,a){const e=document.createElement(t);if(a)for(const k in a){const v=a[k];if(v==null||v===false)continue;if(k==="class")e.className=v;else if(k==="style")e.style.cssText=v;else if(k==="value")e.value=v;else if(k.slice(0,2)==="on")e[k]=v;else e.setAttribute(k,v===true?"":v)}
+  for(let i=2;i<arguments.length;i++)ap(e,arguments[i]);return e}
+function ic(n){return h("i",{class:"fa-solid "+n})}
+function ago(t){const d=new Date(t);if(isNaN(d))return"";const m=Math.floor((Date.now()-d)/60000);if(m<1)return"الآن";if(m<60)return"منذ "+m+" دقيقة";const hr=Math.floor(m/60);if(hr<24)return"منذ "+hr+" ساعة";const dy=Math.floor(hr/24);if(dy<30)return"منذ "+dy+" يوم";return d.toLocaleDateString("ar-EG")}
+function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x=m.match(/^\[استفسار\]\s*/);if(x){t="استفسار";m=m.slice(x[0].length)}return{type:t,message:m}}
 (function(){
-  const f=location.pathname.split("/").pop()||"index.html",t=location.search;
-  const on=p=>{const a=p.split("?");return a[0]===f&&(a.length===1||t.indexOf(a[1])>-1)};
-  const n=document.createElement("header");n.className="nav";
-  n.innerHTML='<div class="nav-in"><a class="brand" href="index.html"><i class="fa-solid fa-staff-snake"></i><span>'+BRAND.name+'<small>'+BRAND.sub+'</small></span></a><nav class="links">'+PAGES.map(p=>'<a href="'+p[0]+'"'+(on(p[0])?' class="on"':'')+'>'+p[1]+'</a>').join("")+'</nav></div>';
-  document.body.prepend(n);
-  const ft=document.createElement("footer");
-  ft.innerHTML=BRAND.name+' | '+BRAND.sub+'<br>Faculty of Nursing - Port Said University<br><span style="opacity:.6;font-size:10px">Developed by Abdelrhman Wael</span>';
-  document.body.appendChild(ft);
+  const f=location.pathname.split("/").pop()||"index.html",q=location.search;
+  const on=p=>{const a=p.split("?");return a[0]===f&&(a.length===1||q.indexOf(a[1])>-1)};
+  document.body.prepend(h("header",{class:"nav"},h("div",{class:"nav-in"},
+    h("a",{class:"brand",href:"index.html"},h("span",{class:"lg"},ic("fa-staff-snake")),h("span",null,h("b",null,BRAND.name),h("small",null,BRAND.sub))),
+    h("nav",{class:"links"},PAGES.map(p=>h("a",{href:p[0],class:on(p[0])?"on":""},p[1]))))));
+  document.body.appendChild(h("footer",{class:"ft"},
+    h("div",{class:"ft-b"},BRAND.name),h("div",{class:"ft-s"},BRAND.sub),
+    h("div",{class:"ft-u"},"كلية التمريض - جامعة بورسعيد"),
+    h("div",{class:"credit"},h("span",{class:"cl"},"تصميم وتطوير"),h("span",{class:"cn"},"Abdelrhman Wael"))));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.08});
+  function scan(){document.querySelectorAll(".rv:not(.seen)").forEach(e=>{e.classList.add("seen");io.observe(e)})}
+  new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan();
 })();
