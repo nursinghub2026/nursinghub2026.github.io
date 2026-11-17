@@ -22,14 +22,12 @@ iframe{position:fixed;top:0;right:0;bottom:0;left:0;width:100%;height:100%;borde
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
 const f = new URLSearchParams(location.search).get("f");
-
 function fail(t){
   document.getElementById("sp").style.display = "none";
   document.getElementById("m").textContent = t;
   const a = document.createElement("a"); a.href = "Lectures.html"; a.textContent = "رجوع للمحاضرات";
   document.getElementById("b").appendChild(a);
 }
-
 (async () => {
   if (!f) return fail("الملف مش متحدد.");
   try {
@@ -37,7 +35,6 @@ function fail(t){
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || "خطأ");
     document.title = data.name || "صفحة";
-    /* إطار معزول: السكريبتات تشتغل لكن مفيش وصول لبيانات موقعك */
     const fr = document.createElement("iframe");
     fr.setAttribute("sandbox","allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals allow-downloads");
     fr.srcdoc = data.html;
