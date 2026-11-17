@@ -1,67 +1,69 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lectures | FOUNDATIONS</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="style.css">
 <style>
-.ph{background:linear-gradient(160deg,#0b1b2d,#10243a 55%,#0f6f78);color:#fff;padding:34px 16px 60px;text-align:center;border-radius:0 0 36px 36px}
-body.theory .ph{background:linear-gradient(160deg,#1b1740,#3b2f6b 55%,#6a4ba0)}
-.ph h1{font-size:28px;font-weight:900}.ph p{color:#d5dce8;font-size:14px;margin-top:8px}
-.sr{max-width:560px;margin:-28px auto 22px;padding:0 16px;position:relative}
-.sb{display:flex;align-items:center;background:#fff;border-radius:15px;padding:2px 16px;box-shadow:0 10px 28px #10243a1f}
-.sb i{color:var(--ac)}.sb input{border:0;box-shadow:none;background:none;padding:15px 10px}
-.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
-.cnt{background:var(--acs);color:var(--ac);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:800}
-.gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
-.lcard{background:#fff;border-radius:20px;padding:22px;box-shadow:0 6px 22px #10243a0f;border-top:4px solid var(--ac);display:flex;flex-direction:column;transition:.25s}
-.lcard:hover{transform:translateY(-5px)}
-.ic{width:50px;height:50px;border-radius:14px;background:var(--acs);color:var(--ac);display:grid;place-items:center;font-size:22px;margin-bottom:12px}
-.nm{color:var(--ac);font-size:12px;font-weight:900;direction:ltr;text-align:right}
-.lcard h3{font-size:18px;font-weight:800;margin:6px 0;direction:ltr;text-align:right}
-.ar{font-size:15px;color:#334155;font-weight:700}
-.lcard p{color:var(--mut);font-size:13px;line-height:1.9;margin-top:8px;flex:1}
-.ft{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid #edf0f4}
-.ft span{color:var(--mut);font-size:12px}
-.ft a{background:var(--ac);color:#fff;border-radius:11px;padding:10px 16px;font-size:13px;font-weight:800;white-space:nowrap}
+.hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;gap:10px}
+.gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:20px}
+.lc{position:relative;background:#fff;border-radius:28px;overflow:hidden;box-shadow:var(--sh);transition:.3s;display:flex;flex-direction:column;border:1px solid rgba(13,34,56,.05)}
+.lc:hover{transform:translateY(-7px);box-shadow:var(--sh2)}
+.band{position:relative;height:118px;background:linear-gradient(135deg,var(--ac),#0d2238);overflow:hidden}
+.band::before{content:"";position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.22),transparent 70%);top:-80px;left:-40px}
+.band .no{position:absolute;left:18px;bottom:-16px;font-size:92px;font-weight:900;color:rgba(255,255,255,.16);line-height:1;direction:ltr}
+.band .ico{position:absolute;right:20px;top:22px;width:62px;height:62px;border-radius:20px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);display:grid;place-items:center;font-size:26px;color:#fff;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.bd{padding:20px;display:flex;flex-direction:column;flex:1}
+.en{font-size:12px;font-weight:900;color:var(--ac);direction:ltr;text-align:right;letter-spacing:.5px}
+.lc h3{font-size:19px;font-weight:900;line-height:1.5;margin-top:2px}
+.lc .t2{font-size:14px;color:var(--mut);direction:ltr;text-align:right;font-weight:700;margin-top:2px}
+.ds{color:var(--mut);font-size:13.5px;line-height:1.95;margin-top:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.mt{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.sts{display:grid;grid-template-columns:repeat(auto-fit,minmax(60px,1fr));gap:8px;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line)}
+.sts div{text-align:center;background:var(--acs);border-radius:14px;padding:8px 4px}
+.sts b{display:block;font-size:17px;color:var(--ac);font-weight:900;line-height:1.2}.sts small{font-size:10.5px;color:var(--mut);font-weight:700}
+.lc .btn{margin-top:16px;width:100%}
 </style></head><body>
-<div class="ph"><h1 id="pt"></h1><p id="ps"></p></div>
+<div class="ph"><div class="k" id="pk"></div><h1 id="pt"></h1><p id="ps"></p></div>
 <div class="sr"><div class="sb"><i class="fa-solid fa-magnifying-glass"></i><input id="q" placeholder="دوّر على محاضرة..."></div></div>
 <main class="wrap" style="padding-top:0">
-  <div class="hd"><div class="h2" style="margin:0"><i class="fa-solid fa-book-open" style="color:var(--ac)"></i> <span id="ht"></span></div><span class="cnt" id="cnt">0</span></div>
-  <div class="gr" id="gr"></div><div class="empty" id="msg">جاري التحميل...</div>
+  <div class="hd"><div class="sect" style="margin:0"><i class="fa-solid fa-layer-group"></i><div id="ht"></div></div><span class="pill" id="cnt">0</span></div>
+  <div class="gr" id="gr"><div class="sk"></div><div class="sk"></div><div class="sk"></div></div>
+  <div class="empty hidden" id="msg"></div>
 </main>
 <script src="nav.js"></script>
 <script>
 const CK="NPH_PUB_V1",ICONS=["fa-book-medical","fa-user-nurse","fa-heart-pulse","fa-droplet","fa-stethoscope","fa-syringe","fa-hand-holding-medical","fa-notes-medical"];
-const TRACK=new URLSearchParams(location.search).get("track")==="theory"?"theory":"practical";
+const th=new URLSearchParams(location.search).get("track")==="theory",TRACK=th?"theory":"practical";
 const tk=l=>l.track==="theory"?"theory":"practical";
+const $=i=>document.getElementById(i);
 let L=[],loaded=false,failed=false;
-const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e};
-const th=TRACK==="theory";
 if(th)document.body.classList.add("theory");
-document.getElementById("pt").textContent=th?"المحاضرات النظرية":"المحاضرات العملية";
-document.getElementById("ps").textContent=th?"شرح وملخصات وكويزات المحاضرات النظرية في أساسيات التمريض.":"اختار المحاضرة اللي عايز تذاكرها وابدأ اتدرب عملي.";
-document.getElementById("ht").textContent=th?"قائمة المحاضرات النظرية":"قائمة المحاضرات العملية";
+$("pk").append(ic(th?"fa-book-open":"fa-hand-holding-medical")," "+(th?"THEORY":"PRACTICAL"));
+$("pt").textContent=th?"المحاضرات النظرية":"المحاضرات العملية";
+$("ps").textContent=th?"شرح وملخصات وكويزات المحاضرات النظرية في أساسيات التمريض.":"اختار المحاضرة اللي عايز تذاكرها وابدأ اتدرب عملي.";
+$("ht").textContent=th?"قائمة المحاضرات النظرية":"قائمة المحاضرات العملية";
 document.title=(th?"Theory":"Practical")+" | FOUNDATIONS";
+const LAB=th?[["explanation","شرح"],["quizzes","كويز"]]:[["explanation","شرح"],["skills","مهارات"],["checklists","شيك ليست"],["quizzes","كويز"]];
 function render(){
-  const g=document.getElementById("gr");g.innerHTML="";
-  const f=document.getElementById("q").value.toLowerCase().trim();
+  const g=$("gr");g.innerHTML="";const f=$("q").value.toLowerCase().trim();
   const mine=L.filter(l=>tk(l)===TRACK);let n=0;
   mine.forEach((l,i)=>{
-    const hay=[l.title,l.titleAr,l.subject,l.level,l.description].join(" ").toLowerCase();
-    if(!hay.includes(f))return;n++;
-    const c=el("div","lcard"),ic=el("div","ic");ic.appendChild(el("i","fa-solid "+ICONS[i%ICONS.length]));
-    c.append(ic,el("div","nm","LECTURE "+String(i+1).padStart(2,"0")),el("h3","",l.title));
-    if(l.titleAr)c.appendChild(el("div","ar",l.titleAr));
-    c.appendChild(el("p","",l.description||(l.subject+" - "+l.level)));
-    const ft=el("div","ft");ft.appendChild(el("span","",l.subject));
-    const a=el("a","","افتح المحاضرة");a.href="Lecture.html?id="+encodeURIComponent(l.id);
-    ft.appendChild(a);c.appendChild(ft);g.appendChild(c)});
-  document.getElementById("cnt").textContent=n+" محاضرة";
-  const m=document.getElementById("msg");
-  if(!loaded){m.style.display="block";return}
-  m.textContent=failed&&!L.length?"مقدرناش نحمّل المحاضرات. اتأكد من النت وجرّب تاني.":(n?"":(mine.length?"مفيش نتايج مطابقة للبحث.":"مفيش محاضرات منشورة دلوقتي."));
-  m.style.display=n?"none":"block"}
+    if(![l.title,l.titleAr,l.subject,l.level,l.description].join(" ").toLowerCase().includes(f))return;n++;
+    const c=(k)=>((l.sections&&l.sections[k])||[]).length;
+    g.appendChild(h("div",{class:"lc rv"},
+      h("div",{class:"band"},h("div",{class:"no"},String(i+1).padStart(2,"0")),h("div",{class:"ico"},ic(ICONS[i%ICONS.length]))),
+      h("div",{class:"bd"},
+        h("div",{class:"en"},"LECTURE "+String(i+1).padStart(2,"0")),
+        h("h3",null,l.titleAr||l.title),l.titleAr?h("div",{class:"t2"},l.title):null,
+        h("p",{class:"ds"},l.description||(l.subject+" - "+l.level)),
+        h("div",{class:"mt"},h("span",{class:"pill"},l.subject),h("span",{class:"pill gray"},l.level)),
+        h("div",{class:"sts"},LAB.map(x=>h("div",null,h("b",null,String(c(x[0]))),h("small",null,x[1])))),
+        h("a",{class:"btn",href:"Lecture.html?id="+encodeURIComponent(l.id)},"افتح المحاضرة ",ic("fa-arrow-left")))))});
+  $("cnt").textContent=n+" محاضرة";
+  const m=$("msg");
+  if(!loaded){return}
+  if(n){m.classList.add("hidden");return}
+  m.classList.remove("hidden");m.textContent=failed&&!L.length?"مقدرناش نحمّل المحاضرات. اتأكد من النت وجرّب تاني.":(mine.length?"مفيش نتايج مطابقة للبحث.":"مفيش محاضرات منشورة دلوقتي.")}
 async function load(){
   try{const c=JSON.parse(localStorage.getItem(CK)||"null");if(c){L=c;loaded=true;render()}}catch(e){}
   try{const d=await(await fetch(API)).json();if(!d.ok)throw new Error(d.error);L=d.lectures||[];try{localStorage.setItem(CK,JSON.stringify(L))}catch(e){}}catch(e){failed=true}
   loaded=true;render()}
-document.getElementById("q").addEventListener("input",render);load();
+$("q").addEventListener("input",render);load();
 </script></body></html>
