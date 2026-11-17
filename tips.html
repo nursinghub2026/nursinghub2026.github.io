@@ -1,24 +1,33 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>نصايح المذاكرة | FOUNDATIONS</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="style.css">
 <style>
-.vs{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;scrollbar-width:none}
-.v{flex:0 0 min(86%,380px);scroll-snap-align:center;background:linear-gradient(160deg,#10243a,#16506a 70%,#0f8b8d);color:#fff;border-radius:20px;padding:22px 16px;text-align:center}
-.v b{font-family:Amiri,serif;font-size:clamp(20px,5.4vw,25px);line-height:2.1;font-weight:700}
-.v small{display:block;color:#a9e6e8;font-size:12px;margin-top:6px}
-.cat{font-size:17px;font-weight:900;margin:26px 0 12px;display:flex;gap:10px;align-items:center;color:var(--ink2)}
-.cat i{width:36px;height:36px;border-radius:11px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:15px}
-.tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
-.tp{padding:18px;border-right:5px solid var(--teal)}.tp.hl{border-right-color:#c62839;background:#fff9f9}
-.tp i{color:var(--teal);font-size:20px;margin-bottom:8px;display:block}.tp.hl i{color:#c62839}
-.tp h3{font-size:16px;font-weight:900;margin-bottom:5px}.tp p{font-size:14px;color:#475569;line-height:2}
+.ph{background:linear-gradient(160deg,#120d2e,#2c2266 55%,#6b4fb3)}
+.vs{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 14px;scrollbar-width:none}
+.vs::-webkit-scrollbar{display:none}
+.v{flex:0 0 min(88%,420px);scroll-snap-align:center;position:relative;color:#fff;border-radius:26px;padding:30px 18px 24px;text-align:center;background:linear-gradient(160deg,#08172b,#16506a 70%,#0e8f94);box-shadow:var(--sh2);overflow:hidden}
+.v::before{content:"";position:absolute;top:8px;right:8px;bottom:8px;left:8px;border:1.5px solid rgba(212,175,90,.55);border-radius:19px}
+.v small.l{display:inline-block;background:rgba(212,175,90,.2);color:var(--gold2);border-radius:30px;padding:3px 14px;font-size:11px;font-weight:800}
+.v b{display:block;font-family:'Amiri Quran','Amiri',serif;font-size:clamp(22px,5.8vw,28px);line-height:2.2;font-weight:400;margin-top:8px}
+.v small.r{display:block;color:var(--gold2);font-size:12px;font-weight:700;margin-top:4px}
+.cat{font-size:19px;font-weight:900;margin:34px 0 14px;display:flex;gap:12px;align-items:center}
+.cat i{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#6b4fb3,#9a7fe0);color:#fff;display:grid;place-items:center;font-size:18px;box-shadow:0 8px 18px rgba(107,79,179,.3)}
+.tg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.tp{position:relative;padding:22px 20px 20px;border-radius:24px;background:#fff;box-shadow:var(--sh);border:1px solid rgba(13,34,56,.05);overflow:hidden}
+.tp::before{content:"";position:absolute;top:0;right:0;left:0;height:5px;background:linear-gradient(90deg,var(--teal),var(--teal2))}
+.tp.hl{background:linear-gradient(180deg,#fff6f6,#fff)}.tp.hl::before{background:linear-gradient(90deg,#c0283a,#ef6b78)}
+.tp .tic{width:48px;height:48px;border-radius:16px;background:#e4f5f5;color:var(--teal);display:grid;place-items:center;font-size:20px;margin-bottom:10px}
+.tp.hl .tic{background:#fdecee;color:#c0283a}
+.tp h3{font-size:17px;font-weight:900;margin-bottom:6px}.tp p{font-size:14.5px;color:#475569;line-height:2.05}
 </style></head><body>
-<main class="wrap"><div class="h2"><i class="fa-solid fa-graduation-cap"></i> نصايح المذاكرة</div>
-<div class="vs" id="vs"></div><div id="cats"></div></main>
+<div class="ph"><div class="k"><i class="fa-solid fa-graduation-cap"></i> STUDY GUIDE</div><h1>نصايح المذاكرة</h1><p>طريقة مذاكرة ذكية، وتدريب صح، ويوم امتحان هادي.</p></div>
+<main class="wrap" style="padding-top:26px">
+  <div class="vs" id="vs"></div><div id="cats"></div>
+</main>
 <script src="nav.js"></script><script src="data.js"></script>
 <script>
-const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e};
-VERSES.forEach(v=>{const d=el("div","v");d.append(el("b","",v.q),el("small","",v.r));document.getElementById("vs").appendChild(d)});
-TIP_CATS.forEach(c=>{const h=el("div","cat");h.append(el("i","fa-solid "+c.ic),document.createTextNode(c.t));
-  const g=el("div","tg");c.tips.forEach(t=>{const d=el("div","card tp"+(t.hl?" hl":""));d.append(el("i","fa-solid "+t.ic),el("h3","",t.h),el("p","",t.p));g.appendChild(d)});
-  document.getElementById("cats").append(h,g)});
+VERSES.forEach(v=>document.getElementById("vs").appendChild(h("div",{class:"v"},h("small",{class:"l"},"استشهاد قرآني"),h("b",null,v.q),h("small",{class:"r"},v.r))));
+TIP_CATS.forEach(c=>{
+  const g=h("div",{class:"tg"});
+  c.tips.forEach(t=>g.appendChild(h("div",{class:"tp rv"+(t.hl?" hl":"")},h("div",{class:"tic"},ic(t.ic)),h("h3",null,t.h),h("p",null,t.p))));
+  document.getElementById("cats").append(h("div",{class:"cat rv"},h("i",{class:"fa-solid "+c.ic}),c.t),g)});
 </script></body></html>
