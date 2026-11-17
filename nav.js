@@ -11,11 +11,13 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   const f=location.pathname.split("/").pop()||"index.html",q=location.search;
   const on=p=>{const a=p.split("?");return a[0]===f&&(a.length===1||q.indexOf(a[1])>-1)};
   document.body.prepend(h("header",{class:"nav"},h("div",{class:"nav-in"},
-    h("a",{class:"brand",href:"index.html"},h("span",{class:"lg"},ic("fa-staff-snake")),h("span",null,h("b",null,BRAND.name),h("small",null,BRAND.sub))),
+    h("a",{class:"brand",href:"index.html"},
+      h("span",{class:"mk"},ic("fa-staff-snake")),
+      h("span",{class:"bt"},h("b",null,BRAND.name),h("small",null,BRAND.sub))),
     h("nav",{class:"links"},PAGES.map(p=>h("a",{href:p[0],class:on(p[0])?"on":""},p[1]))))));
   document.body.appendChild(h("footer",{class:"ft"},
     h("div",{class:"ft-b"},BRAND.name),h("div",{class:"ft-s"},BRAND.sub),
-    h("div",{class:"ft-u"},"كلية التمريض - جامعة بورسعيد"),
+    h("div",{class:"ft-u"},"FACULTY OF NURSING",h("br"),"PORT SAID UNIVERSITY"),
     h("div",{class:"credit"},h("span",{class:"cl"},"تصميم وتطوير"),h("span",{class:"cn"},"Abdelrhman Wael"))));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.08});
   function scan(){document.querySelectorAll(".rv:not(.seen)").forEach(e=>{e.classList.add("seen");io.observe(e)})}
