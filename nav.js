@@ -8,6 +8,13 @@ function ic(n){return h("i",{class:"fa-solid "+n})}
 function ago(t){const d=new Date(t);if(isNaN(d))return"";const m=Math.floor((Date.now()-d)/60000);if(m<1)return"الآن";if(m<60)return"منذ "+m+" دقيقة";const hr=Math.floor(m/60);if(hr<24)return"منذ "+hr+" ساعة";const dy=Math.floor(hr/24);if(dy<30)return"منذ "+dy+" يوم";return d.toLocaleDateString("ar-EG")}
 function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x=m.match(/^\[استفسار\]\s*/);if(x){t="استفسار";m=m.slice(x[0].length)}return{type:t,message:m}}
 (function(){
+  const svg="<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='#0b2540'/><circle cx='32' cy='32' r='25' fill='none' stroke='#d4af5a' stroke-width='2'/><text x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='32' font-weight='700' fill='#d4af5a'>F</text></svg>";
+  let lk=document.querySelector('link[rel~="icon"]');
+  if(!lk){lk=document.createElement("link");lk.rel="icon";document.head.appendChild(lk)}
+  lk.type="image/svg+xml";lk.href="data:image/svg+xml,"+encodeURIComponent(svg);
+  if(!document.querySelector('meta[name="theme-color"]')){const m=document.createElement("meta");m.name="theme-color";m.content="#06101f";document.head.appendChild(m)}
+})();
+(function(){
   const f=location.pathname.split("/").pop()||"index.html",q=location.search;
   const on=p=>{const a=p.split("?");return a[0]===f&&(a.length===1||q.indexOf(a[1])>-1)};
   const btn=h("button",{class:"mbtn",type:"button","aria-label":"القائمة","aria-expanded":"false"},ic("fa-bars"));
