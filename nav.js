@@ -15,7 +15,7 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   const nav=h("header",{class:"nav"},
     h("div",{class:"nav-in"},
       h("a",{class:"brand",href:"index.html"},
-        h("span",{class:"mk"},ic("fa-staff-snake")),
+        h("span",{class:"mk"}),
         h("span",{class:"bt"},h("b",null,BRAND.name),h("small",null,BRAND.sub))),
       h("nav",{class:"links"},PAGES.map(p=>h("a",{href:p[0],class:on(p[0])?"on":""},p[1]))),
       btn),
