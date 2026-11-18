@@ -18,15 +18,13 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   const f=location.pathname.split("/").pop()||"index.html",q=location.search;
   const on=p=>{const a=p.split("?");return a[0]===f&&(a.length===1||q.indexOf(a[1])>-1)};
   const btn=h("button",{class:"mbtn",type:"button","aria-label":"القائمة","aria-expanded":"false"});
-  function lab(o){btn.innerHTML="";btn.appendChild(h("span",{class:"mt"},o?"إغلاق":"القائمة"));btn.appendChild(ic(o?"fa-xmark":"fa-bars"))}
+  function lab(o){btn.innerHTML="";btn.appendChild(ic(o?"fa-xmark":"fa-bars"));btn.appendChild(h("span",{class:"mt"},o?"إغلاق":"القائمة"))}
   lab(false);
   const menu=h("nav",{class:"menu"},h("div",{class:"menu-in"},PAGES.map(p=>h("a",{href:p[0],class:on(p[0])?"on":""},h("span",{class:"mi"},ic(p[2])),h("span",{class:"ml"},p[1])))));
   const scrim=h("div",{class:"scrim"});
   const nav=h("header",{class:"nav"},
     h("div",{class:"nav-in"},
-      h("a",{class:"brand",href:"index.html"},
-        h("span",{class:"bt"},h("b",null,BRAND.name),h("small",null,BRAND.sub)),
-        h("span",{class:"mk"})),
+      h("a",{class:"brand",href:"index.html"},h("b",null,BRAND.name),h("small",null,BRAND.sub)),
       btn),
     menu);
   document.body.prepend(scrim);
