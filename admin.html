@@ -1,4 +1,5 @@
 <!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#06101f"><title>Admin | FOUNDATIONS</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b2540'/%3E%3Ccircle cx='32' cy='32' r='25' fill='none' stroke='%23d4af5a' stroke-width='2'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='32' font-weight='700' fill='%23d4af5a'%3EF%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="style.css">
 <style>
 body{background:#eef3f7}
@@ -12,8 +13,8 @@ body{background:#eef3f7}
 .top::before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(53,198,192,.25),transparent 70%);top:-160px;left:-80px}
 .top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent)}
 .top-in{position:relative;z-index:1;max-width:1100px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.tl{display:flex;align-items:center;gap:13px}
-.gb{width:48px;height:48px;flex:none;border-radius:16px;display:grid;place-items:center;font-size:21px;color:#3a2a05;background:linear-gradient(135deg,var(--gold),var(--gold2));box-shadow:0 8px 20px rgba(212,175,90,.4),inset 0 0 0 2px rgba(255,255,255,.35)}
+.tl{display:flex;align-items:stretch;gap:13px}
+.gb{width:3px;height:46px;flex:none;border-radius:2px;background:var(--gold)}
 .tl .cap{display:block;font-family:Cinzel,serif;font-size:10px;letter-spacing:3px;color:var(--gold2);font-weight:700;direction:ltr;text-align:right}
 .tl b{display:block;font-size:19px;font-weight:900;line-height:1.3}
 .tl .who{display:block;color:#b9d3de;font-size:12px;font-weight:600}
@@ -90,6 +91,7 @@ body{background:#eef3f7}
 .lg2{position:relative;padding:8px 0 14px}
 .lg2::before{content:"";position:absolute;right:-22px;top:14px;width:16px;height:16px;border-radius:50%;background:#fff;border:4px solid var(--teal)}
 .lg2 b{font-size:14px}.lg2 span{font-size:13px;color:#475569;display:block}.lg2 small{font-size:11px;color:var(--mut)}
+@media(min-width:900px){.main{padding-bottom:60px}.sg{grid-template-columns:repeat(4,1fr)}}
 </style></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
@@ -105,7 +107,7 @@ body{background:#eef3f7}
 <div id="app" class="hidden">
   <header class="top"><div class="top-in">
     <div class="tl">
-      <div class="gb"><i class="fa-solid fa-user-doctor"></i></div>
+      <div class="gb"></div>
       <div><span class="cap">ADMIN PANEL</span><b>لوحة الإدارة</b><span class="who" id="who"></span></div>
     </div>
     <div class="tb">
