@@ -17,22 +17,24 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
 (function(){
   const f=location.pathname.split("/").pop()||"index.html",q=location.search;
   const on=p=>{const a=p.split("?");return a[0]===f&&(a.length===1||q.indexOf(a[1])>-1)};
-  const btn=h("button",{class:"mbtn",type:"button","aria-label":"القائمة","aria-expanded":"false"},ic("fa-bars"));
-  const menu=h("nav",{class:"menu"},PAGES.map(p=>h("a",{href:p[0],class:on(p[0])?"on":""},ic(p[2]),p[1])));
+  const btn=h("button",{class:"mbtn",type:"button","aria-label":"القائمة","aria-expanded":"false"});
+  function lab(o){btn.innerHTML="";btn.appendChild(h("span",{class:"mt"},o?"إغلاق":"القائمة"));btn.appendChild(ic(o?"fa-xmark":"fa-bars"))}
+  lab(false);
+  const menu=h("nav",{class:"menu"},h("div",{class:"menu-in"},PAGES.map(p=>h("a",{href:p[0],class:on(p[0])?"on":""},h("span",{class:"mi"},ic(p[2])),h("span",{class:"ml"},p[1])))));
+  const scrim=h("div",{class:"scrim"});
   const nav=h("header",{class:"nav"},
     h("div",{class:"nav-in"},
       h("a",{class:"brand",href:"index.html"},
-        h("span",{class:"mk"}),
-        h("span",{class:"bt"},h("b",null,BRAND.name),h("small",null,BRAND.sub))),
-      h("nav",{class:"links"},PAGES.map(p=>h("a",{href:p[0],class:on(p[0])?"on":""},p[1]))),
+        h("span",{class:"bt"},h("b",null,BRAND.name),h("small",null,BRAND.sub)),
+        h("span",{class:"mk"})),
       btn),
     menu);
+  document.body.prepend(scrim);
   document.body.prepend(nav);
-  function setMenu(o){menu.classList.toggle("open",o);btn.classList.toggle("open",o);btn.setAttribute("aria-expanded",o?"true":"false");btn.innerHTML="";btn.appendChild(ic(o?"fa-xmark":"fa-bars"))}
+  function setMenu(o){menu.classList.toggle("open",o);scrim.classList.toggle("show",o);btn.classList.toggle("open",o);btn.setAttribute("aria-expanded",o?"true":"false");lab(o)}
   btn.onclick=e=>{e.stopPropagation();setMenu(!menu.classList.contains("open"))};
-  document.addEventListener("click",e=>{if(!nav.contains(e.target))setMenu(false)});
+  scrim.onclick=()=>setMenu(false);
   document.addEventListener("keydown",e=>{if(e.key==="Escape")setMenu(false)});
-  window.addEventListener("resize",()=>{if(window.innerWidth>940)setMenu(false)});
   document.body.appendChild(h("footer",{class:"ft"},
     h("div",{class:"ft-b"},BRAND.name),h("div",{class:"ft-s"},BRAND.sub),
     h("div",{class:"ft-u"},"FACULTY OF NURSING",h("br"),"PORT SAID UNIVERSITY"),
