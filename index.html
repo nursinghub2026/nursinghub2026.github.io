@@ -110,6 +110,7 @@
     <div class="dots" id="vd"></div>
   </div>
 
+  <div id="pcont"></div>
   <div class="tracks">
     <a class="tr t1 rv" href="Lectures.html?track=theory"><span class="cn" id="nT">...</span><i class="fa-solid fa-book-open bgi"></i><div class="ti"><i class="fa-solid fa-book-open"></i></div><b>النظري</b><p>شرح وملخصات وكويزات لكل محاضرة، تذاكر منها وتراجع قبل الامتحان.</p><span class="go">تصفح المحاضرات <i class="fa-solid fa-arrow-left"></i></span></a>
     <a class="tr t2 rv" href="Lectures.html?track=practical"><span class="cn" id="nP">...</span><i class="fa-solid fa-user-nurse bgi"></i><div class="ti"><i class="fa-solid fa-user-nurse"></i></div><b>العملي</b><p>مهارات خطوة بخطوة مع الشيك ليست وكويزات، عشان تدخل العملي واثق.</p><span class="go">تصفح المحاضرات <i class="fa-solid fa-arrow-left"></i></span></a>
@@ -127,7 +128,7 @@
     </div></section>
 </main>
 
-<script src="nav.js"></script><script src="data.js"></script>
+<script src="nav.js"></script><script src="progress.js"></script><script src="data.js"></script>
 <script>
 const $=i=>document.getElementById(i);
 const VS=[{q:"﴿ وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ ﴾",r:"سورة الشعراء - آية 80"}].concat(VERSES);
@@ -140,6 +141,19 @@ function rot(arr,tx,rf,dots,ms){let i=0;const D=$(dots);
 rot(VS,$("vq"),$("vr"),"vd",8000);rot(MS,$("mq"),null,"md",6500);
 function up(el,to){const t0=performance.now();(function s(t){const p=Math.min((t-t0)/900,1);el.textContent=Math.round(to*p);if(p<1)requestAnimationFrame(s)})(t0)}
 function draw(L){L=L||[];const T=L.filter(l=>l.track==="theory"),P=L.filter(l=>l.track!=="theory");
+  try{const box=$("pcont");box.innerHTML="";const last=NPH.getLast();const o=NPH.overall(L);
+    if(last){const l=L.find(x=>String(x.id)===last.lid);
+      if(l){const p=NPH.lectureProgress(l);
+        box.appendChild(h("a",{class:"pcont rv",href:"Lecture.html?id="+encodeURIComponent(l.id)+"&tab="+encodeURIComponent(last.tab||"explanation")},
+          h("div",{class:"pci"},ic("fa-circle-play")),
+          h("div",{class:"pcb"},h("small",null,"كمّل من حيث وقفت"),h("b",null,l.titleAr||l.title),h("div",{class:"pbar"},h("i",{style:"width:"+p.pct+"%"}))),
+          h("span",{class:"pcn"},p.pct+"%")))}}
+    if(o.done>0){box.appendChild(h("a",{class:"pcont rv",href:"progress.html"},
+      h("div",{class:"pci gold"},ic("fa-chart-line")),
+      h("div",{class:"pcb"},h("small",null,"تقدمك الإجمالي في المادة"),h("b",null,"خلصت "+o.done+" من "+o.total+" عنصر"),h("div",{class:"pbar gold"},h("i",{style:"width:"+o.pct+"%"}))),
+      h("span",{class:"pcn"},o.pct+"%")))}
+    NPH.checkBadges(NPH.statsFor(L));
+  }catch(e){}
   let f=0;L.forEach(l=>Object.keys(l.sections||{}).forEach(k=>(l.sections[k]||[]).forEach(()=>f++)));
   up($("cT"),T.length);up($("cP"),P.length);up($("cF"),f);
   $("nT").textContent=T.length+" محاضرة";$("nP").textContent=P.length+" محاضرة";

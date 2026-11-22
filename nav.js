@@ -1,6 +1,6 @@
 const API="https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
 const BRAND={name:"FOUNDATIONS",sub:"FUNDAMENTALS OF NURSING"};
-const PAGES=[["index.html","الرئيسية","fa-house"],["Lectures.html?track=theory","النظري","fa-book-open"],["Lectures.html?track=practical","العملي","fa-hand-holding-medical"],["adhkar.html","الأدعية والأذكار","fa-hands-praying"],["tips.html","نصايح المذاكرة","fa-graduation-cap"],["suggestions.html","الاقتراحات","fa-comments"]];
+const PAGES=[["index.html","الرئيسية","fa-house"],["Lectures.html?track=theory","النظري","fa-book-open"],["Lectures.html?track=practical","العملي","fa-hand-holding-medical"],["progress.html","تقدمي","fa-chart-line"],["adhkar.html","الأدعية والأذكار","fa-hands-praying"],["tips.html","نصايح المذاكرة","fa-graduation-cap"],["suggestions.html","الاقتراحات","fa-comments"]];
 function ap(e,c){if(c==null||c===false)return;if(Array.isArray(c)){c.forEach(x=>ap(e,x));return}e.appendChild(c.nodeType?c:document.createTextNode(String(c)))}
 function h(t,a){const e=document.createElement(t);if(a)for(const k in a){const v=a[k];if(v==null||v===false)continue;if(k==="class")e.className=v;else if(k==="style")e.style.cssText=v;else if(k==="value")e.value=v;else if(k.slice(0,2)==="on")e[k]=v;else e.setAttribute(k,v===true?"":v)}
   for(let i=2;i<arguments.length;i++)ap(e,arguments[i]);return e}
