@@ -315,6 +315,7 @@
       (last && last.lid ?
         '<a class="acont" id="acont" href="Lecture.html?id=' + encodeURIComponent(last.lid) + '">' +
         '<i class="fas fa-play"></i><span>كمّل من حيث وقفت<small id="acontT">...</small></span></a>' : "") +
+      '<a class="aprog-link" href="student.html">صفحتي وبياناتي</a>' +
       '<a class="aprog-link" href="progress.html">صفحة تقدّمك بالتفصيل</a>' +
       '<a class="achat" href="chat.html"><i class="fas fa-headset"></i> مراسلة الإدارة' +
       '<span class="aunread' + (unreadN > 0 ? "" : " hidden") + '" id="aunread">' + (unreadN > 9 ? "9+" : unreadN) + "</span></a>" +
