@@ -9,6 +9,10 @@
       button.setAttribute('aria-pressed', String(dark));
       button.setAttribute('aria-label', dark ? 'تفعيل الوضع الفاتح' : 'تفعيل الوضع الليلي');
     });
+    document.querySelectorAll('img[data-dark-src]').forEach(img => {
+      const target = dark ? img.dataset.darkSrc : img.dataset.lightSrc;
+      if (target && img.getAttribute('src') !== target) img.setAttribute('src', target);
+    });
   }
   let saved = 'light';
   try { saved = localStorage.getItem(key) || 'light'; } catch (_) {}

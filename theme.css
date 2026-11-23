@@ -94,7 +94,7 @@ html[data-theme=dark] .hero .ht {background:linear-gradient(180deg,#122c40,#1739
 html[data-theme=dark] .hero .un {color:var(--text-primary)}
 html[data-theme=dark] .hero .un span+span {background:none;color:var(--text-primary);-webkit-text-fill-color:var(--text-primary)}
 html[data-theme=dark] .hero .fn {color:#90e3df}
-html[data-theme=dark] .hero .logos img {mix-blend-mode:normal;background:#f7fafb;border-radius:14px;padding:5px}
+html[data-theme=dark] .hero .logos img {mix-blend-mode:normal;background:transparent;border-radius:0;padding:0}
 html[data-theme=dark] .hero .home-brand-title {background:linear-gradient(180deg,#17394b,#102c42)}
 html[data-theme=dark] .home-announcements {background:var(--bg);border-color:var(--line)}
 html[data-theme=dark] :is(.ha-post,.ha-state) {background:var(--surface);color:var(--text-primary);border-color:var(--line)}
@@ -221,11 +221,10 @@ html[data-theme=dark] .pn a {background:var(--surface);color:var(--text-primary)
 html[data-theme=dark] .pn a small {color:var(--text-secondary)}
 html[data-theme=dark] .pn a:hover {background:var(--control-hover);border-color:var(--focus-ring)}
 html[data-theme=dark] .pn a:active {background:var(--control-active);box-shadow:inset 0 0 0 2px var(--focus-ring)}
-/* Owner-selected A: dim pearl badges, official logo colors unchanged. */
+/* Owner pick: transparent dark logo artwork, no badges or white edges. Light theme keeps the original images. */
 .logos picture {display:flex;align-items:center;justify-content:center;flex:none}
-html[data-theme=dark] .hero .logos {gap:22px;padding-block:8px}
-html[data-theme=dark] .hero .logos picture {padding:10px;background:#a9b5b8;border:1px solid #b7a57a;border-radius:22px;box-shadow:0 5px 20px #0003}
-html[data-theme=dark] .hero .logos img {background:transparent;padding:0;border-radius:0;filter:none;mix-blend-mode:multiply}
-@media(max-width:600px) {html[data-theme=dark] .hero .logos img {width:112px;height:112px}}
+html[data-theme=dark] .hero .logos {gap:26px;padding-block:8px}
+html[data-theme=dark] .hero .logos picture {padding:0;background:transparent;border:0;border-radius:0;box-shadow:none}
+html[data-theme=dark] .hero .logos img {background:transparent;padding:0;border-radius:0;filter:none;mix-blend-mode:normal;object-fit:contain}
 /* Explicit hidden beats component display:flex on draft-recovery buttons. */
 .btn[hidden] {display:none!important}
