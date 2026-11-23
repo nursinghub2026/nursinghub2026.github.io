@@ -44,3 +44,13 @@ The editor now provides an explicit upload button for JPG/JPEG/PNG/WebP images a
 HTTPS URLs in post text become clickable links with safe DOM creation, no HTML. Non-HTTPS schemes remain text. Native Share opens the device share sheet; fallback copies a per-post link. If neither is available, a visible link is provided. No automatic messages are sent. Shared post links load that published post directly, including older posts outside the first feed page; hidden posts remain unavailable.
 
 Admin can reply publicly as administration, edit comments with a visible edited-by-admin label, or hide/restore them. Edits/replies append revisions and preserve original rows; no hard delete. Replies retain a parent reference and are not shown publicly while their parent is hidden. Existing post text/style/media editing remains. Reply text and comment text remain plain text and capped at 600 characters.
+
+
+## Updated per-file limits (supersedes 8 MiB above)
+The owner's requested 15 MB is supported for video only: MP4/WebM up to 15,000,000 bytes. Images stay at the Free-plan maximum of 10 MB (10,000,000 bytes), JPG/JPEG/PNG/WebP. Both client and server enforce those exact decimal-byte limits. Base64 request content is bounded at 20,000,000 characters before decode. Cloudinary Free's published caps are 10 MB images and 100 MB videos, so our 15 MB video limit is below the vendor cap. Its maximum image resolution also remains 25 MP, which may cause a hosting rejection even below the byte cap.
+
+Google's documented URL Fetch POST limit is 50 MB and runtime is 6 minutes. Our outgoing upload is below that size, but that documentation is not a guarantee for incoming web-app payload handling or slow mobile networks. A real 15 MB end-to-end upload remains unverified until separately authorized activation/testing. No paid upgrade or live test was done.
+Sources checked 2026-11-23:
+- https://cloudinary.com/pricing/compare-plans
+- https://cloudinary.com/documentation/pricing
+- https://developers.google.com/apps-script/guides/services/quotas
