@@ -4,3 +4,5 @@
 #sh .field[hidden],#sh small[hidden],#sh div[hidden]{display:none!important}
 body.theory .tabs{grid-template-columns:repeat(5,minmax(0,1fr))}
 @media(max-width:760px){body.theory .tabs{grid-template-columns:repeat(2,minmax(0,1fr))}body.theory .tabs .tab:last-child{grid-column:1/-1;padding:10px}body.theory .tabs .tab:last-child i{display:inline-block;margin:0 8px}body.theory .tabs .tab:last-child small{display:inline-block;margin-inline-start:8px}}
+
+.te-lang{margin-inline-start:12px}.te-reference{display:block;margin-top:18px;color:#f4de9e;overflow-wrap:anywhere}.te-question[dir=ltr],.te-answer[dir=ltr]{text-align:left}

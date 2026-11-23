@@ -38,6 +38,54 @@ function teVideoUrl_(v) {
   if(!/^https:\/\/(?:www\.)?youtube\.com\/watch\?v=[A-Za-z0-9_-]{11}$/.test(v)&&!/^https:\/\/youtu\.be\/[A-Za-z0-9_-]{11}$/.test(v)&&!/^https:\/\/drive\.google\.com\/file\/d\/[A-Za-z0-9_-]+\/(view|preview)(?:\?usp=sharing)?$/.test(v)&&!/^https:\/\/res\.cloudinary\.com\/[a-z0-9_-]+\/video\/upload\/[A-Za-z0-9_.,!\/~%+\-]+\.(mp4|webm)$/.test(v))teError_('استخدم رابط فيديو YouTube أوDrive أوCloudinary مباشر');
   return v;
 }
+function teCard_(c) {
+  var out={title:teText_(c.title,160,true),question:teText_(c.question,2000,true),answer:teText_(c.answer,4000,true)};
+  ['questionAr','answerAr','reference'].forEach(function(k){if(c[k])out[k]=teText_(c[k],k==='answerAr'?4000:k==='reference'?300:2000,false);});
+  if(!!out.questionAr!==!!out.answerAr)teError_('اكتب السؤال والإجابة العربي مع بعض');
+  return out;
+}
+function teHash_(text) {
+  return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,text).map(function(n){return ('0'+((n+256)%256).toString(16)).slice(-2);}).join('');
+}
+/* Preview defaults to read-only. Commit only after separately approved activation,
+ * backup and import. Caller supplies the exact reviewed plan hash. Existing cards
+ * are never updated by this route. A partial failure is safe to retry. */
+function teImport_(p) {
+  teAdmin_(p);
+  if(!Array.isArray(p.groups)||!p.groups.length||p.groups.length>20)teError_('قائمة المحاضرات غير صالحة');
+  var batch=teText_(p.batch,100,true);if(!/^[a-zA-Z0-9_-]+$/.test(batch))teError_('معرف المصدر غير صالح');
+  var seen={},plan=[],warnings=[],counts={},total=0,all=teRows_(),latest={};
+  all.forEach(function(r){latest[String(r[0])]=r;});
+  p.groups.forEach(function(g){
+    var lid=teLecture_(g.lectureId,false),existing=teLatest_(lid);
+    if(Object.prototype.hasOwnProperty.call(counts,lid))teError_('محاضرة مكررة داخل الدفعة');
+    counts[lid]=existing.filter(function(x){return !x.hidden;}).length;
+    var fingerprints={};existing.filter(function(x){return x.kind==='flashcard';}).forEach(function(x){fingerprints[JSON.stringify(teCard_(x.content))]=true;});
+    if(g.mappingStatus==='provisional'&&g.mappingConfirmed!==true)warnings.push(lid);
+    if(!Array.isArray(g.cards)||!g.cards.length||g.cards.length>500)teError_('قائمة الكروت غير صالحة');
+    g.cards.forEach(function(c){
+      total++;if(total>500)teError_('أقصى دفعة 500 كارت');
+      var key=teText_(c.sourceKey,150,true),id='import-'+teHash_(batch+'|'+key),content=teCard_({title:c.title||('Flashcard '+total),question:c.q,answer:c.a,questionAr:c.qar,answerAr:c.aar,reference:c.ref});
+      if(seen[id])teError_('معرف مصدر مكرر داخل الدفعة');seen[id]=true;
+      var old=latest[id],state='add';
+      if(old){if(String(old[1])!==lid||old[2]!=='flashcard'||old[3]!==JSON.stringify(content)||old[5]==='hide')teError_('تعارض مع كارت مستورد سابقًا، لا يتم الاستبدال تلقائيًا');state='skip';}
+      var fingerprint=JSON.stringify(content);if(!old&&fingerprints[fingerprint])state='skip';fingerprints[fingerprint]=true;
+      if(state==='add'){counts[lid]++;if(counts[lid]>500)teError_('تجاوز سعة المحاضرة');}
+      plan.push({id:id,lectureId:lid,content:content,state:state});
+    });
+  });
+  // The review hash identifies the exact normalized content and mapping, not
+  // current skip/add state, so safe retries after partial writes use the same hash.
+  var hash=teHash_(JSON.stringify(plan.map(function(x){return {id:x.id,lectureId:x.lectureId,content:x.content};})));
+  var summary={ok:true,dryRun:p.commit!==true,planHash:hash,total:total,add:plan.filter(function(x){return x.state==='add';}).length,skip:plan.filter(function(x){return x.state==='skip';}).length,unconfirmedMappings:warnings};
+  if(p.commit!==true)return summary;
+  if(warnings.length)teError_('راجع وأكد ربط المحاضرة المؤقت أولًا');
+  if(p.reviewedPlanHash!==hash)teError_('المعاينة اتغيرت، راجع الدفعة من جديد');
+  var sh=db().getSheetByName(TE_TAB_);
+  if(!sh&&summary.add){sh=db().insertSheet(TE_TAB_);sh.appendRow(TE_HEAD_);sh.setFrozenRows(1);}
+  plan.forEach(function(x){if(x.state==='add')sh.appendRow([x.id,x.lectureId,'flashcard',JSON.stringify(x.content),new Date().toISOString(),'save']);});
+  return summary;
+}
 function teSave_(p) {
   teAdmin_(p);var lid=teLecture_(p.lectureId,true),kind=p.kind,id=p.id?teText_(p.id,100,true):Utilities.getUuid();
   if(!/^[A-Za-z0-9_-]+$/.test(id)||['audio','flashcard','video'].indexOf(kind)<0)teError_('نوع المحتوى غير صالح');
@@ -47,7 +95,7 @@ function teSave_(p) {
   if(!old&&teLatest_(lid).filter(function(x){return !x.hidden;}).length>=500)teError_('وصلت للحد الأقصى للمحاضرة');
   var c=p.content||{},content={title:teText_(c.title,160,true)};
   if(kind==='audio'||kind==='video'){content.url=kind==='video'?teVideoUrl_(c.url):teUrl_(c.url);content.description=teText_(c.description||'',1500,false);}
-  else {content.question=teText_(c.question,2000,true);content.answer=teText_(c.answer,4000,true);}
+  else {content=teCard_(c);}
   var sh=db().getSheetByName(TE_TAB_);
   if(!sh){sh=db().insertSheet(TE_TAB_);sh.appendRow(TE_HEAD_);sh.setFrozenRows(1);}
   // Append a revision, never replace an earlier row or delete an asset.
@@ -76,8 +124,9 @@ function teUpload_(p) {
   return {ok:true,url:teUrl_(out.secure_url)};
 }
 function routeTheoryExtras_(p) {
-  if(['theoryExtrasList','adminTheoryExtrasList','adminTheoryExtrasSave','adminTheoryAudioUpload'].indexOf(p.action)<0)return null;
+  if(['theoryExtrasList','adminTheoryExtrasList','adminTheoryExtrasSave','adminTheoryAudioUpload','adminTheoryFlashcardsImport'].indexOf(p.action)<0)return null;
   try{
+    if(p.action==='adminTheoryFlashcardsImport')return teImport_(p);
     if(p.action==='adminTheoryExtrasSave')return teSave_(p);
     if(p.action==='adminTheoryAudioUpload')return teUpload_(p);
     var admin=p.action==='adminTheoryExtrasList';if(admin)teAdmin_(p);
