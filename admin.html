@@ -109,7 +109,7 @@ body{background:#eef3f7}
 .ach-in:focus{border-color:var(--ac,#0e8f94);background:#fff}
 .ach-send{width:44px;height:44px;flex:none;border:none;border-radius:50%;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;font-size:15px;cursor:pointer;display:grid;place-items:center}
 .ach-send i{transform:scaleX(-1)}
-</style></head><body>
+</style><link rel="stylesheet" href="admin-layout.css"></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
 
@@ -141,6 +141,7 @@ body{background:#eef3f7}
       <button data-v="log"><i class="fa-solid fa-clock-rotate-left"></i>السجل</button>
       <button data-v="push"><i class="fa-solid fa-bell"></i>الإشعارات</button>
     </nav>
+    <div class="admin-location"><div><b id="adminPageTitle">نظرة عامة</b><small id="adminPageHint">اختار المهمة اللي عايز تنجزها</small></div><button class="admin-back hidden" id="adminBack" type="button">رجوع للمحاضرات</button></div>
     <section id="v-dash"></section>
     <section id="v-lec" class="hidden">
       <div class="fl"><input id="fq" placeholder="دوّر على محاضرة..."><span class="pill gray" id="lcnt" style="align-self:center"></span></div>
@@ -249,7 +250,11 @@ async function start(){
   }catch(e){toast(net(e),true);$("login").classList.remove("hidden");$("app").classList.add("hidden")}
   busy(false)}
 
-function view(v){V=v;["dash","lec","man","sug","log","stu","push"].forEach(x=>$("v-"+x).classList.toggle("hidden",x!==v));
+const adminPages={dash:["نظرة عامة","ابدأ بالمهمة اللي محتاجها، والإحصائيات تحت لو حبيت تراجعها"],lec:["المحاضرات والمحتوى","اختار محاضرة لإدارة شرحها وملفاتها وكويزاتها"],man:["محتوى المحاضرة","اختار القسم، وبعده أضف المحتوى أو راجع الموجود"],stu:["حسابات الطلبة","ابحث عن الطالب لإدارة حسابه ومتابعة تقدمه"],sug:["الرسائل والردود","اختار الرسائل العامة أو المحادثات الخاصة"],log:["سجل العمليات","راجع مين عمل إيه على المنصة"],push:["إرسال إشعار","اكتب الرسالة، اختار الصورة والمستلمين، وراجع قبل الإرسال"]};
+$("adminBack").onclick=()=>view("lec");
+function view(v){V=v;
+  const page=adminPages[v]||adminPages.dash;$("adminPageTitle").textContent=page[0];$("adminPageHint").textContent=page[1];$("adminBack").classList.toggle("hidden",v!=="man");
+  document.querySelectorAll(".tabbar button").forEach(b=>{if(b.dataset.v===(v==="man"?"lec":v))b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")});["dash","lec","man","sug","log","stu","push"].forEach(x=>$("v-"+x).classList.toggle("hidden",x!==v));
   document.querySelectorAll(".tabbar button").forEach(b=>b.classList.toggle("on",b.dataset.v===(v==="man"?"lec":v)));
   const f=$("fab");f.classList.toggle("hidden",!(v==="lec"||v==="man"));$("fabT").textContent=v==="man"?"إضافة محتوى":"محاضرة جديدة";
   if(v==="dash")renderDash();if(v==="lec")listLecs();if(v==="man")renderMan();if(v==="sug")loadSug();if(v==="log")loadLog();if(v==="stu")loadStu();if(v==="push")loadPush();
@@ -314,11 +319,13 @@ function renderDash(){
   const unr=SG.filter(s=>!s.reply).length,first=AD.split(" ")[0]||"";
   box.appendChild(h("div",{class:"gr"},h("div",null,h("small",null,new Date().toLocaleDateString("ar-EG",{weekday:"long",day:"numeric",month:"long"})),h("h2",null,"أهلًا يا دكتور "+first),h("p",null,"ده ملخص سريع لحالة المنصة النهارده.")),h("div",{class:"grn"},ic("fa-user-doctor"))));
   const stats=[["fa-layer-group",tot,"إجمالي المحاضرات","#0e8f94"],["fa-book-open",th,"محاضرات نظرية","#6b4fb3"],["fa-hand-holding-medical",tot-th,"محاضرات عملية","#08617a"],["fa-eye",pub,"منشورة","#17a05d"],["fa-eye-slash",tot-pub,"مسودة","#d19a1f"],["fa-folder-open",items,"عناصر المحتوى","#3d5a80"],["fa-paperclip",files,"ملفات مرفوعة","#a23b72"],["fa-envelope-open-text",unr,"رسائل بدون رد","#e23b4e"]];
-  box.appendChild(h("div",{class:"sg"},stats.map(s=>h("div",{class:"st"},h("div",{class:"si",style:"background:"+s[3]},ic(s[0])),h("div",null,h("b",null,String(s[1])),h("small",null,s[2]))))));
-  box.appendChild(h("div",{class:"qa"},
-    h("button",{style:"background:linear-gradient(135deg,#08617a,#35c6c0)",onclick:()=>lecSheet(null,"practical")},ic("fa-plus"),"محاضرة عملية جديدة"),
-    h("button",{style:"background:linear-gradient(135deg,#3d2f7a,#9a7fe0)",onclick:()=>lecSheet(null,"theory")},ic("fa-plus"),"محاضرة نظرية جديدة"),
-    h("button",{style:"background:linear-gradient(135deg,#b86a12,#e9a23b)",onclick:()=>view("sug")},ic("fa-comments"),unr?"رسائل تنتظر ردك ("+unr+")":"الرسائل والردود")));
+  box.appendChild(h("div",{class:"admin-actions"},[
+    ["fa-plus","محاضرة جديدة","نظري أو عملي",()=>lecSheet(null)],
+    ["fa-folder-open","إضافة محتوى","اختار المحاضرة والقسم",()=>view("lec")],
+    ["fa-comments","الرسائل","راجع الأسئلة ورد عليها",()=>view("sug")],
+    ["fa-bell","إشعار جديد","رسالة وصورة للمشتركين",()=>view("push")]
+  ].map(a=>h("button",{type:"button",onclick:a[3]},ic(a[0]),h("span",null,a[1],h("small",null,a[2]))))));
+  box.appendChild(h("details",{class:"admin-summary"},h("summary",null,"إحصائيات المنصة · "+tot+" محاضرة · "+unr+" رسالة عامة بدون رد"),h("div",{class:"sg"},stats.map(s=>h("div",{class:"st"},h("div",{class:"si",style:"background:"+s[3]},ic(s[0])),h("div",null,h("b",null,String(s[1])),h("small",null,s[2])))))));
   const emp=L.filter(l=>total(l)===0);
   if(emp.length)box.appendChild(h("div",{class:"blk"},h("h3",null,ic("fa-triangle-exclamation"),"محاضرات لسه فاضية"),emp.map(l=>h("div",{class:"mini"},h("span",null,l.titleAr||l.title),h("button",{class:"btn sm",onclick:()=>{sel=l.id;tab="explanation";view("man")}},"أضف محتوى")))));
   box.appendChild(h("div",{class:"blk"},h("h3",null,ic("fa-clock-rotate-left"),"آخر النشاطات"),LG.length?LG.slice(0,6).map(r=>h("div",{class:"mini"},h("span",null,h("b",null,(r.name||"مجهول").split(" ")[0]+" "),(r.action||"")+(r.detail?" - "+r.detail:"")),h("small",{style:"color:var(--mut);font-weight:600"},ago(r.time)))):h("div",{class:"empty",style:"padding:14px"},"مفيش نشاط لسه.")))}
