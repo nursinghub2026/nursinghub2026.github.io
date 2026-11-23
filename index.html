@@ -104,6 +104,7 @@
   <div class="hb">
     <div class="orn"><i class="fa-solid fa-star-of-life"></i></div>
 
+    <p class="home-greeting" id="homeGreeting" hidden></p>
     <div class="home-intro">جاهز تبدأ مذاكرة؟</div><p class="lead">كل اللي محتاجه لمادة أساسيات التمريض في مكان واحد: شرح وملخصات، مهارات خطوة بخطوة، شيك ليست، وكويزات تختبر بيها نفسك. ومتنسانَاش بدعوة حلوة.</p>
     <div class="ctas">
       <a class="btn lg" href="Lectures.html?track=practical"><i class="fa-solid fa-hand-holding-medical"></i> ابدأ العملي</a>
@@ -141,6 +142,16 @@
 <script src="nav.js"></script><script src="progress.js"></script><script src="auth.js"></script><script src="data.js"></script>
 <script>
 const $=i=>document.getElementById(i);
+function paintHomeGreeting(){
+  const el=$("homeGreeting"),auth=window.NPHAuth;
+  const u=auth&&auth.isLoggedIn()?auth.user():null;
+  const name=u&&String(u.name||u.username||"").trim();
+  el.textContent=name?"إزيك "+name:"";
+  el.hidden=!name;
+}
+paintHomeGreeting();
+const homeAuthButton=$("abtn");
+if(homeAuthButton)new MutationObserver(paintHomeGreeting).observe(homeAuthButton,{attributes:true,childList:true,subtree:true});
 const VS=[{q:"﴿ وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ ﴾",r:"سورة الشعراء - آية 80"}].concat(VERSES);
 const MS=["كل مهارة بتتقنها النهاردة، هتبقى طمأنينة لمريض بكرة.","التمريض مش مهنة بس، ده رسالة. وإنت بدأت فيها صح.","التعب دلوقتي هيتحول لثقة في أول يوم عملي.","خطوة النهاردة أحسن من ألف خطة مأجّلة.","إنت قد المسؤولية، كمّل."];
 function rot(arr,tx,rf,dots,ms){let i=0;const D=$(dots);

@@ -49,3 +49,14 @@
 .hero .hb{background:linear-gradient(180deg,#102c42,#0a1c30);border-top:0}
 @media(max-width:760px){.hero .home-brand-title{padding:68px 8px 26px}}
 .hero .home-brand-title::before{inset:12% 0 -12%;-webkit-mask-image:linear-gradient(transparent,#000 28%,#000 65%,transparent);mask-image:linear-gradient(transparent,#000 28%,#000 65%,transparent)}
+/* Quran panel shares the hero's navy, teal light and fine gold details. */
+.hero .home-verse .vcard{background:radial-gradient(ellipse at 10% 0%,#245a654d,transparent 68%),radial-gradient(ellipse at 100% 100%,#b8943d12,transparent 60%),linear-gradient(145deg,#14394d,#0c2439);border:1px solid #d4af5a66;box-shadow:0 12px 30px #020c1826,0 0 26px #5ad6cd12}
+.hero .home-verse .vcard::before{border-color:#e8c97b40}
+.hero .home-verse .vcard::after{background:radial-gradient(ellipse,#e1bd6220,transparent 70%)}
+.hero .home-verse .vlab{color:#ead08a}
+.hero .home-verse .vq{color:#f4f6ef;text-shadow:0 0 18px #89ddd023}
+.hero .home-verse .vr{background:#e8c97b16;color:#efd997;border:1px solid #e8c97b38}
+.hero .home-verse .dots button{background:#a9c5cf55}
+.hero .home-verse .dots button.on{background:#d4af5a;box-shadow:0 0 10px #d4af5a33}
+.home-greeting{color:#e5d196;font-size:clamp(19px,4.8vw,26px);font-weight:800;line-height:1.6;margin:0 0 8px;overflow-wrap:anywhere;text-shadow:0 0 18px #d4af5a26}
+.home-greeting[hidden]{display:none!important}
