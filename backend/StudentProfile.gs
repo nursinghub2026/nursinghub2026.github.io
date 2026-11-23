@@ -1,0 +1,9 @@
+/* Review-only module. No deployment or existing student-row changes.
+ * Route BEFORE legacy stuSetName. Requires Community.gs for session validation.
+ * New immutable history only; never updates Students, roles, usernames or passwords.
+ */
+var SP_TAB_='StudentDisplayNamesV1';
+function spRows_(){var sh=db().getSheetByName(SP_TAB_);if(!sh||sh.getLastRow()<2)return [];return sh.getRange(2,1,sh.getLastRow()-1,3).getValues().map(function(r){return {username:String(r[0]),name:String(r[1]),at:String(r[2])};});}
+function cpDisplayName_(username,fallback){var own=spRows_().filter(function(x){return x.username===username;});return own.length?own[own.length-1].name:String(fallback||'طالب').slice(0,60);}
+function spName_(v){if(typeof v!=='string')throw new Error('اسم غير صالح');v=v.normalize('NFC').trim().replace(/\s+/g,' ');if(v.length<3||v.length>60||!/[\p{L}]/u.test(v)||!/^[\p{L}\p{M} '\-]+$/u.test(v))throw new Error('الاسم من 3 إلى 60 حرف، حروف ومسافات فقط بدون روابط أو رموز');return v;}
+function routeStudentProfile_(p){if(['stuDisplayProfile','stuDisplayNameUpdate','stuSetName'].indexOf(p.action)<0)return null;try{var u=cpStudent_(p);if(p.action==='stuDisplayProfile')return {ok:true,profileVersion:1,name:u.name,nameChangeIntervalHours:24};if(Object.keys(p).some(function(k){return ['action','token','name'].indexOf(k)<0;}))throw new Error('مسموح تعديل الاسم فقط');var name=spName_(p.name),own=spRows_().filter(function(x){return x.username===u.username;});if(name===u.name)return {ok:true,name:name,changed:false};if(own.length&&Date.now()-new Date(own[own.length-1].at).getTime()<86400000)throw new Error('تقدر تعدل اسمك مرة كل 24 ساعة');var sh=db().getSheetByName(SP_TAB_);if(!sh){sh=db().insertSheet(SP_TAB_);sh.appendRow(['username','name','updatedAt']);sh.setFrozenRows(1);}sh.appendRow([u.username,name,new Date().toISOString()]);return {ok:true,name:name,changed:true};}catch(e){return {ok:false,error:String(e.message||e)};}}
