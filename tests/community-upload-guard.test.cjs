@@ -1,0 +1,2 @@
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs');
+test('chosen but unuploaded attachment blocks publishing and has local-only preview',()=>{const s=fs.readFileSync('community.js','utf8');assert.match(s,/upload\.onchange=/);assert.match(s,/URL\.createObjectURL\(f\)/);assert.match(s,/URL\.revokeObjectURL/);const save=s.slice(s.indexOf("const save=h('button'"));assert.ok(save.indexOf('if(upload.files[0])')<save.indexOf("request('adminCommunitySave'"));assert.match(s,/selectedPreview,uploadButton,uploadStatus/);});
