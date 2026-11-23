@@ -155,8 +155,14 @@
       ".abtn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--gold);background:rgba(212,175,55,.1);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;flex-shrink:0}",
       ".abtn.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1205;font-weight:900;font-size:15px;border-color:transparent}",
       ".aacc{text-align:center;padding:8px 0}",
+      ".aavatar{width:64px;height:64px;margin:0 auto 10px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;color:#3a2a05;font-size:26px;box-shadow:0 8px 20px rgba(212,175,90,.3)}",
+      ".aname-set{margin:2px 0 12px;background:var(--bg);border:1px dashed var(--border);border-radius:12px;padding:11px 12px}",
+      ".aname-set label{display:block;font-size:12px;font-weight:800;color:var(--txt2);margin-bottom:7px}",
+      ".aname-btn{width:100%;margin-top:8px;padding:10px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1205;font-family:inherit;font-size:13px;font-weight:900;cursor:pointer}",
+      ".aname-btn:disabled{opacity:.5}",
+      ".achat{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;border-radius:12px;border:1px solid rgba(53,198,192,.4);background:rgba(53,198,192,.1);color:#35c6c0;font-size:13.5px;font-weight:800;margin-top:6px;cursor:pointer}",
       ".aacc-name{font-weight:900;font-size:20px}",
-      ".aacc-user{color:var(--txt2);font-size:13px;margin:2px 0 14px}",
+      ".aacc-user{color:var(--txt2);font-size:13px;margin:2px 0 14px;direction:ltr;unicode-bidi:embed}",
       ".aacc-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 13px;margin-bottom:9px;font-size:13px}",
       ".aacc-row b{color:var(--gold)}",
       ".aout{width:100%;padding:11px;border-radius:12px;border:1px solid rgba(226,75,74,.4);background:rgba(226,75,74,.08);color:#ff9d9c;font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer;margin-top:6px}"
@@ -255,19 +261,29 @@
   function openAccount() {
     if (!isLoggedIn()) return openModal("login");
     css(); close();
-    const done = (window.NPH && NPH.get() && NPH.get().done) || {};
+    const done = (window.NPH && NPH.get && NPH.get() && NPH.get().done) || {};
     const nd = Object.keys(done).length;
+    const hasName = !!(A.name && String(A.name).trim());
     el = document.createElement("div");
     el.className = "aov";
     el.innerHTML =
       '<div class="acard" style="position:relative">' +
       '<button class="ax" id="ax"><i class="fas fa-times"></i></button>' +
       '<div class="aacc">' +
-      '<div class="aacc-name">' + (A.name || A.username) + "</div>" +
-      '<div class="aacc-user">@' + A.username + "</div>" +
+      '<div class="aavatar"><i class="fas fa-user-graduate"></i></div>' +
+      '<div class="aacc-name">' + (hasName ? A.name : A.username) + "</div>" +
+      (hasName ? '<div class="aacc-user">@' + A.username + "</div>" : "") +
+      "</div>" +
+      '<div class="aerr" id="aerr"></div>' +
+      (hasName ? "" :
+        '<div class="aname-set"><label>ضيف اسمك الكامل — هيظهر هنا وللأدمن</label>' +
+        '<input class="ainput" id="a-newname" maxlength="60" placeholder="اسمك بالكامل">' +
+        '<button class="aname-btn" id="a-namesave">حفظ الاسم</button></div>') +
+      '<div class="aacc">' +
       '<div class="aacc-row"><span>عناصر مخلّصها</span><b>' + nd + "</b></div>" +
       '<div class="aacc-row"><span>آخر مزامنة</span><b>' + (A.lastSync ? agoTxt(A.lastSync) : "لسه") + "</b></div>" +
       "</div>" +
+      '<a class="achat" href="chat.html"><i class="fas fa-headset"></i> مراسلة الإدارة</a>' +
       '<button class="aout" id="a-logout"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>' +
       "</div>";
     document.body.appendChild(el);
@@ -275,6 +291,24 @@
     el.querySelector("#ax").onclick = close;
     el.addEventListener("click", function (e) { if (e.target === el) close(); });
     el.querySelector("#a-logout").onclick = function () { close(); setTimeout(logout, 150); };
+    const sv = el.querySelector("#a-namesave");
+    if (sv) {
+      sv.onclick = async function () {
+        const nm = el.querySelector("#a-newname").value.trim();
+        const err = el.querySelector("#aerr");
+        if (nm.length < 3) { err.textContent = "اكتب اسمك الكامل (٣ حروف على الأقل)"; err.classList.add("show"); return; }
+        sv.disabled = true; sv.textContent = "لحظة...";
+        try {
+          const d = await call("stuSetName", { token: A.token, name: nm });
+          A.name = d.name; saveA(); close();
+          if (window.toast) toast("اتحفظ اسمك يا " + d.name, "ok");
+          setTimeout(openAccount, 220);
+        } catch (e) {
+          err.textContent = e.message; err.classList.add("show");
+          sv.disabled = false; sv.textContent = "حفظ الاسم";
+        }
+      };
+    }
   }
 
   function agoTxt(t) {

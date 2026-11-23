@@ -21,7 +21,8 @@
   <div class="card" id="startCard" style="padding:22px">
     <div class="sect"><i class="fa-solid fa-key"></i><div>نسيت كلمة السر؟<small>اكتب اسم المستخدم بتاعك وهنوصّل رسالتك للأدمن فورًا</small></div></div>
     <div class="field"><label>اسم المستخدم</label><input id="u" maxlength="30" placeholder="حروف وأرقام إنجليزي" dir="ltr" style="text-align:left" autocomplete="username"></div>
-    <div class="field"><label>اسمك (اختياري)</label><input id="n" maxlength="60" placeholder="مثال: بودا"></div>
+    <div class="field"><label>اسمك (اختياري)</label><input id="n" maxlength="60" placeholder="اسمك"></div>
+    <div class="field hidden" id="f-first"><label>رسالتك</label><textarea id="firstMsg" maxlength="500" rows="3" placeholder="اكتب رسالتك للإدارة هنا..." style="width:100%;padding:11px 13px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--txt);font-family:inherit;font-size:14px;outline:none;box-sizing:border-box;resize:vertical"></textarea></div>
     <button class="btn full lg" id="startBtn"><i class="fa-solid fa-paper-plane"></i> ابعت للأدمن</button>
     <div id="sm" style="font-size:13.5px;font-weight:700;margin-top:12px;min-height:20px;text-align:center"></div>
   </div>
@@ -56,16 +57,33 @@ async function poll(){if(!S)return;try{const d=await call("stuChatList",{session
 async function send(){const t=$("msg").value.trim();if(!t)return;$("sendBtn").disabled=true;
   try{await call("stuChatSend",{sessionId:S.sid,text:t});$("msg").value="";poll()}catch(e){if(window.toast)window.toast(e.message,true);else alert(e.message)}
   $("sendBtn").disabled=false}
-$("startBtn").onclick=async()=>{const u=$("u").value.trim(),nm=$("n").value.trim();const m=$("sm");
-  if(!/^[A-Za-z0-9_.\-]{1,30}$/.test(u)){m.style.color="#c0283a";m.textContent="اكتب اسم المستخدم صح (حروف وأرقام إنجليزي).";return}
+$("startBtn").onclick=async()=>{const m=$("sm");
+  let u,nm,text;
+  if(LOGGED){
+    u=AU.username;nm=AU.name||"";text=$("firstMsg").value.trim();
+    if(!text){m.style.color="#c0283a";m.textContent="اكتب رسالتك الأول.";return}
+  }else{
+    u=$("u").value.trim();nm=$("n").value.trim();
+    if(!/^[A-Za-z0-9_.\-]{1,30}$/.test(u)){m.style.color="#c0283a";m.textContent="اكتب اسم المستخدم صح (حروف وأرقام إنجليزي).";return}
+    text="نسيت كلمة السر. اسم المستخدم: @"+u;
+  }
   $("startBtn").disabled=true;m.style.color="#657689";m.textContent="جاري فتح المحادثة...";
-  try{const d=await call("stuChatStart",{username:u,name:nm,text:"نسيت كلمة السر. اسم المستخدم: @"+u});
+  try{const d=await call("stuChatStart",{username:u,name:nm,text:text});
     S={sid:d.sessionId,username:u,name:nm};saveS();m.textContent="";showChat();poll();timer=setInterval(poll,5000)}
   catch(e){m.style.color="#c0283a";m.textContent=e.message==="Failed to fetch"?"اتأكد من النت وجرّب تاني.":e.message}
   $("startBtn").disabled=false};
 $("sendBtn").onclick=send;
 $("msg").addEventListener("keydown",e=>{if(e.key==="Enter")send()});
 $("newBtn").onclick=()=>{if(!confirm("فتح محادثة جديدة؟ المحادثة الحالية هتتقفل من على الجهاز ده بس."))return;clearInterval(timer);S=null;lastTs="";saveS();showStart()};
+let AU=null;try{const r=localStorage.getItem("NPH_AUTH_V1");if(r)AU=JSON.parse(r)}catch(e){}
+const LOGGED=!!(AU&&AU.token&&AU.username);
+if(LOGGED){
+  document.querySelector("#startCard .sect").innerHTML='<i class="fa-solid fa-comments"></i><div>محادثة مع الإدارة<small>اكتب رسالتك وهتوصل للأدمن فورًا، وردّه بيظهرلك هنا أول بأول</small></div>';
+  $("u").closest(".field").classList.add("hidden");
+  $("n").closest(".field").classList.add("hidden");
+  $("f-first").classList.remove("hidden");
+  $("startBtn").innerHTML='<i class="fa-solid fa-paper-plane"></i> ابعت رسالتك';
+}
 const q=new URLSearchParams(location.search).get("u");if(q)$("u").value=q;
 if(S&&S.sid){showChat();poll();timer=setInterval(poll,5000)}
 </script></body></html>
