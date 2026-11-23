@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#06101f">
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#06101f"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>FOUNDATIONS | Fundamentals of Nursing</title>
 <meta name="description" content="منصة مذاكرة لطلبة التمريض: شرح وملخصات وشيك ليست وكويزات لكل محاضرة، نظري وعملي.">
 <meta property="og:type" content="website">
@@ -172,4 +172,4 @@ function draw(L){L=L||[];const T=L.filter(l=>l.track==="theory"),P=L.filter(l=>l
       h("div",null,h("b",null,l.titleAr||l.title),h("small",null,l.title),h("span",{class:"pill "+(th?"vio":"teal"),style:"margin-top:4px"},th?"نظري":"عملي"))))})}
 try{const c=JSON.parse(localStorage.getItem("NPH_PUB_V1")||"null");if(c)draw(c)}catch(e){}
 fetch(API).then(r=>r.json()).then(d=>{if(d.ok){draw(d.lectures);try{localStorage.setItem("NPH_PUB_V1",JSON.stringify(d.lectures))}catch(e){}}}).catch(()=>{});
-</script></body></html>
+</script><script src="firebase-config.js"></script><script src="push.js" defer></script></body></html>
