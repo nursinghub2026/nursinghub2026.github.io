@@ -169,10 +169,12 @@ body{background:#eef3f7}
         <input id="pushTitle" placeholder="مثال: محاضرة جديدة نزلت">
         <label style="font-weight:800;font-size:13px;display:block;margin:10px 0 6px">نص الإشعار</label>
         <textarea id="pushBody" rows="3" placeholder="اكتب تفاصيل الإشعار..."></textarea>
-        <div class="chips" id="pushTpl" style="margin-top:10px">
-          <button class="chip" data-t="lec">محاضرة جديدة</button>
-          <button class="chip" data-t="quiz">كويز جديد</button>
-          <button class="chip" data-t="mot">تحفيز</button>
+        <label for="pushBanner" style="font-weight:800;font-size:13px;display:block;margin:14px 0 6px">اختار صورة الإشعار</label>
+        <select id="pushBanner"><option value="lecture">محاضرة</option><option value="quiz">كويز</option><option value="reply">رد</option><option value="motivation">تحفيز</option><option value="none">بدون صورة</option></select>
+        <p style="font-size:12px;color:var(--mut);margin:8px 0">العنوان والنص من كتابتك بالكامل. اختيار الصورة مش بيغيّر كلامك. الصورة فيها عنوان ثابت حسب نوعها، وتقدر تختار بدون صورة.</p>
+        <div id="pushPreview" style="margin-top:12px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card)">
+          <div style="padding:14px"><small style="color:var(--mut)">معاينة تقريبية. الشكل النهائي حسب الجهاز</small><h3 id="pushPreviewTitle" style="margin:8px 0 4px;overflow-wrap:anywhere">FOUNDATIONS • عنوانك هنا</h3><p id="pushPreviewBody" style="margin:0;font-size:13px;overflow-wrap:anywhere">نص الإشعار اللي هتكتبه هيظهر هنا</p></div>
+          <img id="pushPreviewImage" src="notification-images/lecture.png" alt="صورة الإشعار المختارة" style="width:100%;display:block">
         </div>
         <div class="seg" id="pushAud" style="margin-top:12px"><button class="on" data-m="all">كل الطلبة</button><button data-m="one">طالب معين</button></div>
         <div id="pushPick" class="hidden" style="margin-top:10px">
@@ -272,9 +274,15 @@ async function loadPush(){
   }
 }
 function initPush(){
-  document.querySelectorAll("#pushTpl .chip").forEach(b=>b.onclick=()=>{
-    const p=PTPL[b.dataset.t];if(!p)return;$("pushTitle").value=p[0];$("pushBody").value=p[1];
-  });
+  function previewPush(){
+    const title=$("pushTitle").value.trim();
+    $("pushPreviewTitle").textContent=title?(/^FOUNDATIONS/.test(title)?title:"FOUNDATIONS • "+title):"FOUNDATIONS • عنوانك هنا";
+    $("pushPreviewBody").textContent=$("pushBody").value.trim()||"نص الإشعار اللي هتكتبه هيظهر هنا";
+    const kind=$("pushBanner").value,img=$("pushPreviewImage");img.hidden=kind==="none";img.style.display=kind==="none"?"none":"block";
+    if(kind!=="none")img.src="notification-images/"+kind+".png";
+  }
+  $("pushTitle").maxLength=80;$("pushBody").maxLength=240;
+  $("pushTitle").addEventListener("input",previewPush);$("pushBody").addEventListener("input",previewPush);$("pushBanner").addEventListener("change",previewPush);
   document.querySelectorAll("#pushAud button").forEach(b=>b.onclick=()=>{
     pushAud=b.dataset.m;document.querySelectorAll("#pushAud button").forEach(x=>x.classList.toggle("on",x===b));
     $("pushPick").classList.toggle("hidden",pushAud!=="one");
@@ -287,9 +295,9 @@ function initPush(){
     if(pushAud==="one"&&!un){m.textContent="اكتب اسم المستخدم للطالب";return}
     const btn=$("pushSend");btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
     try{
-      const d=await api("adminPushSend",{title,body,username:un});
+      const d=await api("adminPushSend",{title,body,username:un,banner:$("pushBanner").value});
       m.textContent=d.configured===false?("اتسجل الإشعار في السجل، بس الإرسال الفعلي محتاج إعداد Firebase (لسه مش متعمل): وصل "+(d.sent||0)+" جهاز"):("تم الإرسال ✅ وصل "+(d.sent||0)+" جهاز"+((d.failed||0)?(" — فشل "+d.failed):""));
-      $("pushTitle").value="";$("pushBody").value="";
+      $("pushTitle").value="";$("pushBody").value="";previewPush();
     }catch(e){m.textContent=net(e)}
     btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> إرسال الإشعار';
   };

@@ -81,7 +81,7 @@ function adminPushSend_(req) {
     targets.push(tk);
   }
   if (!targets.length) return { ok: false, error: username ? 'مفيش جهاز مسجل للطالب ده' : 'مفيش أجهزة مسجلة لسه' };
-  const res = fcmSendToTokens_(targets, title, body, { url: 'index.html' });
+  const res = fcmSendToTokens_(targets, title, body, { url: 'index.html', banner: ['lecture','quiz','reply','motivation','none'].indexOf(req.banner) >= 0 ? req.banner : 'lecture' });
   pushLogSheet_().appendRow([new Date(), username || 'ALL', title, body, res.sent, res.failed, res.configured]);
   return { ok: true, sent: res.sent, failed: res.failed, configured: res.configured };
 }
@@ -142,19 +142,20 @@ function fcmSendToTokens_(tokens, title, body, data) {
   tokens.forEach((tk) => {
     try {
       if (!bearer) bearer = fcmAccessToken_(sa);
-      const noticeKind = /chat/.test(String(data && data.url)) ? 'reply' : /كويز|اختبار/.test(title) ? 'quiz' : /محاضرة/.test(title) ? 'lecture' : 'motivation';
+      const noticeKind = data && ['lecture','quiz','reply','motivation','none'].indexOf(data.banner) >= 0 ? data.banner : /chat/.test(String(data && data.url)) ? 'reply' : /كويز|اختبار/.test(title) ? 'quiz' : /محاضرة/.test(title) ? 'lecture' : 'motivation';
       const noticeTitle = /^FOUNDATIONS/.test(title) ? title : 'FOUNDATIONS • ' + title;
       const msg = {
         message: {
           token: tk,
           notification: { title: noticeTitle, body },
           webpush: {
-            notification: { title: noticeTitle, body, image: 'https://nursinghub2026.github.io/notification-images/' + noticeKind + '.png', icon: 'https://nursinghub2026.github.io/icon.png', badge: 'https://nursinghub2026.github.io/notification-badge.png', dir: 'rtl', lang: 'ar', vibrate: [120, 60, 120], tag: String((data && data.tag) || 'nph-' + Date.now()), renotify: true, data: { url: (data && data.url) || 'index.html' } },
+            notification: { title: noticeTitle, body, icon: 'https://nursinghub2026.github.io/icon.png', badge: 'https://nursinghub2026.github.io/notification-badge.png', dir: 'rtl', lang: 'ar', vibrate: [120, 60, 120], tag: String((data && data.tag) || 'nph-' + Date.now()), renotify: true, data: { url: (data && data.url) || 'index.html' } },
             fcm_options: { link: 'https://nursinghub2026.github.io/' + ((data && data.url) || 'index.html') }
           },
           data: data ? Object.keys(data).reduce((m, k) => { m[k] = String(data[k]); return m; }, {}) : {}
         }
       };
+      if (noticeKind !== 'none') msg.message.webpush.notification.image = 'https://nursinghub2026.github.io/notification-images/' + noticeKind + '.png';
       const r = UrlFetchApp.fetch(url, {
         method: 'post',
         contentType: 'application/json',

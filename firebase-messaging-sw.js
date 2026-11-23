@@ -19,10 +19,10 @@ firebase.messaging().onBackgroundMessage(payload => {
   // Notification payloads are displayed by the SDK, never display them twice.
   if(payload.notification) return;
   const d=payload.data || {};
-  const kind=/chat/.test(d.url||'')?'reply':/كويز|اختبار/.test(d.title||'')?'quiz':/محاضرة/.test(d.title||'')?'lecture':'motivation';
+  const kind=['lecture','quiz','reply','motivation','none'].includes(d.banner)?d.banner:/chat/.test(d.url||'')?'reply':/كويز|اختبار/.test(d.title||'')?'quiz':/محاضرة/.test(d.title||'')?'lecture':'motivation';
   const title=d.title || 'إشعار جديد';
   return self.registration.showNotification(/^FOUNDATIONS/.test(title)?title:'FOUNDATIONS • '+title, {
-    body:d.body || '',image:'notification-images/'+kind+'.png',icon:'icon.png',badge:'notification-badge.png',dir:'rtl',lang:'ar',
+    body:d.body || '',...(kind==='none'?{}:{image:'notification-images/'+kind+'.png'}),icon:'icon.png',badge:'notification-badge.png',dir:'rtl',lang:'ar',
     vibrate:[120,60,120],tag:d.tag || payload.messageId || 'nph-'+Date.now(),renotify:true,
     data:{url:d.url || 'index.html'}
   });
