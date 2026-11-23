@@ -79,7 +79,7 @@
 <div class="ph"><div class="k"><i class="fa-solid fa-chart-line"></i> MY PROGRESS</div><h1>تقدمي</h1><p>كل مذاكرتك في مكان واحد: نسبة إنجازك، أيامك، أوسمتك، ومفضلتك. بتتحفظ على جهازك أنت بس.</p></div>
 <main class="wrap" style="padding-top:0" id="app"><div class="sk"></div><div class="sk"></div></main>
 <script src="nav.js"></script>
-<script src="progress.js"></script>
+<script src="progress.js"></script><script src="auth.js"></script>
 <script>
 const CK="NPH_PUB_V1";
 const $=i=>document.getElementById(i);
@@ -104,6 +104,16 @@ function lecRow(l){
 }
 function render(){
   app.innerHTML="";
+  if(!(window.NPHAuth&&NPHAuth.isLoggedIn())){
+    app.appendChild(h("div",{class:"card pcard pempty rv"},
+      h("div",{class:"pei"},ic("fa-user-lock")),
+      h("b",null,"سجّل دخولك الأول"),
+      h("p",null,"صفحة «تقدّمي» بتتفتح لما يكون ليك حساب. سجّل دخولك أو اعمل حساب جديد وهتلاقي هنا تقدّمك وسلسلة أيامك وأوسمتك — متزامنة على كل أجهزتك."),
+      h("div",{class:"ctas"},
+        h("button",{class:"btn",type:"button",onclick:()=>NPHAuth.openModal("login")},ic("fa-right-to-bracket")," سجّل دخولك"),
+        h("button",{class:"btn ghost",type:"button",onclick:()=>NPHAuth.openModal("register")},ic("fa-user-plus")," حساب جديد"))));
+    return;
+  }
   const st=NPH.statsFor(L);
   NPH.checkBadges(st);
   if(!st.done&&!NPH.favIds().length&&!NPH.notesList().length){

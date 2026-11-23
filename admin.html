@@ -119,6 +119,7 @@ body{background:#eef3f7}
     <nav class="tabbar">
       <button data-v="dash" class="on"><i class="fa-solid fa-chart-pie"></i>الرئيسية</button>
       <button data-v="lec"><i class="fa-solid fa-layer-group"></i>المحاضرات</button>
+      <button data-v="stu"><i class="fa-solid fa-user-graduate"></i>الطلبة</button>
       <button data-v="sug"><i class="fa-solid fa-comments"></i>الرسائل<span class="bdg hidden" id="bdg">0</span></button>
       <button data-v="log"><i class="fa-solid fa-clock-rotate-left"></i>السجل</button>
     </nav>
@@ -130,6 +131,11 @@ body{background:#eef3f7}
       <div id="lecs"></div>
     </section>
     <section id="v-man" class="hidden"></section>
+    <section id="v-stu" class="hidden">
+      <div class="sect"><i class="fa-solid fa-user-graduate"></i><div>الطلبة المسجلين<small>إدارة حسابات الطلبة ومتابعة نشاطهم</small></div></div>
+      <div id="stuS"></div>
+      <div id="stuL"></div>
+    </section>
     <section id="v-sug" class="hidden">
       <div class="sect"><i class="fa-solid fa-comments"></i><div>رسائل الطلاب<small>الرد بيظهر للطلاب باسم "الإدارة" فقط</small></div></div>
       <div class="chips" id="sgFl"></div>
@@ -198,10 +204,10 @@ async function start(){
   }catch(e){toast(net(e),true);$("login").classList.remove("hidden");$("app").classList.add("hidden")}
   busy(false)}
 
-function view(v){V=v;["dash","lec","man","sug","log"].forEach(x=>$("v-"+x).classList.toggle("hidden",x!==v));
+function view(v){V=v;["dash","lec","man","sug","log","stu"].forEach(x=>$("v-"+x).classList.toggle("hidden",x!==v));
   document.querySelectorAll(".tabbar button").forEach(b=>b.classList.toggle("on",b.dataset.v===(v==="man"?"lec":v)));
   const f=$("fab");f.classList.toggle("hidden",!(v==="lec"||v==="man"));$("fabT").textContent=v==="man"?"إضافة محتوى":"محاضرة جديدة";
-  if(v==="dash")renderDash();if(v==="lec")listLecs();if(v==="man")renderMan();if(v==="sug")loadSug();if(v==="log")loadLog();
+  if(v==="dash")renderDash();if(v==="lec")listLecs();if(v==="man")renderMan();if(v==="sug")loadSug();if(v==="log")loadLog();if(v==="stu")loadStu();
   window.scrollTo({top:0})}
 document.querySelectorAll(".tabbar button").forEach(b=>b.onclick=()=>view(b.dataset.v));
 $("fab").onclick=()=>{if(V==="man")itemSheet(null);else lecSheet(null)};
@@ -346,6 +352,47 @@ function listSug(){const b=$("sgl");b.innerHTML="";
           try{await api("replySuggestion",{id:s.id,reply:t});s.reply=t;toast("تم إرسال الرد.");updBadge();sgChips();listSug()}catch(e){toast(net(e),true)}busy(false)}},ic("fa-paper-plane"),s.reply?"تحديث الرد":"إرسال الرد"),
         h("button",{class:"btn red sm",onclick:async()=>{if(!confirm("حذف الرسالة نهائيًا؟"))return;busy(true,"جاري الحذف...");
           try{await api("deleteSuggestion",{id:s.id});SG=SG.filter(x=>x.id!==s.id);updBadge();sgChips();listSug()}catch(e){toast(net(e),true)}busy(false)}},ic("fa-trash"),"حذف"))))})}
+
+let ST=[];
+async function loadStu(){const b=$("stuL");b.innerHTML="";b.appendChild(h("div",{class:"empty"},"جاري التحميل..."));
+  try{ST=(await api("adminStudents")).students||[];renderStu()}
+  catch(e){b.innerHTML="";$("stuS").innerHTML="";b.appendChild(h("div",{class:"empty card"},ic("fa-triangle-exclamation"),"مقدرناش نحمّل الطلبة. اتأكد إن السكريبت اتحدّث واتنشر بنسخة جديدة."))}}
+function renderStu(){const b=$("stuL"),s=$("stuS");b.innerHTML="";s.innerHTML="";
+  const act=ST.filter(x=>x.status==="active").length,dis=ST.length-act;
+  const today=ST.filter(x=>x.lastActiveAt&&(Date.now()-new Date(x.lastActiveAt))<864e5).length;
+  s.appendChild(h("div",{class:"card",style:"display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;margin-bottom:14px"},
+    h("span",{class:"pill teal"},"المسجلين: "+ST.length),
+    h("span",{class:"pill green"},"نشطين: "+act),
+    h("span",{class:"pill gold"},"نشطين النهارده: "+today),
+    h("span",{class:"pill gray"},"موقوفين: "+dis)));
+  if(!ST.length){b.appendChild(h("div",{class:"empty card"},ic("fa-user-graduate"),"لسه مفيش طلبة مسجلين. أول ما حد يعمل حساب من الموقع هيظهر هنا."));return}
+  ST.slice().reverse().forEach(x=>{const dis=x.status!=="active";
+    b.appendChild(h("div",{class:"card",style:"margin-bottom:10px;padding:14px"},
+      h("div",{style:"display:flex;align-items:center;gap:10px;flex-wrap:wrap"},
+        h("b",null,x.name||x.username),
+        h("small",{style:"color:var(--mut);direction:ltr"},"@"+x.username),
+        h("span",{class:"pill "+(dis?"gray":"green")},dis?"موقوف":"نشط"),
+        h("small",{style:"margin-inline-start:auto;color:var(--mut)"},x.lastActiveAt?("آخر نشاط "+ago(x.lastActiveAt)):"لسه مادخلش")),
+      h("div",{style:"display:flex;gap:12px;color:var(--mut);font-size:12.5px;margin-top:8px;flex-wrap:wrap"},
+        h("span",null,"خلّص "+(x.doneCount||0)+" عنصر"),
+        h("span",null,(x.notesCount||0)+" ملاحظة"),
+        h("span",null,"اتسجل "+(x.createdAt?ago(x.createdAt):"—"))),
+      h("div",{class:"act",style:"margin-top:10px"},
+        h("button",{class:"btn sm",onclick:()=>stuReset(x)},ic("fa-key"),"كلمة سر جديدة"),
+        h("button",{class:"btn sm",onclick:()=>stuToggle(x)},ic(dis?"fa-play":"fa-ban"),dis?"تفعيل":"إيقاف"),
+        h("button",{class:"btn red sm",onclick:()=>stuDel(x)},ic("fa-trash"),"حذف"))))})}
+async function stuReset(x){if(!confirm("توليد كلمة سر جديدة للطالب @"+x.username+"؟ هيتقفل من كل أجهزته ولازم يدخل بالجديدة."))return;busy(true,"جاري التوليد...");
+  try{const d=await api("stuResetPw",{username:x.username});busy(false);
+    openSheet("كلمة السر الجديدة",[
+      h("p",{style:"text-align:center;color:var(--mut);font-size:13px"},"دي كلمة السر الجديدة للطالب "+(x.name||x.username)+". ابعتهاله — مش هتظهر تاني:"),
+      h("div",{style:"direction:ltr;text-align:center;font-size:22px;font-weight:900;letter-spacing:2px;background:#f3f6fb;border-radius:14px;padding:16px;margin:10px 0"},d.password),
+      h("button",{class:"btn",style:"width:100%;justify-content:center",onclick:async e=>{try{await navigator.clipboard.writeText(d.password);e.currentTarget.textContent="اتنسخت ✓"}catch(_){toast("انسخها يدويًا",true)}}},"نسخ كلمة السر")])}
+  catch(e){busy(false);toast(net(e),true)}}
+async function stuToggle(x){const dis=x.status!=="active";
+  if(!confirm((dis?"تفعيل":"إيقاف")+" حساب @"+x.username+"؟"+(dis?"":" هيتقفل فورًا ومش هيقدر يزامن تقدّمه.")))return;busy(true);
+  try{await api("stuSetStatus",{username:x.username,status:dis?"active":"disabled"});x.status=dis?"active":"disabled";renderStu();toast(dis?"اتفعّل الحساب.":"اتوقّف الحساب.")}catch(e){toast(net(e),true)}busy(false)}
+async function stuDel(x){if(!confirm("حذف حساب @"+x.username+" نهائيًا؟ تقدّمه وملاحظاته على السيرفر هيتحذفوا كمان."))return;busy(true);
+  try{await api("stuDelete",{username:x.username});ST=ST.filter(y=>y.username!==x.username);renderStu();toast("اتحذف الحساب.")}catch(e){toast(net(e),true)}busy(false)}
 
 async function loadLog(){const b=$("lgl");b.innerHTML="";b.appendChild(h("div",{class:"empty"},"جاري التحميل..."));
   try{LG=(await api("adminLog")).log||[];b.innerHTML="";

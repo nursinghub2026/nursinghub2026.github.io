@@ -50,7 +50,7 @@ body.theory .lh .en{color:#d9c8f5}
 </style></head><body>
 <main class="wrap" id="app"><div class="sk" style="min-height:200px"></div></main>
 <script src="nav.js"></script>
-<script src="progress.js"></script>
+<script src="progress.js"></script><script src="auth.js"></script>
 <script>
 const CK="NPH_PUB_V1";
 const SEC={explanation:{en:"Explanation",ar:"الشرح",icon:"fa-book-open"},skills:{en:"Skills",ar:"المهارات العملية",icon:"fa-hand-holding-medical"},checklists:{en:"Checklist",ar:"الشيك ليست",icon:"fa-clipboard-check"},quizzes:{en:"Quiz",ar:"الكويزات",icon:"fa-brain"}};
@@ -66,10 +66,11 @@ function chromeLink(u){const ua=navigator.userAgent;const inC=/Chrome\//.test(ua
   if(/CriOS/.test(ua)||inC)return null;
   if(/Android/i.test(ua))return"intent://"+u.replace(/^https?:\/\//,"")+"#Intent;scheme="+(u.indexOf("https")===0?"https":"http")+";package=com.android.chrome;end";
   if(/iPhone|iPad|iPod/i.test(ua))return u.replace(/^https:/,"googlechromes:").replace(/^http:/,"googlechrome:");return null}
+const authed=()=>window.NPHAuth&&NPHAuth.isLoggedIn();
 function itemCard(it,i){
   const b=h("div",{class:"ib"});
   const head=h("div",{class:"ihead"},h("h3",null,it.title));
-  if(it.id){
+  if(it.id&&authed()){
     const db=h("button",{class:"pdone"+(NPH.isDone(it.id)?" on":""),type:"button",title:"علّمها خلصت",onclick:e=>{const on=NPH.toggleDone(it.id);e.currentTarget.classList.toggle("on",on);e.currentTarget.querySelector("span").textContent=on?"خلصتها":"خلصت";paintLp();NPH.checkBadges(NPH.statsFor(LST))}},ic("fa-check"),h("span",null,NPH.isDone(it.id)?"خلصتها":"خلصت"));
     const fb=h("button",{class:"pfav"+(NPH.isFav(it.id)?" on":""),type:"button",title:"احفظ في المفضلة",onclick:e=>{e.currentTarget.classList.toggle("on",NPH.toggleFav(it.id))}},ic("fa-star"));
     head.appendChild(h("div",{class:"pacts"},fb,db));
@@ -100,32 +101,38 @@ function render(){
     h("div",{class:"mp"},h("span",{class:"pill"},lecture.subject),h("span",{class:"pill"},lecture.level)));
   if(lecture.description)hd.appendChild(h("p",null,lecture.description));
   const lp=h("div",{class:"plp"},h("div",{class:"pbar"},h("i")),h("span",{class:"plpt"},""));
-  hd.appendChild(lp);
+  if(authed())hd.appendChild(lp);
   app.appendChild(hd);
   paintLp();
   const tabs=h("div",{class:"tabs"+(th?" two":"")});
   Object.keys(S).forEach(k=>{const s=S[k];
-    tabs.appendChild(h("button",{class:"tab"+(k===tab?" on":""),onclick:()=>{tab=k;NPH.touch(lecture.id,tab);render();window.scrollTo({top:hd.offsetTop+hd.offsetHeight-40,behavior:"smooth"})}},h("em",null,String(cn(k))),ic(s.icon),s.en,h("small",null,s.ar)))});
+    tabs.appendChild(h("button",{class:"tab"+(k===tab?" on":""),onclick:()=>{tab=k;if(authed())NPH.touch(lecture.id,tab);render();window.scrollTo({top:hd.offsetTop+hd.offsetHeight-40,behavior:"smooth"})}},h("em",null,String(cn(k))),ic(s.icon),s.en,h("small",null,s.ar)))});
   app.appendChild(h("div",{class:"tw"},tabs));
   const wrap=h("div",{class:"items"}),items=(lecture.sections&&lecture.sections[tab])||[];
   if(!items.length)wrap.appendChild(h("div",{class:"empty card"},ic("fa-folder-open"),"لسه مفيش محتوى في القسم ده."));
   items.forEach((it,i)=>wrap.appendChild(itemCard(it,i)));
   app.appendChild(wrap);
-  const saveSt=h("small",null,"");
-  const ta=h("textarea",{class:"ptext",id:"notes",rows:"3",placeholder:"اكتب ملاحظاتك عن المحاضرة دي... هتتحفظ على جهازك بس."},NPH.getNote(lecture.id));
-  let tmr=null;
-  const saveNow=()=>{clearTimeout(tmr);NPH.setNote(lecture.id,ta.value);saveSt.textContent="اتحفظت على جهازك ✓"};
-  ta.addEventListener("input",()=>{saveSt.textContent="بيحفظ...";clearTimeout(tmr);tmr=setTimeout(saveNow,600)});
-  ta.addEventListener("blur",saveNow);
-  app.appendChild(h("div",{class:"pnotec rv",style:"margin-top:16px"},h("div",{class:"pnoteh"},ic("fa-note-sticky")," ملاحظاتك على المحاضرة",saveSt),ta));
+  if(authed()){
+    const saveSt=h("small",null,"");
+    const ta=h("textarea",{class:"ptext",id:"notes",rows:"3",placeholder:"اكتب ملاحظاتك عن المحاضرة دي... هتتحفظ في حسابك على كل أجهزتك."},NPH.getNote(lecture.id));
+    let tmr=null;
+    const saveNow=()=>{clearTimeout(tmr);NPH.setNote(lecture.id,ta.value);saveSt.textContent="اتحفظت ✓"};
+    ta.addEventListener("input",()=>{saveSt.textContent="بيحفظ...";clearTimeout(tmr);tmr=setTimeout(saveNow,600)});
+    ta.addEventListener("blur",saveNow);
+    app.appendChild(h("div",{class:"pnotec rv",style:"margin-top:16px"},h("div",{class:"pnoteh"},ic("fa-note-sticky")," ملاحظاتك على المحاضرة",saveSt),ta));
+  }else{
+    app.appendChild(h("div",{class:"authb rv",style:"margin-top:16px"},ic("fa-user-lock"),
+      h("div",{class:"authb-t"},h("b",null,"علّم على اللي خلصته واحفظ ملاحظاتك"),"سجّل دخولك عشان تفتح أزرار التقدّم والمفضلة والملاحظات — وتتزامن على كل أجهزتك"),
+      h("button",{type:"button",onclick:()=>NPHAuth.openModal("login")},"سجّل دخولك")));
+  }
   const same=LST.filter(l=>(l.track==="theory")===th),i=same.findIndex(x=>String(x.id)===String(lecture.id));
   const pv=same[i-1],nx=same[i+1];
   if(pv||nx){const pn=h("div",{class:"pn"});
     pn.appendChild(pv?h("a",{href:"Lecture.html?id="+encodeURIComponent(pv.id)},h("small",null,"المحاضرة السابقة"),h("b",null,pv.titleAr||pv.title)):h("span"));
     pn.appendChild(nx?h("a",{class:"nx",href:"Lecture.html?id="+encodeURIComponent(nx.id)},h("small",null,"المحاضرة التالية"),h("b",null,nx.titleAr||nx.title)):h("span"));
     app.appendChild(pn)}}
-function paintLp(){const el=document.querySelector(".plp");if(!el||!lecture)return;const p=NPH.lectureProgress(lecture);el.querySelector(".pbar i").style.width=p.pct+"%";el.querySelector(".plpt").textContent=p.total?(p.done===p.total?"خلصت المحاضرة كلها، برافو! 🎉":("خلصت "+p.done+" من "+p.total+" ("+p.pct+"%)")):""}
-function show(list){LST=list;const l=list.find(x=>String(x.id)===String(lid));if(!l)return false;lecture=l;document.title=l.title+" | FOUNDATIONS";NPH.touch(lecture.id,tab);NPH.checkBadges(NPH.statsFor(LST));render();return true}
+function paintLp(){const el=document.querySelector(".plp");if(!el||!lecture||!authed())return;const p=NPH.lectureProgress(lecture);el.querySelector(".pbar i").style.width=p.pct+"%";el.querySelector(".plpt").textContent=p.total?(p.done===p.total?"خلصت المحاضرة كلها، برافو! 🎉":("خلصت "+p.done+" من "+p.total+" ("+p.pct+"%)")):""}
+function show(list){LST=list;const l=list.find(x=>String(x.id)===String(lid));if(!l)return false;lecture=l;document.title=l.title+" | FOUNDATIONS";if(authed()){NPH.touch(lecture.id,tab);NPH.checkBadges(NPH.statsFor(LST))}render();return true}
 async function load(){
   if(!lid)return msg("المحاضرة مش متحددة. ارجع لقائمة المحاضرات.");
   let shown=false;

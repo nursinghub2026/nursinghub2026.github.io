@@ -20,11 +20,23 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   const btn=h("button",{class:"mbtn",type:"button","aria-label":"القائمة","aria-expanded":"false"});
   function lab(o){btn.innerHTML="";btn.appendChild(ic(o?"fa-xmark":"fa-bars"));btn.appendChild(h("span",{class:"mt"},o?"إغلاق":"القائمة"))}
   lab(false);
+  const abtn=h("button",{id:"abtn",class:"abtn2",type:"button","aria-label":"حسابي"});
+  function paintAb(){
+    let a=null;try{const r=localStorage.getItem("NPH_AUTH_V1");if(r)a=JSON.parse(r)}catch(e){}
+    abtn.innerHTML="";
+    if(a&&a.token){abtn.appendChild(h("span",null,((a.name||a.username||"؟").trim()[0]||"؟")));abtn.classList.add("on")}
+    else{abtn.appendChild(ic("fa-user"));abtn.classList.remove("on")}
+  }
+  paintAb();
+  abtn.onclick=e=>{e.stopPropagation();
+    if(window.NPHAuth){NPHAuth.openAuth();return}
+    const s=document.createElement("script");s.src="auth.js";s.onload=()=>{if(window.NPHAuth)NPHAuth.openAuth()};document.head.appendChild(s)};
   const menu=h("nav",{class:"menu"},h("div",{class:"menu-in"},PAGES.map(p=>h("a",{href:p[0],class:on(p[0])?"on":""},h("span",{class:"mi"},ic(p[2])),h("span",{class:"ml"},p[1])))));
   const scrim=h("div",{class:"scrim"});
   const nav=h("header",{class:"nav"},
     h("div",{class:"nav-in"},
       h("a",{class:"brand",href:"index.html"},h("b",null,BRAND.name),h("small",null,BRAND.sub)),
+      abtn,
       btn),
     menu);
   document.body.prepend(scrim);

@@ -6,7 +6,7 @@ const KEY="NPH_PROGRESS_V1";
 const def=()=>({v:1,done:{},fav:{},notes:{},last:null,days:{},badges:{}});
 let S=def();
 try{const r=localStorage.getItem(KEY);if(r){const p=JSON.parse(r);if(p&&typeof p==="object")S=Object.assign(def(),p)}}catch(e){}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}if(window.NPH_SYNC_HOOK)try{window.NPH_SYNC_HOOK()}catch(e){}}
 const pad=n=>String(n).padStart(2,"0");
 const dayKey=d=>{d=d||new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
 
@@ -217,6 +217,7 @@ window.NPH={
   getNote,setNote,notesList,
   lectureItems,lectureProgress,overall,statsFor,findItem,
   badgeList,checkBadges,toast,iosHint,ensureCss,
+  reload(){try{const r=localStorage.getItem(KEY);S=r?Object.assign(def(),JSON.parse(r)):def()}catch(e){S=def()}},
   reset(){try{localStorage.removeItem(KEY)}catch(e){}S=def()}
 };
 ensureCss();

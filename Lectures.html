@@ -39,7 +39,7 @@
   <div class="empty hidden" id="msg"></div>
 </main>
 <script src="nav.js"></script>
-<script src="progress.js"></script>
+<script src="progress.js"></script><script src="auth.js"></script>
 <script>
 const CK="NPH_PUB_V1",ICONS=["fa-book-medical","fa-user-nurse","fa-heart-pulse","fa-droplet","fa-stethoscope","fa-syringe","fa-hand-holding-medical","fa-notes-medical"];
 const th=new URLSearchParams(location.search).get("track")==="theory",TRACK=th?"theory":"practical";
@@ -59,7 +59,8 @@ function render(){
   mine.forEach((l,i)=>{
     if(![l.title,l.titleAr,l.subject,l.level,l.description].join(" ").toLowerCase().includes(f))return;n++;
     const c=(k)=>((l.sections&&l.sections[k])||[]).length;
-    const p=NPH.lectureProgress(l);
+    const authed=window.NPHAuth&&NPHAuth.isLoggedIn();
+    const p=authed?NPH.lectureProgress(l):{done:0,total:0,pct:0};
     g.appendChild(h("div",{class:"lc rv"},
       h("div",{class:"band"},(p.total&&p.pct===100)?h("span",{class:"pdonechip"},ic("fa-check")," خلصتها"):null,h("div",{class:"no"},String(i+1).padStart(2,"0")),h("div",{class:"ico"},ic(ICONS[i%ICONS.length]))),
       h("div",{class:"bd"},
