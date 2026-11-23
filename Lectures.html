@@ -39,6 +39,7 @@
   <div class="empty hidden" id="msg"></div>
 </main>
 <script src="nav.js"></script>
+<script src="progress.js"></script>
 <script>
 const CK="NPH_PUB_V1",ICONS=["fa-book-medical","fa-user-nurse","fa-heart-pulse","fa-droplet","fa-stethoscope","fa-syringe","fa-hand-holding-medical","fa-notes-medical"];
 const th=new URLSearchParams(location.search).get("track")==="theory",TRACK=th?"theory":"practical";
@@ -58,14 +59,16 @@ function render(){
   mine.forEach((l,i)=>{
     if(![l.title,l.titleAr,l.subject,l.level,l.description].join(" ").toLowerCase().includes(f))return;n++;
     const c=(k)=>((l.sections&&l.sections[k])||[]).length;
+    const p=NPH.lectureProgress(l);
     g.appendChild(h("div",{class:"lc rv"},
-      h("div",{class:"band"},h("div",{class:"no"},String(i+1).padStart(2,"0")),h("div",{class:"ico"},ic(ICONS[i%ICONS.length]))),
+      h("div",{class:"band"},(p.total&&p.pct===100)?h("span",{class:"pdonechip"},ic("fa-check")," خلصتها"):null,h("div",{class:"no"},String(i+1).padStart(2,"0")),h("div",{class:"ico"},ic(ICONS[i%ICONS.length]))),
       h("div",{class:"bd"},
         h("div",{class:"en"},"LECTURE "+String(i+1).padStart(2,"0")),
         h("h3",null,l.titleAr||l.title),l.titleAr?h("div",{class:"t2"},l.title):null,
         h("p",{class:"ds"},l.description||(l.subject+" - "+l.level)),
         h("div",{class:"mt"},h("span",{class:"pill"},l.subject),h("span",{class:"pill gray"},l.level)),
         h("div",{class:"sts"},LAB.map(x=>h("div",null,h("b",null,String(c(x[0]))),h("small",null,x[1])))),
+        p.total?h("div",{class:"pmini"},h("div",{class:"pbar sm"},h("i",{style:"width:"+p.pct+"%"})),h("span",{class:"ppct"},p.pct+"%")):null,
         h("a",{class:"btn",href:"Lecture.html?id="+encodeURIComponent(l.id)},"افتح المحاضرة ",ic("fa-arrow-left")))))});
   $("cnt").textContent=n+" محاضرة";
   const m=$("msg");
