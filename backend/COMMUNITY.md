@@ -27,3 +27,6 @@ Rate limits are basic protection, not a full spam or abuse service. At large sca
 
 ## Coexistence with theory PR
 This PR is based on current main, separate from theory-audio-flashcards. Both add stylesheet/script tags to admin.html and cache entries to sw.js. If Git reports a merge conflict, preserve both modules and all precache entries, and choose a fresh cache version. Do not replace one feature with the other.
+
+## Social-post visual update
+Posts now have a round FOUNDATIONS avatar, author/time/public visibility header, colored text body, optional image, reaction/comment totals, Like/Comment action row, selectable reaction tray, comment bubbles and composer. The Like action opens the reaction tray; no external Facebook connection, tracking, sharing or account access is involved. Existing navy/gold branding stays. Admin-only optional images accept existing direct HTTPS Cloudinary PNG/JPG/WebP URLs only; no upload or new paid service. SVG, arbitrary hosts and script URLs are rejected server-side and by the renderer. Images load only for published posts shown in the feed; external hosting still sees normal image requests. No image is added automatically or taken from a person's profile.

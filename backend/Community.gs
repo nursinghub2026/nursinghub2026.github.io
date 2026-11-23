@@ -21,12 +21,13 @@ function cpStudent_(p){
 function cpRate_(rows,username,seconds,dailyMax){var own=rows.filter(function(x){return x.username===username;}).sort(function(a,b){return b.at.localeCompare(a.at);}),now=Date.now();if(own.length&&now-new Date(own[0].at).getTime()<seconds*1000)throw new Error('استنى شوية قبل المحاولة التالية');if(own.filter(function(x){return now-new Date(x.at).getTime()<86400000;}).length>=dailyMax)throw new Error('وصلت للحد اليومي. ارجع بكرة');}
 function cpPost_(id){id=cpText_(id,100,true);var x=cpLatest_('posts').filter(function(y){return y.id===id;})[0];if(!x||x.hidden)throw new Error('المنشور غير متاح');return x;}
 function cpStyle_(s){s=s||{};var bg=String(s.bg||'#102c42'),color=String(s.color||'#ffffff'),size=Number(s.size)||24,font=String(s.font||'default');if(!/^#[0-9a-fA-F]{6}$/.test(bg)||!/^#[0-9a-fA-F]{6}$/.test(color)||CP_FONTS_.indexOf(font)<0||[18,24,30].indexOf(size)<0)throw new Error('تنسيق غير صالح');return {bg:bg,color:color,size:size,font:font};}
+function cpImage_(v){if(!v)return '';v=cpText_(v,1800,true);if(!/^https:\/\/res\.cloudinary\.com\/[a-z0-9_-]+\/image\/upload\/[A-Za-z0-9_.,!\/~%+\-]+\.(png|jpg|jpeg|webp)$/.test(v))throw new Error('استخدم رابط صورة Cloudinary مباشر PNG/JPG/WebP');return v;}
 function cpRoute_(p){
   var admin=/^admin/.test(p.action);if(admin)cpAdmin_(p);
   if(p.action==='adminCommunitySave'){
     var all=cpLatest_('posts'),old=p.id?all.filter(function(x){return x.id===p.id;})[0]:null;
     if(p.id&&!old)throw new Error('المنشور مش موجود');if(!old&&all.length>=1000)throw new Error('وصلت لحد المنشورات');
-    var x={id:old?old.id:Utilities.getUuid(),text:cpText_(p.text,4000,true),style:cpStyle_(p.style),hidden:p.hidden===true,at:old?old.at:new Date().toISOString(),updatedAt:new Date().toISOString()};cpAppend_('posts',x);return {ok:true,id:x.id};
+    var x={id:old?old.id:Utilities.getUuid(),text:cpText_(p.text,4000,true),style:cpStyle_(p.style),imageUrl:cpImage_(p.imageUrl),hidden:p.hidden===true,at:old?old.at:new Date().toISOString(),updatedAt:new Date().toISOString()};cpAppend_('posts',x);return {ok:true,id:x.id};
   }
   if(p.action==='adminCommunityModerate'){
     var comment=cpLatest_('comments').filter(function(x){return x.id===p.commentId;})[0];if(!comment)throw new Error('التعليق مش موجود');
@@ -50,7 +51,7 @@ function cpRoute_(p){
     var more=posts.length>10;posts=posts.slice(0,10);var comments=cpLatest_('comments'),reactions=cpLatest_('reactions'),me=null;
     if(p.token){try{me=cpStudent_(p);}catch(e){}}
     var safe=posts.map(function(x){var cs=comments.filter(function(c){return c.postId===x.id&&(admin||!c.hidden);}).sort(function(a,b){return a.at.localeCompare(b.at);}),counts={};CP_EMOJI_.forEach(function(e){counts[e]=0;});var my='';reactions.filter(function(r){return r.postId===x.id&&CP_EMOJI_.indexOf(r.emoji)>=0;}).forEach(function(r){counts[r.emoji]++;if(me&&r.username===me.username)my=r.emoji;});
-      return {id:x.id,text:x.text,style:x.style,at:x.at,hidden:x.hidden,counts:counts,myReaction:my,commentCount:cs.length,comments:(admin?cs:cs.slice(-50)).map(function(c){return {id:c.id,name:c.name,text:c.hidden?'تعليق محذوف بواسطة الإدارة':c.text,at:c.at,hidden:c.hidden};})};});
+      return {id:x.id,text:x.text,style:x.style,imageUrl:x.imageUrl||'',at:x.at,hidden:x.hidden,counts:counts,myReaction:my,commentCount:cs.length,comments:(admin?cs:cs.slice(-50)).map(function(c){return {id:c.id,name:c.name,text:c.hidden?'تعليق محذوف بواسطة الإدارة':c.text,at:c.at,hidden:c.hidden};})};});
     return {ok:true,version:1,posts:safe,more:more,next:more&&posts.length?posts[posts.length-1].id:null,total:count};
   }
   throw new Error('عملية غير معروفة');
