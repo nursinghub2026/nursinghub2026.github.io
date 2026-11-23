@@ -30,7 +30,7 @@
 .sts div{text-align:center;background:var(--acs);border-radius:14px;padding:8px 4px}
 .sts b{display:block;font-size:17px;color:var(--ac);font-weight:900;line-height:1.2}.sts small{font-size:10.5px;color:var(--mut);font-weight:700}
 .lc .btn{margin-top:16px;width:100%}
-</style></head><body>
+</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"></head><body>
 <div class="ph"><div class="k" id="pk"></div><h1 id="pt"></h1><p id="ps"></p></div>
 <div class="sr"><div class="sb"><i class="fa-solid fa-magnifying-glass"></i><input id="q" placeholder="دوّر على محاضرة..."></div></div>
 <main class="wrap" style="padding-top:0">
@@ -81,4 +81,4 @@ async function load(){
   try{const d=await(await fetch(API)).json();if(!d.ok)throw new Error(d.error);L=d.lectures||[];try{localStorage.setItem(CK,JSON.stringify(L))}catch(e){}}catch(e){failed=true}
   loaded=true;render()}
 $("q").addEventListener("input",render);load();
-</script></body></html>
+</script><script src="firebase-config.js"></script><script src="push.js" defer></script></body></html>

@@ -93,3 +93,34 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   function scan(){document.querySelectorAll(".rv:not(.seen)").forEach(e=>{e.classList.add("seen");io.observe(e)})}
   new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan();
 })();
+
+/* --- PWA (المرحلة 3): تسجيل الـ Service Worker + تفعيل تلميح الآيفون + زرار تثبيت التطبيق --- */
+(function(){
+  window.NPH_PUSH_ENABLED=true; // بيفعّل تلميح «ضيف الموقع للشاشة الرئيسية» على iOS
+  if("serviceWorker" in navigator){
+    window.addEventListener("load",function(){
+      navigator.serviceWorker.register("sw.js").catch(function(){});
+    });
+  }
+  var deferredInstall=null;
+  window.addEventListener("beforeinstallprompt",function(e){
+    e.preventDefault();deferredInstall=e;showInstallPill();
+  });
+  window.addEventListener("appinstalled",function(){var p=document.getElementById("nphInstall");if(p)p.remove();deferredInstall=null;});
+  function showInstallPill(){
+    if(document.getElementById("nphInstall"))return;
+    if(!document.querySelector("style#nphInstCss")){
+      var st=document.createElement("style");st.id="nphInstCss";
+      st.textContent="#nphInstall{position:fixed;bottom:18px;left:18px;z-index:980;display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1px solid rgba(212,175,90,.55);background:#0b2540;color:#f3e6c8;font:700 14px/1 inherit;box-shadow:0 10px 30px rgba(6,16,31,.45);cursor:pointer;transition:transform .2s ease}#nphInstall:hover{transform:translateY(-2px)}#nphInstall i{color:#d4af5a}";
+      document.head.appendChild(st);
+    }
+    var b=document.createElement("button");b.id="nphInstall";b.type="button";
+    b.innerHTML='<i class="fa-solid fa-mobile-screen-button"></i> ثبّت التطبيق';
+    b.onclick=function(){
+      if(!deferredInstall)return;
+      deferredInstall.prompt();
+      deferredInstall.userChoice.finally(function(){var p=document.getElementById("nphInstall");if(p)p.remove();deferredInstall=null;});
+    };
+    document.body.appendChild(b);
+  }
+})();
