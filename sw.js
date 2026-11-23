@@ -1,5 +1,5 @@
 /* FOUNDATIONS Service Worker — PWA + offline */
-const CACHE = "nph-pwa-v2";
+const CACHE = "nph-pwa-v3";
 try { importScripts("./firebase-messaging-sw.js"); } catch (e) { /* Offline remains available if push SDK is unreachable. */ }
 const PRECACHE = [
   "./",
@@ -15,6 +15,8 @@ const PRECACHE = [
   "./data.js",
   "./config.js",
   "./firebase-config.js",
+  "./notification-ui.js",
+  "./notification-badge.png",
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon.png"
