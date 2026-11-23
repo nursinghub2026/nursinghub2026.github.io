@@ -30,6 +30,18 @@
 .sts div{text-align:center;background:var(--acs);border-radius:14px;padding:8px 4px}
 .sts b{display:block;font-size:17px;color:var(--ac);font-weight:900;line-height:1.2}.sts small{font-size:10.5px;color:var(--mut);font-weight:700}
 .lc .btn{margin-top:16px;width:100%}
+.lec-extras{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:8px;margin-top:8px;margin-bottom:16px}
+.theory .lc .bd>.btn{margin-top:auto}
+.lec-extras[hidden]{display:none}
+.lec-extra-chip{text-align:center;background:var(--acs);border:1px solid transparent;border-radius:14px;padding:9px 4px;color:var(--ac);min-height:62px;transition:border-color .2s,background .2s}
+.lec-extra-chip b{display:block;font-size:17px;font-weight:900;line-height:1.3}
+.lec-extra-chip small{font-size:10.5px;color:var(--mut);font-weight:700;white-space:nowrap}
+.lec-extra-chip small i{font-size:10px;color:var(--ac);margin-inline-end:2px}
+.lec-extra-chip:hover{border-color:var(--ac)}
+.lec-extra-chip:focus-visible,.lec-extra-retry:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.lec-extra-status{grid-column:1/-1;color:var(--mut);font-size:10px;padding:4px;text-align:center}
+.lec-extra-retry{grid-column:1/-1;border:1px solid var(--line);border-radius:10px;background:transparent;color:var(--ac);font:700 11px inherit;min-height:36px;cursor:pointer}
+
 </style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="mobile.css"></head><body>
 <div class="ph"><div class="k" id="pk"></div><h1 id="pt"></h1><p id="ps"></p></div>
 <nav class="track-switch" aria-label="نوع المحاضرات"><a href="Lectures.html?track=theory" data-track="theory">النظري</a><a href="Lectures.html?track=practical" data-track="practical">العملي</a></nav>
@@ -41,6 +53,7 @@
 </main>
 <script src="nav.js"></script>
 <script src="progress.js"></script><script src="auth.js"></script>
+<script src="lecture-extra-counts.js"></script>
 <script>
 const CK="NPH_PUB_V1",ICONS=["fa-book-medical","fa-user-nurse","fa-heart-pulse","fa-droplet","fa-stethoscope","fa-syringe","fa-hand-holding-medical","fa-notes-medical"];
 const th=new URLSearchParams(location.search).get("track")==="theory",TRACK=th?"theory":"practical";
@@ -62,6 +75,7 @@ function render(){
     const c=(k)=>((l.sections&&l.sections[k])||[]).length;
     const authed=window.NPHAuth&&NPHAuth.isLoggedIn();
     const p=authed?NPH.lectureProgress(l):{done:0,total:0,pct:0};
+    const extra=th?h("div",{class:"lec-extras","aria-label":"إضافات المحاضرة"}):null;
     g.appendChild(h("div",{class:"lc rv"},
       h("div",{class:"band"},(p.total&&p.pct===100)?h("span",{class:"pdonechip"},ic("fa-check")," خلصتها"):null,h("div",{class:"no"},String(i+1).padStart(2,"0")),h("div",{class:"ico"},ic(ICONS[i%ICONS.length]))),
       h("div",{class:"bd"},
@@ -70,8 +84,9 @@ function render(){
         h("p",{class:"ds"},l.description||(l.subject+" - "+l.level)),
         h("div",{class:"mt"},h("span",{class:"pill"},l.subject),h("span",{class:"pill gray"},l.level)),
         h("div",{class:"sts"},LAB.map(x=>h("div",null,h("b",null,String(c(x[0]))),h("small",null,x[1])))),
+        extra,
         p.total?h("div",{class:"pmini"},h("div",{class:"pbar sm"},h("i",{style:"width:"+p.pct+"%"})),h("span",{class:"ppct"},p.pct+"%")):null,
-        h("a",{class:"btn",href:"Lecture.html?id="+encodeURIComponent(l.id)},"افتح المحاضرة ",ic("fa-arrow-left")))))});
+        h("a",{class:"btn",href:"Lecture.html?id="+encodeURIComponent(l.id)},"افتح المحاضرة ",ic("fa-arrow-left")))));if(extra)NPHExtraCounts.mount(extra,l.id)});
   $("cnt").textContent=n+" محاضرة";
   const m=$("msg");
   if(!loaded){return}
