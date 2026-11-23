@@ -62,7 +62,7 @@ function adminPushList_(req) {
     total++;
     users[String(rows[i][0])] = true;
   }
-  return { ok: true, total, users: Object.keys(users).sort(), configured: !!fcmSa_() };
+  return { ok: true, total, users: Object.keys(users).sort(), configured: !!fcmSa_(), customImages: typeof pushImageConfigured_ === 'function' && pushImageConfigured_() };
 }
 
 /* إرسال إشعار: لكل الطلبة أو لطالب واحد */
@@ -83,7 +83,12 @@ function adminPushSend_(req) {
   if (!targets.length) return { ok: false, error: username ? 'مفيش جهاز مسجل للطالب ده' : 'مفيش أجهزة مسجلة لسه' };
   const requestedUrl = String(req.url || 'index.html');
   const noticeUrl = /^(index\.html|Lectures\.html|Lecture\.html\?id=[a-zA-Z0-9%_-]+)$/.test(requestedUrl) ? requestedUrl : 'index.html';
-  const res = fcmSendToTokens_(targets, title, body, { url: noticeUrl, banner: ['lecture','quiz','reply','motivation','none'].indexOf(req.banner) >= 0 ? req.banner : 'lecture' });
+  let imageUrl = '';
+  if(req.banner==='custom'){
+    if(typeof pushUploadImage_ !== 'function')return {ok:false,error:'استضافة الصور المخصصة لسه مش متظبطة'};
+    try{imageUrl=pushUploadImage_(req.imagePng)}catch(e){return {ok:false,error:e.message}}
+  }
+  const res = fcmSendToTokens_(targets, title, body, { url: noticeUrl, imageUrl, banner: ['lecture','quiz','reply','motivation','none'].indexOf(req.banner) >= 0 ? req.banner : 'lecture' });
   pushLogSheet_().appendRow([new Date(), username || 'ALL', title, body, res.sent, res.failed, res.configured]);
   return { ok: true, sent: res.sent, failed: res.failed, configured: res.configured };
 }
@@ -157,7 +162,8 @@ function fcmSendToTokens_(tokens, title, body, data) {
           data: data ? Object.keys(data).reduce((m, k) => { m[k] = String(data[k]); return m; }, {}) : {}
         }
       };
-      if (noticeKind !== 'none') msg.message.webpush.notification.image = 'https://nursinghub2026.github.io/notification-images/' + noticeKind + '.png';
+      if (data && data.imageUrl) msg.message.webpush.notification.image = data.imageUrl;
+      else if (noticeKind !== 'none') msg.message.webpush.notification.image = 'https://nursinghub2026.github.io/notification-images/' + noticeKind + '.png';
       const r = UrlFetchApp.fetch(url, {
         method: 'post',
         contentType: 'application/json',

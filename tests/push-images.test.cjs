@@ -1,0 +1,17 @@
+const path=require('path');const root=path.join(__dirname,'..');
+const fs=require('fs'),vm=require('vm'),assert=require('assert'),crypto=require('crypto');
+const imageCode=fs.readFileSync(path.join(root,'backend/PushImages.gs'),'utf8'),pushCode=fs.readFileSync(path.join(root,'backend/Push.gs'),'utf8');
+let uploadCalls=0,fcmCalls=0,configured=true,uploadFail=false,bodySent;
+const props={CLOUDINARY_CLOUD_NAME:'test-cloud',CLOUDINARY_API_KEY:'test-key',CLOUDINARY_API_SECRET:'test-secret',FCM_SA:'{}'};
+const bytes=Buffer.alloc(24);Buffer.from([137,80,78,71,13,10,26,10]).copy(bytes);bytes.writeUInt32BE(1200,16);bytes.writeUInt32BE(600,20);
+const ctx={console,Date,JSON,Error,Array,String,Object,RegExp,PropertiesService:{getScriptProperties:()=>({getProperty:k=>configured?props[k]:null})},Utilities:{base64Decode:s=>[...Buffer.from(s,'base64')],getUuid:()=> 'immutable-id',newBlob:b=>b,DigestAlgorithm:{SHA_1:'sha1'},computeDigest:(a,s)=>[...crypto.createHash(a).update(s).digest()]},UrlFetchApp:{fetch:(url,o)=>{uploadCalls++;assert(url.startsWith('https://api.cloudinary.com/'));assert.equal(o.payload.overwrite,'false');const signed='overwrite=false&public_id='+o.payload.public_id+'&timestamp='+o.payload.timestamp+'test-secret';assert.equal(o.payload.signature,crypto.createHash('sha1').update(signed).digest('hex'));return{getResponseCode:()=>uploadFail?400:200,getContentText:()=>JSON.stringify({public_id:o.payload.public_id,secure_url:'https://res.cloudinary.com/test-cloud/image/upload/v1/'+o.payload.public_id+'.png'})}}},SpreadsheetApp:{},stuRequireAdmin_:()=>{},stuAuth_:()=>{}};
+vm.createContext(ctx);vm.runInContext(imageCode,ctx);
+assert(ctx.pushImageConfigured_());const url=ctx.pushUploadImage_(bytes.toString('base64'));assert(url.includes('immutable-id'));
+for(const input of ['',Buffer.from('not image').toString('base64'),'A'.repeat(1000001)])assert.throws(()=>ctx.pushUploadImage_(input));
+const bad=Buffer.from(bytes);bad.writeUInt32BE(100,16);assert.throws(()=>ctx.pushUploadImage_(bad.toString('base64')));
+configured=false;assert.throws(()=>ctx.pushUploadImage_(bytes.toString('base64')));configured=true;
+vm.runInContext(pushCode,ctx);ctx.pushTokensSheet_=()=>({getDataRange:()=>({getValues:()=>[['user','token'],['student','device']]})});ctx.pushLogSheet_=()=>({appendRow:()=>{}});ctx.fcmSendToTokens_=(targets,title,body,data)=>{fcmCalls++;bodySent=data;return{sent:1,failed:0,configured:true}};
+let r=ctx.adminPushSend_({title:'Test',body:'Text',banner:'custom',imagePng:bytes.toString('base64')});assert(r.ok);assert.equal(fcmCalls,1);assert(bodySent.imageUrl.startsWith('https://res.cloudinary.com/'));assert(!bodySent.imagePng);
+uploadFail=true;r=ctx.adminPushSend_({title:'Test',body:'Text',banner:'custom',imagePng:bytes.toString('base64')});assert.equal(r.ok,false);assert.equal(fcmCalls,1);
+configured=false;r=ctx.adminPushSend_({title:'Test',body:'Text',banner:'lecture'});assert(r.ok);assert.equal(fcmCalls,2);assert.equal(bodySent.imageUrl,'');
+console.log('PASS: PNG magic/dimensions/size, missing config, unique signed no-overwrite upload, custom send URL, upload failure stops send, existing banners unchanged.');
