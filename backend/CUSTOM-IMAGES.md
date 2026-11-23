@@ -32,3 +32,16 @@ This change is **not deployed**. Existing ready-made banners work without image-
 - https://developers.google.com/workspace/drive/api/reference/rest/v3/files
 
 Drive thumbnail URLs are short-lived and documented as unsuitable for direct web application use, so they are not used as long-lived notification image hosting.
+
+## Activation and verification, 2026-11-23
+
+- Free account created using the owner-approved Google sign-in. No card or paid service added.
+- All original Script Properties preserved. Full six-file source backed up before activation.
+- Added PushImages.gs and limited hooks to Push.gs. All five other original source files verified unchanged.
+- Initial upload was rejected because Media Library User alone did not include upload permission. No notification was sent by that failed attempt.
+- The owner explicitly approved broader permission within this new image account only. Its dedicated key was assigned Master Admin for this product environment. It stays on the server, never in the frontend or repository. This is broader than upload-only access, so keep it limited to this dedicated environment.
+- One approved custom-image test to the owner's username only succeeded at 12:45 EET. FCM accepted two registered device targets for that account. No other students targeted, and no automatic retry.
+- Delivery URL checked without sign-in: HTTP 200, image/png, 1200 x 600. Physical Android display is still for the owner to confirm.
+- Existing lecture data and files were not modified. Ready-made banners still bypass the hosting provider.
+
+The first failure confirms that configured=true means credentials are present, not that their permissions have been validated. A future health check should distinguish those states without automatically sending or uploading.
