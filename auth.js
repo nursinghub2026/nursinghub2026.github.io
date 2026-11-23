@@ -186,7 +186,7 @@
       '<button class="atab" id="tab-reg">حساب جديد</button>' +
       "</div>" +
       '<div class="aerr" id="aerr"></div>' +
-      '<div class="afield" id="f-name" style="display:none"><label>اسمك (اختياري — بيظهر للأدمن)</label><input class="ainput" id="a-name" maxlength="60" placeholder="مثال: بودا"></div>' +
+      '<div class="afield" id="f-name" style="display:none"><label>الاسم بالكامل</label><input class="ainput" id="a-name" maxlength="60" placeholder="مثال: عبد الرحمن وائل"></div>' +
       '<div class="afield"><label>اسم المستخدم</label><input class="ainput" id="a-user" maxlength="30" placeholder="حروف وأرقام إنجليزي" autocomplete="username" dir="ltr" style="text-align:left"></div>' +
       '<div class="afield"><label>كلمة السر</label><input class="ainput" id="a-pass" type="password" maxlength="60" placeholder="٤ حروف على الأقل" autocomplete="current-password" dir="ltr" style="text-align:left"></div>' +
       '<button class="asub2" id="a-go"></button>' +
@@ -225,6 +225,7 @@
       const nm = el.querySelector("#a-name").value.trim();
       const err = el.querySelector("#aerr");
       function fail(m) { err.textContent = m; err.classList.add("show"); }
+      if (mode === "register" && nm.length < 3) return fail("اكتب اسمك الكامل الأول");
       if (!u) return fail("اكتب اسم المستخدم");
       if (u.length > 30) return fail("اسم المستخدم طويل أوي (٣٠ حرف كحد أقصى)");
       if (!/^[A-Za-z0-9_.\-]+$/.test(u)) return fail("اسم المستخدم حروف وأرقام إنجليزي بس (ممكن . أو _ أو -)");
@@ -236,10 +237,11 @@
           ? await call("stuRegister", { username: u, password: p, name: nm })
           : await call("stuLogin", { username: u, password: p });
         A = { token: d.token, username: d.username, name: d.name };
-        saveA(); paintAuthBtn(); close();
-        toast(mode === "register" ? "اتسجلت! أهلاً بيك يا " + (d.name || d.username) : "أهلاً بيك يا " + (d.name || d.username), "ok");
-        pullAndMerge().then(function () { setTimeout(function () { location.reload(); }, 700); })
-          .catch(function () { setTimeout(function () { location.reload(); }, 700); });
+        saveA(); paintAuthBtn();
+        try { localStorage.setItem("NPH_GREET_V1", JSON.stringify({ n: d.name || d.username, nw: mode === "register" })); } catch (e) {}
+        close();
+        pullAndMerge().then(function () { setTimeout(function () { location.reload(); }, 500); })
+          .catch(function () { setTimeout(function () { location.reload(); }, 500); });
       } catch (e) {
         fail(e.message);
         go.disabled = false; paint();

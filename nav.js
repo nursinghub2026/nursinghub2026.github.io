@@ -43,10 +43,9 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   const scrim=h("div",{class:"scrim"});
   const nav=h("header",{class:"nav"},
     h("div",{class:"nav-in"},
+      h("div",{class:"nav-side ns-l"},btn),
       h("a",{class:"brand",href:"index.html"},h("b",null,BRAND.name),h("small",null,BRAND.sub)),
-      abtn,
-      tbtn,
-      btn),
+      h("div",{class:"nav-side ns-r"},tbtn,abtn)),
     menu);
   document.body.prepend(scrim);
   document.body.prepend(nav);
@@ -58,6 +57,23 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
     h("div",{class:"ft-b"},BRAND.name),h("div",{class:"ft-s"},BRAND.sub),
     h("div",{class:"ft-u"},"FACULTY OF NURSING",h("br"),"PORT SAID UNIVERSITY"),
     h("div",{class:"credit"},h("span",{class:"cl"},"تصميم وتطوير"),h("span",{class:"cn"},"Abdelrhman Wael"))));
+  (function(){
+    let g=null;try{g=JSON.parse(localStorage.getItem("NPH_GREET_V1")||"null")}catch(e){}
+    if(!g||!g.n)return;
+    try{localStorage.removeItem("NPH_GREET_V1")}catch(e){}
+    const ov=h("div",{class:"greet",role:"dialog","aria-label":"ترحيب"},
+      h("div",{class:"greet-card"},
+        h("div",{class:"greet-ic"},ic(g.nw?"fa-graduation-cap":"fa-user-graduate")),
+        h("div",{class:"greet-hi"},g.nw?"اتعمل حسابك يا":"ازيك يا"),
+        h("div",{class:"greet-name"},g.n),
+        h("div",{class:"greet-sub"},"نورت FOUNDATIONS ",h("i",{class:"fa-solid fa-wand-magic-sparkles",style:"color:#f0d58a;margin:0 3px"}),g.nw?h("span",{style:"display:block;margin-top:6px"},"تقدّمك هيتسجل ويتزامن من أي جهاز"):null)));
+    document.body.appendChild(ov);
+    requestAnimationFrame(function(){ov.classList.add("show")});
+    let gone=false;
+    function bye(){if(gone)return;gone=true;ov.classList.remove("show");setTimeout(function(){ov.remove()},280)}
+    ov.onclick=bye;
+    setTimeout(bye,2800);
+  })();
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.08});
   function scan(){document.querySelectorAll(".rv:not(.seen)").forEach(e=>{e.classList.add("seen");io.observe(e)})}
   new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan();
