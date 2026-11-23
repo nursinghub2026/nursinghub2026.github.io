@@ -47,14 +47,14 @@ body.theory .lh .en{color:#d9c8f5}
 .pn small{display:block;color:var(--mut);font-size:11.5px;font-weight:700}.pn b{font-size:14px;line-height:1.6;display:block}
 .pn a.nx{text-align:left}
 @media(max-width:560px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.item{padding:16px;gap:12px}.item .num{width:38px;height:38px;font-size:14px;border-radius:12px}}
-</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="mobile.css"></head><body>
+</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="mobile.css"><link rel="stylesheet" href="theory-extras.css"></head><body>
 <main class="wrap" id="app"><div class="sk" style="min-height:200px"></div></main>
 <script src="nav.js"></script>
 <script src="progress.js"></script><script src="auth.js"></script>
-<script>
+<script src="theory-extras.js"></script><script>
 const CK="NPH_PUB_V1";
 const SEC={explanation:{en:"Explanation",ar:"الشرح",icon:"fa-book-open"},skills:{en:"Skills",ar:"المهارات العملية",icon:"fa-hand-holding-medical"},checklists:{en:"Checklist",ar:"الشيك ليست",icon:"fa-clipboard-check"},quizzes:{en:"Quiz",ar:"الكويزات",icon:"fa-brain"}};
-const TSEC={explanation:{en:"Summaries",ar:"شرح وملخصات",icon:"fa-book-open"},quizzes:{en:"Quiz",ar:"كويز",icon:"fa-brain"}};
+const TSEC={explanation:{en:"Summaries",ar:"شرح وملخصات",icon:"fa-book-open"},audio:{en:"Voice",ar:"شرح فويس",icon:"fa-headphones"},flashcard:{en:"Flashcards",ar:"فلاش كاردز",icon:"fa-clone"},video:{en:"Video",ar:"شرح فيديو",icon:"fa-circle-play"},quizzes:{en:"Quiz",ar:"كويز",icon:"fa-brain"}};
 const app=document.getElementById("app"),lid=new URLSearchParams(location.search).get("id");
 let lecture=null,LST=[],tab=new URLSearchParams(location.search).get("tab")||"explanation";
 const ext=n=>(n.split(".").pop()||"").toLowerCase();
@@ -104,14 +104,15 @@ function render(){
   if(authed())hd.appendChild(lp);
   app.appendChild(hd);
   paintLp();
-  const tabs=h("div",{class:"tabs"+(th?" two":"")});
+  const tabs=h("div",{class:"tabs"});
   Object.keys(S).forEach(k=>{const s=S[k];
-    tabs.appendChild(h("button",{class:"tab"+(k===tab?" on":""),onclick:()=>{tab=k;if(authed())NPH.touch(lecture.id,tab);render();window.scrollTo({top:hd.offsetTop+hd.offsetHeight-40,behavior:"smooth"})}},h("em",null,String(cn(k))),ic(s.icon),s.en,h("small",null,s.ar)))});
+    tabs.appendChild(h("button",{class:"tab"+(k===tab?" on":""),onclick:()=>{tab=k;if(authed())NPH.touch(lecture.id,tab);render();window.scrollTo({top:hd.offsetTop+hd.offsetHeight-40,behavior:"smooth"})}},(["audio","flashcard","video"].includes(k)?null:h("em",null,String(cn(k)))),ic(s.icon),s.en,h("small",null,s.ar)))});
   app.appendChild(h("div",{class:"tw"},tabs));
   const wrap=h("div",{class:"items"}),items=(lecture.sections&&lecture.sections[tab])||[];
-  if(!items.length)wrap.appendChild(h("div",{class:"empty card"},ic("fa-folder-open"),"لسه مفيش محتوى في القسم ده."));
+  if(!["audio","flashcard","video"].includes(tab)&&!items.length)wrap.appendChild(h("div",{class:"empty card"},ic("fa-folder-open"),"لسه مفيش محتوى في القسم ده."));
   items.forEach((it,i)=>wrap.appendChild(itemCard(it,i)));
   app.appendChild(wrap);
+  if(th&&["audio","flashcard","video"].includes(tab))NPHTheory.student(wrap,lecture.id,tab);
   if(authed()){
     const saveSt=h("small",null,"");
     const ta=h("textarea",{class:"ptext",id:"notes",rows:"3",placeholder:"اكتب ملاحظاتك عن المحاضرة دي... هتتحفظ في حسابك على كل أجهزتك."},NPH.getNote(lecture.id));
