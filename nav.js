@@ -67,21 +67,19 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
         h("div",{class:"greet-ic"},ic(g.nw?"fa-graduation-cap":"fa-user-graduate")),
         h("div",{class:"greet-hi"},g.nw?"اتعمل حسابك يا":"ازيك يا"),
         h("div",{class:"greet-name"},g.n),
+        h("div",{class:"greet-line"}),
         h("div",{class:"greet-sub"},"نورت FOUNDATIONS ",h("i",{class:"fa-solid fa-wand-magic-sparkles",style:"color:#f0d58a;margin:0 3px"}),g.nw?h("span",{style:"display:block;margin-top:6px"},"تقدّمك هيتسجل ويتزامن من أي جهاز"):null)));
     if(!RM){
-      const cols=["#d4af5a","#f0d58a","#35c6c0","#ffffff","#9a7fe0"];
-      for(let i=0;i<36;i++){
-        const c=h("span",{class:"greet-confetti"});
-        c.style.left=(Math.random()*100)+"%";
-        c.style.background=cols[i%cols.length];
-        const sz=6+Math.random()*7;
-        c.style.width=sz+"px";c.style.height=(sz*1.4)+"px";
-        c.style.setProperty("--dx",(Math.random()*14-7).toFixed(1)+"vw");
-        c.style.setProperty("--rz",Math.round(360+Math.random()*540)+"deg");
-        c.style.animationDuration=(2.4+Math.random()*1.8).toFixed(2)+"s";
-        c.style.animationDelay=(Math.random()*0.7).toFixed(2)+"s";
-        if(Math.random()<.4)c.style.borderRadius="50%";
-        ov.appendChild(c);
+      ov.appendChild(h("span",{class:"greet-beam"}));
+      for(let i=0;i<14;i++){
+        const d=h("span",{class:"greet-dot"});
+        d.style.left=(5+Math.random()*90).toFixed(1)+"%";
+        d.style.top=(20+Math.random()*70).toFixed(1)+"%";
+        const sz=3+Math.random()*4;
+        d.style.width=sz.toFixed(1)+"px";d.style.height=sz.toFixed(1)+"px";
+        d.style.setProperty("--d",(7+Math.random()*5).toFixed(2)+"s");
+        d.style.setProperty("--dl",(Math.random()*6).toFixed(2)+"s");
+        ov.appendChild(d);
       }
     }
     document.body.appendChild(ov);
