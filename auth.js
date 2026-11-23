@@ -150,6 +150,7 @@
       ".asub2:active{transform:scale(.97)}",
       ".asub2:disabled{opacity:.5;cursor:default}",
       ".anote{margin-top:12px;color:var(--txt3);font-size:11.5px;text-align:center;line-height:1.7}",
+      ".alink{display:block;margin:11px auto 0;background:none;border:none;color:var(--txt2);font-family:inherit;font-size:12.5px;font-weight:800;cursor:pointer;text-decoration:underline;text-underline-offset:3px}",
       ".ax{position:absolute;top:14px;left:14px;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--txt2);font-size:14px;cursor:pointer}",
       ".abtn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--gold);background:rgba(212,175,55,.1);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;flex-shrink:0}",
       ".abtn.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1205;font-weight:900;font-size:15px;border-color:transparent}",
@@ -189,7 +190,7 @@
       '<div class="afield"><label>اسم المستخدم</label><input class="ainput" id="a-user" maxlength="30" placeholder="حروف وأرقام إنجليزي" autocomplete="username" dir="ltr" style="text-align:left"></div>' +
       '<div class="afield"><label>كلمة السر</label><input class="ainput" id="a-pass" type="password" maxlength="60" placeholder="٤ حروف على الأقل" autocomplete="current-password" dir="ltr" style="text-align:left"></div>' +
       '<button class="asub2" id="a-go"></button>' +
-      '<div class="anote">نسيت كلمة السر؟ كلّم الأدمن وهو يعملك واحدة جديدة.<br>اسم المستخدم لازم يكون مميز — كلمة السر ممكن تتكرر، مش مشكلة.</div>' +
+      '<button class="alink" id="a-forgot" type="button">نسيت كلمة السر؟</button>' +
       "</div>";
     document.body.appendChild(el);
     requestAnimationFrame(function () { el.classList.add("show"); });
@@ -200,8 +201,9 @@
       el.querySelector("#f-name").style.display = mode === "register" ? "" : "none";
       el.querySelector("#atitle").textContent = mode === "register" ? "حساب جديد" : "تسجيل الدخول";
       el.querySelector("#asub").textContent = mode === "register"
-        ? "اعمل حسابك عشان تقدّمك يتحفظ على أي جهاز وتفتح مميزات زيادة"
-        : "سجل دخولك عشان تفتح مميزات تقدّمك";
+        ? "اعمل حسابك لمتابعة تقدّمك من أي جهاز"
+        : "سجّل دخولك لمتابعة تقدّمك";
+      el.querySelector("#a-forgot").style.display = mode === "login" ? "" : "none";
       el.querySelector("#a-go").textContent = mode === "register" ? "إنشاء الحساب" : "دخول";
       el.querySelector("#aerr").classList.remove("show");
     }
@@ -210,6 +212,10 @@
     el.querySelector("#tab-login").onclick = function () { mode = "login"; paint(); };
     el.querySelector("#tab-reg").onclick = function () { mode = "register"; paint(); };
     el.querySelector("#ax").onclick = close;
+    el.querySelector("#a-forgot").onclick = function () {
+      const u = el.querySelector("#a-user").value.trim();
+      location.href = "chat.html" + (u ? "?u=" + encodeURIComponent(u) : "");
+    };
     el.addEventListener("click", function (e) { if (e.target === el) close(); });
 
     const go = el.querySelector("#a-go");

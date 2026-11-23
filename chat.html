@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>التواصل مع الإدارة | FOUNDATIONS</title>
+<meta name="description" content="نسيت كلمة السر؟ افتح محادثة مع الإدارة وهيتم الرد عليك هنا.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="style.css">
+<style>
+.ch{display:flex;flex-direction:column;gap:10px;min-height:220px;max-height:55vh;overflow-y:auto;padding:6px 2px}
+.bub{max-width:82%;padding:11px 14px;border-radius:18px;font-size:14.5px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+.bub small{display:block;font-size:10.5px;opacity:.75;margin-top:4px}
+.bub.me{align-self:flex-start;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;border-bottom-left-radius:6px}
+.bub.adm{align-self:flex-end;background:#f0e7cf;border:1px solid rgba(212,175,90,.45);color:#4a3a12;border-bottom-right-radius:6px}
+.bub.adm b{display:block;color:#8a6a1c}
+.cin{display:flex;gap:8px;margin-top:14px}
+.cin input{flex:1}
+.cin .btn{flex:none}
+.note{margin-top:12px;font-size:12px;color:var(--mut);text-align:center;line-height:1.8}
+.th{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.th .av2{width:42px;height:42px;flex:none;border-radius:50%;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#d4af5a,#b8862d);font-size:16px}
+</style></head><body>
+<div class="ph" style="background:linear-gradient(160deg,#08172b,#0d2f4a 55%,#b8862d)"><div class="k"><i class="fa-solid fa-headset"></i> SUPPORT</div><h1>التواصل مع الإدارة</h1><p>نسيت كلمة السر؟ افتح محادثة والأدمن هيرد عليك هنا شخصيًا.</p></div>
+<main class="wrap" style="max-width:640px">
+  <div class="card" id="startCard" style="padding:22px">
+    <div class="sect"><i class="fa-solid fa-key"></i><div>نسيت كلمة السر؟<small>اكتب اسم المستخدم بتاعك وهنوصّل رسالتك للأدمن فورًا</small></div></div>
+    <div class="field"><label>اسم المستخدم</label><input id="u" maxlength="30" placeholder="حروف وأرقام إنجليزي" dir="ltr" style="text-align:left" autocomplete="username"></div>
+    <div class="field"><label>اسمك (اختياري)</label><input id="n" maxlength="60" placeholder="مثال: بودا"></div>
+    <button class="btn full lg" id="startBtn"><i class="fa-solid fa-paper-plane"></i> ابعت للأدمن</button>
+    <div id="sm" style="font-size:13.5px;font-weight:700;margin-top:12px;min-height:20px;text-align:center"></div>
+  </div>
+  <div class="card hidden" id="chatCard" style="padding:18px">
+    <div class="th"><div class="av2"><i class="fa-solid fa-headset"></i></div>
+      <div><b id="chWho" style="font-size:15px"></b><br><small style="color:var(--mut)">محادثة خاصة بينك وبين الإدارة</small></div>
+      <button class="btn sm gray" id="newBtn" style="margin-inline-start:auto" type="button"><i class="fa-solid fa-rotate"></i> محادثة جديدة</button>
+    </div>
+    <div class="ch" id="ch"></div>
+    <div class="cin"><input id="msg" maxlength="500" placeholder="اكتب رسالتك هنا..."><button class="btn" id="sendBtn" type="button"><i class="fa-solid fa-paper-plane"></i></button></div>
+    <div class="note">رد الإدارة بيظهر هنا أول بأول. لما الأدمن يعملك كلمة سر جديدة هيوصلك هنا.</div>
+  </div>
+</main>
+<script src="nav.js"></script>
+<script>
+const $=i=>document.getElementById(i);
+const KEY="NPH_CHAT_V1";
+let S=null,lastTs="",timer=null;
+try{const r=localStorage.getItem(KEY);if(r)S=JSON.parse(r)}catch(e){}
+function saveS(){try{if(S)localStorage.setItem(KEY,JSON.stringify(S));else localStorage.removeItem(KEY)}catch(e){}}
+async function call(action,p){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({action},p||{}))});const d=await r.json();if(!d.ok)throw new Error(d.error||"خطأ");return d}
+function ago(t){const d=new Date(t);if(isNaN(d))return"";const m=Math.floor((Date.now()-d)/60000);if(m<1)return"الآن";if(m<60)return"منذ "+m+" د";const hr=Math.floor(m/60);if(hr<24)return"منذ "+hr+" س";return d.toLocaleDateString("ar-EG")}
+function showChat(){$("startCard").classList.add("hidden");$("chatCard").classList.remove("hidden");$("chWho").textContent=(S.name||S.username)+" · @"+S.username}
+function showStart(){$("chatCard").classList.add("hidden");$("startCard").classList.remove("hidden")}
+function draw(ms){const b=$("ch");b.innerHTML="";
+  if(!ms.length){b.appendChild(h("div",{class:"empty",style:"margin:auto"},"لسه مفيش رسائل."));return}
+  ms.forEach(m=>{const adm=m.from==="admin";
+    b.appendChild(h("div",{class:"bub "+(adm?"adm":"me")},adm?h("b",null,"الإدارة"):null,document.createTextNode(m.text),h("small",null,ago(m.ts))))});
+  b.scrollTop=b.scrollHeight}
+async function poll(){if(!S)return;try{const d=await call("stuChatList",{sessionId:S.sid});const ms=d.messages||[];const lt=ms.length?String(ms[ms.length-1].ts)+":"+ms.length:"";
+  if(lt!==lastTs){lastTs=lt;draw(ms)}}catch(e){}}
+async function send(){const t=$("msg").value.trim();if(!t)return;$("sendBtn").disabled=true;
+  try{await call("stuChatSend",{sessionId:S.sid,text:t});$("msg").value="";poll()}catch(e){if(window.toast)window.toast(e.message,true);else alert(e.message)}
+  $("sendBtn").disabled=false}
+$("startBtn").onclick=async()=>{const u=$("u").value.trim(),nm=$("n").value.trim();const m=$("sm");
+  if(!/^[A-Za-z0-9_.\-]{1,30}$/.test(u)){m.style.color="#c0283a";m.textContent="اكتب اسم المستخدم صح (حروف وأرقام إنجليزي).";return}
+  $("startBtn").disabled=true;m.style.color="#657689";m.textContent="جاري فتح المحادثة...";
+  try{const d=await call("stuChatStart",{username:u,name:nm,text:"نسيت كلمة السر. اسم المستخدم: @"+u});
+    S={sid:d.sessionId,username:u,name:nm};saveS();m.textContent="";showChat();poll();timer=setInterval(poll,5000)}
+  catch(e){m.style.color="#c0283a";m.textContent=e.message==="Failed to fetch"?"اتأكد من النت وجرّب تاني.":e.message}
+  $("startBtn").disabled=false};
+$("sendBtn").onclick=send;
+$("msg").addEventListener("keydown",e=>{if(e.key==="Enter")send()});
+$("newBtn").onclick=()=>{if(!confirm("فتح محادثة جديدة؟ المحادثة الحالية هتتقفل من على الجهاز ده بس."))return;clearInterval(timer);S=null;lastTs="";saveS();showStart()};
+const q=new URLSearchParams(location.search).get("u");if(q)$("u").value=q;
+if(S&&S.sid){showChat();poll();timer=setInterval(poll,5000)}
+</script></body></html>

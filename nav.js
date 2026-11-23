@@ -1,3 +1,4 @@
+try{if(localStorage.getItem("NPH_THEME_V1")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}
 const API="https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
 const BRAND={name:"FOUNDATIONS",sub:"FUNDAMENTALS OF NURSING"};
 const PAGES=[["index.html","الرئيسية","fa-house"],["Lectures.html?track=theory","النظري","fa-book-open"],["Lectures.html?track=practical","العملي","fa-hand-holding-medical"],["progress.html","تقدمي","fa-chart-line"],["adhkar.html","الأدعية والأذكار","fa-hands-praying"],["tips.html","نصايح المذاكرة","fa-graduation-cap"],["suggestions.html","الاقتراحات","fa-comments"]];
@@ -20,6 +21,13 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   const btn=h("button",{class:"mbtn",type:"button","aria-label":"القائمة","aria-expanded":"false"});
   function lab(o){btn.innerHTML="";btn.appendChild(ic(o?"fa-xmark":"fa-bars"));btn.appendChild(h("span",{class:"mt"},o?"إغلاق":"القائمة"))}
   lab(false);
+  const tbtn=h("button",{class:"tgl2",type:"button","aria-label":"الوضع الليلي"});
+  function paintT(){tbtn.innerHTML="";tbtn.appendChild(ic(document.documentElement.getAttribute("data-theme")==="dark"?"fa-sun":"fa-moon"))}
+  paintT();
+  tbtn.onclick=e=>{e.stopPropagation();const d=document.documentElement.getAttribute("data-theme")==="dark";
+    if(d)document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme","dark");
+    try{localStorage.setItem("NPH_THEME_V1",d?"light":"dark")}catch(_){}
+    paintT()};
   const abtn=h("button",{id:"abtn",class:"abtn2",type:"button","aria-label":"حسابي"});
   function paintAb(){
     let a=null;try{const r=localStorage.getItem("NPH_AUTH_V1");if(r)a=JSON.parse(r)}catch(e){}
@@ -37,6 +45,7 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
     h("div",{class:"nav-in"},
       h("a",{class:"brand",href:"index.html"},h("b",null,BRAND.name),h("small",null,BRAND.sub)),
       abtn,
+      tbtn,
       btn),
     menu);
   document.body.prepend(scrim);

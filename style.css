@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Amiri+Quran&family=Amiri:wght@400;700&family=Cinzel:wght@600;700;900&display=swap');
-:root{--navy:#08172b;--ink:#0d2238;--ink2:#1d3b5a;--teal:#0e8f94;--teal2:#35c6c0;--gold:#d4af5a;--gold2:#f0d58a;--vio:#6b4fb3;--vio2:#9a7fe0;--bg:#f3f7fa;--line:#e2e9f0;--mut:#657689;--r:22px;--ac:#0e8f94;--ac2:#35c6c0;--acs:#e4f5f5;--sh:0 10px 30px rgba(10,30,55,.08);--sh2:0 18px 44px rgba(10,30,55,.16);--nh:70px}
+:root{--txt:#1c2b3a;--txt2:#4a5f73;--txt3:#8296a9;--card:#fff;--border:#e2e9f0;--navy:#08172b;--ink:#0d2238;--ink2:#1d3b5a;--teal:#0e8f94;--teal2:#35c6c0;--gold:#d4af5a;--gold2:#f0d58a;--vio:#6b4fb3;--vio2:#9a7fe0;--bg:#f3f7fa;--line:#e2e9f0;--mut:#657689;--r:22px;--ac:#0e8f94;--ac2:#35c6c0;--acs:#e4f5f5;--sh:0 10px 30px rgba(10,30,55,.08);--sh2:0 18px 44px rgba(10,30,55,.16);--nh:70px}
 body.theory{--ac:#6b4fb3;--ac2:#9a7fe0;--acs:#eee9fa}
 *{margin:0;padding:0;box-sizing:border-box}
 html{overflow-x:hidden;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
@@ -141,3 +141,31 @@ body.theory .ph{background:linear-gradient(160deg,#120d2e,#2c2266 55%,#6b4fb3)}
 .authb .authb-t{flex:1;font-size:13px;font-weight:700;color:var(--txt2);line-height:1.7}
 .authb .authb-t b{color:var(--txt);display:block;font-size:13.5px}
 .authb button{flex-shrink:0;padding:10px 18px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1205;font-family:inherit;font-size:13px;font-weight:900;cursor:pointer}
+
+/* ===== زر الوضع الليلي في الهيدر ===== */
+.tgl2{position:absolute;right:66px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:14px;border:1px solid rgba(212,175,90,.55);background:rgba(255,255,255,.07);color:var(--gold2);font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .2s;-webkit-tap-highlight-color:transparent}
+.tgl2:hover{background:rgba(255,255,255,.13)}
+@media(min-width:941px){.tgl2{right:76px}}
+@media(max-width:380px){.tgl2{right:62px}}
+
+/* ===== الوضع الليلي ===== */
+html[data-theme=dark]{--bg:#0a1626;--ink:#e8eef5;--ink2:#b9c8d9;--line:#22374f;--mut:#8fa2b7;--txt:#e8eef5;--txt2:#a9bccd;--txt3:#7f93a8;--card:#12233a;--border:#22374f;--acs:#16283f;--sh:0 10px 30px rgba(0,0,0,.35);--sh2:0 18px 44px rgba(0,0,0,.5)}
+html[data-theme=dark] .card,html[data-theme=dark] .sb,html[data-theme=dark] .sheet,html[data-theme=dark] .tab,html[data-theme=dark] .item,html[data-theme=dark] .fc .fi,html[data-theme=dark] .pn a,html[data-theme=dark] .lc,html[data-theme=dark] .lcm{background:var(--card);border-color:rgba(255,255,255,.07)}
+html[data-theme=dark] input,html[data-theme=dark] select,html[data-theme=dark] textarea{background:#0d1d31;color:var(--ink);border-color:var(--line)}
+html[data-theme=dark] .seg{background:#0d1d31}
+html[data-theme=dark] .seg button.on{background:#1d3252;color:var(--ink);box-shadow:0 4px 12px rgba(0,0,0,.4)}
+html[data-theme=dark] .chip{background:var(--card);border-color:var(--line);color:var(--ink2)}
+html[data-theme=dark] .chip.on{background:var(--gold);border-color:transparent;color:#3a2a05}
+html[data-theme=dark] .wk div,html[data-theme=dark] .bdg2{background:#0d1d31;color:var(--mut)}
+html[data-theme=dark] .sk{background:linear-gradient(90deg,#12233a 25%,#1a2f4b 50%,#12233a 75%);background-size:200% 100%}
+html[data-theme=dark] .pill.gold{background:#3a2f12;color:#e9c96a}
+html[data-theme=dark] .pill.green{background:#0f2e1e;color:#4cd58c}
+html[data-theme=dark] .pill.red{background:#3a1518;color:#ff8a8a}
+html[data-theme=dark] .pill.vio{background:#241d3d;color:#b9a3ee}
+html[data-theme=dark] .pill.gray{background:#1a2c45;color:var(--mut)}
+html[data-theme=dark] .pill.teal{background:#0c2b2c;color:#35c6c0}
+html[data-theme=dark] .sheet .grab{background:#2a3f5c}
+html[data-theme=dark] .sg p.m{color:#dbe5ef}
+html[data-theme=dark] .rp{background:#12333a;border-color:rgba(14,143,148,.35)}
+html[data-theme=dark] .rp p{color:#cfe3e2}
+html[data-theme=dark] .bub.adm{background:#2a2410;color:#e9ddb0;border-color:rgba(212,175,90,.35)}
