@@ -92,6 +92,23 @@ body{background:#eef3f7}
 .lg2::before{content:"";position:absolute;right:-22px;top:14px;width:16px;height:16px;border-radius:50%;background:#fff;border:4px solid var(--teal)}
 .lg2 b{font-size:14px}.lg2 span{font-size:13px;color:#475569;display:block}.lg2 small{font-size:11px;color:var(--mut)}
 @media(min-width:900px){.main{padding-bottom:60px}.sg{grid-template-columns:repeat(4,1fr)}}
+.thr-av{width:42px;height:42px;flex:none;border-radius:50%;display:grid;place-items:center;color:#4a3608;background:linear-gradient(135deg,#e9c76a,#c89a35);font-size:17px;font-weight:900}
+.ach-box{display:flex;flex-direction:column;gap:8px;max-height:46vh;overflow-y:auto;padding:10px 6px;border-radius:16px;background:radial-gradient(circle at 85% 10%,rgba(212,175,90,.06),transparent 40%),#f4f7fa}
+.ach-day{align-self:center;background:rgba(11,37,64,.08);color:#5a6b7d;font-size:10.5px;font-weight:800;padding:3px 12px;border-radius:20px;margin:4px 0}
+.ach-empty{margin:auto;text-align:center;color:#8496a8;font-size:13px;line-height:2;padding:30px 0}
+.ach-empty i{font-size:28px;color:#c8d5e0;display:block;margin-bottom:8px}
+.ach-bub{max-width:82%;padding:9px 13px 6px;border-radius:18px;font-size:14px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere}
+.ach-bub b{display:block;font-size:11px;margin-bottom:1px}
+.ach-bub small{display:block;font-size:10px;opacity:.75;margin-top:2px;text-align:left;direction:ltr}
+.ach-bub.adm{align-self:flex-start;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;border-bottom-left-radius:6px}
+.ach-bub.adm b{color:#cdeeee}
+.ach-bub.stu{align-self:flex-end;background:#fff;border:1px solid rgba(212,175,90,.5);color:#3d3015;border-bottom-right-radius:6px}
+.ach-bub.stu b{color:#a87f22}
+.ach-row{display:flex;gap:8px;margin-top:10px;align-items:flex-end}
+.ach-in{flex:1;border:1.5px solid #e2e8f0;background:#f8fafc;border-radius:18px;padding:11px 15px;font-family:inherit;font-size:14px;outline:none;resize:none;max-height:110px;line-height:1.6}
+.ach-in:focus{border-color:var(--ac,#0e8f94);background:#fff}
+.ach-send{width:44px;height:44px;flex:none;border:none;border-radius:50%;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;font-size:15px;cursor:pointer;display:grid;place-items:center}
+.ach-send i{transform:scaleX(-1)}
 </style></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
@@ -138,7 +155,7 @@ body{background:#eef3f7}
     </section>
     <section id="v-sug" class="hidden">
       <div class="sect"><i class="fa-solid fa-comments"></i><div>رسائل الطلاب<small>الرد بيظهر للطلاب باسم "الإدارة" فقط</small></div></div>
-      <div class="seg" id="sgTabs"><button class="on" data-m="pub">الرسائل العامة</button><button data-m="chat">شات كلمات السر<span class="bdg hidden" id="cbdg" style="position:static;margin-inline-start:6px">0</span></button></div>
+      <div class="seg" id="sgTabs"><button class="on" data-m="pub">الرسائل العامة</button><button data-m="chat">المحادثات<span class="bdg hidden" id="cbdg" style="position:static;margin-inline-start:6px">0</span></button></div>
       <div class="chips" id="sgFl"></div>
       <div id="sgl"></div>
       <div id="chl" class="hidden"></div>
@@ -185,7 +202,7 @@ async function api(action,p){const r=await fetch(API_URL,{method:"POST",headers:
 function openSheet(title,nodes){const s=$("sh");s.innerHTML="";s.appendChild(h("div",{class:"grab"}));
   s.appendChild(h("div",{class:"sh-h"},h("h3",null,title),h("button",{type:"button",onclick:closeSheet,"aria-label":"إغلاق"},ic("fa-xmark"))));
   ap(s,nodes);$("ov").classList.add("show");document.body.style.overflow="hidden"}
-function closeSheet(){$("ov").classList.remove("show");document.body.style.overflow=""}
+function closeSheet(){$("ov").classList.remove("show");document.body.style.overflow="";if(window.__cht){clearInterval(window.__cht);window.__cht=null}}
 $("ov").onclick=e=>{if(e.target.id==="ov")closeSheet()};
 
 $("lf").onsubmit=async e=>{e.preventDefault();$("le").textContent="";
@@ -349,28 +366,44 @@ async function loadChats(quiet){const b=$("chl");if(!quiet){b.innerHTML="";b.app
   try{CH=(await api("adminChats")).chats||[];updBadge();if(!quiet||sugM==="chat")renderChats()}
   catch(e){if(!quiet){b.innerHTML="";b.appendChild(h("div",{class:"empty card"},ic("fa-triangle-exclamation"),"مقدرناش نحمّل المحادثات. اتأكد إن السكريبت اتحدّث واتنشر بنسخة جديدة."))}}}
 function renderChats(){const b=$("chl");b.innerHTML="";
-  if(!CH.length){b.appendChild(h("div",{class:"empty card"},ic("fa-headset"),"مفيش محادثات لسه. أول ما طالب يدوس \"نسيت كلمة السر\" في صفحة الدخول هتظهر محادثته هنا."));return}
-  CH.forEach(c=>{b.appendChild(h("div",{class:"card",style:"margin-bottom:10px;padding:14px;cursor:pointer",onclick:()=>openChat(c)},
-    h("div",{style:"display:flex;align-items:center;gap:10px;flex-wrap:wrap"},
-      h("b",null,(c.name||"").trim()||"طالب"),h("small",{style:"color:var(--mut);direction:ltr"},"@"+c.username),
-      c.unread?h("span",{class:"pill gold"},"جديد ("+c.unread+")"):null,
-      h("small",{style:"margin-inline-start:auto;color:var(--mut)"},ago(c.lastMsgAt))),
-    h("div",{style:"color:var(--mut);font-size:13px;margin-top:6px"},c.preview||"")))})}
+  if(!CH.length){b.appendChild(h("div",{class:"empty card"},ic("fa-headset"),"مفيش محادثات لسه. أول ما طالب يفتح محادثة من زرار \"مراسلة الإدارة\" في حسابه أو من \"نسيت كلمة السر\" هتظهر هنا."));return}
+  CH.forEach(c=>{const nm=(c.name||"").trim()||"طالب";
+    b.appendChild(h("div",{class:"card thr",style:"margin-bottom:10px;padding:13px 14px;cursor:pointer",onclick:()=>openChat(c)},
+      h("div",{style:"display:flex;align-items:center;gap:11px"},
+        h("div",{class:"thr-av"},(nm.trim()[0]||"ط")),
+        h("div",{style:"flex:1;min-width:0"},
+          h("div",{style:"display:flex;align-items:center;gap:8px;flex-wrap:wrap"},
+            h("b",{style:"font-size:14.5px"},nm),h("small",{style:"color:var(--mut);direction:ltr"},"@"+c.username),
+            c.unread?h("span",{class:"pill gold"},"جديد ("+c.unread+")"):null),
+          h("div",{style:"color:var(--mut);font-size:12.5px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"},c.preview||"محادثة فاضية")),
+        h("small",{style:"color:var(--mut);flex:none;font-size:11px"},ago(c.lastMsgAt)))))})}
 async function openChat(c){busy(true);let d;try{d=await api("adminChatRead",{sessionId:c.sessionId})}catch(e){busy(false);toast(net(e),true);return}busy(false);
   c.unread=0;updBadge();renderChats();
-  const box=h("div",{style:"display:flex;flex-direction:column;gap:8px;max-height:42vh;overflow-y:auto;padding:4px 0"});
-  const paint=ms=>{box.innerHTML="";(ms||[]).forEach(m=>{const adm=m.from==="admin";
-    box.appendChild(h("div",{style:"max-width:85%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere;"+(adm?"align-self:flex-end;background:#eaf7f7;border:1px solid rgba(14,143,148,.3);color:#0b3f41":"align-self:flex-start;background:#f0e7cf;border:1px solid rgba(212,175,90,.4);color:#4a3a12")},
-      h("b",{style:"display:block;font-size:11px;margin-bottom:2px"},adm?"الإدارة":("@"+d.username)),document.createTextNode(m.text),h("small",{style:"display:block;font-size:10px;opacity:.7;margin-top:3px"},ago(m.ts))))});
+  const fmtT=t=>{const x=new Date(t);if(isNaN(x))return"";let hh=x.getHours();const mm=String(x.getMinutes()).padStart(2,"0"),ap2=hh>=12?"م":"ص";hh=hh%12||12;return hh+":"+mm+" "+ap2};
+  const dayL=t=>{const x=new Date(t);if(isNaN(x))return"";const sm=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();const y=new Date();y.setDate(y.getDate()-1);
+    if(sm(x,new Date()))return"اليوم";if(sm(x,y))return"إمبارح";return x.toLocaleDateString("ar-EG",{day:"numeric",month:"long"})};
+  const box=h("div",{class:"ach-box"});
+  const paint=ms=>{box.innerHTML="";let ld="";
+    if(!(ms||[]).length)box.appendChild(h("div",{class:"ach-empty"},ic("fa-comments"),"لسه مفيش رسايل في المحادثة دي."));
+    (ms||[]).forEach(m=>{const dl=dayL(m.ts);if(dl&&dl!==ld){ld=dl;box.appendChild(h("div",{class:"ach-day"},dl))}
+      const adm=m.from==="admin";
+      box.appendChild(h("div",{class:"ach-bub "+(adm?"adm":"stu")},
+        h("b",null,adm?"الإدارة":("@"+d.username)),document.createTextNode(m.text),h("small",null,fmtT(m.ts))))});
     box.scrollTop=box.scrollHeight};
   paint(d.messages);
-  const ta=h("textarea",{placeholder:"اكتب ردك للطالب..."});
+  if(window.__cht){clearInterval(window.__cht);window.__cht=null}
+  let lastMs=(d.messages||[]).length?String(d.messages[d.messages.length-1].ts)+":"+d.messages.length:"";
+  window.__cht=setInterval(async()=>{try{const d2=await api("adminChatRead",{sessionId:c.sessionId});const ms=d2.messages||[];const lt=ms.length?String(ms[ms.length-1].ts)+":"+ms.length:"";
+    if(lt!==lastMs){lastMs=lt;paint(ms);loadChats(true)}}catch(e){}},6000);
+  const ta=h("textarea",{class:"ach-in",rows:"1",placeholder:"اكتب ردك للطالب..."});
+  const doSend=async()=>{const t=ta.value.trim();if(!t)return;busy(true,"جاري الإرسال...");
+    try{await api("adminChatSend",{sessionId:c.sessionId,text:t});ta.value="";const d2=await api("adminChatRead",{sessionId:c.sessionId});lastMs=d2.messages.length?String(d2.messages[d2.messages.length-1].ts)+":"+d2.messages.length:"";paint(d2.messages);loadChats(true)}catch(e){toast(net(e),true)}busy(false)};
+  ta.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();doSend()}});
   openSheet("محادثة: "+((c.name||"").trim()||"طالب")+" @"+c.username,[box,
-    h("div",{class:"field",style:"margin-top:10px"},h("label",null,"ردك"),ta),
-    h("div",{class:"act"},
-      h("button",{class:"btn sm",onclick:async()=>{const t=ta.value.trim();if(!t){toast("اكتب الرد الأول.",true);return}busy(true,"جاري الإرسال...");
-        try{await api("adminChatSend",{sessionId:c.sessionId,text:t});ta.value="";const d2=await api("adminChatRead",{sessionId:c.sessionId});paint(d2.messages);loadChats(true)}catch(e){toast(net(e),true)}busy(false)}},ic("fa-paper-plane"),"إرسال الرد"),
-      h("button",{class:"btn sm",onclick:async()=>{if(!confirm("توليد كلمة سر جديدة للطالب @"+c.username+"؟ هيتقفل من أجهزته ولازم يدخل بالجديدة."))return;busy(true,"جاري التوليد...");
+    h("div",{class:"ach-row"},ta,
+      h("button",{class:"ach-send",type:"button","aria-label":"إرسال",onclick:doSend},ic("fa-paper-plane"))),
+    h("div",{class:"act",style:"margin-top:4px"},
+      h("button",{class:"btn sm gray",onclick:async()=>{if(!confirm("توليد كلمة سر جديدة للطالب @"+c.username+"؟ هيتقفل من أجهزته ولازم يدخل بالجديدة."))return;busy(true,"جاري التوليد...");
         try{const d2=await api("stuResetPw",{username:c.username});busy(false);
           openSheet("كلمة السر الجديدة",[
             h("p",{style:"text-align:center;color:var(--mut);font-size:13px"},"دي كلمة السر الجديدة لـ @"+c.username+". ابعتها له في المحادثة — مش هتظهر تاني:"),
