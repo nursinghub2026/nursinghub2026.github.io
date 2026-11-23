@@ -22,3 +22,8 @@
  .ft{padding-bottom:24px!important}
 }
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+/* Home identity: readable stacked names, modestly larger logos. */
+.hero .ht{flex-direction:column;gap:12px;padding:18px 14px}.hero .logos img{width:80px;height:80px}.hero .logos{gap:26px}.hero .sep{height:58px}.hero .institution{text-align:center}.hero .un{font-size:22px;letter-spacing:1.8px;line-height:1.3}.hero .fn{font-size:13px;letter-spacing:1.6px;margin-top:5px;line-height:1.5}.wrap.pull>.vcard{margin:0 0 22px}.wrap.pull>.vcard .vq{min-height:2.5em}
+@media(max-width:760px){.hero .logos img{width:64px;height:64px}.hero .logos{gap:22px}.hero .sep{height:46px}.hero .un{font-size:19px;letter-spacing:1px}.hero .fn{font-size:11px;letter-spacing:1.4px}.hero .ht{gap:10px;padding:14px}.wrap.pull>.vcard{margin:0 0 18px}}
+
+.hero .home-verse{padding:18px 16px;background:var(--bg);max-width:none}.hero .home-verse .vcard{max-width:850px;margin:0 auto;padding:24px 18px}.hero .home-verse .vq{font-size:clamp(28px,6.5vw,42px)}
