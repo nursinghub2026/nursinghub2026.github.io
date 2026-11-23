@@ -116,8 +116,7 @@
     const b = document.getElementById("abtn");
     if (!b) return;
     if (isLoggedIn()) {
-      const nm = (A.name || A.username || "؟").trim();
-      b.innerHTML = '<span class="abtn-t">' + nm[0] + "</span>";
+      b.innerHTML = '<i class="fas fa-user-graduate"></i>';
       b.classList.add("on");
     } else {
       b.innerHTML = '<i class="fas fa-user"></i>';
@@ -133,13 +132,13 @@
     const s = document.createElement("style");
     s.id = "authcss";
     s.textContent = [
-      ".aov{position:fixed;inset:0;background:rgba(5,10,22,.66);backdrop-filter:blur(4px);z-index:2500;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .2s}",
+      ".aov{position:fixed;inset:0;background:rgba(5,10,22,.78);backdrop-filter:blur(5px);z-index:2500;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .2s;--card:#0e2240;--bg:#0a1a2e;--border:rgba(212,175,90,.28);--txt:#eef4fa;--txt2:#a9bccd;--txt3:#7f93a8}",
       ".aov.show{opacity:1}",
-      ".acard{width:min(380px,94vw);background:var(--card);border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.5)}",
+      ".acard{width:min(380px,94vw);background:linear-gradient(165deg,#122c46,#0b1e33);border:1px solid var(--border);border-radius:22px;padding:22px;box-shadow:0 24px 60px rgba(0,0,0,.55);color:var(--txt)}",
       ".atitle{font-weight:900;font-size:19px;text-align:center;margin-bottom:4px}",
       ".asub{color:var(--txt2);font-size:12.5px;text-align:center;margin-bottom:16px}",
       ".atabs{display:flex;gap:8px;margin-bottom:16px}",
-      ".atab{flex:1;padding:9px;border-radius:12px;border:1px solid var(--border);background:transparent;color:var(--txt2);font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer}",
+      ".atab{flex:1;padding:9px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--txt2);font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer}",
       ".atab.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1205;border-color:transparent}",
       ".afield{margin-bottom:12px}",
       ".afield label{display:block;font-size:12.5px;font-weight:800;color:var(--txt2);margin-bottom:5px}",
@@ -151,7 +150,7 @@
       ".asub2:active{transform:scale(.97)}",
       ".asub2:disabled{opacity:.5;cursor:default}",
       ".anote{margin-top:12px;color:var(--txt3);font-size:11.5px;text-align:center;line-height:1.7}",
-      ".ax{position:absolute;top:14px;left:14px;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:transparent;color:var(--txt2);font-size:14px;cursor:pointer}",
+      ".ax{position:absolute;top:14px;left:14px;width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--txt2);font-size:14px;cursor:pointer}",
       ".abtn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--gold);background:rgba(212,175,55,.1);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;flex-shrink:0}",
       ".abtn.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1205;font-weight:900;font-size:15px;border-color:transparent}",
       ".aacc{text-align:center;padding:8px 0}",
@@ -187,7 +186,7 @@
       "</div>" +
       '<div class="aerr" id="aerr"></div>' +
       '<div class="afield" id="f-name" style="display:none"><label>اسمك (اختياري — بيظهر للأدمن)</label><input class="ainput" id="a-name" maxlength="60" placeholder="مثال: بودا"></div>' +
-      '<div class="afield"><label>اسم المستخدم</label><input class="ainput" id="a-user" maxlength="30" placeholder="حروف وأرقام إنجليزي، ٣ على الأقل" autocomplete="username" dir="ltr" style="text-align:left"></div>' +
+      '<div class="afield"><label>اسم المستخدم</label><input class="ainput" id="a-user" maxlength="30" placeholder="حروف وأرقام إنجليزي" autocomplete="username" dir="ltr" style="text-align:left"></div>' +
       '<div class="afield"><label>كلمة السر</label><input class="ainput" id="a-pass" type="password" maxlength="60" placeholder="٤ حروف على الأقل" autocomplete="current-password" dir="ltr" style="text-align:left"></div>' +
       '<button class="asub2" id="a-go"></button>' +
       '<div class="anote">نسيت كلمة السر؟ كلّم الأدمن وهو يعملك واحدة جديدة.<br>اسم المستخدم لازم يكون مميز — كلمة السر ممكن تتكرر، مش مشكلة.</div>' +
@@ -220,7 +219,8 @@
       const nm = el.querySelector("#a-name").value.trim();
       const err = el.querySelector("#aerr");
       function fail(m) { err.textContent = m; err.classList.add("show"); }
-      if (u.length < 3) return fail("اسم المستخدم لازم يكون ٣ حروف على الأقل");
+      if (!u) return fail("اكتب اسم المستخدم");
+      if (u.length > 30) return fail("اسم المستخدم طويل أوي (٣٠ حرف كحد أقصى)");
       if (!/^[A-Za-z0-9_.\-]+$/.test(u)) return fail("اسم المستخدم حروف وأرقام إنجليزي بس (ممكن . أو _ أو -)");
       if (p.length < 4) return fail("كلمة السر لازم تكون ٤ حروف على الأقل");
       go.disabled = true;

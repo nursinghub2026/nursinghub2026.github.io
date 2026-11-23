@@ -24,7 +24,7 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   function paintAb(){
     let a=null;try{const r=localStorage.getItem("NPH_AUTH_V1");if(r)a=JSON.parse(r)}catch(e){}
     abtn.innerHTML="";
-    if(a&&a.token){abtn.appendChild(h("span",null,((a.name||a.username||"؟").trim()[0]||"؟")));abtn.classList.add("on")}
+    if(a&&a.token){abtn.appendChild(ic("fa-user-graduate"));abtn.classList.add("on")}
     else{abtn.appendChild(ic("fa-user"));abtn.classList.remove("on")}
   }
   paintAb();
