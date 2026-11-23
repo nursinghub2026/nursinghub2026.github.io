@@ -142,12 +142,14 @@ function fcmSendToTokens_(tokens, title, body, data) {
   tokens.forEach((tk) => {
     try {
       if (!bearer) bearer = fcmAccessToken_(sa);
+      const noticeKind = /chat/.test(String(data && data.url)) ? 'reply' : /كويز|اختبار/.test(title) ? 'quiz' : /محاضرة/.test(title) ? 'lecture' : 'motivation';
+      const noticeTitle = /^FOUNDATIONS/.test(title) ? title : 'FOUNDATIONS • ' + title;
       const msg = {
         message: {
           token: tk,
-          notification: { title, body },
+          notification: { title: noticeTitle, body },
           webpush: {
-            notification: { title, body, icon: 'https://nursinghub2026.github.io/icon.png', badge: 'https://nursinghub2026.github.io/notification-badge.png', dir: 'rtl', lang: 'ar', vibrate: [120, 60, 120], tag: String((data && data.tag) || 'nph-' + Date.now()), renotify: true, data: { url: (data && data.url) || 'index.html' } },
+            notification: { title: noticeTitle, body, image: 'https://nursinghub2026.github.io/notification-images/' + noticeKind + '.png', icon: 'https://nursinghub2026.github.io/icon.png', badge: 'https://nursinghub2026.github.io/notification-badge.png', dir: 'rtl', lang: 'ar', vibrate: [120, 60, 120], tag: String((data && data.tag) || 'nph-' + Date.now()), renotify: true, data: { url: (data && data.url) || 'index.html' } },
             fcm_options: { link: 'https://nursinghub2026.github.io/' + ((data && data.url) || 'index.html') }
           },
           data: data ? Object.keys(data).reduce((m, k) => { m[k] = String(data[k]); return m; }, {}) : {}

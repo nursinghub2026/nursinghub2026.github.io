@@ -6,7 +6,7 @@
 
 The badge image must be live first. Back up the current Push.gs, apply the `webpush.notification` options from this file, and publish a new Apps Script version on the existing deployment. Keep the existing FCM_SA property private. Do not put its value in this repository.
 
-The existing version 17 was authorized for `script.external_request` and one account-scoped admin send passed on 2026-11-23. The appearance payload in this PR is not yet deployed.
+The existing version 18 was authorized for `script.external_request` and one account-scoped admin send passed on 2026-11-23. The banner payload in this PR is not yet deployed.
 
 ## System notification appearance
 
@@ -15,7 +15,8 @@ The existing version 17 was authorized for `script.external_request` and one acc
 - Short double vibration where supported.
 - Unique tags by default; a supplied data.tag groups related updates with renotify.
 - Same-origin destination carried in notification data and FCM fcm_options.link.
-- No generic banner image: it takes room from the message without adding lecture-specific information.
+- Four 2:1 navy/gold Arabic banner images, selected by type: lecture, quiz, reply, motivation.
+- FOUNDATIONS is automatically prefixed to the system title. The body remains readable without the image.
 - Notification payloads are displayed by Firebase once; the worker only displays data-only messages itself.
 
 Android/browser control the final system layout, font, colors, image size and vibration settings. The site cannot make an OS notification look like its in-page card.
