@@ -128,6 +128,11 @@
 
 
 
+  <section class="sec home-announcements rv" aria-labelledby="home-ann-title">
+    <div class="ha-heading"><div><span class="ha-eyebrow">من الإدارة ليك</span><h2 id="home-ann-title">آخر الإعلانات <i class="fa-solid fa-bullhorn" aria-hidden="true"></i></h2><p>أخبار المنصة وتحديثاتها، من غير ما يفوتك جديد.</p></div><a href="community.html" class="ha-all">كل الإعلانات <i class="fa-solid fa-arrow-left" aria-hidden="true"></i></a></div>
+    <div id="homeAnnouncements" class="ha-grid" aria-live="polite"><p class="ha-state" role="status">جاري تحميل الإعلانات...</p></div>
+  </section>
+
   <section class="mot rv"><span class="lb">رسالة ليك</span><p id="mq"></p><div class="dots" id="md"></div></section>
 
   <section class="sec rv"><div class="sect"><i class="fa-solid fa-compass"></i><div>أدواتك<small>كل اللي يساعدك في رحلتك</small></div></div>
@@ -139,7 +144,7 @@
     </div></section>
 </main>
 
-<script src="nav.js"></script><script src="progress.js"></script><script src="auth.js"></script><script src="data.js"></script>
+<script src="nav.js"></script><script src="progress.js"></script><script src="auth.js"></script><script src="data.js"></script><script src="home-announcements.js" defer></script>
 <script>
 const $=i=>document.getElementById(i);
 function paintHomeGreeting(){

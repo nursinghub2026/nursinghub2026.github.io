@@ -1,3 +1,4 @@
+(function(){const l=document.createElement("link");l.rel="stylesheet";l.href="navigation.css";document.head.appendChild(l)})();
 try{if(localStorage.getItem("NPH_THEME_V1")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}
 const API="https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
 const BRAND={name:"FOUNDATIONS",sub:"FUNDAMENTALS OF NURSING"};
@@ -40,7 +41,12 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
     if(window.NPHAuth&&NPHAuth.isLoggedIn()){location.href="student.html";return}
     if(window.NPHAuth){NPHAuth.openAuth();return}
     const s=document.createElement("script");s.src="auth.js";s.onload=()=>{if(window.NPHAuth)NPHAuth.openAuth()};document.head.appendChild(s)};
-  const menu=h("nav",{class:"menu"},h("div",{class:"menu-in"},PAGES.map(p=>h("a",{href:p[0],class:on(p[0])?"on":""},h("span",{class:"mi"},ic(p[2])),h("span",{class:"ml"},p[1])))));
+  const descriptions=["بداية رحلتك كل يوم","شرح وملخصات وفلاش كاردز","مهارات وشيك ليست وتدريب","تابع إنجازك وخطوتك الجاية","آخر أخبار وتحديثات الإدارة","حسابك ومعلوماتك","تواصل خاص مع الإدارة","لحظات هدوء وتركيز","خطط وعادات تساعدك","شاركنا سؤالك أو فكرتك"];
+  const groups=[["مساحة المذاكرة","كل موادك في مكان واحد",[0,1,2,3]],["حسابك والتواصل","خليك قريب من كل جديد",[4,5,6]],["مساحة تساعدك","أدوات بسيطة لرحلة أحسن",[7,8,9]]];
+  const menu=h("nav",{class:"menu",id:"site-menu","aria-label":"كل أقسام المنصة",inert:true},
+    h("div",{class:"menu-heading"},h("div",null,h("small",null,"FOUNDATIONS / EXPLORE"),h("h2",null,"كل اللي تحتاجه، مرتب ليك")),h("span",{class:"menu-emblem","aria-hidden":"true"},ic("fa-compass"))),
+    h("div",{class:"menu-in"},groups.map(g=>h("section",{class:"menu-group","aria-label":g[0]},h("h3",null,g[0]),h("p",null,g[1]),g[2].map(i=>{const p=PAGES[i];return h("a",{href:p[0],class:on(p[0])?"on":"","aria-current":on(p[0])?"page":null},h("span",{class:"mi"},ic(p[2])),h("span",{class:"ml"},h("b",null,p[1]),h("small",null,descriptions[i])),ic("fa-angle-left"));})))));
+  btn.setAttribute("aria-controls","site-menu");
   const scrim=h("div",{class:"scrim"});
   const nav=h("header",{class:"nav"},
     h("div",{class:"nav-in"},
@@ -59,10 +65,11 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   document.body.appendChild(dock);
   document.body.prepend(scrim);
   document.body.prepend(nav);
-  function setMenu(o){menu.classList.toggle("open",o);scrim.classList.toggle("show",o);btn.classList.toggle("open",o);btn.setAttribute("aria-expanded",o?"true":"false");lab(o)}
+  function setMenu(o){menu.inert=!o;menu.classList.toggle("open",o);scrim.classList.toggle("show",o);btn.classList.toggle("open",o);btn.setAttribute("aria-expanded",o?"true":"false");lab(o)}
   btn.onclick=e=>{e.stopPropagation();setMenu(!menu.classList.contains("open"))};
   scrim.onclick=()=>setMenu(false);
-  document.addEventListener("keydown",e=>{if(e.key==="Escape")setMenu(false)});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&menu.classList.contains("open")){setMenu(false);btn.focus()}if(e.key==="Tab"&&menu.classList.contains("open")){const links=[btn,...menu.querySelectorAll("a,button")];const first=links[0],last=links[links.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+  menu.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>setMenu(false)));
   document.body.appendChild(h("footer",{class:"ft"},
     h("div",{class:"ft-b"},BRAND.name),h("div",{class:"ft-s"},BRAND.sub),
     h("div",{class:"ft-u"},"FACULTY OF NURSING",h("br"),"PORT SAID UNIVERSITY"),
