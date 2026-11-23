@@ -20,3 +20,6 @@ The existing version 18 was authorized for `script.external_request` and one acc
 - Notification payloads are displayed by Firebase once; the worker only displays data-only messages itself.
 
 Android/browser control the final system layout, font, colors, image size and vibration settings. The site cannot make an OS notification look like its in-page card.
+
+## Admin controls
+The admin writes the notification title and body and chooses lecture, quiz, reply, motivation, or no image. Selection never overwrites typed words. A live approximate preview shows the result. Banner art contains a fixed category heading; personal title/body remain editable outside the image. The server allowlists banner names, never accepts an arbitrary image URL.
