@@ -28,3 +28,6 @@ Student titles, descriptions, questions and answers use text nodes, never HTML. 
 References:
 - https://cloudinary.com/documentation/upload_parameters (audio uses resource_type=video)
 - https://cloudinary.com/pricing (free plan, quota-limited)
+
+## Video addition
+A third extra-content type, video, shares the same new append-only sheet. Admin supplies a YouTube watch/short link, a shared Drive file link or an existing direct Cloudinary MP4/WebM URL. No video upload is performed by this version: long lecture video is better hosted separately and added by link, avoiding use of the existing Cloudinary free storage/bandwidth quota. Admin sees this distinction in the form. YouTube embeds use youtube-nocookie.com; external embedded players load only after the student's click, with a notice. Drive permission must allow the intended viewers. Unlisted YouTube is not private, anyone with the link may view. No autoplay, no ad-free or availability promise. Playback and external-account permissions must be checked on a real video after activation. Unknown hosts and script URLs are rejected.

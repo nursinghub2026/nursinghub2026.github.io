@@ -33,15 +33,20 @@ function teUrl_(v) {
   if(!/^https:\/\/res\.cloudinary\.com\/[a-z0-9_-]+\/video\/upload\/[A-Za-z0-9_.,!\/~%+\-]+(?:\.(?:mp3|m4a|aac|ogg|wav|webm))?(?:\?[A-Za-z0-9_=&%.\-]*)?$/.test(v) && !/^https:\/\/drive\.google\.com\/file\/d\/[A-Za-z0-9_-]+\/(?:view|preview)(?:\?usp=sharing)?$/.test(v))teError_('استخدم رابط صوت Cloudinary مباشر أو رابط ملف Google Drive');
   return v;
 }
+function teVideoUrl_(v) {
+  v=teText_(v,1800,true);
+  if(!/^https:\/\/(?:www\.)?youtube\.com\/watch\?v=[A-Za-z0-9_-]{11}$/.test(v)&&!/^https:\/\/youtu\.be\/[A-Za-z0-9_-]{11}$/.test(v)&&!/^https:\/\/drive\.google\.com\/file\/d\/[A-Za-z0-9_-]+\/(view|preview)(?:\?usp=sharing)?$/.test(v)&&!/^https:\/\/res\.cloudinary\.com\/[a-z0-9_-]+\/video\/upload\/[A-Za-z0-9_.,!\/~%+\-]+\.(mp4|webm)$/.test(v))teError_('استخدم رابط فيديو YouTube أوDrive أوCloudinary مباشر');
+  return v;
+}
 function teSave_(p) {
   teAdmin_(p);var lid=teLecture_(p.lectureId,true),kind=p.kind,id=p.id?teText_(p.id,100,true):Utilities.getUuid();
-  if(!/^[A-Za-z0-9_-]+$/.test(id)||['audio','flashcard'].indexOf(kind)<0)teError_('نوع المحتوى غير صالح');
+  if(!/^[A-Za-z0-9_-]+$/.test(id)||['audio','flashcard','video'].indexOf(kind)<0)teError_('نوع المحتوى غير صالح');
   var old=teLatest_(lid).filter(function(x){return x.id===id;})[0];
   if(p.id&&!old)teError_('المحتوى مش موجود في المحاضرة');
   if(!old&&teRows_().some(function(r){return String(r[0])===id;}))teError_('معرف مكرر');
   if(!old&&teLatest_(lid).filter(function(x){return !x.hidden;}).length>=500)teError_('وصلت للحد الأقصى للمحاضرة');
   var c=p.content||{},content={title:teText_(c.title,160,true)};
-  if(kind==='audio'){content.url=teUrl_(c.url);content.description=teText_(c.description||'',1500,false);}
+  if(kind==='audio'||kind==='video'){content.url=kind==='video'?teVideoUrl_(c.url):teUrl_(c.url);content.description=teText_(c.description||'',1500,false);}
   else {content.question=teText_(c.question,2000,true);content.answer=teText_(c.answer,4000,true);}
   var sh=db().getSheetByName(TE_TAB_);
   if(!sh){sh=db().insertSheet(TE_TAB_);sh.appendRow(TE_HEAD_);sh.setFrozenRows(1);}
