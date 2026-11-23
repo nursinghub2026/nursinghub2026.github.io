@@ -110,7 +110,7 @@ body{background:#eef3f7}
 .ach-in:focus{border-color:var(--ac,#0e8f94);background:#fff}
 .ach-send{width:44px;height:44px;flex:none;border:none;border-radius:50%;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;font-size:15px;cursor:pointer;display:grid;place-items:center}
 .ach-send i{transform:scaleX(-1)}
-</style><link rel="stylesheet" href="admin-layout.css"><link rel="stylesheet" href="community.css"></head><body>
+</style><link rel="stylesheet" href="admin-layout.css"><link rel="stylesheet" href="theory-extras.css"><link rel="stylesheet" href="community.css"></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
 
@@ -445,6 +445,7 @@ function renderMan(){const l=cur();if(!l){view("lec");return}
   box.appendChild(h("div",{class:"mh"+(th?" th":"")},h("h2",null,l.titleAr||l.title),h("p",null,(th?"نظري":"عملي")+" - "+l.title+" - "+l.level+" - "+total(l)+" عنصر")));
   box.appendChild(h("div",{class:"tabs2"},Object.keys(S).map(k=>h("button",{class:k===tab?"on":"",onclick:()=>{tab=k;renderMan()}},ic(S[k][1]),S[k][0],h("em",null,String(cnt(l,k)))))));
   const A=(l.sections&&l.sections[tab])||[];
+  if(th&&window.NPHTheory)NPHTheory.admin(box,l);
   if(!A.length){box.appendChild(h("div",{class:"empty card"},ic("fa-folder-open"),"مفيش محتوى في القسم ده. اضغط زرار \"إضافة محتوى\" العائم."));return}
   A.forEach(it=>box.appendChild(h("div",{class:"lr"+(th?" th":"")},
     h("div",{class:"ic2"},ic(it.file?fic(it.file.name):"fa-align-right")),
@@ -602,4 +603,4 @@ async function loadLog(){const b=$("lgl");b.innerHTML="";b.appendChild(h("div",{
     b.appendChild(t)}catch(e){b.innerHTML="";b.appendChild(h("div",{class:"empty"},"السجل غير متاح."))}}
 
 if(PW&&AD)start();
-</script><script src="banner-studio.js"></script><script src="community.js"></script><script>const originalCommunityDash=renderDash;renderDash=function(){originalCommunityDash();if(window.NPHCommunity)NPHCommunity.admin(document.getElementById("v-dash"));};if(PW&&AD&&V==="dash")renderDash();</script></body></html>
+</script><script src="banner-studio.js"></script><script src="theory-extras.js"></script><script src="community.js"></script><script>const originalCommunityDash=renderDash;renderDash=function(){originalCommunityDash();if(window.NPHCommunity)NPHCommunity.admin(document.getElementById("v-dash"));};if(PW&&AD&&V==="dash")renderDash();</script></body></html>
