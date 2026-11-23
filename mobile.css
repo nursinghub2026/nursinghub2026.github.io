@@ -30,3 +30,7 @@
 /* Restore a prominent university identity while keeping the two names together. */
 .hero .ht{padding:24px 16px;gap:18px}.hero .logos img{width:clamp(112px,28vw,180px);height:clamp(112px,28vw,180px)}.hero .logos{gap:clamp(18px,5vw,44px)}.hero .sep{height:clamp(78px,20vw,122px)}.hero .un{font-size:clamp(25px,5.8vw,42px);letter-spacing:1px;line-height:1.2}.hero .un span{max-width:20ch;margin:auto}.hero .fn{font-size:clamp(18px,4.5vw,29px);letter-spacing:1px;margin-top:8px;line-height:1.35}.hero .institution{max-width:100%}
 @media(max-width:760px){.hero .ht{padding:22px 14px;gap:16px}.hero .logos img{width:clamp(108px,30vw,150px);height:clamp(108px,30vw,150px)}.hero .logos{gap:22px}.hero .sep{height:86px}.hero .un{font-size:clamp(27px,7.5vw,38px);letter-spacing:.6px;line-height:1.15}.hero .fn{font-size:clamp(19px,5.1vw,26px);letter-spacing:.8px;margin-top:8px}}
+
+/* More prominent FOUNDATIONS name without crowding mobile controls. */
+.nav .brand b{font-size:clamp(22px,4.7vw,30px);letter-spacing:1.2px}.hero .hb h1{font-size:clamp(38px,10vw,76px);letter-spacing:1px;line-height:1.18}.hero .en2{font-size:clamp(10px,2.5vw,15px);letter-spacing:2px}
+@media(max-width:760px){.nav .brand b{font-size:clamp(20px,5.7vw,24px);letter-spacing:.5px}.nav .brand small{font-size:7px;letter-spacing:1px}.hero .hb h1{font-size:clamp(35px,10.4vw,58px);letter-spacing:0}.hero .en2{font-size:10px;letter-spacing:1.8px}}
