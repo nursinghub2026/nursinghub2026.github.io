@@ -81,7 +81,9 @@ function adminPushSend_(req) {
     targets.push(tk);
   }
   if (!targets.length) return { ok: false, error: username ? 'مفيش جهاز مسجل للطالب ده' : 'مفيش أجهزة مسجلة لسه' };
-  const res = fcmSendToTokens_(targets, title, body, { url: 'index.html', banner: ['lecture','quiz','reply','motivation','none'].indexOf(req.banner) >= 0 ? req.banner : 'lecture' });
+  const requestedUrl = String(req.url || 'index.html');
+  const noticeUrl = /^(index\.html|Lectures\.html|Lecture\.html\?id=[a-zA-Z0-9%_-]+)$/.test(requestedUrl) ? requestedUrl : 'index.html';
+  const res = fcmSendToTokens_(targets, title, body, { url: noticeUrl, banner: ['lecture','quiz','reply','motivation','none'].indexOf(req.banner) >= 0 ? req.banner : 'lecture' });
   pushLogSheet_().appendRow([new Date(), username || 'ALL', title, body, res.sent, res.failed, res.configured]);
   return { ok: true, sent: res.sent, failed: res.failed, configured: res.configured };
 }

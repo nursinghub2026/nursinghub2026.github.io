@@ -363,6 +363,43 @@ async function toggleSt(l){const lec=pickL(l);lec.status=l.status==="published"?
   try{await api("saveLecture",{lecture:lec});l.status=lec.status;toast(lec.status==="published"?"المحاضرة بقت منشورة.":"المحاضرة اتخفت عن الطلاب.");refresh()}catch(e){toast(net(e),true)}busy(false)}
 async function delL(l){if(!confirm("حذف المحاضرة وكل ملفاتها نهائيًا؟"))return;busy(true,"جاري الحذف...");
   try{await api("deleteLecture",{id:l.id});L=L.filter(x=>String(x.id)!==String(l.id));toast("تم الحذف.");refresh()}catch(e){toast(net(e),true)}busy(false)}
+/* Optional notices after a successful new lecture/content save. No automatic sends. */
+function publishNoticeComposer(getDefault, getAvailable, banner){
+  let titleEdited=false,bodyEdited=false;
+  const toggle=h('input',{type:'checkbox',style:'width:20px;height:20px;accent-color:#b58a32;flex:none'});
+  const title=h('input',{maxLength:80,'aria-label':'عنوان إشعار الإضافة'});
+  const body=h('textarea',{maxLength:240,rows:3,'aria-label':'نص إشعار الإضافة'});
+  const art=h('select',{'aria-label':'صورة إشعار الإضافة'},[['lecture','محاضرة'],['quiz','كويز'],['reply','رد'],['motivation','تحفيز'],['none','بدون صورة']].map(([value,text])=>h('option',{value},text)));art.value=banner;
+  title.oninput=()=>titleEdited=true;body.oninput=()=>bodyEdited=true;
+  const fields=h('div',{class:'hidden',style:'margin-top:12px'},
+    h('div',{class:'field'},h('label',null,'عنوان الإشعار'),title),
+    h('div',{class:'field'},h('label',null,'نص الإشعار'),body),
+    h('div',{class:'field'},h('label',null,'الصورة'),art));
+  const note=h('p',{style:'font-size:12px;color:var(--mut);line-height:1.8;margin:8px 0 0'},'اختياري ومقفول افتراضيًا. لو فعلته، هيتبعت لكل الطلبة المسجلين للإشعارات بعد نجاح الحفظ. تقدر تعدّل الرسالة قبل الإرسال.');
+  const node=h('div',{class:'card',style:'padding:16px;margin:14px 0;border:1px solid #d4af5a70'},h('label',{style:'display:flex;align-items:center;gap:10px;cursor:pointer;font-weight:800'},toggle,'أبعت إشعار للطلبة بعد الحفظ؟'),note,fields);
+  function sync(){const d=getDefault();if(!titleEdited)title.value=d.title;if(!bodyEdited)body.value=d.body;}
+  toggle.onchange=()=>{sync();fields.classList.toggle('hidden',!toggle.checked)};
+  return {node,validate(){
+    if(!toggle.checked)return true;
+    if(!getAvailable()){toast('الإشعار محتاج محاضرة منشورة. اختار منشورة أو اقفل الإشعار.',true);return false;}
+    sync();if(!title.value.trim()||!body.value.trim()){toast('اكتب عنوان ونص الإشعار أو اقفل اختياره.',true);return false;}return true;
+  },async send(url){
+    if(!toggle.checked)return;
+    const request={title:title.value.trim(),body:body.value.trim(),banner:art.value,url};
+    const retry=h('button',{class:'btn sm',type:'button'},'إعادة محاولة الإشعار فقط');
+    const status=h('p',{style:'margin:0 0 10px;line-height:1.8'});
+    const box=h('div',{class:'card',style:'position:fixed;bottom:85px;left:16px;right:16px;max-width:480px;margin:auto;z-index:1500;border:1px solid #d4af5a;padding:16px'},status,retry,h('button',{class:'btn ghost sm',type:'button',style:'margin-inline-start:8px',onclick:()=>box.remove()},'إغلاق'));
+    async function attempt(){retry.disabled=true;status.textContent='تم حفظ الإضافة. جاري إرسال الإشعار...';
+      try{const d=await api('adminPushSend',request);
+        if(d.configured===false||!d.sent||d.failed){status.textContent='الإضافة محفوظة. نتيجة الإشعار: نجح '+(d.sent||0)+'، فشل '+(d.failed||0)+'. راجع لوحة الإشعارات قبل إرسال جديد لتجنب التكرار.';retry.hidden=true;}
+        else{status.textContent='الإضافة محفوظة. قبلت خدمة الإشعارات الإرسال إلى '+d.sent+' جهاز. الظهور يعتمد على إعدادات كل جهاز.';retry.hidden=true;}
+      }catch(e){status.textContent='الإضافة محفوظة. لم نقدر نؤكد إرسال الإشعار: '+net(e)+'. إعادة المحاولة قد تكرر الإشعار لو الطلب الأول وصل.';retry.hidden=false;}
+      retry.disabled=false;
+    }
+    retry.onclick=()=>{if(confirm('إعادة إرسال الإشعار فقط؟ ممكن يتكرر لو الطلب السابق وصل. مش هنعيد حفظ الإضافة.'))attempt()};document.body.append(box);await attempt();
+  }};
+}
+
 function lecSheet(l,forceTrack){
   let track=l?trk(l):(forceTrack||(fTr!=="all"?fTr:"practical"));
   const OP=[["practical","fa-hand-holding-medical","عملي","شرح + مهارات + شيك ليست + كويز"],["theory","fa-book-open","نظري","شرح وملخصات + كويز"]];
@@ -375,17 +412,19 @@ function lecSheet(l,forceTrack){
   const lv=h("select",null,["First Year","Second Year","Third Year","Fourth Year"].map(x=>h("option",{value:x},x)));lv.value=l?l.level:"First Year";
   const ld=h("textarea",{placeholder:"وصف مختصر يظهر للطلاب (اختياري)"});ld.value=l?(l.description||""):"";
   const st=h("select",null,h("option",{value:"published"},"منشورة (تظهر للطلاب)"),h("option",{value:"draft"},"مسودة (مخفية)"));st.value=l?l.status:"published";
+  const notice=!l?publishNoticeComposer(()=>({title:'محاضرة جديدة: '+(lta.value.trim()||lt.value.trim()),body:'محاضرة '+(lta.value.trim()||lt.value.trim())+' بقت متاحة على المنصة. افتحها وابدأ المذاكرة.'}),()=>st.value==='published','lecture'):null;
   const sv=h("button",{class:"btn full lg",type:"button",onclick:async()=>{
+    if(notice&&!notice.validate())return;
     if(!lt.value.trim()||!lta.value.trim()||!ls.value.trim()){toast("كمّل الاسم بالإنجليزي والعربي والمادة.",true);return}
     const lec={id:l?l.id:uid(),title:lt.value.trim(),titleAr:lta.value.trim(),subject:ls.value.trim(),level:lv.value,description:ld.value.trim(),status:st.value,track};
     busy(true,"جاري الحفظ...");
     try{await api("saveLecture",{lecture:lec});const i=L.findIndex(x=>String(x.id)===String(lec.id));
       if(i<0)L.push(Object.assign({},lec,{sections:{explanation:[],skills:[],checklists:[],quizzes:[]}}));else L[i]=Object.assign({},L[i],lec);
-      closeSheet();toast("تم الحفظ.");refresh()}catch(e){toast(net(e),true)}busy(false)}},ic("fa-floppy-disk"),"حفظ المحاضرة");
+      closeSheet();toast("تم الحفظ.");refresh();if(notice)await notice.send("Lecture.html?id="+encodeURIComponent(lec.id))}catch(e){toast(net(e),true)}busy(false)}},ic("fa-floppy-disk"),"حفظ المحاضرة");
   openSheet(l?"تعديل المحاضرة":"محاضرة جديدة",[
     h("div",{class:"field"},h("label",null,"نوع المحاضرة"),tsel),
     h("div",{class:"g2"},h("div",{class:"field"},h("label",null,"الاسم بالإنجليزية"),lt),h("div",{class:"field"},h("label",null,"الاسم بالعربية"),lta),h("div",{class:"field"},h("label",null,"المادة"),ls),h("div",{class:"field"},h("label",null,"المستوى"),lv)),
-    h("div",{class:"field"},h("label",null,"الوصف"),ld),h("div",{class:"field"},h("label",null,"الحالة"),st),sv])}
+    h("div",{class:"field"},h("label",null,"الوصف"),ld),h("div",{class:"field"},h("label",null,"الحالة"),st),notice?notice.node:null,sv])}
 
 function renderMan(){const l=cur();if(!l){view("lec");return}
   const th=isTh(l),S=secs(l);if(!S[tab])tab="explanation";
@@ -412,7 +451,9 @@ function itemSheet(it){const l=cur();if(!l)return;
   const dn=h("div",{class:"dn"},"اضغط لاختيار ملف من الموبايل");
   fi.onchange=()=>{const f=fi.files[0];dn.textContent=f?f.name+" - "+fmt(f.size):"اضغط لاختيار ملف من الموبايل"};
   const drop=h("label",{class:"drop"},fi,ic("fa-cloud-arrow-up"),dn,h("small",null,"PDF, Word, PowerPoint, صور, فيديو, صوت, HTML (حتى 20 ميجا)"));
+  const notice=!it?publishNoticeComposer(()=>({title:tab==='quizzes'?'كويز جديد: '+ti.value.trim():'محتوى جديد: '+ti.value.trim(),body:'اتضاف '+ti.value.trim()+' في محاضرة '+(l.titleAr||l.title)+'. افتح المحاضرة وشوف الجديد.'}),()=>l.status==='published',tab==='quizzes'?'quiz':'lecture'):null;
   const sv=h("button",{class:"btn full lg",type:"button",onclick:async()=>{
+    if(notice&&!notice.validate())return;
     const f=fi.files[0];
     if(!ti.value.trim()){toast("اكتب عنوان المحتوى.",true);return}
     if(f){if(!EXT.includes(ext(f.name))){toast("نوع الملف غير مدعوم.",true);return}if(f.size>20*1048576){toast("الملف أكبر من 20 ميجا.",true);return}}
@@ -421,10 +462,10 @@ function itemSheet(it){const l=cur();if(!l)return;
       if(f)item.file={name:f.name,type:f.type||"application/octet-stream",data:await b64(f)};
       const s=(await api("saveItem",{item})).item;
       const a=l.sections[tab]||(l.sections[tab]=[]);const i=a.findIndex(x=>String(x.id)===String(s.id));if(i<0)a.push(s);else a[i]=s;
-      closeSheet();toast("تم الحفظ.");renderMan()}catch(e){toast(net(e),true)}busy(false)}},ic("fa-floppy-disk"),"حفظ المحتوى");
+      closeSheet();toast("تم الحفظ.");renderMan();if(notice)await notice.send("Lecture.html?id="+encodeURIComponent(l.id))}catch(e){toast(net(e),true)}busy(false)}},ic("fa-floppy-disk"),"حفظ المحتوى");
   openSheet((it?"تعديل محتوى":"إضافة محتوى")+" - "+secs(l)[tab][0],[
     h("div",{class:"field"},h("label",null,"العنوان"),ti),h("div",{class:"field"},h("label",null,"الوصف"),de),
-    h("div",{class:"field"},h("label",null,"الملف"),drop,it&&it.file?h("small",{style:"color:#80621c;font-weight:700"},"الملف الحالي: "+it.file.name+" (سيبه فاضي للاحتفاظ بيه)"):null),sv])}
+    h("div",{class:"field"},h("label",null,"الملف"),drop,it&&it.file?h("small",{style:"color:#80621c;font-weight:700"},"الملف الحالي: "+it.file.name+" (سيبه فاضي للاحتفاظ بيه)"):null),notice?notice.node:null,sv])}
 
 const SFL=[["all","الكل"],["open","بدون رد"],["done","تم الرد"]];
 function sgChips(){const b=$("sgFl");b.innerHTML="";SFL.forEach(f=>{const n=f[0]==="all"?SG.length:SG.filter(s=>f[0]==="open"?!s.reply:!!s.reply).length;

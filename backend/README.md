@@ -23,3 +23,8 @@ Android/browser control the final system layout, font, colors, image size and vi
 
 ## Admin controls
 The admin writes the notification title and body and chooses lecture, quiz, reply, motivation, or no image. Selection never overwrites typed words. A live approximate preview shows the result. Banner art contains a fixed category heading; personal title/body remain editable outside the image. The server allowlists banner names, never accepts an arbitrary image URL.
+
+## Optional new-publication notices
+New lecture and new content forms have an unchecked-by-default notice option. If enabled, editable title/body/banner are sent only after successful save, using adminPushSend. Draft lectures cannot send. Existing edit forms do not send. A push failure never repeats or rolls back the save, and a manual retry warns about possible duplicate delivery.
+
+The notification destination is allowlisted to index.html, Lectures.html, or Lecture.html with an encoded ID. Apply the small Push.gs destination change after backing up the current file and publish a new backend version. Until that publication, notices still open the homepage. Tests use mocked saves and push responses, never real lecture/file/sheet data.
