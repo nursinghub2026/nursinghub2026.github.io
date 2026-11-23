@@ -54,7 +54,7 @@ body.theory .lh .en{color:#d9c8f5}
 <script src="theory-extras.js"></script><script>
 const CK="NPH_PUB_V1";
 const SEC={explanation:{en:"Explanation",ar:"الشرح",icon:"fa-book-open"},skills:{en:"Skills",ar:"المهارات العملية",icon:"fa-hand-holding-medical"},checklists:{en:"Checklist",ar:"الشيك ليست",icon:"fa-clipboard-check"},quizzes:{en:"Quiz",ar:"الكويزات",icon:"fa-brain"}};
-const TSEC={explanation:{en:"Summaries",ar:"شرح وملخصات",icon:"fa-book-open"},audio:{en:"Voice",ar:"شرح فويس",icon:"fa-headphones"},flashcard:{en:"Flashcards",ar:"فلاش كاردز",icon:"fa-clone"},video:{en:"Video",ar:"شرح فيديو",icon:"fa-circle-play"},quizzes:{en:"Quiz",ar:"كويز",icon:"fa-brain"}};
+const TSEC={explanation:{en:"Summaries",ar:"شرح وملخصات",icon:"fa-book-open"},quizzes:{en:"Quiz",ar:"كويز",icon:"fa-brain"},audio:{en:"Voice",ar:"شرح فويس",icon:"fa-headphones"},video:{en:"Video",ar:"شرح فيديو",icon:"fa-circle-play"},flashcard:{en:"Flashcards",ar:"فلاش كاردز",icon:"fa-clone"}};
 const app=document.getElementById("app"),lid=new URLSearchParams(location.search).get("id");
 let lecture=null,LST=[],tab=new URLSearchParams(location.search).get("tab")||"explanation";
 const ext=n=>(n.split(".").pop()||"").toLowerCase();
@@ -104,10 +104,11 @@ function render(){
   if(authed())hd.appendChild(lp);
   app.appendChild(hd);
   paintLp();
-  const tabs=h("div",{class:"tabs"});
+  const tabs=h("div",{class:"tabs",role:"tablist","aria-label":"محتوى المحاضرة"});
   Object.keys(S).forEach(k=>{const s=S[k];
-    tabs.appendChild(h("button",{class:"tab"+(k===tab?" on":""),onclick:()=>{tab=k;if(authed())NPH.touch(lecture.id,tab);render();window.scrollTo({top:hd.offsetTop+hd.offsetHeight-40,behavior:"smooth"})}},(["audio","flashcard","video"].includes(k)?null:h("em",null,String(cn(k)))),ic(s.icon),s.en,h("small",null,s.ar)))});
+    tabs.appendChild(h("button",{class:"tab"+(k===tab?" on":""),"data-kind":k,"aria-selected":String(k===tab),role:"tab",onclick:()=>{tab=k;if(authed())NPH.touch(lecture.id,tab);render();window.scrollTo({top:hd.offsetTop+hd.offsetHeight-40,behavior:"smooth"})}},(["audio","flashcard","video"].includes(k)?null:h("em",null,String(cn(k)))),ic(s.icon),s.en,h("small",null,s.ar)))});
   app.appendChild(h("div",{class:"tw"},tabs));
+  if(th)NPHTheory.counts(lecture.id).then(counts=>{if(!tabs.isConnected)return;tabs.querySelectorAll('button').forEach(b=>{const k=b.dataset.kind,n=['audio','video','flashcard'].includes(k)?counts[k]||0:cn(k);if(['audio','video','flashcard'].includes(k))b.prepend(h('em',null,String(n)));b.classList.toggle('tab-empty',n===0);});}).catch(()=>{});
   const wrap=h("div",{class:"items"}),items=(lecture.sections&&lecture.sections[tab])||[];
   if(!["audio","flashcard","video"].includes(tab)&&!items.length)wrap.appendChild(h("div",{class:"empty card"},ic("fa-folder-open"),"لسه مفيش محتوى في القسم ده."));
   items.forEach((it,i)=>wrap.appendChild(itemCard(it,i)));
