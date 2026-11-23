@@ -1,6 +1,7 @@
 /* Imported by sw.js, one worker owns the app scope. */
 self.addEventListener('notificationclick', event => {
   event.notification.close();
+  event.stopImmediatePropagation();
   const raw = event.notification.data?.url || event.notification.data?.FCM_MSG?.data?.url || 'index.html';
   const url = new URL(raw, self.location.origin);
   if (url.origin !== self.location.origin) return;
@@ -18,8 +19,9 @@ firebase.messaging().onBackgroundMessage(payload => {
   // Notification payloads are displayed by the SDK, never display them twice.
   if(payload.notification) return;
   const d=payload.data || {};
-  return self.registration.showNotification(d.title || 'FOUNDATIONS', {
-    body:d.body || '',icon:'icon-192.png',badge:'icon-192.png',dir:'rtl',lang:'ar',
+  return self.registration.showNotification(d.title || 'إشعار جديد', {
+    body:d.body || '',icon:'icon.png',badge:'notification-badge.png',dir:'rtl',lang:'ar',
+    vibrate:[120,60,120],tag:d.tag || payload.messageId || 'nph-'+Date.now(),renotify:true,
     data:{url:d.url || 'index.html'}
   });
 });

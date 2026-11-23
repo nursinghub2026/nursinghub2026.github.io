@@ -7,11 +7,12 @@ if(ios && !navigator.standalone && !matchMedia('(display-mode: standalone)').mat
 const auth=()=>{try{return JSON.parse(localStorage.getItem('NPH_AUTH_V1')||'null')}catch(e){return null}};
 const load=src=>new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=reject;document.head.append(s)});
 let messaging,busy=false;
+const noticeUI=load('notification-ui.js').catch(()=>{});
 async function setup(){
  if(!window.firebase){await load('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');await load('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');}
  if(!await firebase.messaging.isSupported())throw Error('المتصفح ده مش بيدعم الإشعارات');
  if(!firebase.apps.length)firebase.initializeApp(window.NPH_FIREBASE);
- if(!messaging){messaging=firebase.messaging();messaging.onMessage(p=>{const n=p.notification||p.data||{};if(window.NPH?.toast)NPH.toast((n.title||'إشعار جديد')+(n.body?': '+n.body:''));});}
+ if(!messaging){messaging=firebase.messaging();messaging.onMessage(async p=>{await noticeUI;if(window.NPH_NOTIFY)NPH_NOTIFY(p);else if(window.NPH?.toast)NPH.toast(p.notification?.title||p.data?.title||'إشعار جديد');});}
  return messaging;
 }
 async function enable(button){
@@ -35,6 +36,7 @@ function mount(){
  const b=document.createElement('button');b.id='nphPushEnable';b.type='button';b.textContent='فعّل إشعارات المحاضرات والردود';
  b.style.cssText='position:fixed;bottom:76px;left:16px;max-width:calc(100vw - 32px);z-index:970;border:1px solid #d4af5a;border-radius:20px;padding:10px 16px;background:#0b2540;color:#fff;font:inherit;cursor:pointer';
  b.onclick=()=>enable(b);document.body.append(b);
+ if(Notification.permission==='granted' && localStorage.getItem('NPH_PUSH_OWNER')===auth()?.username){b.textContent='الإشعارات مفعّلة ✓';setup().catch(()=>{b.textContent='اضغط لتحديث تفعيل الإشعارات';});}
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
 window.addEventListener('storage',mount);

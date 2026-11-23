@@ -166,7 +166,7 @@ body{background:#eef3f7}
       <div class="card" id="pushStat"></div>
       <div class="card" style="margin-top:12px">
         <label style="font-weight:800;font-size:13px;display:block;margin-bottom:6px">عنوان الإشعار</label>
-        <input id="pushTitle" placeholder="مثال: محاضرة جديدة نزلت 🎓">
+        <input id="pushTitle" placeholder="مثال: محاضرة جديدة نزلت">
         <label style="font-weight:800;font-size:13px;display:block;margin:10px 0 6px">نص الإشعار</label>
         <textarea id="pushBody" rows="3" placeholder="اكتب تفاصيل الإشعار..."></textarea>
         <div class="chips" id="pushTpl" style="margin-top:10px">
@@ -256,7 +256,7 @@ document.querySelectorAll(".tabbar button").forEach(b=>b.onclick=()=>view(b.data
 $("fab").onclick=()=>{if(V==="man")itemSheet(null);else lecSheet(null)};
 function refresh(){if(V==="dash")renderDash();else if(V==="lec")listLecs();else if(V==="man")renderMan()}
 /* --- الإشعارات (المرحلة 3) --- */
-const PTPL={lec:["محاضرة جديدة نزلت 🎓","اتضافت محاضرة جديدة على المنصة.. افتح وابدأ ذاكر دلوقتي"],quiz:["كويز جديد متاح 📝","جرب نفسك في الكويز الجديد وشوف مستواك"],mot:["افتكر هدفك 💪","كل يوم مذاكرة بيقرّبك من التفوق.. كمّل يا بطل"]};
+const PTPL={lec:["محاضرة جديدة نزلت","اتضافت محاضرة جديدة على المنصة.. افتح وابدأ ذاكر دلوقتي"],quiz:["كويز جديد متاح","جرب نفسك في الكويز الجديد وشوف مستواك"],mot:["افتكر هدفك","كل يوم مذاكرة بيقرّبك من التفوق.. كمّل يا بطل"]};
 let pushAud="all";
 async function loadPush(){
   const st=$("pushStat");st.innerHTML="";
