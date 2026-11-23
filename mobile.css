@@ -27,3 +27,36 @@
 @media(max-width:760px){.hero .logos img{width:64px;height:64px}.hero .logos{gap:22px}.hero .sep{height:46px}.hero .un{font-size:19px;letter-spacing:1px}.hero .fn{font-size:11px;letter-spacing:1.4px}.hero .ht{gap:10px;padding:14px}.wrap.pull>.vcard{margin:0 0 18px}}
 
 .hero .home-verse{padding:18px 16px;background:var(--bg);max-width:none}.hero .home-verse .vcard{max-width:850px;margin:0 auto;padding:24px 18px}.hero .home-verse .vq{font-size:clamp(28px,6.5vw,42px)}
+/* Restore a prominent university identity while keeping the two names together. */
+.hero .ht{padding:24px 16px;gap:18px}.hero .logos img{width:clamp(112px,28vw,180px);height:clamp(112px,28vw,180px)}.hero .logos{gap:clamp(18px,5vw,44px)}.hero .sep{height:clamp(78px,20vw,122px)}.hero .un{font-size:clamp(25px,5.8vw,42px);letter-spacing:1px;line-height:1.2}.hero .un span{max-width:20ch;margin:auto}.hero .fn{font-size:clamp(18px,4.5vw,29px);letter-spacing:1px;margin-top:8px;line-height:1.35}.hero .institution{max-width:100%}
+@media(max-width:760px){.hero .ht{padding:22px 14px;gap:16px}.hero .logos img{width:clamp(108px,30vw,150px);height:clamp(108px,30vw,150px)}.hero .logos{gap:22px}.hero .sep{height:86px}.hero .un{font-size:clamp(27px,7.5vw,38px);letter-spacing:.6px;line-height:1.15}.hero .fn{font-size:clamp(19px,5.1vw,26px);letter-spacing:.8px;margin-top:8px}}
+
+/* More prominent FOUNDATIONS name without crowding mobile controls. */
+.nav .brand b{font-size:clamp(22px,4.7vw,30px);letter-spacing:1.2px}.hero .hb h1{font-size:clamp(38px,10vw,76px);letter-spacing:1px;line-height:1.18}.hero .en2{font-size:clamp(10px,2.5vw,15px);letter-spacing:2px}
+@media(max-width:760px){.nav .brand b{font-size:clamp(20px,5.7vw,24px);letter-spacing:.5px}.nav .brand small{font-size:7px;letter-spacing:1px}.hero .hb h1{font-size:clamp(35px,10.4vw,58px);letter-spacing:0}.hero .en2{font-size:10px;letter-spacing:1.8px}}
+/* Home title precedes the Quran, with room for a larger wordmark. */
+.hero .home-brand-title{background:linear-gradient(135deg,#08172b,#153b53);color:#fff;text-align:center;padding:30px 10px}.hero .home-brand-title h1{font-size:clamp(42px,11.8vw,100px);font-weight:900;letter-spacing:0;line-height:1.15;direction:ltr;color:#b6f0ee;margin:0;white-space:nowrap}.hero .home-brand-title .en2{font-size:clamp(11px,2.7vw,18px);letter-spacing:2.2px;margin-top:8px}.hero .hb{padding-top:22px}
+@media(max-width:760px){.hero .home-brand-title{padding:26px 8px}.hero .home-brand-title h1{font-size:clamp(40px,11.8vw,78px)}.hero .home-brand-title .en2{font-size:clamp(10px,2.8vw,16px);letter-spacing:1.7px}}
+/* One continuous home palette, with a soft illuminated wordmark. */
+.hero{background:#102c42}
+.hero .ht{background:linear-gradient(180deg,#fff 0%,#edf7f7 65%,#dceef0 100%);border-bottom:0}
+.hero .home-brand-title{position:relative;background:linear-gradient(180deg,#dceef0 0%,#789aa8 24%,#254c61 48%,#102c42 100%);padding:78px 10px 30px;isolation:isolate}
+.hero .home-brand-title::before{content:"";position:absolute;inset:30% 3% -20%;z-index:-1;background:radial-gradient(ellipse at 32% 50%,#46d5ce30,transparent 58%),radial-gradient(ellipse at 75% 65%,#e6bd5c24,transparent 52%);pointer-events:none}
+.hero .home-brand-title h1{color:#d5f6ed;background:linear-gradient(110deg,#a1eee8 8%,#e6fff4 48%,#f0d58a 92%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px #5cddd65e) drop-shadow(0 0 25px #e6c47726)}
+.hero .home-brand-title .en2{color:#f0d58a;text-shadow:0 0 14px #e6bd5c55}
+.hero .home-verse{background:transparent;padding-top:12px;padding-bottom:16px}
+.hero .home-verse .vcard{box-shadow:0 12px 35px #020c1833,0 0 24px #58d7cd0f;border:1px solid #efd48a55}
+.hero .hb{background:linear-gradient(180deg,#102c42,#0a1c30);border-top:0}
+@media(max-width:760px){.hero .home-brand-title{padding:68px 8px 26px}}
+.hero .home-brand-title::before{inset:12% 0 -12%;-webkit-mask-image:linear-gradient(transparent,#000 28%,#000 65%,transparent);mask-image:linear-gradient(transparent,#000 28%,#000 65%,transparent)}
+/* Quran panel shares the hero's navy, teal light and fine gold details. */
+.hero .home-verse .vcard{background:radial-gradient(ellipse at 10% 0%,#245a654d,transparent 68%),radial-gradient(ellipse at 100% 100%,#b8943d12,transparent 60%),linear-gradient(145deg,#14394d,#0c2439);border:1px solid #d4af5a66;box-shadow:0 12px 30px #020c1826,0 0 26px #5ad6cd12}
+.hero .home-verse .vcard::before{border-color:#e8c97b40}
+.hero .home-verse .vcard::after{background:radial-gradient(ellipse,#e1bd6220,transparent 70%)}
+.hero .home-verse .vlab{color:#ead08a}
+.hero .home-verse .vq{color:#f4f6ef;text-shadow:0 0 18px #89ddd023}
+.hero .home-verse .vr{background:#e8c97b16;color:#efd997;border:1px solid #e8c97b38}
+.hero .home-verse .dots button{background:#a9c5cf55}
+.hero .home-verse .dots button.on{background:#d4af5a;box-shadow:0 0 10px #d4af5a33}
+.home-greeting{color:#e5d196;font-size:clamp(19px,4.8vw,26px);font-weight:800;line-height:1.6;margin:0 0 8px;overflow-wrap:anywhere;text-shadow:0 0 18px #d4af5a26}
+.home-greeting[hidden]{display:none!important}
