@@ -109,7 +109,7 @@ body{background:#eef3f7}
 .ach-in:focus{border-color:var(--ac,#0e8f94);background:#fff}
 .ach-send{width:44px;height:44px;flex:none;border:none;border-radius:50%;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;font-size:15px;cursor:pointer;display:grid;place-items:center}
 .ach-send i{transform:scaleX(-1)}
-</style></head><body>
+</style><link rel="stylesheet" href="banner-studio.css"></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
 
@@ -170,8 +170,8 @@ body{background:#eef3f7}
         <label style="font-weight:800;font-size:13px;display:block;margin:10px 0 6px">نص الإشعار</label>
         <textarea id="pushBody" rows="3" placeholder="اكتب تفاصيل الإشعار..."></textarea>
         <label for="pushBanner" style="font-weight:800;font-size:13px;display:block;margin:14px 0 6px">اختار صورة الإشعار</label>
-        <select id="pushBanner"><option value="lecture">محاضرة</option><option value="quiz">كويز</option><option value="reply">رد</option><option value="motivation">تحفيز</option><option value="none">بدون صورة</option></select>
-        <p style="font-size:12px;color:var(--mut);margin:8px 0">العنوان والنص من كتابتك بالكامل. اختيار الصورة مش بيغيّر كلامك. الصورة فيها عنوان ثابت حسب نوعها، وتقدر تختار بدون صورة.</p>
+        <select id="pushBanner"><option value="lecture">محاضرة</option><option value="quiz">كويز</option><option value="reply">رد</option><option value="motivation">تحفيز</option><option value="none">بدون صورة</option><option value="custom">صورة من تصميمك</option></select>
+        <p style="font-size:12px;color:var(--mut);margin:8px 0">العنوان والنص من كتابتك بالكامل. اختيار الصورة مش بيغيّر كلامك. اختار صورة من تصميمك عشان تغيّر النص المكتوب جوّه الصورة وترفع خلفية من جهازك.</p>
         <div id="pushPreview" style="margin-top:12px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card)">
           <div style="padding:14px"><small style="color:var(--mut)">معاينة تقريبية. الشكل النهائي حسب الجهاز</small><h3 id="pushPreviewTitle" style="margin:8px 0 4px;overflow-wrap:anywhere">FOUNDATIONS • عنوانك هنا</h3><p id="pushPreviewBody" style="margin:0;font-size:13px;overflow-wrap:anywhere">نص الإشعار اللي هتكتبه هيظهر هنا</p></div>
           <img id="pushPreviewImage" src="notification-images/lecture.png" alt="صورة الإشعار المختارة" style="width:100%;display:block">
@@ -259,11 +259,12 @@ $("fab").onclick=()=>{if(V==="man")itemSheet(null);else lecSheet(null)};
 function refresh(){if(V==="dash")renderDash();else if(V==="lec")listLecs();else if(V==="man")renderMan()}
 /* --- الإشعارات (المرحلة 3) --- */
 const PTPL={lec:["محاضرة جديدة نزلت","اتضافت محاضرة جديدة على المنصة.. افتح وابدأ ذاكر دلوقتي"],quiz:["كويز جديد متاح","جرب نفسك في الكويز الجديد وشوف مستواك"],mot:["افتكر هدفك","كل يوم مذاكرة بيقرّبك من التفوق.. كمّل يا بطل"]};
-let pushAud="all";
+let pushAud="all",customImagesReady=false;
 async function loadPush(){
   const st=$("pushStat");st.innerHTML="";
   try{
     const d=await api("adminPushList",{});
+    customImagesReady=d.customImages===true;if(window.NPHBanner)NPHBanner.setHosting(customImagesReady);
     st.appendChild(h("div",{class:"gr",style:"margin-bottom:0;padding:18px"},
       h("div",null,h("b",{style:"font-size:26px"},String(d.total||0)),h("div",{style:"opacity:.85;font-size:12.5px"},"جهاز مسجل لاستقبال الإشعارات")),
       h("i",{class:"fa-solid fa-tower-broadcast",style:"font-size:30px;opacity:.8"})));
@@ -279,7 +280,7 @@ function initPush(){
     $("pushPreviewTitle").textContent=title?(/^FOUNDATIONS/.test(title)?title:"FOUNDATIONS • "+title):"FOUNDATIONS • عنوانك هنا";
     $("pushPreviewBody").textContent=$("pushBody").value.trim()||"نص الإشعار اللي هتكتبه هيظهر هنا";
     const kind=$("pushBanner").value,img=$("pushPreviewImage");img.hidden=kind==="none";img.style.display=kind==="none"?"none":"block";
-    if(kind!=="none")img.src="notification-images/"+kind+".png";
+    if(kind==="custom"){if(window.NPHBanner)NPHBanner.preview()}else if(kind!=="none")img.src="notification-images/"+kind+".png";
   }
   $("pushTitle").maxLength=80;$("pushBody").maxLength=240;
   $("pushTitle").addEventListener("input",previewPush);$("pushBody").addEventListener("input",previewPush);$("pushBanner").addEventListener("change",previewPush);
@@ -292,10 +293,13 @@ function initPush(){
     const un=pushAud==="one"?$("pushUser").value.trim():"";
     const m=$("pushMsg");m.textContent="";
     if(!title||!body){m.textContent="اكتب العنوان والنص الأول";return}
+    if($("pushBanner").value==="custom"&&!customImagesReady){m.textContent="الرفع التلقائي لسه مش متظبط على السيرفر. نزّل التصميم مؤقتًا أو اختار صورة جاهزة، لم يتم الإرسال.";return}
     if(pushAud==="one"&&!un){m.textContent="اكتب اسم المستخدم للطالب";return}
     const btn=$("pushSend");btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
     try{
-      const d=await api("adminPushSend",{title,body,username:un,banner:$("pushBanner").value});
+      const banner=$("pushBanner").value;
+      const imagePng=banner==="custom"?await NPHBanner.data():undefined;
+      const d=await api("adminPushSend",{title,body,username:un,banner,imagePng});
       m.textContent=d.configured===false?("اتسجل الإشعار في السجل، بس الإرسال الفعلي محتاج إعداد Firebase (لسه مش متعمل): وصل "+(d.sent||0)+" جهاز"):("تم الإرسال ✅ وصل "+(d.sent||0)+" جهاز"+((d.failed||0)?(" — فشل "+d.failed):""));
       $("pushTitle").value="";$("pushBody").value="";previewPush();
     }catch(e){m.textContent=net(e)}
@@ -590,4 +594,4 @@ async function loadLog(){const b=$("lgl");b.innerHTML="";b.appendChild(h("div",{
     b.appendChild(t)}catch(e){b.innerHTML="";b.appendChild(h("div",{class:"empty"},"السجل غير متاح."))}}
 
 if(PW&&AD)start();
-</script></body></html>
+</script><script src="banner-studio.js"></script></body></html>
