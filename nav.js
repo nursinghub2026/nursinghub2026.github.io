@@ -61,18 +61,35 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
     let g=null;try{g=JSON.parse(localStorage.getItem("NPH_GREET_V1")||"null")}catch(e){}
     if(!g||!g.n)return;
     try{localStorage.removeItem("NPH_GREET_V1")}catch(e){}
+    const RM=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
     const ov=h("div",{class:"greet",role:"dialog","aria-label":"ترحيب"},
       h("div",{class:"greet-card"},
         h("div",{class:"greet-ic"},ic(g.nw?"fa-graduation-cap":"fa-user-graduate")),
         h("div",{class:"greet-hi"},g.nw?"اتعمل حسابك يا":"ازيك يا"),
         h("div",{class:"greet-name"},g.n),
         h("div",{class:"greet-sub"},"نورت FOUNDATIONS ",h("i",{class:"fa-solid fa-wand-magic-sparkles",style:"color:#f0d58a;margin:0 3px"}),g.nw?h("span",{style:"display:block;margin-top:6px"},"تقدّمك هيتسجل ويتزامن من أي جهاز"):null)));
+    if(!RM){
+      const cols=["#d4af5a","#f0d58a","#35c6c0","#ffffff","#9a7fe0"];
+      for(let i=0;i<36;i++){
+        const c=h("span",{class:"greet-confetti"});
+        c.style.left=(Math.random()*100)+"%";
+        c.style.background=cols[i%cols.length];
+        const sz=6+Math.random()*7;
+        c.style.width=sz+"px";c.style.height=(sz*1.4)+"px";
+        c.style.setProperty("--dx",(Math.random()*14-7).toFixed(1)+"vw");
+        c.style.setProperty("--rz",Math.round(360+Math.random()*540)+"deg");
+        c.style.animationDuration=(2.4+Math.random()*1.8).toFixed(2)+"s";
+        c.style.animationDelay=(Math.random()*0.7).toFixed(2)+"s";
+        if(Math.random()<.4)c.style.borderRadius="50%";
+        ov.appendChild(c);
+      }
+    }
     document.body.appendChild(ov);
     requestAnimationFrame(function(){ov.classList.add("show")});
     let gone=false;
-    function bye(){if(gone)return;gone=true;ov.classList.remove("show");setTimeout(function(){ov.remove()},280)}
+    function bye(){if(gone)return;gone=true;ov.classList.remove("show");setTimeout(function(){ov.remove()},320)}
     ov.onclick=bye;
-    setTimeout(bye,2800);
+    setTimeout(bye,3800);
   })();
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.08});
   function scan(){document.querySelectorAll(".rv:not(.seen)").forEach(e=>{e.classList.add("seen");io.observe(e)})}
