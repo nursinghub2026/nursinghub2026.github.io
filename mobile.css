@@ -34,3 +34,6 @@
 /* More prominent FOUNDATIONS name without crowding mobile controls. */
 .nav .brand b{font-size:clamp(22px,4.7vw,30px);letter-spacing:1.2px}.hero .hb h1{font-size:clamp(38px,10vw,76px);letter-spacing:1px;line-height:1.18}.hero .en2{font-size:clamp(10px,2.5vw,15px);letter-spacing:2px}
 @media(max-width:760px){.nav .brand b{font-size:clamp(20px,5.7vw,24px);letter-spacing:.5px}.nav .brand small{font-size:7px;letter-spacing:1px}.hero .hb h1{font-size:clamp(35px,10.4vw,58px);letter-spacing:0}.hero .en2{font-size:10px;letter-spacing:1.8px}}
+/* Home title precedes the Quran, with room for a larger wordmark. */
+.hero .home-brand-title{background:linear-gradient(135deg,#08172b,#153b53);color:#fff;text-align:center;padding:30px 10px}.hero .home-brand-title h1{font-size:clamp(42px,11.8vw,100px);font-weight:900;letter-spacing:0;line-height:1.15;direction:ltr;color:#b6f0ee;margin:0;white-space:nowrap}.hero .home-brand-title .en2{font-size:clamp(11px,2.7vw,18px);letter-spacing:2.2px;margin-top:8px}.hero .hb{padding-top:22px}
+@media(max-width:760px){.hero .home-brand-title{padding:26px 8px}.hero .home-brand-title h1{font-size:clamp(40px,11.8vw,78px)}.hero .home-brand-title .en2{font-size:clamp(10px,2.8vw,16px);letter-spacing:1.7px}}
