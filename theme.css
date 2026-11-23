@@ -154,3 +154,7 @@ html:not([data-theme=dark]) .lh .en {color:#bfeff0}
 html:not([data-theme=dark]) body.theory .lh .en {color:#d9c8f5}
 html:not([data-theme=dark]) .pill:not(.gold):not(.green):not(.red):not(.vio):not(.gray) {color:var(--accent-text)}
 html:not([data-theme=dark]) .lh .mp .pill {color:#fff}
+#pushUser[size] {min-height:180px;height:auto;max-width:100%;white-space:normal}
+#pushUser option {padding:7px 4px;font-size:13px}
+#pushUser option:disabled {color:var(--text-muted);font-style:italic}
+.cp-student-list {scroll-margin-bottom:90px}

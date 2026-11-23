@@ -20,3 +20,7 @@ Review-only frontend change. No backend deployment, data updates, broadcasts or 
 - Screenshots visually inspected for cards, files, tabs, video/flashcards, navigation, account and post modals, prayer content and admin.
 
 Automated checks do not certify every pixel or all WCAG requirements. Gradients, text in images, third-party embeds and browser-native media controls can require manual review. No live student account or admin mutation was used. UI review used fictional local fixtures; the Asepsis screenshot uses read-only existing lecture metadata. Backend V2 capability gates are unchanged.
+
+## Follow-up phone and picker review
+
+Suggestions now uses shrinkable grid tracks and controls. Bounding rectangles, not only scroll width, checked at360/390/412 in both themes so RTL off-screen clipping is caught. Post targeting immediately shows the full active-account checkbox list, with optional search and selection count. Notification targeting immediately shows an account list too: push-registered accounts remain selectable, other registered accounts are shown disabled. No send eligibility or broadcast behavior changed.

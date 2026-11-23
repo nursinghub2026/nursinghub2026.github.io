@@ -12,23 +12,23 @@
 <meta name="twitter:image" content="https://nursinghub2026.github.io/icon.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="style.css">
 <style>
-.cols{display:grid;grid-template-columns:400px 1fr;gap:22px;align-items:start}
-@media(max-width:900px){.cols{grid-template-columns:1fr}}
-.fm{position:sticky;top:76px}
+.cols{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:22px;align-items:start}
+@media(max-width:900px){.cols{grid-template-columns:minmax(0,1fr)}}
+.cols>*{min-width:0;max-width:100%}.fm{position:sticky;top:76px}
 @media(max-width:900px){.fm{position:static}}
-.ty{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
-.ty label{cursor:pointer}.ty input{position:absolute;opacity:0;width:0;height:0}
+.ty{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.ty label{cursor:pointer;min-width:0}.ty span{overflow-wrap:anywhere}.ty input{position:absolute;opacity:0;width:0;height:0}
 .ty span{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 4px;border-radius:16px;border:1.5px solid var(--line);background:#f8fafc;font-size:13px;font-weight:800;color:var(--ink2);transition:.2s;text-align:center}
 .ty span i{font-size:18px;color:var(--teal)}
 .ty input:checked+span{background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;border-color:transparent;box-shadow:0 8px 18px rgba(14,143,148,.3)}
 .ty input:checked+span i{color:#fff}
 .cc{text-align:left;font-size:11px;color:var(--mut);direction:ltr;margin-top:-8px;margin-bottom:12px}
 .sg{padding:22px;margin-bottom:16px}
-.sh2{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.sh2{display:flex;min-width:0;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:14px}
 .av{width:46px;height:46px;flex:none;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:18px;color:#fff;background:linear-gradient(135deg,#0e8f94,#08172b)}
 .sh2 b{display:block;font-size:15px;line-height:1.4}.sh2 small{color:var(--mut);font-size:12px}
 .sh2 .pill{margin-right:auto}
-.sg p.m{font-size:16.5px;line-height:2.15;white-space:pre-wrap;overflow-wrap:anywhere;color:#1e2f43;font-weight:500}
+.sg p.m{word-break:break-word;font-size:16.5px;line-height:2.15;white-space:pre-wrap;overflow-wrap:anywhere;color:#1e2f43;font-weight:500}
 .rp{position:relative;margin-top:16px;border-radius:20px;padding:16px 18px;background:linear-gradient(135deg,#eaf7f7,#f3fbfb);border:1px solid rgba(14,143,148,.25)}
 .rp .rh{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .rp .rh i{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;display:grid;place-items:center;font-size:14px}
@@ -37,6 +37,7 @@
 .wt{margin-top:14px;font-size:12.5px;color:var(--mut);display:flex;align-items:center;gap:8px}
 #m{font-size:14px;font-weight:700;margin-top:12px;min-height:22px;text-align:center}
 .hp{position:absolute;width:0;height:0;opacity:0;pointer-events:none}
+@media(max-width:560px){.fm{padding:18px 14px}.ty span{font-size:12px;padding:10px 3px}.cols{gap:26px}.cols>.fm{width:100%}.cols input,.cols textarea{min-width:0}.sg{padding:18px 14px}.sh2>div{min-width:0}.sh2 b{overflow-wrap:anywhere}.sh2 .pill{max-width:100%;white-space:normal}.fm .sect{font-size:21px}.fm .sect small{font-size:11px}.cols>.fm .btn{white-space:normal}}
 </style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="mobile.css"><script src="theme.js"></script><link rel="stylesheet" href="theme.css"></head><body>
 <div class="ph" style="background:linear-gradient(160deg,#08172b,#0d2f4a 55%,#0e8f94)"><div class="k"><i class="fa-solid fa-comments"></i> YOUR VOICE</div><h1>الاقتراحات والاستفسارات</h1><p>عندك سؤال أو فكرة؟ ابعتها وإحنا بنقرأ كل رسالة وبنرد عليها.</p></div>
 <main class="wrap"><div class="cols">
