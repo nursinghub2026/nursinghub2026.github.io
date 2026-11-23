@@ -186,7 +186,7 @@
       '<button class="atab" id="tab-reg">حساب جديد</button>' +
       "</div>" +
       '<div class="aerr" id="aerr"></div>' +
-      '<div class="afield" id="f-name" style="display:none"><label>الاسم بالكامل</label><input class="ainput" id="a-name" maxlength="60" placeholder="مثال: عبد الرحمن وائل"></div>' +
+      '<div class="afield" id="f-name" style="display:none"><label>الاسم بالكامل</label><input class="ainput" id="a-name" maxlength="60" placeholder="مثال: أحمد محمد علي"></div>' +
       '<div class="afield"><label>اسم المستخدم</label><input class="ainput" id="a-user" maxlength="30" placeholder="حروف وأرقام إنجليزي" autocomplete="username" dir="ltr" style="text-align:left"></div>' +
       '<div class="afield"><label>كلمة السر</label><input class="ainput" id="a-pass" type="password" maxlength="60" placeholder="٤ حروف على الأقل" autocomplete="current-password" dir="ltr" style="text-align:left"></div>' +
       '<button class="asub2" id="a-go"></button>' +
