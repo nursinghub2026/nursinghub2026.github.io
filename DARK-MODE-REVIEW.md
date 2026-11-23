@@ -24,3 +24,13 @@ Automated checks do not certify every pixel or all WCAG requirements. Gradients,
 ## Follow-up phone and picker review
 
 Suggestions now uses shrinkable grid tracks and controls. Bounding rectangles, not only scroll width, checked at360/390/412 in both themes so RTL off-screen clipping is caught. Post targeting immediately shows the full active-account checkbox list, with optional search and selection count. Notification targeting immediately shows an account list too: push-registered accounts remain selectable, other registered accounts are shown disabled. No send eligibility or broadcast behavior changed.
+
+## Interactive controls follow-up (review only)
+
+- Explicit dark backgrounds and strong control edges for ghost buttons, icon buttons, inputs, flashcards, selects, navigation links and disabled controls. Added hover, active and keyboard-focus states, including the hidden suggestion radio tiles.
+- Fixed previous/next lecture links, iOS install sheet, loading skeletons, completed badges, gold admin icons, post preview and suggestion reply surfaces.
+- Logos use the owner's selected separate dim-pearl badges. Official JPEG artwork stays unchanged; no color inversion or rejected transparent/halo treatment.
+- Phone file-provider bytes are read immediately on selection and reused when saving. Read failures preserve the draft and offer removal of only the newly selected file, allowing existing text/media edits to save. No backend change.
+- V1 admin post hide action is labeled 'delete from display', with confirmation that its stored copy and attachments remain recoverable. Full trash/restore still requires separately approved V2 activation.
+- 28 unit tests pass. Local browser regression confirms V1 text-only edits preserve old media without reupload, a new selected file is read only once, and a failed read causes no save/upload request before removal and successful text-only save.
+- 43 dark and light page/tab/modal states at390px have zero automated text-contrast violations, runtime errors or horizontal overflow. The dark control-state inventory sampled393 controls across42 states in default/hover/active/focus/disabled modes (1965 computed-state samples), with no missing focus outline or neutral bright control surface flagged. These are bounded automated checks, not WCAG certification. Native controls, authored image text and external iframe content retain their own rendering.
