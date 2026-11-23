@@ -37,3 +37,15 @@
 /* Home title precedes the Quran, with room for a larger wordmark. */
 .hero .home-brand-title{background:linear-gradient(135deg,#08172b,#153b53);color:#fff;text-align:center;padding:30px 10px}.hero .home-brand-title h1{font-size:clamp(42px,11.8vw,100px);font-weight:900;letter-spacing:0;line-height:1.15;direction:ltr;color:#b6f0ee;margin:0;white-space:nowrap}.hero .home-brand-title .en2{font-size:clamp(11px,2.7vw,18px);letter-spacing:2.2px;margin-top:8px}.hero .hb{padding-top:22px}
 @media(max-width:760px){.hero .home-brand-title{padding:26px 8px}.hero .home-brand-title h1{font-size:clamp(40px,11.8vw,78px)}.hero .home-brand-title .en2{font-size:clamp(10px,2.8vw,16px);letter-spacing:1.7px}}
+/* One continuous home palette, with a soft illuminated wordmark. */
+.hero{background:#102c42}
+.hero .ht{background:linear-gradient(180deg,#fff 0%,#edf7f7 65%,#dceef0 100%);border-bottom:0}
+.hero .home-brand-title{position:relative;background:linear-gradient(180deg,#dceef0 0%,#789aa8 24%,#254c61 48%,#102c42 100%);padding:78px 10px 30px;isolation:isolate}
+.hero .home-brand-title::before{content:"";position:absolute;inset:30% 3% -20%;z-index:-1;background:radial-gradient(ellipse at 32% 50%,#46d5ce30,transparent 58%),radial-gradient(ellipse at 75% 65%,#e6bd5c24,transparent 52%);pointer-events:none}
+.hero .home-brand-title h1{color:#d5f6ed;background:linear-gradient(110deg,#a1eee8 8%,#e6fff4 48%,#f0d58a 92%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 12px #5cddd65e) drop-shadow(0 0 25px #e6c47726)}
+.hero .home-brand-title .en2{color:#f0d58a;text-shadow:0 0 14px #e6bd5c55}
+.hero .home-verse{background:transparent;padding-top:12px;padding-bottom:16px}
+.hero .home-verse .vcard{box-shadow:0 12px 35px #020c1833,0 0 24px #58d7cd0f;border:1px solid #efd48a55}
+.hero .hb{background:linear-gradient(180deg,#102c42,#0a1c30);border-top:0}
+@media(max-width:760px){.hero .home-brand-title{padding:68px 8px 26px}}
+.hero .home-brand-title::before{inset:12% 0 -12%;-webkit-mask-image:linear-gradient(transparent,#000 28%,#000 65%,transparent);mask-image:linear-gradient(transparent,#000 28%,#000 65%,transparent)}
