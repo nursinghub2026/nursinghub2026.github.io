@@ -45,7 +45,7 @@ function teCard_(c) {
   return out;
 }
 function teHash_(text) {
-  return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,text).map(function(n){return ('0'+((n+256)%256).toString(16)).slice(-2);}).join('');
+  return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,text,Utilities.Charset.UTF_8).map(function(n){return ('0'+((n+256)%256).toString(16)).slice(-2);}).join('');
 }
 /* Preview defaults to read-only. Commit only after separately approved activation,
  * backup and import. Caller supplies the exact reviewed plan hash. Existing cards
