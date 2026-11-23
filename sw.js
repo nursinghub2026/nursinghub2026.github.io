@@ -1,5 +1,6 @@
 /* FOUNDATIONS Service Worker — PWA + offline */
-const CACHE = "nph-pwa-v1";
+const CACHE = "nph-pwa-v2";
+try { importScripts("./firebase-messaging-sw.js"); } catch (e) { /* Offline remains available if push SDK is unreachable. */ }
 const PRECACHE = [
   "./",
   "./index.html",
@@ -27,7 +28,7 @@ self.addEventListener("install", (e) => {
 self.addEventListener("activate", (e) => {
   e.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.filter((k) => k.startsWith("nph-pwa-") && k !== CACHE).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -37,8 +38,10 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
 
+  if (url.origin === location.origin && /\/admin\.html$/.test(url.pathname)) return;
+
   // Google Apps Script API: network first, cache fallback (قائمة المحاضرات أوفلاين)
-  if (url.hostname.includes("script.google")) {
+  if (["script.google.com", "script.googleusercontent.com"].includes(url.hostname) && !url.search) {
     e.respondWith(
       fetch(req).then((res) => {
         const copy = res.clone();
@@ -61,14 +64,14 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
-  // Static assets same-origin + Font Awesome: cache first
+  // Static assets: network first, allowing fixes to reach installed apps.
   if (url.origin === location.origin || url.href.startsWith(FONTAWESOME)) {
     e.respondWith(
-      caches.match(req).then((hit) => hit || fetch(req).then((res) => {
+      fetch(req).then((res) => {
         const copy = res.clone();
         if (res.ok) caches.open(CACHE).then((c) => c.put(req, copy));
         return res;
-      }))
+      }).catch(() => caches.match(req))
     );
     return;
   }
