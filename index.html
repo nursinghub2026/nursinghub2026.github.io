@@ -77,7 +77,7 @@
 .tl .ic2{width:60px;height:60px;border-radius:19px;display:grid;place-items:center;font-size:25px;color:#fff;flex:none}
 .tl b{font-size:17px;display:block}.tl small{color:var(--mut);font-size:12.5px;line-height:1.8;display:block}
 @media(max-width:560px){.tracks{grid-template-columns:1fr}.tr{min-height:200px}}
-</style></head><body>
+</style><link rel="stylesheet" href="mobile.css"></head><body>
 <section class="hero">
   <div class="ht">
     <div class="logos">
@@ -93,7 +93,7 @@
     <div class="orn"><i class="fa-solid fa-star-of-life"></i></div>
     <h1>FOUNDATIONS</h1>
     <div class="en2">FUNDAMENTALS OF NURSING</div>
-    <p class="lead">كل اللي محتاجه لمادة أساسيات التمريض في مكان واحد: شرح وملخصات، مهارات خطوة بخطوة، شيك ليست، وكويزات تختبر بيها نفسك. ومتنسانَاش بدعوة حلوة.</p>
+    <div class="home-intro">جاهز تبدأ مذاكرة؟</div><p class="lead">كل اللي محتاجه لمادة أساسيات التمريض في مكان واحد: شرح وملخصات، مهارات خطوة بخطوة، شيك ليست، وكويزات تختبر بيها نفسك. ومتنسانَاش بدعوة حلوة.</p>
     <div class="ctas">
       <a class="btn lg" href="Lectures.html?track=practical"><i class="fa-solid fa-hand-holding-medical"></i> ابدأ العملي</a>
       <a class="btn lg glass" href="Lectures.html?track=theory"><i class="fa-solid fa-book-open"></i> المحاضرات النظرية</a>
@@ -103,12 +103,6 @@
 </section>
 
 <main class="wrap pull">
-  <div class="vcard rv">
-    <div class="vlab"><i class="fa-solid fa-star-and-crescent"></i> من كتاب الله</div>
-    <div class="vq" id="vq"></div>
-    <span class="vr" id="vr"></span>
-    <div class="dots" id="vd"></div>
-  </div>
 
   <div id="pcont"></div>
   <div class="tracks">
@@ -118,10 +112,18 @@
 
   <section class="sec rv"><div class="sect"><i class="fa-solid fa-clock-rotate-left"></i><div>أحدث المحاضرات<small>آخر اللي اتضاف على المنصة</small></div></div><div class="lst" id="latest"><div class="sk"></div><div class="sk"></div></div></section>
 
+  <div class="vcard rv">
+    <div class="vlab"><i class="fa-solid fa-star-and-crescent"></i> من كتاب الله</div>
+    <div class="vq" id="vq"></div>
+    <span class="vr" id="vr"></span>
+    <div class="dots" id="vd"></div>
+  </div>
+
   <section class="mot rv"><span class="lb">رسالة ليك</span><p id="mq"></p><div class="dots" id="md"></div></section>
 
   <section class="sec rv"><div class="sect"><i class="fa-solid fa-compass"></i><div>أدواتك<small>كل اللي يساعدك في رحلتك</small></div></div>
     <div class="tools">
+      <a class="card tl" href="chat.html"><div class="ic2" style="background:#0b2540"><i class="fa-solid fa-headset"></i></div><div><b>مراسلة الإدارة</b><small>عندك سؤال أو مشكلة في الحساب؟ افتح محادثتك الخاصة.</small></div></a>
       <a class="card tl" href="adhkar.html"><div class="ic2" style="background:linear-gradient(135deg,#b8862b,#e0b45a)"><i class="fa-solid fa-hands-praying"></i></div><div><b>الأدعية والأذكار</b><small>أدعية المذاكرة والامتحان والمريض، مع سبحة إلكترونية.</small></div></a>
       <a class="card tl" href="tips.html"><div class="ic2" style="background:linear-gradient(135deg,#5b3f93,#8c6fc4)"><i class="fa-solid fa-graduation-cap"></i></div><div><b>نصايح المذاكرة</b><small>طريقة مذاكرة وتدريب ويوم الامتحان العملي.</small></div></a>
       <a class="card tl" href="suggestions.html"><div class="ic2" style="background:linear-gradient(135deg,#0b6e78,#35c6c0)"><i class="fa-solid fa-comments"></i></div><div><b>الاقتراحات والاستفسارات</b><small>ابعت سؤالك أو فكرتك وشوف رد الإدارة.</small></div></a>

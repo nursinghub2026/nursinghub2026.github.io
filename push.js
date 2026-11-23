@@ -35,7 +35,7 @@ function mount(){
  if(!auth()?.token || document.getElementById('nphPushEnable'))return;
  const b=document.createElement('button');b.id='nphPushEnable';b.type='button';b.textContent='فعّل إشعارات المحاضرات والردود';
  b.style.cssText='position:fixed;bottom:76px;left:16px;max-width:calc(100vw - 32px);z-index:970;border:1px solid #d4af5a;border-radius:20px;padding:10px 16px;background:#0b2540;color:#fff;font:inherit;cursor:pointer';
- b.onclick=()=>enable(b);document.body.append(b);
+ b.onclick=()=>enable(b);(document.getElementById("nphMenuTools")||document.body).append(b);
  if(Notification.permission==='granted' && localStorage.getItem('NPH_PUSH_OWNER')===auth()?.username){b.textContent='الإشعارات مفعّلة ✓';setup().catch(()=>{b.textContent='اضغط لتحديث تفعيل الإشعارات';});}
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
