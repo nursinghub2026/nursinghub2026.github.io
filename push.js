@@ -1,51 +1,41 @@
-/* FOUNDATIONS Push — FCM web push (phase 3)
-   بيشتغل بس لو firebase-config.js اتملى. بيحمّل الـ SDK لوحده وبيسجّل توكن الجهاز للطالب المسجل. */
-(function () {
-  "use strict";
-  const cfg = window.NPH_FIREBASE;
-  if (!cfg || !window.NPH_VAPID_KEY) return;
-  if (!("Notification" in window) || !("serviceWorker" in navigator)) return;
-
-  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-  const installed = window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
-  if (isIOS && !installed) return; // على iOS الإشعارات محتاجة التطبيق متثبت
-
-  function load(src) {
-    return new Promise((res, rej) => {
-      const s = document.createElement("script");
-      s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s);
-    });
-  }
-
-  async function init() {
-    const auth = (() => { try { return JSON.parse(localStorage.getItem("NPH_AUTH_V1") || "null"); } catch (e) { return null; } })();
-    if (!auth || !auth.token) return;
-    try {
-      if (typeof firebase === "undefined") {
-        await load("https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js");
-        await load("https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js");
-      }
-      if (!firebase.apps.length) firebase.initializeApp(cfg);
-      const messaging = firebase.messaging();
-      const perm = await Notification.requestPermission();
-      if (perm !== "granted") return;
-      const reg = await navigator.serviceWorker.register("firebase-messaging-sw.js");
-      const token = await messaging.getToken({ vapidKey: window.NPH_VAPID_KEY, serviceWorkerRegistration: reg });
-      if (!token) return;
-      if (localStorage.getItem("NPH_PUSH_TOKEN") === token) return;
-      const res = await fetch(window.NPH_API, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ action: "stuPushToken", token: auth.token, pushToken: token, platform: isIOS ? "ios" : "web" })
-      });
-      const j = await res.json();
-      if (j && j.ok) localStorage.setItem("NPH_PUSH_TOKEN", token);
-      messaging.onMessage((p) => {
-        const n = (p && p.notification) || {};
-        if (window.NPH && NPH.toast) NPH.toast((n.title || "إشعار جديد") + (n.body ? " — " + n.body : ""));
-      });
-    } catch (e) { /* silent */ }
-  }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
-  else init();
+/* Opt-in notifications. Permission is requested only from a user click. */
+(function(){
+'use strict';
+if(!window.NPH_FIREBASE || !window.NPH_VAPID_KEY || !('Notification' in window) || !('serviceWorker' in navigator))return;
+const ios=/iPhone|iPad|iPod/.test(navigator.userAgent);
+if(ios && !navigator.standalone && !matchMedia('(display-mode: standalone)').matches)return;
+const auth=()=>{try{return JSON.parse(localStorage.getItem('NPH_AUTH_V1')||'null')}catch(e){return null}};
+const load=src=>new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=reject;document.head.append(s)});
+let messaging,busy=false;
+async function setup(){
+ if(!window.firebase){await load('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js');await load('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');}
+ if(!await firebase.messaging.isSupported())throw Error('المتصفح ده مش بيدعم الإشعارات');
+ if(!firebase.apps.length)firebase.initializeApp(window.NPH_FIREBASE);
+ if(!messaging){messaging=firebase.messaging();messaging.onMessage(p=>{const n=p.notification||p.data||{};if(window.NPH?.toast)NPH.toast((n.title||'إشعار جديد')+(n.body?': '+n.body:''));});}
+ return messaging;
+}
+async function enable(button){
+ if(busy)return;busy=true;button.disabled=true;
+ try{
+  const a=auth();if(!a?.token)throw Error('سجل دخولك الأول');
+  // Permission request precedes asynchronous SDK loading, preserving the click gesture.
+  if(await Notification.requestPermission()!=='granted')throw Error('الإشعارات مش مسموحة. تقدر تغيرها من إعدادات المتصفح');
+  const m=await setup();const reg=await navigator.serviceWorker.register('sw.js');await navigator.serviceWorker.ready;
+  const token=await m.getToken({vapidKey:window.NPH_VAPID_KEY,serviceWorkerRegistration:reg});
+  if(!token)throw Error('مقدرناش نسجل الجهاز، جرب تاني');
+  const api=typeof API!=='undefined'?API:null;if(!api)throw Error('رابط الخدمة مش متاح');
+  const response=await fetch(api,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'stuPushToken',token:a.token,pushToken:token,platform:ios?'ios':'web'})});
+  const result=await response.json();if(!result.ok)throw Error(result.error||'التسجيل فشل');
+  localStorage.setItem('NPH_PUSH_OWNER',a.username);button.textContent='الإشعارات مفعّلة ✓';
+ }catch(e){button.textContent=e.message||'حصل خطأ، جرب تاني';}finally{button.disabled=false;busy=false;}
+}
+window.NPH_PUSH_DISABLE=async()=>{try{const m=await setup();await m.deleteToken();localStorage.removeItem('NPH_PUSH_OWNER');}catch(e){throw Error('مقدرناش نوقف إشعارات الحساب على الجهاز. اتأكد من النت وجرب تاني.');}};
+function mount(){
+ if(!auth()?.token || document.getElementById('nphPushEnable'))return;
+ const b=document.createElement('button');b.id='nphPushEnable';b.type='button';b.textContent='فعّل إشعارات المحاضرات والردود';
+ b.style.cssText='position:fixed;bottom:76px;left:16px;max-width:calc(100vw - 32px);z-index:970;border:1px solid #d4af5a;border-radius:20px;padding:10px 16px;background:#0b2540;color:#fff;font:inherit;cursor:pointer';
+ b.onclick=()=>enable(b);document.body.append(b);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',mount);else mount();
+window.addEventListener('storage',mount);
 })();

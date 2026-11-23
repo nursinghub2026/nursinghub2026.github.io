@@ -105,6 +105,7 @@
   async function logout() {
     if (!isLoggedIn()) return;
     if (!confirm("تسجيل الخروج؟ تقدّمك محفوظ على السيرفر وهيرجع لما تسجل دخولك تاني.")) return;
+    if(window.NPH_PUSH_DISABLE){try{await window.NPH_PUSH_DISABLE();}catch(e){alert(e.message);return;}}
     const t = A.token;
     A = null; saveA();
     try { await call("stuLogout", { token: t }); } catch (e) {}
