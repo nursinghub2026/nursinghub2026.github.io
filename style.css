@@ -146,28 +146,6 @@ body.theory .ph{background:linear-gradient(160deg,#120d2e,#2c2266 55%,#6b4fb3)}
 .tgl2{width:44px;height:44px;border-radius:14px;border:1px solid rgba(212,175,90,.55);background:rgba(255,255,255,.07);color:var(--gold2);font-size:15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:background .2s;-webkit-tap-highlight-color:transparent}
 .tgl2:hover{background:rgba(255,255,255,.13)}
 
-/* ===== الوضع الليلي ===== */
-html[data-theme=dark]{--bg:#0a1626;--ink:#e8eef5;--ink2:#b9c8d9;--line:#22374f;--mut:#8fa2b7;--txt:#e8eef5;--txt2:#a9bccd;--txt3:#7f93a8;--card:#12233a;--border:#22374f;--acs:#16283f;--sh:0 10px 30px rgba(0,0,0,.35);--sh2:0 18px 44px rgba(0,0,0,.5)}
-html[data-theme=dark] .card,html[data-theme=dark] .sb,html[data-theme=dark] .sheet,html[data-theme=dark] .tab,html[data-theme=dark] .item,html[data-theme=dark] .fc .fi,html[data-theme=dark] .pn a,html[data-theme=dark] .lc,html[data-theme=dark] .lcm{background:var(--card);border-color:rgba(255,255,255,.07)}
-html[data-theme=dark] input,html[data-theme=dark] select,html[data-theme=dark] textarea{background:#0d1d31;color:var(--ink);border-color:var(--line)}
-html[data-theme=dark] .seg{background:#0d1d31}
-html[data-theme=dark] .seg button.on{background:#1d3252;color:var(--ink);box-shadow:0 4px 12px rgba(0,0,0,.4)}
-html[data-theme=dark] .chip{background:var(--card);border-color:var(--line);color:var(--ink2)}
-html[data-theme=dark] .chip.on{background:var(--gold);border-color:transparent;color:#3a2a05}
-html[data-theme=dark] .wk div,html[data-theme=dark] .bdg2{background:#0d1d31;color:var(--mut)}
-html[data-theme=dark] .sk{background:linear-gradient(90deg,#12233a 25%,#1a2f4b 50%,#12233a 75%);background-size:200% 100%}
-html[data-theme=dark] .pill.gold{background:#3a2f12;color:#e9c96a}
-html[data-theme=dark] .pill.green{background:#0f2e1e;color:#4cd58c}
-html[data-theme=dark] .pill.red{background:#3a1518;color:#ff8a8a}
-html[data-theme=dark] .pill.vio{background:#241d3d;color:#b9a3ee}
-html[data-theme=dark] .pill.gray{background:#1a2c45;color:var(--mut)}
-html[data-theme=dark] .pill.teal{background:#0c2b2c;color:#35c6c0}
-html[data-theme=dark] .sheet .grab{background:#2a3f5c}
-html[data-theme=dark] .sg p.m{color:#dbe5ef}
-html[data-theme=dark] .rp{background:#12333a;border-color:rgba(14,143,148,.35)}
-html[data-theme=dark] .rp p{color:#cfe3e2}
-html[data-theme=dark] .bub.adm{background:#2a2410;color:#e9ddb0;border-color:rgba(212,175,90,.35)}
-
 /* ضبط الهيدر على الشاشات الضيقة: الجانبان متساويان والعنوان في النص دايمًا */
 @media(max-width:560px){
   .nav-in{padding:0 12px;gap:8px}

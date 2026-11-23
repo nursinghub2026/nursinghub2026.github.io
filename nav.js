@@ -1,5 +1,5 @@
 (function(){const l=document.createElement("link");l.rel="stylesheet";l.href="navigation.css";document.head.appendChild(l)})();
-try{if(localStorage.getItem("NPH_THEME_V1")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}
+
 const API="https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
 const BRAND={name:"FOUNDATIONS",sub:"FUNDAMENTALS OF NURSING"};
 const PAGES=[["index.html","الرئيسية","fa-house"],["Lectures.html?track=theory","النظري","fa-book-open"],["Lectures.html?track=practical","العملي","fa-hand-holding-medical"],["progress.html","تقدمي","fa-chart-line"],["community.html","الإعلانات","fa-bullhorn"],["student.html","صفحتي","fa-user-graduate"],["chat.html","مراسلة الإدارة","fa-headset"],["adhkar.html","الأدعية والأذكار","fa-hands-praying"],["tips.html","نصايح المذاكرة","fa-graduation-cap"],["suggestions.html","الاقتراحات","fa-comments"]];
@@ -26,8 +26,7 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   function paintT(){tbtn.innerHTML="";tbtn.appendChild(ic(document.documentElement.getAttribute("data-theme")==="dark"?"fa-sun":"fa-moon"))}
   paintT();
   tbtn.onclick=e=>{e.stopPropagation();const d=document.documentElement.getAttribute("data-theme")==="dark";
-    if(d)document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme","dark");
-    try{localStorage.setItem("NPH_THEME_V1",d?"light":"dark")}catch(_){}
+    if(window.NPHTheme)NPHTheme.toggle();
     paintT()};
   const abtn=h("button",{id:"abtn",class:"abtn2",type:"button","aria-label":"حسابي"});
   function paintAb(){
