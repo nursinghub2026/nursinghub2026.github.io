@@ -128,7 +128,7 @@
     </div></section>
 </main>
 
-<script src="nav.js"></script><script src="progress.js"></script><script src="data.js"></script>
+<script src="nav.js"></script><script src="progress.js"></script><script src="auth.js"></script><script src="data.js"></script>
 <script>
 const $=i=>document.getElementById(i);
 const VS=[{q:"﴿ وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ ﴾",r:"سورة الشعراء - آية 80"}].concat(VERSES);
@@ -141,7 +141,13 @@ function rot(arr,tx,rf,dots,ms){let i=0;const D=$(dots);
 rot(VS,$("vq"),$("vr"),"vd",8000);rot(MS,$("mq"),null,"md",6500);
 function up(el,to){const t0=performance.now();(function s(t){const p=Math.min((t-t0)/900,1);el.textContent=Math.round(to*p);if(p<1)requestAnimationFrame(s)})(t0)}
 function draw(L){L=L||[];const T=L.filter(l=>l.track==="theory"),P=L.filter(l=>l.track!=="theory");
-  try{const box=$("pcont");box.innerHTML="";const last=NPH.getLast();const o=NPH.overall(L);
+  try{const box=$("pcont");box.innerHTML="";
+    if(!(window.NPHAuth&&NPHAuth.isLoggedIn())){
+      box.appendChild(h("div",{class:"authb rv"},ic("fa-user-lock"),
+        h("div",{class:"authb-t"},h("b",null,"تتبّع تقدّمك في المادة"),"سجّل دخولك عشان تعلّم على اللي خلصته وتحفظ ملاحظاتك وتكمّل من أي جهاز"),
+        h("button",{type:"button",onclick:()=>window.NPHAuth&&NPHAuth.openModal("login")},"سجّل دخولك")));
+    }else{
+    const last=NPH.getLast();const o=NPH.overall(L);
     if(last){const l=L.find(x=>String(x.id)===last.lid);
       if(l){const p=NPH.lectureProgress(l);
         box.appendChild(h("a",{class:"pcont rv",href:"Lecture.html?id="+encodeURIComponent(l.id)+"&tab="+encodeURIComponent(last.tab||"explanation")},
@@ -153,6 +159,7 @@ function draw(L){L=L||[];const T=L.filter(l=>l.track==="theory"),P=L.filter(l=>l
       h("div",{class:"pcb"},h("small",null,"تقدمك الإجمالي في المادة"),h("b",null,"خلصت "+o.done+" من "+o.total+" عنصر"),h("div",{class:"pbar gold"},h("i",{style:"width:"+o.pct+"%"}))),
       h("span",{class:"pcn"},o.pct+"%")))}
     NPH.checkBadges(NPH.statsFor(L));
+    }
   }catch(e){}
   let f=0;L.forEach(l=>Object.keys(l.sections||{}).forEach(k=>(l.sections[k]||[]).forEach(()=>f++)));
   up($("cT"),T.length);up($("cP"),P.length);up($("cF"),f);

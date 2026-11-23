@@ -1,3 +1,4 @@
+try{if(localStorage.getItem("NPH_THEME_V1")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}
 const API="https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
 const BRAND={name:"FOUNDATIONS",sub:"FUNDAMENTALS OF NURSING"};
 const PAGES=[["index.html","الرئيسية","fa-house"],["Lectures.html?track=theory","النظري","fa-book-open"],["Lectures.html?track=practical","العملي","fa-hand-holding-medical"],["progress.html","تقدمي","fa-chart-line"],["adhkar.html","الأدعية والأذكار","fa-hands-praying"],["tips.html","نصايح المذاكرة","fa-graduation-cap"],["suggestions.html","الاقتراحات","fa-comments"]];
@@ -20,12 +21,31 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
   const btn=h("button",{class:"mbtn",type:"button","aria-label":"القائمة","aria-expanded":"false"});
   function lab(o){btn.innerHTML="";btn.appendChild(ic(o?"fa-xmark":"fa-bars"));btn.appendChild(h("span",{class:"mt"},o?"إغلاق":"القائمة"))}
   lab(false);
+  const tbtn=h("button",{class:"tgl2",type:"button","aria-label":"الوضع الليلي"});
+  function paintT(){tbtn.innerHTML="";tbtn.appendChild(ic(document.documentElement.getAttribute("data-theme")==="dark"?"fa-sun":"fa-moon"))}
+  paintT();
+  tbtn.onclick=e=>{e.stopPropagation();const d=document.documentElement.getAttribute("data-theme")==="dark";
+    if(d)document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme","dark");
+    try{localStorage.setItem("NPH_THEME_V1",d?"light":"dark")}catch(_){}
+    paintT()};
+  const abtn=h("button",{id:"abtn",class:"abtn2",type:"button","aria-label":"حسابي"});
+  function paintAb(){
+    let a=null;try{const r=localStorage.getItem("NPH_AUTH_V1");if(r)a=JSON.parse(r)}catch(e){}
+    abtn.innerHTML="";
+    if(a&&a.token){abtn.appendChild(ic("fa-user-graduate"));abtn.classList.add("on")}
+    else{abtn.appendChild(ic("fa-user"));abtn.classList.remove("on")}
+  }
+  paintAb();
+  abtn.onclick=e=>{e.stopPropagation();
+    if(window.NPHAuth){NPHAuth.openAuth();return}
+    const s=document.createElement("script");s.src="auth.js";s.onload=()=>{if(window.NPHAuth)NPHAuth.openAuth()};document.head.appendChild(s)};
   const menu=h("nav",{class:"menu"},h("div",{class:"menu-in"},PAGES.map(p=>h("a",{href:p[0],class:on(p[0])?"on":""},h("span",{class:"mi"},ic(p[2])),h("span",{class:"ml"},p[1])))));
   const scrim=h("div",{class:"scrim"});
   const nav=h("header",{class:"nav"},
     h("div",{class:"nav-in"},
+      h("div",{class:"nav-side ns-l"},btn),
       h("a",{class:"brand",href:"index.html"},h("b",null,BRAND.name),h("small",null,BRAND.sub)),
-      btn),
+      h("div",{class:"nav-side ns-r"},tbtn,abtn)),
     menu);
   document.body.prepend(scrim);
   document.body.prepend(nav);
@@ -37,6 +57,38 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
     h("div",{class:"ft-b"},BRAND.name),h("div",{class:"ft-s"},BRAND.sub),
     h("div",{class:"ft-u"},"FACULTY OF NURSING",h("br"),"PORT SAID UNIVERSITY"),
     h("div",{class:"credit"},h("span",{class:"cl"},"تصميم وتطوير"),h("span",{class:"cn"},"Abdelrhman Wael"))));
+  (function(){
+    let g=null;try{g=JSON.parse(localStorage.getItem("NPH_GREET_V1")||"null")}catch(e){}
+    if(!g||!g.n)return;
+    try{localStorage.removeItem("NPH_GREET_V1")}catch(e){}
+    const RM=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ov=h("div",{class:"greet",role:"dialog","aria-label":"ترحيب"},
+      h("div",{class:"greet-card"},
+        h("div",{class:"greet-ic"},ic(g.nw?"fa-graduation-cap":"fa-user-graduate")),
+        h("div",{class:"greet-hi"},g.nw?"اتعمل حسابك يا":"ازيك يا"),
+        h("div",{class:"greet-name"},g.n),
+        h("div",{class:"greet-line"}),
+        h("div",{class:"greet-sub"},"نورت FOUNDATIONS ",h("i",{class:"fa-solid fa-wand-magic-sparkles",style:"color:#f0d58a;margin:0 3px"}),g.nw?h("span",{style:"display:block;margin-top:6px"},"تقدّمك هيتسجل ويتزامن من أي جهاز"):null)));
+    if(!RM){
+      ov.appendChild(h("span",{class:"greet-beam"}));
+      for(let i=0;i<14;i++){
+        const d=h("span",{class:"greet-dot"});
+        d.style.left=(5+Math.random()*90).toFixed(1)+"%";
+        d.style.top=(20+Math.random()*70).toFixed(1)+"%";
+        const sz=3+Math.random()*4;
+        d.style.width=sz.toFixed(1)+"px";d.style.height=sz.toFixed(1)+"px";
+        d.style.setProperty("--d",(7+Math.random()*5).toFixed(2)+"s");
+        d.style.setProperty("--dl",(Math.random()*6).toFixed(2)+"s");
+        ov.appendChild(d);
+      }
+    }
+    document.body.appendChild(ov);
+    requestAnimationFrame(function(){ov.classList.add("show")});
+    let gone=false;
+    function bye(){if(gone)return;gone=true;ov.classList.remove("show");setTimeout(function(){ov.remove()},320)}
+    ov.onclick=bye;
+    setTimeout(bye,3800);
+  })();
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.08});
   function scan(){document.querySelectorAll(".rv:not(.seen)").forEach(e=>{e.classList.add("seen");io.observe(e)})}
   new MutationObserver(scan).observe(document.body,{childList:true,subtree:true});scan();

@@ -119,6 +119,7 @@ body{background:#eef3f7}
     <nav class="tabbar">
       <button data-v="dash" class="on"><i class="fa-solid fa-chart-pie"></i>الرئيسية</button>
       <button data-v="lec"><i class="fa-solid fa-layer-group"></i>المحاضرات</button>
+      <button data-v="stu"><i class="fa-solid fa-user-graduate"></i>الطلبة</button>
       <button data-v="sug"><i class="fa-solid fa-comments"></i>الرسائل<span class="bdg hidden" id="bdg">0</span></button>
       <button data-v="log"><i class="fa-solid fa-clock-rotate-left"></i>السجل</button>
     </nav>
@@ -130,10 +131,17 @@ body{background:#eef3f7}
       <div id="lecs"></div>
     </section>
     <section id="v-man" class="hidden"></section>
+    <section id="v-stu" class="hidden">
+      <div class="sect"><i class="fa-solid fa-user-graduate"></i><div>الطلبة المسجلين<small>إدارة حسابات الطلبة ومتابعة نشاطهم</small></div></div>
+      <div id="stuS"></div>
+      <div id="stuL"></div>
+    </section>
     <section id="v-sug" class="hidden">
       <div class="sect"><i class="fa-solid fa-comments"></i><div>رسائل الطلاب<small>الرد بيظهر للطلاب باسم "الإدارة" فقط</small></div></div>
+      <div class="seg" id="sgTabs"><button class="on" data-m="pub">الرسائل العامة</button><button data-m="chat">شات كلمات السر<span class="bdg hidden" id="cbdg" style="position:static;margin-inline-start:6px">0</span></button></div>
       <div class="chips" id="sgFl"></div>
       <div id="sgl"></div>
+      <div id="chl" class="hidden"></div>
     </section>
     <section id="v-log" class="hidden"><div class="sect"><i class="fa-solid fa-shield-halved"></i><div>سجل المشرفين<small>آخر العمليات على المنصة</small></div></div><div class="card" id="lgl"></div></section>
   </main>
@@ -161,7 +169,7 @@ const b64=f=>new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(Stri
 const net=e=>e.message==="Failed to fetch"?"تعذر الاتصال. تأكد من النت.":e.message;
 
 let PW=sessionStorage.getItem("NPH_PW")||"",AD=sessionStorage.getItem("NPH_ADMIN")||"";
-let L=[],SG=[],LG=[],V="dash",fTr="all",fSt="all",fq="",sel=null,tab="explanation",sgf="all",moving=false;
+let L=[],SG=[],LG=[],CH=[],V="dash",fTr="all",fSt="all",fq="",sel=null,tab="explanation",sgf="all",moving=false;
 const trk=l=>l&&l.track==="theory"?"theory":"practical";
 const isTh=l=>trk(l)==="theory";
 const cur=()=>L.find(x=>String(x.id)===String(sel));
@@ -192,21 +200,23 @@ async function start(){
   busy(true,"جاري تحميل البيانات...");
   try{L=(await api("adminList")).lectures||[];
     try{SG=(await api("adminSuggestions")).suggestions||[]}catch(e){SG=[]}
+    try{CH=(await api("adminChats")).chats||[]}catch(e){CH=[]}
     $("login").classList.add("hidden");$("app").classList.remove("hidden");$("who").textContent=AD;
     updBadge();view("dash");
     api("adminLog").then(d=>{LG=d.log||[];if(V==="dash")renderDash()}).catch(()=>{});
   }catch(e){toast(net(e),true);$("login").classList.remove("hidden");$("app").classList.add("hidden")}
   busy(false)}
 
-function view(v){V=v;["dash","lec","man","sug","log"].forEach(x=>$("v-"+x).classList.toggle("hidden",x!==v));
+function view(v){V=v;["dash","lec","man","sug","log","stu"].forEach(x=>$("v-"+x).classList.toggle("hidden",x!==v));
   document.querySelectorAll(".tabbar button").forEach(b=>b.classList.toggle("on",b.dataset.v===(v==="man"?"lec":v)));
   const f=$("fab");f.classList.toggle("hidden",!(v==="lec"||v==="man"));$("fabT").textContent=v==="man"?"إضافة محتوى":"محاضرة جديدة";
-  if(v==="dash")renderDash();if(v==="lec")listLecs();if(v==="man")renderMan();if(v==="sug")loadSug();if(v==="log")loadLog();
+  if(v==="dash")renderDash();if(v==="lec")listLecs();if(v==="man")renderMan();if(v==="sug")loadSug();if(v==="log")loadLog();if(v==="stu")loadStu();
   window.scrollTo({top:0})}
 document.querySelectorAll(".tabbar button").forEach(b=>b.onclick=()=>view(b.dataset.v));
 $("fab").onclick=()=>{if(V==="man")itemSheet(null);else lecSheet(null)};
 function refresh(){if(V==="dash")renderDash();else if(V==="lec")listLecs();else if(V==="man")renderMan()}
-function updBadge(){const n=SG.filter(s=>!s.reply).length;$("bdg").textContent=n;$("bdg").classList.toggle("hidden",!n)}
+function updBadge(){const cn=CH.reduce((a,c)=>a+(c.unread||0),0);const n=SG.filter(s=>!s.reply).length+cn;$("bdg").textContent=n;$("bdg").classList.toggle("hidden",!n);
+  const cb=$("cbdg");if(cb){cb.textContent=cn;cb.classList.toggle("hidden",!cn)}}
 
 function renderDash(){
   const box=$("v-dash");box.innerHTML="";
@@ -330,6 +340,44 @@ function itemSheet(it){const l=cur();if(!l)return;
 const SFL=[["all","الكل"],["open","بدون رد"],["done","تم الرد"]];
 function sgChips(){const b=$("sgFl");b.innerHTML="";SFL.forEach(f=>{const n=f[0]==="all"?SG.length:SG.filter(s=>f[0]==="open"?!s.reply:!!s.reply).length;
   b.appendChild(h("button",{class:"chip"+(sgf===f[0]?" on":""),onclick:()=>{sgf=f[0];sgChips();listSug()}},f[1]+" ("+n+")"))})}
+let sugM="pub";
+document.querySelectorAll("#sgTabs button").forEach(b=>b.onclick=()=>{sugM=b.dataset.m;
+  document.querySelectorAll("#sgTabs button").forEach(x=>x.classList.toggle("on",x===b));
+  $("sgFl").classList.toggle("hidden",sugM!=="pub");$("sgl").classList.toggle("hidden",sugM!=="pub");$("chl").classList.toggle("hidden",sugM!=="chat");
+  if(sugM==="chat")loadChats()});
+async function loadChats(quiet){const b=$("chl");if(!quiet){b.innerHTML="";b.appendChild(h("div",{class:"empty"},"جاري التحميل..."))}
+  try{CH=(await api("adminChats")).chats||[];updBadge();if(!quiet||sugM==="chat")renderChats()}
+  catch(e){if(!quiet){b.innerHTML="";b.appendChild(h("div",{class:"empty card"},ic("fa-triangle-exclamation"),"مقدرناش نحمّل المحادثات. اتأكد إن السكريبت اتحدّث واتنشر بنسخة جديدة."))}}}
+function renderChats(){const b=$("chl");b.innerHTML="";
+  if(!CH.length){b.appendChild(h("div",{class:"empty card"},ic("fa-headset"),"مفيش محادثات لسه. أول ما طالب يدوس \"نسيت كلمة السر\" في صفحة الدخول هتظهر محادثته هنا."));return}
+  CH.forEach(c=>{b.appendChild(h("div",{class:"card",style:"margin-bottom:10px;padding:14px;cursor:pointer",onclick:()=>openChat(c)},
+    h("div",{style:"display:flex;align-items:center;gap:10px;flex-wrap:wrap"},
+      h("b",null,(c.name||"").trim()||"طالب"),h("small",{style:"color:var(--mut);direction:ltr"},"@"+c.username),
+      c.unread?h("span",{class:"pill gold"},"جديد ("+c.unread+")"):null,
+      h("small",{style:"margin-inline-start:auto;color:var(--mut)"},ago(c.lastMsgAt))),
+    h("div",{style:"color:var(--mut);font-size:13px;margin-top:6px"},c.preview||"")))})}
+async function openChat(c){busy(true);let d;try{d=await api("adminChatRead",{sessionId:c.sessionId})}catch(e){busy(false);toast(net(e),true);return}busy(false);
+  c.unread=0;updBadge();renderChats();
+  const box=h("div",{style:"display:flex;flex-direction:column;gap:8px;max-height:42vh;overflow-y:auto;padding:4px 0"});
+  const paint=ms=>{box.innerHTML="";(ms||[]).forEach(m=>{const adm=m.from==="admin";
+    box.appendChild(h("div",{style:"max-width:85%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere;"+(adm?"align-self:flex-end;background:#eaf7f7;border:1px solid rgba(14,143,148,.3);color:#0b3f41":"align-self:flex-start;background:#f0e7cf;border:1px solid rgba(212,175,90,.4);color:#4a3a12")},
+      h("b",{style:"display:block;font-size:11px;margin-bottom:2px"},adm?"الإدارة":("@"+d.username)),document.createTextNode(m.text),h("small",{style:"display:block;font-size:10px;opacity:.7;margin-top:3px"},ago(m.ts))))});
+    box.scrollTop=box.scrollHeight};
+  paint(d.messages);
+  const ta=h("textarea",{placeholder:"اكتب ردك للطالب..."});
+  openSheet("محادثة: "+((c.name||"").trim()||"طالب")+" @"+c.username,[box,
+    h("div",{class:"field",style:"margin-top:10px"},h("label",null,"ردك"),ta),
+    h("div",{class:"act"},
+      h("button",{class:"btn sm",onclick:async()=>{const t=ta.value.trim();if(!t){toast("اكتب الرد الأول.",true);return}busy(true,"جاري الإرسال...");
+        try{await api("adminChatSend",{sessionId:c.sessionId,text:t});ta.value="";const d2=await api("adminChatRead",{sessionId:c.sessionId});paint(d2.messages);loadChats(true)}catch(e){toast(net(e),true)}busy(false)}},ic("fa-paper-plane"),"إرسال الرد"),
+      h("button",{class:"btn sm",onclick:async()=>{if(!confirm("توليد كلمة سر جديدة للطالب @"+c.username+"؟ هيتقفل من أجهزته ولازم يدخل بالجديدة."))return;busy(true,"جاري التوليد...");
+        try{const d2=await api("stuResetPw",{username:c.username});busy(false);
+          openSheet("كلمة السر الجديدة",[
+            h("p",{style:"text-align:center;color:var(--mut);font-size:13px"},"دي كلمة السر الجديدة لـ @"+c.username+". ابعتها له في المحادثة — مش هتظهر تاني:"),
+            h("div",{style:"direction:ltr;text-align:center;font-size:22px;font-weight:900;letter-spacing:2px;background:#f3f6fb;border-radius:14px;padding:16px;margin:10px 0"},d2.password),
+            h("button",{class:"btn",style:"width:100%;justify-content:center",onclick:async ev=>{try{await navigator.clipboard.writeText(d2.password);ev.currentTarget.textContent="اتنسخت ✓"}catch(_){toast("انسخها يدويًا",true)}}},"نسخ كلمة السر")])}
+        catch(e){busy(false);toast(net(e),true)}}},ic("fa-key"),"كلمة سر جديدة"))])}
+
 async function loadSug(){const b=$("sgl");b.innerHTML="";b.appendChild(h("div",{class:"empty"},"جاري التحميل..."));
   try{SG=(await api("adminSuggestions")).suggestions||[];updBadge();sgChips();listSug()}
   catch(e){b.innerHTML="";b.appendChild(h("div",{class:"empty card"},ic("fa-triangle-exclamation"),"مقدرناش نحمّل الرسائل. اتأكد إن السكريبت اتحدّث واتنشر."))}}
@@ -346,6 +394,47 @@ function listSug(){const b=$("sgl");b.innerHTML="";
           try{await api("replySuggestion",{id:s.id,reply:t});s.reply=t;toast("تم إرسال الرد.");updBadge();sgChips();listSug()}catch(e){toast(net(e),true)}busy(false)}},ic("fa-paper-plane"),s.reply?"تحديث الرد":"إرسال الرد"),
         h("button",{class:"btn red sm",onclick:async()=>{if(!confirm("حذف الرسالة نهائيًا؟"))return;busy(true,"جاري الحذف...");
           try{await api("deleteSuggestion",{id:s.id});SG=SG.filter(x=>x.id!==s.id);updBadge();sgChips();listSug()}catch(e){toast(net(e),true)}busy(false)}},ic("fa-trash"),"حذف"))))})}
+
+let ST=[];
+async function loadStu(){const b=$("stuL");b.innerHTML="";b.appendChild(h("div",{class:"empty"},"جاري التحميل..."));
+  try{ST=(await api("adminStudents")).students||[];renderStu()}
+  catch(e){b.innerHTML="";$("stuS").innerHTML="";b.appendChild(h("div",{class:"empty card"},ic("fa-triangle-exclamation"),"مقدرناش نحمّل الطلبة. اتأكد إن السكريبت اتحدّث واتنشر بنسخة جديدة."))}}
+function renderStu(){const b=$("stuL"),s=$("stuS");b.innerHTML="";s.innerHTML="";
+  const act=ST.filter(x=>x.status==="active").length,dis=ST.length-act;
+  const today=ST.filter(x=>x.lastActiveAt&&(Date.now()-new Date(x.lastActiveAt))<864e5).length;
+  s.appendChild(h("div",{class:"card",style:"display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;margin-bottom:14px"},
+    h("span",{class:"pill teal"},"المسجلين: "+ST.length),
+    h("span",{class:"pill green"},"نشطين: "+act),
+    h("span",{class:"pill gold"},"نشطين النهارده: "+today),
+    h("span",{class:"pill gray"},"موقوفين: "+dis)));
+  if(!ST.length){b.appendChild(h("div",{class:"empty card"},ic("fa-user-graduate"),"لسه مفيش طلبة مسجلين. أول ما حد يعمل حساب من الموقع هيظهر هنا."));return}
+  ST.slice().reverse().forEach(x=>{const dis=x.status!=="active";
+    b.appendChild(h("div",{class:"card",style:"margin-bottom:10px;padding:14px"},
+      h("div",{style:"display:flex;align-items:center;gap:10px;flex-wrap:wrap"},
+        h("b",null,x.name||x.username),
+        h("small",{style:"color:var(--mut);direction:ltr"},"@"+x.username),
+        h("span",{class:"pill "+(dis?"gray":"green")},dis?"موقوف":"نشط"),
+        h("small",{style:"margin-inline-start:auto;color:var(--mut)"},x.lastActiveAt?("آخر نشاط "+ago(x.lastActiveAt)):"لسه مادخلش")),
+      h("div",{style:"display:flex;gap:12px;color:var(--mut);font-size:12.5px;margin-top:8px;flex-wrap:wrap"},
+        h("span",null,"خلّص "+(x.doneCount||0)+" عنصر"),
+        h("span",null,(x.notesCount||0)+" ملاحظة"),
+        h("span",null,"اتسجل "+(x.createdAt?ago(x.createdAt):"—"))),
+      h("div",{class:"act",style:"margin-top:10px"},
+        h("button",{class:"btn sm",onclick:()=>stuReset(x)},ic("fa-key"),"كلمة سر جديدة"),
+        h("button",{class:"btn sm",onclick:()=>stuToggle(x)},ic(dis?"fa-play":"fa-ban"),dis?"تفعيل":"إيقاف"),
+        h("button",{class:"btn red sm",onclick:()=>stuDel(x)},ic("fa-trash"),"حذف"))))})}
+async function stuReset(x){if(!confirm("توليد كلمة سر جديدة للطالب @"+x.username+"؟ هيتقفل من كل أجهزته ولازم يدخل بالجديدة."))return;busy(true,"جاري التوليد...");
+  try{const d=await api("stuResetPw",{username:x.username});busy(false);
+    openSheet("كلمة السر الجديدة",[
+      h("p",{style:"text-align:center;color:var(--mut);font-size:13px"},"دي كلمة السر الجديدة للطالب "+(x.name||x.username)+". ابعتهاله — مش هتظهر تاني:"),
+      h("div",{style:"direction:ltr;text-align:center;font-size:22px;font-weight:900;letter-spacing:2px;background:#f3f6fb;border-radius:14px;padding:16px;margin:10px 0"},d.password),
+      h("button",{class:"btn",style:"width:100%;justify-content:center",onclick:async e=>{try{await navigator.clipboard.writeText(d.password);e.currentTarget.textContent="اتنسخت ✓"}catch(_){toast("انسخها يدويًا",true)}}},"نسخ كلمة السر")])}
+  catch(e){busy(false);toast(net(e),true)}}
+async function stuToggle(x){const dis=x.status!=="active";
+  if(!confirm((dis?"تفعيل":"إيقاف")+" حساب @"+x.username+"؟"+(dis?"":" هيتقفل فورًا ومش هيقدر يزامن تقدّمه.")))return;busy(true);
+  try{await api("stuSetStatus",{username:x.username,status:dis?"active":"disabled"});x.status=dis?"active":"disabled";renderStu();toast(dis?"اتفعّل الحساب.":"اتوقّف الحساب.")}catch(e){toast(net(e),true)}busy(false)}
+async function stuDel(x){if(!confirm("حذف حساب @"+x.username+" نهائيًا؟ تقدّمه وملاحظاته على السيرفر هيتحذفوا كمان."))return;busy(true);
+  try{await api("stuDelete",{username:x.username});ST=ST.filter(y=>y.username!==x.username);renderStu();toast("اتحذف الحساب.")}catch(e){toast(net(e),true)}busy(false)}
 
 async function loadLog(){const b=$("lgl");b.innerHTML="";b.appendChild(h("div",{class:"empty"},"جاري التحميل..."));
   try{LG=(await api("adminLog")).log||[];b.innerHTML="";
