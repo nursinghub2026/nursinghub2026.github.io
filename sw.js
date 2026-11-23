@@ -1,11 +1,13 @@
 /* FOUNDATIONS Service Worker — PWA + offline */
-const CACHE = "nph-pwa-v5";
+const CACHE = "nph-pwa-v6";
 try { importScripts("./firebase-messaging-sw.js"); } catch (e) { /* Offline remains available if push SDK is unreachable. */ }
 const PRECACHE = [
   "./",
   "./index.html",
   "./Lectures.html",
   "./Lecture.html",
+  "./theory-extras.js",
+  "./theory-extras.css",
   "./progress.html",
   "./chat.html",
   "./style.css",
