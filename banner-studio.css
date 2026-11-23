@@ -1,3 +1,5 @@
 .banner-studio{margin-top:14px;padding:16px;border:1px solid #d4af5a;border-radius:18px;background:#fffdf7;color:#0b2540}.banner-studio h3{font-size:17px}.banner-studio p,.banner-studio small{font-size:12px;line-height:1.9;color:#64748b;display:block}.banner-studio label{display:block;font-size:13px;font-weight:800;margin:12px 0 6px}.banner-studio input{background:#fff}.banner-studio canvas{display:block;width:100%;height:auto;border-radius:12px;margin-top:16px}.banner-studio button{font:700 12px/1.6 inherit;background:#0b2540;color:#f0d58a;border:1px solid #d4af5a;padding:10px 14px;border-radius:12px;margin-top:10px;cursor:pointer;min-height:44px}.banner-studio #bannerError{color:#b42336}.banner-actions{display:flex;gap:8px;flex-wrap:wrap}
 
 .banner-studio input[type=range]{width:100%;min-height:44px;padding:0;accent-color:#b58b2b;cursor:pointer}.banner-studio output{display:inline-block;margin-inline-start:8px;color:#835d13;font-weight:800;direction:ltr}
+
+.banner-studio .banner-frame-option{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer}.banner-studio #bannerFrame{width:20px;height:20px;min-height:20px;margin:0;accent-color:#b58b2b}
