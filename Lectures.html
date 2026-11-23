@@ -30,8 +30,9 @@
 .sts div{text-align:center;background:var(--acs);border-radius:14px;padding:8px 4px}
 .sts b{display:block;font-size:17px;color:var(--ac);font-weight:900;line-height:1.2}.sts small{font-size:10.5px;color:var(--mut);font-weight:700}
 .lc .btn{margin-top:16px;width:100%}
-</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"></head><body>
+</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="mobile.css"></head><body>
 <div class="ph"><div class="k" id="pk"></div><h1 id="pt"></h1><p id="ps"></p></div>
+<nav class="track-switch" aria-label="نوع المحاضرات"><a href="Lectures.html?track=theory" data-track="theory">النظري</a><a href="Lectures.html?track=practical" data-track="practical">العملي</a></nav>
 <div class="sr"><div class="sb"><i class="fa-solid fa-magnifying-glass"></i><input id="q" placeholder="دوّر على محاضرة..."></div></div>
 <main class="wrap" style="padding-top:0">
   <div class="hd"><div class="sect" style="margin:0"><i class="fa-solid fa-layer-group"></i><div id="ht"></div></div><span class="pill" id="cnt">0</span></div>
@@ -80,5 +81,5 @@ async function load(){
   try{const c=JSON.parse(localStorage.getItem(CK)||"null");if(c){L=c;loaded=true;render()}}catch(e){}
   try{const d=await(await fetch(API)).json();if(!d.ok)throw new Error(d.error);L=d.lectures||[];try{localStorage.setItem(CK,JSON.stringify(L))}catch(e){}}catch(e){failed=true}
   loaded=true;render()}
-$("q").addEventListener("input",render);load();
+$("q").addEventListener("input",render);document.querySelectorAll("[data-track]").forEach(a=>{if(a.dataset.track===(new URLSearchParams(location.search).get("track")||"practical"))a.setAttribute("aria-current","page")});load();
 </script><script src="firebase-config.js"></script><script src="push.js" defer></script></body></html>

@@ -1,7 +1,7 @@
 try{if(localStorage.getItem("NPH_THEME_V1")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}
 const API="https://script.google.com/macros/s/AKfycbzAkny0ZeMMNTDTxx9Tjw5dvXQO-oe_K1TyYrRjSnkt5acZXD1bgYZFU4E7ODl42QDZpQ/exec";
 const BRAND={name:"FOUNDATIONS",sub:"FUNDAMENTALS OF NURSING"};
-const PAGES=[["index.html","الرئيسية","fa-house"],["Lectures.html?track=theory","النظري","fa-book-open"],["Lectures.html?track=practical","العملي","fa-hand-holding-medical"],["progress.html","تقدمي","fa-chart-line"],["adhkar.html","الأدعية والأذكار","fa-hands-praying"],["tips.html","نصايح المذاكرة","fa-graduation-cap"],["suggestions.html","الاقتراحات","fa-comments"]];
+const PAGES=[["index.html","الرئيسية","fa-house"],["Lectures.html?track=theory","النظري","fa-book-open"],["Lectures.html?track=practical","العملي","fa-hand-holding-medical"],["progress.html","تقدمي","fa-chart-line"],["chat.html","مراسلة الإدارة","fa-headset"],["adhkar.html","الأدعية والأذكار","fa-hands-praying"],["tips.html","نصايح المذاكرة","fa-graduation-cap"],["suggestions.html","الاقتراحات","fa-comments"]];
 function ap(e,c){if(c==null||c===false)return;if(Array.isArray(c)){c.forEach(x=>ap(e,x));return}e.appendChild(c.nodeType?c:document.createTextNode(String(c)))}
 function h(t,a){const e=document.createElement(t);if(a)for(const k in a){const v=a[k];if(v==null||v===false)continue;if(k==="class")e.className=v;else if(k==="style")e.style.cssText=v;else if(k==="value")e.value=v;else if(k.slice(0,2)==="on")e[k]=v;else e.setAttribute(k,v===true?"":v)}
   for(let i=2;i<arguments.length;i++)ap(e,arguments[i]);return e}
@@ -33,7 +33,7 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
     let a=null;try{const r=localStorage.getItem("NPH_AUTH_V1");if(r)a=JSON.parse(r)}catch(e){}
     abtn.innerHTML="";
     if(a&&a.token){abtn.appendChild(ic("fa-user-graduate"));abtn.classList.add("on")}
-    else{abtn.appendChild(ic("fa-user"));abtn.classList.remove("on")}
+    else{abtn.appendChild(ic("fa-user-graduate"));abtn.classList.remove("on")}
   }
   paintAb();
   abtn.onclick=e=>{e.stopPropagation();
@@ -47,6 +47,15 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
       h("a",{class:"brand",href:"index.html"},h("b",null,BRAND.name),h("small",null,BRAND.sub)),
       h("div",{class:"nav-side ns-r"},tbtn,abtn)),
     menu);
+  const tools=h("div",{class:"menu-tools",id:"nphMenuTools"},h("button",{type:"button",onclick:()=>tbtn.click()},ic("fa-circle-half-stroke")," تغيير المظهر"));
+  menu.appendChild(tools);
+  const skip=h("a",{class:"skip-link",href:"#main-content"},"تخطى للمحتوى");
+  const main=document.querySelector("main")||document.querySelector(".hero");if(main){if(!main.id)main.id="main-content";skip.href="#"+main.id;}
+  document.body.prepend(skip);
+  const dock=h("nav",{class:"student-dock","aria-label":"التنقل الرئيسي"},[
+    ["index.html","الرئيسية","fa-house"],["Lectures.html?track=theory","النظري","fa-book-open"],["Lectures.html?track=practical","العملي","fa-hand-holding-medical"],["progress.html","تقدمي","fa-chart-line"]
+  ].map(p=>h("a",{href:p[0],class:on(p[0])?"on":"","aria-current":on(p[0])?"page":null},ic(p[2]),h("span",null,p[1]))),h("button",{type:"button",onclick:()=>{setMenu(!menu.classList.contains("open"));btn.focus()}},ic("fa-bars"),h("span",null,"المزيد")));
+  document.body.appendChild(dock);
   document.body.prepend(scrim);
   document.body.prepend(nav);
   function setMenu(o){menu.classList.toggle("open",o);scrim.classList.toggle("show",o);btn.classList.toggle("open",o);btn.setAttribute("aria-expanded",o?"true":"false");lab(o)}
@@ -121,6 +130,6 @@ function parseSg(s){let m=String(s.message||""),t=s.type||"اقتراح";const x
       deferredInstall.prompt();
       deferredInstall.userChoice.finally(function(){var p=document.getElementById("nphInstall");if(p)p.remove();deferredInstall=null;});
     };
-    document.body.appendChild(b);
+    (document.getElementById("nphMenuTools")||document.body).appendChild(b);
   }
 })();
