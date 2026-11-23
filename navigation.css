@@ -6,6 +6,57 @@
 .menu .menu-tools{background:transparent;border-color:#ffffff15;max-width:1168px;width:100%;padding-top:16px!important}.menu .menu-tools button{background:#142f45;color:#e8d29c;border-color:#c7aa5c45}.menu .mi{width:35px;height:35px;border-radius:10px;font-size:14px}.menu a.on .mi{background:#ffffff55;color:#20374a}
 
 .home-announcements{scroll-margin-top:calc(var(--nh) + 18px)}
-/* Unified editorial cards for the home announcement preview. */
-.home-announcements{padding:26px;border:1px solid #d2dce5;border-radius:26px;background:#edf2f6;box-shadow:0 12px 28px #102b4007}.ha-heading{margin-bottom:22px}.ha-grid{gap:16px;align-items:stretch}.ha-post{position:relative;padding:24px;border:1px solid #d5dfe7;border-top:0;border-radius:18px;background:#fff;box-shadow:0 5px 14px #15344905;min-height:245px;overflow:hidden}.ha-post:before{content:"";position:absolute;top:0;inset-inline:24px;height:3px;background:#b89542;border-radius:0 0 8px 8px}.ha-meta{font-size:10px;align-items:center;line-height:1.7}.ha-meta>span{font-weight:700;color:#5d7182}.ha-post h3{font-size:19px;line-height:1.8;margin:23px 0 9px;font-weight:800;-webkit-line-clamp:2;min-height:3.6em;color:#122c40}.ha-excerpt{font-size:12px;line-height:1.95;margin-bottom:24px;color:#61778a;-webkit-line-clamp:2;min-height:3.9em}.ha-post-foot{padding-top:16px;font-size:11px}.ha-post-foot b{color:#86661f}.ha-all{background:#fff;border-color:#bf9d4a75}.ha-eyebrow{color:#86661f}.ha-state{background:#fff;border-style:solid;border-color:#d7e0e7}.ha-heading h2{font-weight:900}@media(max-width:760px){.home-announcements{padding:20px 14px;border-radius:23px}.ha-heading{gap:12px;padding:0 3px}.ha-post{padding:22px;min-height:245px}.ha-post h3{font-size:19px}.ha-meta{font-size:9px}.ha-grid{gap:13px}}
-[data-theme=dark] .home-announcements{background:#0d2436;border-color:#2a4254}[data-theme=dark] .ha-post{background:#132f44;border-color:#2b4558}[data-theme=dark] .ha-post h3{color:#f2f5f7}[data-theme=dark] .ha-meta>span,[data-theme=dark] .ha-excerpt{color:#a8becd}[data-theme=dark] .ha-post-foot b{color:#dfc27c}
+/* Bulletin board: one visual rhythm for every announcement. */
+.home-announcements{padding:0;border:1px solid #dce3e9;border-radius:26px;background:#f4f6f9;box-shadow:0 16px 40px #0a203408;overflow:hidden}
+.ha-heading{margin:0;padding:25px 28px;background:#0c283f;color:#fff;gap:24px;border-bottom:3px solid #bc9952}
+.ha-heading-copy{display:flex;align-items:center;gap:16px;min-width:0}
+.ha-heading-icon{display:grid;place-items:center;flex-shrink:0;width:52px;height:58px;border:1px solid #c6a45b60;border-radius:17px;background:#ffffff07;color:#e6c67e;font-size:23px}
+.ha-eyebrow{font-size:10px;color:#d5b978;font-weight:700}
+.ha-heading h2{font-size:27px;line-height:1.5;color:#fff;margin:1px 0 3px;font-weight:900}
+.ha-heading p{color:#adc0ce;font-size:12px;line-height:1.8}
+.ha-all{border:1px solid #d9bd7c70;background:#ffffff08;color:#f2d89f;min-height:44px;padding:9px 15px;border-radius:11px;font-size:12px}
+.ha-all:hover{background:#ffffff14}
+.ha-grid{padding:22px;gap:16px;align-items:stretch}
+.ha-post{position:relative;padding:22px;border:1px solid #e0e6ec;border-radius:17px;background:#fff;box-shadow:0 3px 8px #102b4003;min-height:266px;overflow:hidden}
+.ha-post:before{display:none}
+.ha-meta{display:flex;align-items:center;gap:9px;line-height:1.5;justify-content:flex-start;padding-bottom:17px;border-bottom:1px solid #edf0f3}
+.ha-avatar{width:35px;height:35px;border-radius:11px;background:#f3efe5;color:#99752e;display:grid;place-items:center;flex-shrink:0;font-size:15px}
+.ha-meta i{margin:0;color:inherit}
+.ha-publisher{display:flex;flex-direction:column;gap:2px}
+.ha-publisher b{color:#27465d;font-size:11px;font-weight:800}
+.ha-publisher small{color:#8593a1;font-size:8px;letter-spacing:1px;direction:ltr}
+.ha-meta time{margin-inline-start:auto;color:#728596;font-size:10px;background:#f4f6f8;border-radius:7px;padding:5px 7px;font-weight:600}
+.ha-post h3{font-size:20px;line-height:1.75;margin:17px 0 7px;font-weight:800;-webkit-line-clamp:2;min-height:3.5em;color:#152f44}
+.ha-excerpt{font-size:12px;line-height:1.95;margin:0 0 21px;color:#6c7f8e;-webkit-line-clamp:2;min-height:3.9em}
+.ha-post-foot{align-items:center;padding-top:13px;border-color:#edf0f3;font-size:10px;min-height:44px}
+.ha-post-foot>span{color:#7c8d9a}
+.ha-post-foot b{color:#826020;display:flex;align-items:center;gap:9px;font-size:11px}
+.ha-read-icon{display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:#f5f0e4;color:#997329;font-size:10px}
+.ha-state{background:#fff;border:1px solid #e0e6ec;margin:0}
+@media(max-width:760px){
+ .home-announcements{border-radius:22px}
+ .ha-heading{padding:20px;gap:17px;align-items:center}
+ .ha-heading-copy{gap:12px;width:100%}
+ .ha-heading-icon{width:43px;height:50px;border-radius:13px;font-size:19px}
+ .ha-heading h2{font-size:25px}
+ .ha-heading p{font-size:11px;max-width:none}
+ .ha-all{font-size:11px;min-height:40px;padding:8px 12px;margin-inline-start:55px}
+ .ha-grid{padding:14px;gap:12px}
+ .ha-post{padding:18px;min-height:0;border-radius:15px}
+ .ha-post h3{font-size:19px;margin-top:15px;min-height:0;-webkit-line-clamp:2}
+ .ha-excerpt{font-size:12px;margin-bottom:18px;min-height:0}
+ .ha-meta{padding-bottom:14px}
+}
+[data-theme=dark] .home-announcements{background:#0a1e2d;border-color:#2a4254}
+[data-theme=dark] .ha-heading{background:#0c283f}
+[data-theme=dark] .ha-heading h2{color:#fff}
+[data-theme=dark] .ha-heading p{color:#adc0ce}
+[data-theme=dark] .ha-all{background:#ffffff08;color:#f2d89f;border-color:#d9bd7c70}
+[data-theme=dark] .ha-post,[data-theme=dark] .ha-state{background:#112d42;border-color:#2b4558}
+[data-theme=dark] .ha-post h3{color:#f2f5f7}
+[data-theme=dark] .ha-publisher b{color:#d3e1ea}
+[data-theme=dark] .ha-excerpt{color:#a8becd}
+[data-theme=dark] .ha-meta,[data-theme=dark] .ha-post-foot{border-color:#294356}
+[data-theme=dark] .ha-avatar,[data-theme=dark] .ha-read-icon{background:#d5b97815;color:#dfc27c}
+[data-theme=dark] .ha-meta time{background:#203c51;color:#b3c6d3}
+[data-theme=dark] .ha-post-foot b{color:#dfc27c}
