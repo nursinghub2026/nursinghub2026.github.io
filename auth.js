@@ -165,7 +165,26 @@
       ".aacc-user{color:var(--txt2);font-size:13px;margin:2px 0 14px;direction:ltr;unicode-bidi:embed}",
       ".aacc-row{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:11px 13px;margin-bottom:9px;font-size:13px}",
       ".aacc-row b{color:var(--gold)}",
-      ".aout{width:100%;padding:11px;border-radius:12px;border:1px solid rgba(226,75,74,.4);background:rgba(226,75,74,.08);color:#ff9d9c;font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer;margin-top:6px}"
+      ".aout{width:100%;padding:11px;border-radius:12px;border:1px solid rgba(226,75,74,.4);background:rgba(226,75,74,.08);color:#ff9d9c;font-family:inherit;font-size:13.5px;font-weight:800;cursor:pointer;margin-top:6px}",
+      ".aprog{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:13px 14px;margin-bottom:10px}",
+      ".aprog-top{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--txt2);font-weight:800;margin-bottom:8px}",
+      ".aprog-top b{color:var(--gold);font-size:14px;direction:ltr}",
+      ".abar{height:8px;border-radius:8px;background:rgba(212,175,90,.15);overflow:hidden}",
+      ".abar i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .6s ease}",
+      ".achips{display:flex;gap:8px;margin-top:11px}",
+      ".achip{flex:1;text-align:center;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:11px;padding:8px 4px}",
+      ".achip i{font-size:13px;color:var(--gold)}",
+      ".achip b{display:block;font-size:15px;margin-top:3px;color:var(--txt)}",
+      ".achip small{color:var(--txt3);font-size:10.5px;font-weight:700}",
+      ".acont{display:flex;align-items:center;gap:10px;width:100%;padding:12px 14px;border-radius:13px;border:none;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1205;font-size:13px;font-weight:900;margin-bottom:9px;cursor:pointer;text-decoration:none;box-sizing:border-box}",
+      ".acont>i{font-size:15px;flex:none}",
+      ".acont span{min-width:0}",
+      ".acont small{display:block;font-weight:700;opacity:.75;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+      ".aunread{background:#e24b4a;color:#fff;font-size:10.5px;font-weight:900;min-width:19px;height:19px;border-radius:10px;display:inline-grid;place-items:center;padding:0 5px;margin-inline-start:4px}",
+      ".adot{position:absolute;top:-3px;left:-3px;min-width:16px;height:16px;border-radius:9px;background:#e24b4a;color:#fff;font-size:9.5px;font-weight:900;display:none;place-items:center;padding:0 4px;border:2px solid #0d2f4a;box-sizing:border-box;z-index:3}",
+      ".aprog-link{display:block;text-align:center;color:var(--txt2);font-size:12px;font-weight:800;margin:10px 0 2px;text-decoration:none}",
+      ".aprog-link:hover{color:var(--gold)}",
+      ".hidden{display:none!important}"
     ].join("");
     document.head.appendChild(s);
   }
@@ -261,13 +280,18 @@
   function openAccount() {
     if (!isLoggedIn()) return openModal("login");
     css(); close();
-    const done = (window.NPH && NPH.get && NPH.get() && NPH.get().done) || {};
-    const nd = Object.keys(done).length;
     const hasName = !!(A.name && String(A.name).trim());
+    const P = window.NPH || null;
+    const done = P && P.doneCount ? P.doneCount() : 0;
+    const streak = P && P.streak ? P.streak() : 0;
+    const favs = P && P.favIds ? P.favIds().length : 0;
+    const notes = P && P.notesList ? P.notesList().length : 0;
+    const last = P && P.getLast ? P.getLast() : null;
+
     el = document.createElement("div");
     el.className = "aov";
     el.innerHTML =
-      '<div class="acard" style="position:relative">' +
+      '<div class="acard" style="position:relative;max-height:92vh;overflow-y:auto">' +
       '<button class="ax" id="ax"><i class="fas fa-times"></i></button>' +
       '<div class="aacc">' +
       '<div class="aavatar"><i class="fas fa-user-graduate"></i></div>' +
@@ -279,15 +303,42 @@
         '<div class="aname-set"><label>ضيف اسمك الكامل — هيظهر هنا وللأدمن</label>' +
         '<input class="ainput" id="a-newname" maxlength="60" placeholder="اسمك بالكامل">' +
         '<button class="aname-btn" id="a-namesave">حفظ الاسم</button></div>') +
-      '<div class="aacc">' +
-      '<div class="aacc-row"><span>عناصر مخلّصها</span><b>' + nd + "</b></div>" +
-      '<div class="aacc-row"><span>آخر مزامنة</span><b>' + (A.lastSync ? agoTxt(A.lastSync) : "لسه") + "</b></div>" +
-      "</div>" +
-      '<a class="achat" href="chat.html"><i class="fas fa-headset"></i> مراسلة الإدارة</a>' +
+      '<div class="aprog">' +
+      '<div class="aprog-top"><span>تقدّمك في المنهج</span><b id="aprogPct">' + done + ' عنصر</b></div>' +
+      '<div class="abar"><i id="aprogBar"></i></div>' +
+      '<div class="achips">' +
+      '<div class="achip"><i class="fas fa-fire"></i><b>' + streak + '</b><small>يوم مذاكرة</small></div>' +
+      '<div class="achip"><i class="fas fa-star"></i><b>' + favs + '</b><small>في المفضلة</small></div>' +
+      '<div class="achip"><i class="fas fa-note-sticky"></i><b>' + notes + '</b><small>ملاحظة</small></div>' +
+      "</div></div>" +
+      (last && last.lid ?
+        '<a class="acont" id="acont" href="Lecture.html?id=' + encodeURIComponent(last.lid) + '">' +
+        '<i class="fas fa-play"></i><span>كمّل من حيث وقفت<small id="acontT">...</small></span></a>' : "") +
+      '<a class="aprog-link" href="progress.html">صفحة تقدّمك بالتفصيل</a>' +
+      '<a class="achat" href="chat.html"><i class="fas fa-headset"></i> مراسلة الإدارة' +
+      '<span class="aunread' + (unreadN > 0 ? "" : " hidden") + '" id="aunread">' + (unreadN > 9 ? "9+" : unreadN) + "</span></a>" +
+      '<div class="anote">آخر مزامنة: ' + (A.lastSync ? agoTxt(A.lastSync) : "لسه") + "</div>" +
       '<button class="aout" id="a-logout"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>' +
       "</div>";
     document.body.appendChild(el);
     requestAnimationFrame(function () { el.classList.add("show"); });
+
+    /* نسبة التقدّم الكلية + عنوان آخر محاضرة من كاش المحاضرات */
+    if (P && P.overall) ensureLectures(function (L) {
+      if (!el) return;
+      const o = P.overall(L);
+      const pct = el.querySelector("#aprogPct");
+      const bar = el.querySelector("#aprogBar");
+      if (pct) pct.textContent = o.done + " من " + o.total + " (" + o.pct + "%)";
+      if (bar) requestAnimationFrame(function () { bar.style.width = o.pct + "%"; });
+      if (last && last.lid) {
+        const lec = (L || []).find(function (x) { return String(x.id) === String(last.lid); });
+        const t = el.querySelector("#acontT");
+        if (t && lec) t.textContent = lec.titleAr || lec.title || "";
+        else if (t) t.textContent = "";
+      }
+    });
+
     el.querySelector("#ax").onclick = close;
     el.addEventListener("click", function (e) { if (e.target === el) close(); });
     el.querySelector("#a-logout").onclick = function () { close(); setTimeout(logout, 150); };
@@ -309,6 +360,48 @@
         }
       };
     }
+    pollUnread();
+  }
+
+  /* ---------- بيانات تقدّم الطالب (من الكاش المحلي) ---------- */
+  function pubLectures() {
+    try { const c = JSON.parse(localStorage.getItem("NPH_PUB_V1") || "null"); return Array.isArray(c) ? c : null; } catch (e) { return null; }
+  }
+  let lecFetchP = null;
+  function ensureLectures(cb) {
+    const c = pubLectures();
+    if (c) { cb(c); return; }
+    if (!lecFetchP) {
+      lecFetchP = fetch(API).then(function (r) { return r.json(); }).then(function (d) {
+        if (d && d.ok && d.lectures) { try { localStorage.setItem("NPH_PUB_V1", JSON.stringify(d.lectures)); } catch (e) {} return d.lectures; }
+        return null;
+      }).catch(function () { return null; });
+    }
+    lecFetchP.then(function (L) { if (L) cb(L); });
+  }
+
+  /* ---------- شارة ردود الإدارة غير المقروءة ---------- */
+  let unreadN = 0;
+  async function pollUnread() {
+    if (!isLoggedIn()) return;
+    try { const d = await call("stuChatUnread", { token: A.token }); unreadN = d.unread || 0; paintUnread(); }
+    catch (e) { if (sessionDead(e.message)) { unreadN = 0; paintUnread(); } }
+  }
+  function paintUnread() {
+    const b = document.getElementById("abtn");
+    if (b) {
+      let dot = b.querySelector(".adot");
+      if (unreadN > 0) {
+        if (!dot) { dot = document.createElement("span"); dot.className = "adot"; b.style.position = "relative"; b.appendChild(dot); }
+        dot.style.display = "grid"; dot.textContent = unreadN > 9 ? "9+" : String(unreadN);
+      } else if (dot) dot.style.display = "none";
+    }
+    const pill = document.getElementById("aunread");
+    if (pill) { pill.classList.toggle("hidden", unreadN < 1); pill.textContent = unreadN > 9 ? "9+" : String(unreadN); }
+  }
+  if (isLoggedIn()) {
+    setTimeout(pollUnread, 1500);
+    setInterval(function () { if (document.visibilityState === "visible") pollUnread(); }, 45000);
   }
 
   function agoTxt(t) {

@@ -1,89 +1,131 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>التواصل مع الإدارة | FOUNDATIONS</title>
-<meta name="description" content="نسيت كلمة السر؟ افتح محادثة مع الإدارة وهيتم الرد عليك هنا.">
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>مراسلة الإدارة | FOUNDATIONS</title>
+<meta name="description" content="محادثة مباشرة بينك وبين إدارة المنصة — اسأل أي حاجة والرد بيظهر هنا أول بأول.">
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="style.css">
 <style>
-.ch{display:flex;flex-direction:column;gap:10px;min-height:220px;max-height:55vh;overflow-y:auto;padding:6px 2px}
-.bub{max-width:82%;padding:11px 14px;border-radius:18px;font-size:14.5px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
-.bub small{display:block;font-size:10.5px;opacity:.75;margin-top:4px}
-.bub.me{align-self:flex-start;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;border-bottom-left-radius:6px}
-.bub.adm{align-self:flex-end;background:#f0e7cf;border:1px solid rgba(212,175,90,.45);color:#4a3a12;border-bottom-right-radius:6px}
-.bub.adm b{display:block;color:#8a6a1c}
-.cin{display:flex;gap:8px;margin-top:14px}
-.cin input{flex:1}
-.cin .btn{flex:none}
-.note{margin-top:12px;font-size:12px;color:var(--mut);text-align:center;line-height:1.8}
-.th{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.th .av2{width:42px;height:42px;flex:none;border-radius:50%;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#d4af5a,#b8862d);font-size:16px}
+.chat-shell{display:flex;flex-direction:column;height:min(72vh,640px);overflow:hidden;padding:0!important}
+.chat-head{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,#0b2540,#123b5c);color:#fff;flex:none}
+.chat-head .av2{width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center;color:#4a3608;background:linear-gradient(135deg,#e9c76a,#c89a35);font-size:17px;box-shadow:0 4px 12px rgba(212,175,90,.35)}
+.chat-head b{font-size:15.5px;display:block}
+.chat-head small{color:#b9cbdc;font-size:11.5px;display:block;margin-top:2px}
+.chat-head .st{margin-inline-start:auto;display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;color:#8be3c8}
+.chat-head .st::before{content:"";width:8px;height:8px;border-radius:50%;background:#37d67a;box-shadow:0 0 0 3px rgba(55,214,122,.2)}
+.ch{flex:1;display:flex;flex-direction:column;gap:8px;overflow-y:auto;padding:16px 14px;background:
+  radial-gradient(circle at 85% 10%,rgba(212,175,90,.05),transparent 40%),
+  radial-gradient(circle at 10% 90%,rgba(53,198,192,.05),transparent 40%),var(--bg,#f6f8fb)}
+.day{align-self:center;background:rgba(11,37,64,.08);color:#5a6b7d;font-size:11px;font-weight:800;padding:4px 14px;border-radius:20px;margin:6px 0}
+.bub{max-width:80%;padding:9px 13px 6px;border-radius:18px;font-size:14.5px;line-height:1.85;white-space:pre-wrap;overflow-wrap:anywhere;position:relative;animation:bubin .25s ease}
+@keyframes bubin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.bub small{display:block;font-size:10px;opacity:.75;margin-top:2px;text-align:left;direction:ltr}
+.bub.me{align-self:flex-start;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;border-bottom-left-radius:6px;box-shadow:0 4px 12px rgba(14,143,148,.25)}
+.bub.me small{color:#cdeeee}
+.bub.adm{align-self:flex-end;background:#fff;border:1px solid rgba(212,175,90,.5);color:#3d3015;border-bottom-right-radius:6px;box-shadow:0 4px 12px rgba(60,45,10,.07)}
+.bub.adm b{display:block;color:#a87f22;font-size:11.5px;margin-bottom:1px}
+.bub.adm small{color:#a08c5a}
+.ch-empty{margin:auto;text-align:center;color:#8496a8;font-size:13.5px;line-height:2}
+.ch-empty i{font-size:34px;color:#c8d5e0;display:block;margin-bottom:10px}
+.cin{display:flex;gap:8px;padding:12px 14px;background:#fff;border-top:1px solid rgba(13,34,56,.08);flex:none}
+.cin .cinput{flex:1;border:1.5px solid #e2e8f0;background:#f8fafc;border-radius:22px;padding:11px 16px;font-family:inherit;font-size:14px;color:var(--ink,#0d2238);outline:none;transition:.2s;resize:none;max-height:110px;line-height:1.6}
+.cin .cinput:focus{border-color:var(--ac,#0e8f94);background:#fff;box-shadow:0 0 0 3px rgba(14,143,148,.12)}
+.csend{width:46px;height:46px;flex:none;border:none;border-radius:50%;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;font-size:16px;cursor:pointer;display:grid;place-items:center;box-shadow:0 6px 14px rgba(14,143,148,.35);transition:transform .15s}
+.csend:active{transform:scale(.92)}
+.csend:disabled{opacity:.5}
+.csend i{transform:scaleX(-1)}
+.start-card{padding:24px 22px}
+.note{margin-top:12px;font-size:12px;color:var(--mut);text-align:center;line-height:1.8;padding:0 8px 4px}
 </style></head><body>
-<div class="ph" style="background:linear-gradient(160deg,#08172b,#0d2f4a 55%,#b8862d)"><div class="k"><i class="fa-solid fa-headset"></i> SUPPORT</div><h1>التواصل مع الإدارة</h1><p>نسيت كلمة السر؟ افتح محادثة والأدمن هيرد عليك هنا شخصيًا.</p></div>
+<div class="ph" id="hero" style="background:linear-gradient(160deg,#08172b,#0d2f4a 55%,#b8862d)"><div class="k"><i class="fa-solid fa-headset"></i> SUPPORT</div><h1 id="heroT">مراسلة الإدارة</h1><p id="heroP">محادثة مباشرة بينك وبين إدارة المنصة — اسأل أي حاجة والرد بيظهر هنا أول بأول.</p></div>
 <main class="wrap" style="max-width:640px">
-  <div class="card" id="startCard" style="padding:22px">
+  <div class="card start-card" id="startCard">
     <div class="sect"><i class="fa-solid fa-key"></i><div>نسيت كلمة السر؟<small>اكتب اسم المستخدم بتاعك وهنوصّل رسالتك للأدمن فورًا</small></div></div>
     <div class="field"><label>اسم المستخدم</label><input id="u" maxlength="30" placeholder="حروف وأرقام إنجليزي" dir="ltr" style="text-align:left" autocomplete="username"></div>
     <div class="field"><label>اسمك (اختياري)</label><input id="n" maxlength="60" placeholder="اسمك"></div>
-    <div class="field hidden" id="f-first"><label>رسالتك</label><textarea id="firstMsg" maxlength="500" rows="3" placeholder="اكتب رسالتك للإدارة هنا..." style="width:100%;padding:11px 13px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--txt);font-family:inherit;font-size:14px;outline:none;box-sizing:border-box;resize:vertical"></textarea></div>
-    <button class="btn full lg" id="startBtn"><i class="fa-solid fa-paper-plane"></i> ابعت للأدمن</button>
+    <button class="btn full lg" id="startBtn"><i class="fa-solid fa-paper-plane"></i> افتح محادثة مع الإدارة</button>
     <div id="sm" style="font-size:13.5px;font-weight:700;margin-top:12px;min-height:20px;text-align:center"></div>
+    <div class="note">المحادثة دي خاصة بينك وبين الإدارة بس. لما الأدمن يرد هتلاقي رده هنا، ولو عملك كلمة سر جديدة هتوصلك في نفس المحادثة.</div>
   </div>
-  <div class="card hidden" id="chatCard" style="padding:18px">
-    <div class="th"><div class="av2"><i class="fa-solid fa-headset"></i></div>
-      <div><b id="chWho" style="font-size:15px"></b><br><small style="color:var(--mut)">محادثة خاصة بينك وبين الإدارة</small></div>
-      <button class="btn sm gray" id="newBtn" style="margin-inline-start:auto" type="button"><i class="fa-solid fa-rotate"></i> محادثة جديدة</button>
+  <div class="card chat-shell hidden" id="chatCard">
+    <div class="chat-head">
+      <div class="av2"><i class="fa-solid fa-headset"></i></div>
+      <div><b>الإدارة</b><small id="chSub">بيردوا عليك شخصيًا هنا</small></div>
+      <span class="st">متاح</span>
     </div>
     <div class="ch" id="ch"></div>
-    <div class="cin"><input id="msg" maxlength="500" placeholder="اكتب رسالتك هنا..."><button class="btn" id="sendBtn" type="button"><i class="fa-solid fa-paper-plane"></i></button></div>
-    <div class="note">رد الإدارة بيظهر هنا أول بأول. لما الأدمن يعملك كلمة سر جديدة هيوصلك هنا.</div>
+    <div class="cin">
+      <textarea class="cinput" id="msg" rows="1" maxlength="500" placeholder="اكتب رسالتك هنا..."></textarea>
+      <button class="csend" id="sendBtn" type="button" aria-label="إرسال"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
   </div>
 </main>
 <script src="nav.js"></script>
 <script>
-const $=i=>document.getElementById(i);
+const $=i=>document.getElementById(""+i);
 const KEY="NPH_CHAT_V1";
-let S=null,lastTs="",timer=null;
+let S=null,lastTs="",timer=null,starting=false;
 try{const r=localStorage.getItem(KEY);if(r)S=JSON.parse(r)}catch(e){}
 function saveS(){try{if(S)localStorage.setItem(KEY,JSON.stringify(S));else localStorage.removeItem(KEY)}catch(e){}}
 async function call(action,p){const r=await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({action},p||{}))});const d=await r.json();if(!d.ok)throw new Error(d.error||"خطأ");return d}
-function ago(t){const d=new Date(t);if(isNaN(d))return"";const m=Math.floor((Date.now()-d)/60000);if(m<1)return"الآن";if(m<60)return"منذ "+m+" د";const hr=Math.floor(m/60);if(hr<24)return"منذ "+hr+" س";return d.toLocaleDateString("ar-EG")}
-function showChat(){$("startCard").classList.add("hidden");$("chatCard").classList.remove("hidden");$("chWho").textContent=(S.name||S.username)+" · @"+S.username}
-function showStart(){$("chatCard").classList.add("hidden");$("startCard").classList.remove("hidden")}
+function fmtTime(t){const d=new Date(t);if(isNaN(d))return"";let h=d.getHours();const m=String(d.getMinutes()).padStart(2,"0"),ap=h>=12?"م":"ص";h=h%12||12;return h+":"+m+" "+ap}
+function dayLabel(t){const d=new Date(t);if(isNaN(d))return"";const same=(a,b)=>a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();const y=new Date();y.setDate(y.getDate()-1);
+  if(same(d,new Date()))return"اليوم";if(same(d,y))return"إمبارح";return d.toLocaleDateString("ar-EG",{day:"numeric",month:"long"})}
+let AU=null;try{const r=localStorage.getItem("NPH_AUTH_V1");if(r)AU=JSON.parse(r)}catch(e){}
+const LOGGED=!!(AU&&AU.token&&AU.username);
+
+function showChat(){$("startCard").classList.add("hidden");$("chatCard").classList.remove("hidden")}
 function draw(ms){const b=$("ch");b.innerHTML="";
-  if(!ms.length){b.appendChild(h("div",{class:"empty",style:"margin:auto"},"لسه مفيش رسائل."));return}
-  ms.forEach(m=>{const adm=m.from==="admin";
-    b.appendChild(h("div",{class:"bub "+(adm?"adm":"me")},adm?h("b",null,"الإدارة"):null,document.createTextNode(m.text),h("small",null,ago(m.ts))))});
+  if(!ms.length){const e=h("div",{class:"ch-empty"},ic("fa-comments"),LOGGED?"ابدأ المحادثة مع الإدارة — اسأل أي حاجة.":"لسه مفيش رسائل.");b.appendChild(e);return}
+  let lastDay="";
+  ms.forEach(m=>{const dl=dayLabel(m.ts);if(dl&&dl!==lastDay){lastDay=dl;b.appendChild(h("div",{class:"day"},dl))}
+    const adm=m.from==="admin";
+    b.appendChild(h("div",{class:"bub "+(adm?"adm":"me")},adm?h("b",null,"الإدارة"):null,document.createTextNode(m.text),h("small",null,fmtTime(m.ts))))});
   b.scrollTop=b.scrollHeight}
-async function poll(){if(!S)return;try{const d=await call("stuChatList",{sessionId:S.sid});const ms=d.messages||[];const lt=ms.length?String(ms[ms.length-1].ts)+":"+ms.length:"";
-  if(lt!==lastTs){lastTs=lt;draw(ms)}}catch(e){}}
-async function send(){const t=$("msg").value.trim();if(!t)return;$("sendBtn").disabled=true;
-  try{await call("stuChatSend",{sessionId:S.sid,text:t});$("msg").value="";poll()}catch(e){if(window.toast)window.toast(e.message,true);else alert(e.message)}
-  $("sendBtn").disabled=false}
+async function poll(){if(!S||!S.sid)return;
+  try{const d=await call("stuChatList",{sessionId:S.sid});const ms=d.messages||[];const lt=ms.length?String(ms[ms.length-1].ts)+":"+ms.length:"";
+    if(lt!==lastTs){const had=lastTs;lastTs=lt;draw(ms);
+      if(had&&document.visibilityState==="visible"&&ms.length&&ms[ms.length-1].from==="admin"){call("stuChatRead",{sessionId:S.sid}).catch(()=>{})}}}
+  catch(e){}}
+async function send(){const t=$("msg").value.trim();if(!t||starting)return;$("sendBtn").disabled=true;
+  try{
+    if(!S||!S.sid){
+      if(!LOGGED)return;
+      starting=true;
+      const d=await call("stuChatStart",{username:AU.username,name:AU.name||"",text:t});
+      S={sid:d.sessionId,username:AU.username,name:AU.name||""};saveS();starting=false;
+    }else await call("stuChatSend",{sessionId:S.sid,text:t});
+    $("msg").value="";$("msg").style.height="";poll();
+  }catch(e){if(window.toast)window.toast(e.message==="Failed to fetch"?"اتأكد من النت وجرّب تاني.":e.message,true);else alert(e.message)}
+  starting=false;$("sendBtn").disabled=false}
+$("sendBtn").onclick=send;
+$("msg").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
+$("msg").addEventListener("input",()=>{const m=$("msg");m.style.height="";m.style.height=Math.min(110,m.scrollHeight)+"px"});
+
 $("startBtn").onclick=async()=>{const m=$("sm");
-  let u,nm,text;
-  if(LOGGED){
-    u=AU.username;nm=AU.name||"";text=$("firstMsg").value.trim();
-    if(!text){m.style.color="#c0283a";m.textContent="اكتب رسالتك الأول.";return}
-  }else{
-    u=$("u").value.trim();nm=$("n").value.trim();
-    if(!/^[A-Za-z0-9_.\-]{1,30}$/.test(u)){m.style.color="#c0283a";m.textContent="اكتب اسم المستخدم صح (حروف وأرقام إنجليزي).";return}
-    text="نسيت كلمة السر. اسم المستخدم: @"+u;
-  }
+  const u=$("u").value.trim(),nm=$("n").value.trim();
+  if(!/^[A-Za-z0-9_.\-]{1,30}$/.test(u)){m.style.color="#c0283a";m.textContent="اكتب اسم المستخدم صح (حروف وأرقام إنجليزي).";return}
   $("startBtn").disabled=true;m.style.color="#657689";m.textContent="جاري فتح المحادثة...";
-  try{const d=await call("stuChatStart",{username:u,name:nm,text:text});
+  try{const d=await call("stuChatStart",{username:u,name:nm,text:"نسيت كلمة السر. اسم المستخدم: @"+u});
     S={sid:d.sessionId,username:u,name:nm};saveS();m.textContent="";showChat();poll();timer=setInterval(poll,5000)}
   catch(e){m.style.color="#c0283a";m.textContent=e.message==="Failed to fetch"?"اتأكد من النت وجرّب تاني.":e.message}
   $("startBtn").disabled=false};
-$("sendBtn").onclick=send;
-$("msg").addEventListener("keydown",e=>{if(e.key==="Enter")send()});
-$("newBtn").onclick=()=>{if(!confirm("فتح محادثة جديدة؟ المحادثة الحالية هتتقفل من على الجهاز ده بس."))return;clearInterval(timer);S=null;lastTs="";saveS();showStart()};
-let AU=null;try{const r=localStorage.getItem("NPH_AUTH_V1");if(r)AU=JSON.parse(r)}catch(e){}
-const LOGGED=!!(AU&&AU.token&&AU.username);
-if(LOGGED){
-  document.querySelector("#startCard .sect").innerHTML='<i class="fa-solid fa-comments"></i><div>محادثة مع الإدارة<small>اكتب رسالتك وهتوصل للأدمن فورًا، وردّه بيظهرلك هنا أول بأول</small></div>';
-  $("u").closest(".field").classList.add("hidden");
-  $("n").closest(".field").classList.add("hidden");
-  $("f-first").classList.remove("hidden");
-  $("startBtn").innerHTML='<i class="fa-solid fa-paper-plane"></i> ابعت رسالتك';
-}
+
 const q=new URLSearchParams(location.search).get("u");if(q)$("u").value=q;
-if(S&&S.sid){showChat();poll();timer=setInterval(poll,5000)}
+
+if(LOGGED){
+  document.getElementById("heroP").textContent="محادثتك الخاصة مع إدارة المنصة — الرد بيظهر هنا أول بأول.";
+  (async()=>{showChat();const b=$("ch");b.innerHTML="";b.appendChild(h("div",{class:"ch-empty"},ic("fa-spinner fa-spin"),"جاري فتح محادثتك..."));
+    try{
+      const d=await call("stuChatOpen",{token:AU.token});
+      S={sid:d.sessionId,username:AU.username,name:AU.name||""};saveS();
+      lastTs=(d.messages&&d.messages.length)?String(d.messages[d.messages.length-1].ts)+":"+d.messages.length:"";
+      draw(d.messages||[]);
+      timer=setInterval(poll,5000);
+    }catch(e){
+      if(/سجل دخولك|خلصت|متوقف/.test(e.message)){localStorage.removeItem("NPH_AUTH_V1");location.reload();return}
+      b.innerHTML="";b.appendChild(h("div",{class:"ch-empty"},ic("fa-triangle-exclamation"),"تعذر فتح المحادثة. اتأكد من النت وحدّث الصفحة."));
+    }})();
+}else{
+  document.getElementById("heroT").textContent="نسيت كلمة السر؟";
+  document.getElementById("heroP").textContent="افتح محادثة مع الإدارة وهيتم الرد عليك هنا شخصيًا.";
+  if(S&&S.sid){showChat();poll();timer=setInterval(poll,5000)}
+}
 </script></body></html>
