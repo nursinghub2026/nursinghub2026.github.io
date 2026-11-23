@@ -110,7 +110,7 @@ body{background:#eef3f7}
 .ach-in:focus{border-color:var(--ac,#0e8f94);background:#fff}
 .ach-send{width:44px;height:44px;flex:none;border:none;border-radius:50%;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;font-size:15px;cursor:pointer;display:grid;place-items:center}
 .ach-send i{transform:scaleX(-1)}
-</style><link rel="stylesheet" href="admin-layout.css"></head><body>
+</style><link rel="stylesheet" href="admin-layout.css"><link rel="stylesheet" href="community.css"></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
 
@@ -602,4 +602,4 @@ async function loadLog(){const b=$("lgl");b.innerHTML="";b.appendChild(h("div",{
     b.appendChild(t)}catch(e){b.innerHTML="";b.appendChild(h("div",{class:"empty"},"السجل غير متاح."))}}
 
 if(PW&&AD)start();
-</script><script src="banner-studio.js"></script></body></html>
+</script><script src="banner-studio.js"></script><script src="community.js"></script><script>const originalCommunityDash=renderDash;renderDash=function(){originalCommunityDash();if(window.NPHCommunity)NPHCommunity.admin(document.getElementById("v-dash"));};if(PW&&AD&&V==="dash")renderDash();</script></body></html>
