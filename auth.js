@@ -9,6 +9,8 @@
   let A = null;
   try { const r = localStorage.getItem(KEY); if (r) A = JSON.parse(r); } catch (e) {}
 
+  function escapeText(v) { return String(v||'').replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  async function displayProfile(){const d=await call('stuDisplayProfile',{token:A.token});if(d.profileVersion!==1)throw new Error('تعديل الاسم محتاج تفعيل الإدارة بعد المراجعة');A.name=d.name;saveA();return d;}
   function saveA() {
     try { if (A) localStorage.setItem(KEY, JSON.stringify(A)); else localStorage.removeItem(KEY); } catch (e) {}
   }
@@ -88,6 +90,7 @@
 
   async function pullAndMerge() {
     const d = await call("stuGet", { token: A.token });
+    try{await displayProfile();}catch(e){}
     let local = null;
     try { local = JSON.parse(localStorage.getItem("NPH_PROGRESS_V1") || "null"); } catch (e) {}
     const merged = mergeProgress(local, d.progress);
@@ -296,14 +299,13 @@
       '<button class="ax" id="ax"><i class="fas fa-times"></i></button>' +
       '<div class="aacc">' +
       '<div class="aavatar"><i class="fas fa-user-graduate"></i></div>' +
-      '<div class="aacc-name">' + (hasName ? A.name : A.username) + "</div>" +
-      (hasName ? '<div class="aacc-user">@' + A.username + "</div>" : "") +
+      '<div class="aacc-name">' + (hasName ? escapeText(A.name) : escapeText(A.username)) + "</div>" +
+      (hasName ? '<div class="aacc-user">@' + escapeText(A.username) + "</div>" : "") +
       "</div>" +
       '<div class="aerr" id="aerr"></div>' +
-      (hasName ? "" :
-        '<div class="aname-set"><label>ضيف اسمك الكامل — هيظهر هنا وللأدمن</label>' +
-        '<input class="ainput" id="a-newname" maxlength="60" placeholder="اسمك بالكامل">' +
-        '<button class="aname-btn" id="a-namesave">حفظ الاسم</button></div>') +
+      (        '<div class="aname-set"><label>تعديل اسم العرض فقط</label>' +
+        '<input class="ainput" id="a-newname" maxlength="60" placeholder="اسمك بالكامل" aria-label="اسم العرض">' +
+        '<small>اسمك بيظهر مع تعليقاتك الجديدة. اسم المستخدم وكلمة السر والصلاحيات مش هيتغيروا. مرة كل 24 ساعة.</small><button class="aname-btn" id="a-namesave" disabled>جاري التحقق...</button><small id="a-name-status" role="status"></small></div>') +
       '<div class="aprog">' +
       '<div class="aprog-top"><span>تقدّمك في المنهج</span><b id="aprogPct">' + done + ' عنصر</b></div>' +
       '<div class="abar"><i id="aprogBar"></i></div>' +
@@ -346,13 +348,15 @@
     el.querySelector("#a-logout").onclick = function () { close(); setTimeout(logout, 150); };
     const sv = el.querySelector("#a-namesave");
     if (sv) {
+      const nameInput=el.querySelector('#a-newname'),nameStatus=el.querySelector('#a-name-status');nameInput.value=A.name||'';
+      const currentCard=el;displayProfile().then(()=>{if(el!==currentCard)return;nameInput.value=A.name||'';sv.disabled=false;sv.textContent='حفظ الاسم';}).catch(()=>{if(el!==currentCard)return;sv.disabled=true;sv.textContent='التعديل غير متاح بعد';nameStatus.textContent='تعديل الاسم يحتاج تفعيل السيرفر بعد المراجعة. باقي حسابك شغال.';});
       sv.onclick = async function () {
         const nm = el.querySelector("#a-newname").value.trim();
         const err = el.querySelector("#aerr");
         if (nm.length < 3) { err.textContent = "اكتب اسمك الكامل (٣ حروف على الأقل)"; err.classList.add("show"); return; }
         sv.disabled = true; sv.textContent = "لحظة...";
         try {
-          const d = await call("stuSetName", { token: A.token, name: nm });
+          const d = await call("stuDisplayNameUpdate", { token: A.token, name: nm });
           A.name = d.name; saveA(); close();
           if (window.toast) toast("اتحفظ اسمك يا " + d.name, "ok");
           setTimeout(openAccount, 220);
