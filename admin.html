@@ -110,11 +110,11 @@ body{background:#eef3f7}
 .ach-in:focus{border-color:var(--ac,#0e8f94);background:#fff}
 .ach-send{width:44px;height:44px;flex:none;border:none;border-radius:50%;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;font-size:15px;cursor:pointer;display:grid;place-items:center}
 .ach-send i{transform:scaleX(-1)}
-</style><link rel="stylesheet" href="admin-layout.css"><link rel="stylesheet" href="theory-extras.css"><link rel="stylesheet" href="community.css"></head><body>
+</style><link rel="stylesheet" href="admin-layout.css"><link rel="stylesheet" href="theory-extras.css"><link rel="stylesheet" href="community.css"><script src="theme.js"></script><link rel="stylesheet" href="theme.css"></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
 
-<div class="lgx" id="login"><form class="lgc" id="lf">
+<div class="lgx" id="login"><form class="lgc" id="lf"><button class="theme-control" type="button" data-theme-toggle><i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i> المظهر</button>
   <div class="mk"><i class="fa-solid fa-user-doctor"></i></div>
   <h1>FOUNDATIONS</h1><p>لوحة إدارة المنصة. اكتب اسمك الثلاثي وكلمة المرور. اسمك بيتسجل في سجل المشرفين فقط ولا يظهر للطلاب.</p>
   <div class="field"><label>الاسم الثلاثي</label><input id="nmI" required maxlength="60" placeholder="اسمك واسم الأب واسم الجد"></div>
@@ -128,7 +128,7 @@ body{background:#eef3f7}
       <div class="gb"></div>
       <div><span class="cap">ADMIN PANEL</span><b>لوحة الإدارة</b><span class="who" id="who"></span></div>
     </div>
-    <div class="tb">
+    <div class="tb"><button class="theme-control" type="button" data-theme-toggle><i class="fa-solid fa-circle-half-stroke" aria-hidden="true"></i> المظهر</button>
       <a class="tbtn" href="index.html"><i class="fa-solid fa-house"></i> الموقع</a>
       <button class="tbtn out" id="out" type="button"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
     </div>
@@ -478,7 +478,7 @@ function itemSheet(it){const l=cur();if(!l)return;
       closeSheet();toast("تم الحفظ.");renderMan();if(notice)await notice.send("Lecture.html?id="+encodeURIComponent(l.id))}catch(e){toast(net(e),true)}busy(false)}},ic("fa-floppy-disk"),"حفظ المحتوى");
   openSheet((it?"تعديل محتوى":"إضافة محتوى")+" - "+secs(l)[tab][0],[
     h("div",{class:"field"},h("label",null,"العنوان"),ti),h("div",{class:"field"},h("label",null,"الوصف"),de),
-    h("div",{class:"field"},h("label",null,"الملف"),drop,it&&it.file?h("small",{style:"color:#80621c;font-weight:700"},"الملف الحالي: "+it.file.name+" (سيبه فاضي للاحتفاظ بيه)"):null),notice?notice.node:null,sv])}
+    h("div",{class:"field"},h("label",null,"الملف"),drop,it&&it.file?h("small",{style:"color:var(--warning-text);font-weight:700"},"الملف الحالي: "+it.file.name+" (سيبه فاضي للاحتفاظ بيه)"):null),notice?notice.node:null,sv])}
 
 const SFL=[["all","الكل"],["open","بدون رد"],["done","تم الرد"]];
 function sgChips(){const b=$("sgFl");b.innerHTML="";SFL.forEach(f=>{const n=f[0]==="all"?SG.length:SG.filter(s=>f[0]==="open"?!s.reply:!!s.reply).length;
@@ -533,7 +533,7 @@ async function openChat(c){busy(true);let d;try{d=await api("adminChatRead",{ses
         try{const d2=await api("stuResetPw",{username:c.username});busy(false);
           openSheet("كلمة السر الجديدة",[
             h("p",{style:"text-align:center;color:var(--mut);font-size:13px"},"دي كلمة السر الجديدة لـ @"+c.username+". ابعتها له في المحادثة — مش هتظهر تاني:"),
-            h("div",{style:"direction:ltr;text-align:center;font-size:22px;font-weight:900;letter-spacing:2px;background:#f3f6fb;border-radius:14px;padding:16px;margin:10px 0"},d2.password),
+            h("div",{style:"direction:ltr;text-align:center;font-size:22px;font-weight:900;letter-spacing:2px;background:var(--surface-raised);border-radius:14px;padding:16px;margin:10px 0"},d2.password),
             h("button",{class:"btn",style:"width:100%;justify-content:center",onclick:async ev=>{try{await navigator.clipboard.writeText(d2.password);ev.currentTarget.textContent="اتنسخت ✓"}catch(_){toast("انسخها يدويًا",true)}}},"نسخ كلمة السر")])}
         catch(e){busy(false);toast(net(e),true)}}},ic("fa-key"),"كلمة سر جديدة"))])}
 
@@ -586,7 +586,7 @@ async function stuReset(x){if(!confirm("توليد كلمة سر جديدة لل
   try{const d=await api("stuResetPw",{username:x.username});busy(false);
     openSheet("كلمة السر الجديدة",[
       h("p",{style:"text-align:center;color:var(--mut);font-size:13px"},"دي كلمة السر الجديدة للطالب "+(x.name||x.username)+". ابعتهاله — مش هتظهر تاني:"),
-      h("div",{style:"direction:ltr;text-align:center;font-size:22px;font-weight:900;letter-spacing:2px;background:#f3f6fb;border-radius:14px;padding:16px;margin:10px 0"},d.password),
+      h("div",{style:"direction:ltr;text-align:center;font-size:22px;font-weight:900;letter-spacing:2px;background:var(--surface-raised);border-radius:14px;padding:16px;margin:10px 0"},d.password),
       h("button",{class:"btn",style:"width:100%;justify-content:center",onclick:async e=>{try{await navigator.clipboard.writeText(d.password);e.currentTarget.textContent="اتنسخت ✓"}catch(_){toast("انسخها يدويًا",true)}}},"نسخ كلمة السر")])}
   catch(e){busy(false);toast(net(e),true)}}
 async function stuToggle(x){const dis=x.status!=="active";

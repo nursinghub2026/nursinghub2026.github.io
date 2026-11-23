@@ -37,7 +37,7 @@
 .wt{margin-top:14px;font-size:12.5px;color:var(--mut);display:flex;align-items:center;gap:8px}
 #m{font-size:14px;font-weight:700;margin-top:12px;min-height:22px;text-align:center}
 .hp{position:absolute;width:0;height:0;opacity:0;pointer-events:none}
-</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="mobile.css"></head><body>
+</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="mobile.css"><script src="theme.js"></script><link rel="stylesheet" href="theme.css"></head><body>
 <div class="ph" style="background:linear-gradient(160deg,#08172b,#0d2f4a 55%,#0e8f94)"><div class="k"><i class="fa-solid fa-comments"></i> YOUR VOICE</div><h1>الاقتراحات والاستفسارات</h1><p>عندك سؤال أو فكرة؟ ابعتها وإحنا بنقرأ كل رسالة وبنرد عليها.</p></div>
 <main class="wrap"><div class="cols">
   <form class="card fm" id="f">
@@ -82,12 +82,12 @@ async function load(){try{const d=await(await fetch(API+"?suggestions=1")).json(
 $("ms").oninput=()=>{$("cc").textContent=$("ms").value.length+" / 440"};
 $("f").onsubmit=async e=>{e.preventDefault();const b=$("sb"),m=$("m");
   const type=(document.querySelector('input[name="ty"]:checked')||{}).value||"اقتراح";
-  const msg=$("ms").value.trim();if(msg.length<3){m.style.color="#c0283a";m.textContent="اكتب رسالتك الأول.";return}
-  b.disabled=true;m.style.color="#657689";m.textContent="جاري الإرسال...";
+  const msg=$("ms").value.trim();if(msg.length<3){m.style.color="var(--danger-text)";m.textContent="اكتب رسالتك الأول.";return}
+  b.disabled=true;m.style.color="var(--mut)";m.textContent="جاري الإرسال...";
   const body={action:"suggest",type:type==="استفسار"?"اقتراح":type,name:$("nm").value,message:type==="استفسار"?"[استفسار] "+msg:msg,website:$("wb").value};
   try{const d=await(await fetch(API,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)})).json();
-    if(!d.ok)throw new Error(d.error);e.target.reset();$("cc").textContent="0 / 440";m.style.color="#17844f";m.textContent="وصلتنا رسالتك، شكرًا ليك. هنرد عليك هنا في أقرب وقت.";load()}
-  catch(err){m.style.color="#c0283a";m.textContent=err.message==="Failed to fetch"?"اتأكد من النت وجرّب تاني.":err.message}
+    if(!d.ok)throw new Error(d.error);e.target.reset();$("cc").textContent="0 / 440";m.style.color="var(--success-text)";m.textContent="وصلتنا رسالتك، شكرًا ليك. هنرد عليك هنا في أقرب وقت.";load()}
+  catch(err){m.style.color="var(--danger-text)";m.textContent=err.message==="Failed to fetch"?"اتأكد من النت وجرّب تاني.":err.message}
   b.disabled=false};
 chips();load();
 </script></body></html>

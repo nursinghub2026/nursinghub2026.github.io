@@ -1,0 +1,156 @@
+/* Shared semantic palette. Brand colors stay separate from readable text and controls.
+   Keep this sheet after page styles. Never recolor lesson frames, photos or canvases. */
+:root {
+  color-scheme:light;
+  --surface:#fff; --surface-raised:#f3f7fa; --surface-input:#fff;
+  --text-primary:#132b40; --text-secondary:#425b70; --text-muted:#526579;
+  --border-ui:#bac9d5; --accent-text:#086e73; --accent-fill:#08777c;
+  --accent-fill-end:#09676d; --on-accent:#fff; --focus-ring:#94701e;
+  --danger-text:#a71f35; --danger-surface:#fdecee;
+  --success-text:#126b40; --success-surface:#e4f6ec;
+  --warning-text:#765313; --warning-surface:#fff5dc;
+  --mut:var(--text-muted);
+}
+html[data-theme=dark] {
+  color-scheme:dark;
+  --bg:#0a1626; --surface:#12263b; --surface-raised:#1b344b; --surface-input:#0d1e30;
+  --text-primary:#eef4fa; --text-secondary:#c4d4e2; --text-muted:#a6bacd;
+  --border-ui:#59738a; --accent-text:#75e0db; --accent-fill:#086e73;
+  --accent-fill-end:#075a60; --on-accent:#fff; --focus-ring:#f0d58a;
+  --danger-text:#ffb5c0; --danger-surface:#432331;
+  --success-text:#99e3b8; --success-surface:#153d32;
+  --warning-text:#f0d58a; --warning-surface:#3a301c;
+  --txt:var(--text-primary); --txt2:var(--text-secondary); --txt3:var(--text-muted);
+  --ink:var(--text-primary); --ink2:var(--text-secondary); --mut:var(--text-muted);
+  --card:var(--surface); --border:var(--border-ui); --line:#345067; --acs:#15383e;
+  --sh:0 10px 30px #0005; --sh2:0 18px 44px #0008;
+}
+html[data-theme=dark] body.theory {
+  --ac:#6b4fb3; --ac2:#9a7fe0; --acs:#2a2949;
+  --accent-text:#d4bfff; --accent-fill:#58418b; --accent-fill-end:#463270;
+}
+html[data-theme=dark] body { background:var(--bg); color:var(--text-primary); }
+/* Explicit foreground/background pairs prevent white-on-white inherited ink. */
+.btn:not(.ghost):not(.gold):not(.red):not(.dark):not(.glass) {
+  background:linear-gradient(135deg,var(--accent-fill),var(--accent-fill-end)); color:var(--on-accent);
+}
+html[data-theme=dark] :is(.card,.sb,.sheet,.item,.lc,.lcm,.pcont,.pnotec,.tp,.it,.lgc,.st,.blk,.lr,.sgc,.tabbar,.admin-summary,.admin-location,.banner-studio,.b) {
+  background:var(--surface); color:var(--text-primary); border-color:var(--line);
+}
+html[data-theme=dark] :is(.btn.ghost,.mvb,.admin-back,.admin-actions button,.tabs2 button,.topt,.pre button) {
+  background:var(--surface-raised); color:var(--text-primary); border-color:var(--border-ui);
+}
+html[data-theme=dark] :is(.btn.dark,.toast,.tabs2 button.on,.admin-actions button:first-child) {
+  background:#23465d; color:#fff; border-color:var(--border-ui);
+}
+html[data-theme=dark] .toast.bad {background:#8d2338;color:#fff}
+html[data-theme=dark] .btn.red {background:var(--danger-surface);color:var(--danger-text)}
+html[data-theme=dark] :is(input,select,textarea,.cin .cinput,.ach-in,.banner-studio input) {
+  background:var(--surface-input); color:var(--text-primary); border-color:var(--border-ui);
+}
+html[data-theme=dark] :is(input,textarea)::placeholder {color:var(--text-muted);opacity:1}
+html[data-theme=dark] :is(input,select,textarea):focus {border-color:var(--focus-ring);box-shadow:0 0 0 3px #f0d58a26}
+html[data-theme=dark] input {accent-color:var(--accent-text)}
+html[data-theme=dark] option {background:var(--surface-input);color:var(--text-primary)}
+html[data-theme=dark] :focus-visible {outline:3px solid var(--focus-ring);outline-offset:3px}
+html[data-theme=dark] :is(.seg,.tw,.fc,.mi,.cin,.ach-box,.sgc .msg,.ty span,.it em,.tabs2 em) {
+  background:var(--surface-raised); color:var(--text-secondary); border-color:var(--line);
+}
+html[data-theme=dark] :is(.seg button,.tabbar button,.tab,.chip) {color:var(--text-secondary)}
+html[data-theme=dark] .seg button.on {background:#2c4a60;color:#fff;box-shadow:none}
+html[data-theme=dark] .tab {background:var(--surface);border-color:var(--line)}
+html[data-theme=dark] :is(.tab.on,.tabbar button.on,.ty input:checked+span) {
+  background:linear-gradient(135deg,var(--accent-fill),var(--accent-fill-end));color:#fff;border-color:var(--border-ui);
+}
+html[data-theme=dark] .tab.on em {background:#ffffff26;color:#fff}
+html[data-theme=dark] :is(.tab.tab-empty,.lec-extra-chip.is-empty) {opacity:1}
+html[data-theme=dark] .chip {background:var(--surface);border-color:var(--border-ui)}
+html[data-theme=dark] :is(.chip.on,.pre button.on) {background:var(--gold2);color:#352608;border-color:var(--gold2)}
+html[data-theme=dark] :is(.pill,.en,.ppct,.pcn,.pil,.mn,.plb>.row>span,.sts b,.lec-extra-chip,.tab em,.topt.practical i,.sect>div>i) {color:var(--accent-text)}
+html[data-theme=dark] .pill {background:var(--acs)}
+html[data-theme=dark] .pill.gold {background:var(--warning-surface);color:var(--warning-text)}
+html[data-theme=dark] .pill.green {background:var(--success-surface);color:var(--success-text)}
+html[data-theme=dark] .pill.red {background:var(--danger-surface);color:var(--danger-text)}
+html[data-theme=dark] .pill.vio {background:#312a4b;color:#d4bfff}
+html[data-theme=dark] .pill.gray {background:var(--surface-raised);color:var(--text-secondary)}
+html[data-theme=dark] .pill.teal {background:#15383e;color:#75e0db}
+html[data-theme=dark] :is(.item p,.tp p,.lg2 span,.tx2,.admin-location b,.admin-summary summary,.banner-studio h3) {color:var(--text-primary)}
+html[data-theme=dark] :is(.admin-location small,.banner-studio p,.banner-studio small,.ha-publisher small,.ha-meta time,.ha-excerpt,.ha-post-foot>span) {color:var(--text-muted)}
+html[data-theme=dark] .topt.theory i {color:#d4bfff}
+html[data-theme=dark] .topt.practical.on {background:#15383e;border-color:#75e0db}
+html[data-theme=dark] .topt.theory.on {background:#312a4b;border-color:#d4bfff}
+html[data-theme=dark] :is(.drop,.drop:hover,.sh-h button,.cp-comment-avatar,.bdg2 .bi2) {background:var(--surface-raised);color:var(--text-secondary);border-color:var(--border-ui)}
+html[data-theme=dark] .tp.hl {background:var(--danger-surface)}
+html[data-theme=dark] :is(.hint,.bdg2.got) {background:var(--warning-surface);color:var(--warning-text);border-color:#8c743e}
+html[data-theme=dark] :is(.banner-studio output,.vlab) {color:var(--warning-text)}
+html[data-theme=dark] :is(.banner-studio #bannerError,.err,.pdang button) {color:var(--danger-text)}
+html[data-theme=dark] :is(.wk div,.bdg2) {background:var(--surface-raised);color:var(--text-muted)}
+html[data-theme=dark] .bdg2 b {color:var(--text-secondary)}
+html[data-theme=dark] .bdg2.got b {color:var(--warning-text)}
+html[data-theme=dark] .wk div.on {background:var(--acs);color:var(--accent-text)}
+html[data-theme=dark] .ring .bg {stroke:var(--border-ui)}
+/* Home and bulletin board use the same dark surfaces, not a pale card override. */
+html[data-theme=dark] .hero .ht {background:linear-gradient(180deg,#122c40,#17394b)}
+html[data-theme=dark] .hero .un {color:var(--text-primary)}
+html[data-theme=dark] .hero .un span+span {background:none;color:var(--text-primary);-webkit-text-fill-color:var(--text-primary)}
+html[data-theme=dark] .hero .fn {color:#90e3df}
+html[data-theme=dark] .hero .logos img {mix-blend-mode:normal;background:#f7fafb;border-radius:14px;padding:5px}
+html[data-theme=dark] .hero .home-brand-title {background:linear-gradient(180deg,#17394b,#102c42)}
+html[data-theme=dark] .home-announcements {background:var(--bg);border-color:var(--line)}
+html[data-theme=dark] :is(.ha-post,.ha-state) {background:var(--surface);color:var(--text-primary);border-color:var(--line)}
+html[data-theme=dark] :is(.ha-post h3,.ha-publisher b) {color:var(--text-primary)}
+html[data-theme=dark] :is(.ha-meta time,.ha-avatar) {background:var(--surface-raised)}
+html[data-theme=dark] .ha-avatar {color:var(--gold2)}
+html[data-theme=dark] :is(.ha-meta,.ha-post-foot) {border-color:var(--line)}
+html[data-theme=dark] :is(.ha-post-foot>b,.ha-retry) {color:var(--gold2)}
+/* Social and private-message controls. Authored photo/text styles stay intact. */
+html[data-theme=dark] :is(.cp-social-actions button:hover,.cp-status) {color:var(--warning-text)}
+html[data-theme=dark] #sh:has(.cp-selected-preview) {background:var(--surface)!important;color:var(--text-primary)}
+html[data-theme=dark] :is(.day,.ach-day) {background:var(--surface-raised);color:var(--text-secondary)}
+html[data-theme=dark] :is(.bub.adm,.ach-bub.stu) {background:var(--warning-surface);color:#f7e9c2}
+html[data-theme=dark] :is(.bub.adm b,.ach-bub.stu b) {color:#f0d58a}
+html[data-theme=dark] :is(.bub small,.ach-bub small) {opacity:1}
+html[data-theme=dark] .bub.adm small {color:#d8c591}
+html[data-theme=dark] :is(.bub.me,.ach-bub.adm) {background:#075d63;color:#fff}
+html[data-theme=dark] :is(.csend,.ach-send) {background:#08686e;color:#fff}
+html[data-theme=dark] :is(.rp,.tp .tic) {background:#15383e;color:#75e0db}
+html[data-theme=dark] .rp .rh b {color:#75e0db}
+html[data-theme=dark] .rp p {color:var(--text-primary)}
+html[data-theme=dark] .aov {--txt3:var(--text-muted)}
+.theme-control {display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:9px 12px;border:1px solid #d4af5a88;border-radius:12px;background:#102c42;color:#f0d58a;font:700 12px Cairo,sans-serif;cursor:pointer}
+.lgc>.theme-control {display:flex;margin:0 auto 16px}
+@media(prefers-reduced-motion:reduce) {.theme-control {transition:none}}
+
+/* Keep decorative fills dark too. Text accents must never become gradient stops. */
+html[data-theme=dark] :is(.fc .fi,.pdone,.pfav) {background:var(--surface-raised);color:var(--accent-text);border-color:var(--border-ui)}
+html[data-theme=dark] :is(.pdone.on,.pfav.on) {background:var(--warning-surface);color:var(--warning-text)}
+html[data-theme=dark] :is(.pnoteh,.pnoteh small,.plpt) {color:var(--text-secondary)}
+html[data-theme=dark] .pbar {background:var(--surface-raised)}
+html[data-theme=dark] .band {background:linear-gradient(135deg,#075b64,#102b40)}
+html[data-theme=dark] body.theory .band {background:linear-gradient(135deg,#514079,#162239)}
+html[data-theme=dark] .ph {background:linear-gradient(160deg,#0a1b2d,#12384c 60%,#08636b)}
+html[data-theme=dark] body.theory .ph {background:linear-gradient(160deg,#130f2b,#2c2260 60%,#514079)}
+html[data-theme=dark] :is(.feat,.phero,.lh,.gr,.mot) {background:linear-gradient(145deg,#0c2339,#123b50 65%,#085b63)}
+html[data-theme=dark] body.theory .lh {background:linear-gradient(145deg,#130f2b,#2c2260 60%,#514079)}
+html[data-theme=dark] .tr.t1 {background:linear-gradient(145deg,#30255d,#514079)}
+html[data-theme=dark] .tr.t2 {background:linear-gradient(145deg,#084b5c,#08636b)}
+html[data-theme=dark] .pcont .pci {background:#08636b}
+html[data-theme=dark] :is(.ty span i,.sect>i+div i,.te-admin-row a) {color:var(--accent-text)}
+html[data-theme=dark] .ty input:checked+span i {color:#fff}
+html[data-theme=dark] .te-step {border-color:var(--border-ui)}
+html[data-theme=dark] .te-progress {background:var(--surface-raised)}
+html[data-theme=dark] .te-kind-tabs button[aria-pressed=true] {background:var(--warning-surface);color:var(--warning-text);border-color:#8c743e}
+html[data-theme=dark] .aov {--txt3:#a6bacd}
+/* Retain light-mode readability while the same components share their palette. */
+html:not([data-theme=dark]) :is(.pcn,.ppct,.plb>.row>span,.en,.wk div.on) {color:var(--accent-text)}
+html:not([data-theme=dark]) .pill.teal {color:var(--accent-text)}
+html:not([data-theme=dark]) .pill.green {color:var(--success-text)}
+html:not([data-theme=dark]) .bdg2 b {color:var(--text-secondary)}
+html:not([data-theme=dark]) :is(.ha-publisher small,.ha-meta time,.ha-excerpt,.ha-post-foot>span) {color:var(--text-muted)}
+html:not([data-theme=dark]) .bub.adm b {color:#7d5b10}
+html:not([data-theme=dark]) .bub.adm small {color:#705f37;opacity:1}
+/* Preserve light text on dark lecture headers; .en is not always a list label. */
+html:not([data-theme=dark]) .lh .en {color:#bfeff0}
+html:not([data-theme=dark]) body.theory .lh .en {color:#d9c8f5}
+html:not([data-theme=dark]) .pill:not(.gold):not(.green):not(.red):not(.vio):not(.gray) {color:var(--accent-text)}
+html:not([data-theme=dark]) .lh .mp .pill {color:#fff}

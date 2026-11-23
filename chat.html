@@ -33,7 +33,7 @@
 .csend i{transform:scaleX(-1)}
 .start-card{padding:24px 22px}
 .note{margin-top:12px;font-size:12px;color:var(--mut);text-align:center;line-height:1.8;padding:0 8px 4px}
-</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="mobile.css"></head><body>
+</style><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><link rel="stylesheet" href="mobile.css"><script src="theme.js"></script><link rel="stylesheet" href="theme.css"></head><body>
 <div class="ph" id="hero" style="background:linear-gradient(160deg,#08172b,#0d2f4a 55%,#b8862d)"><div class="k"><i class="fa-solid fa-headset"></i> SUPPORT</div><h1 id="heroT">مراسلة الإدارة</h1><p id="heroP">محادثة مباشرة بينك وبين إدارة المنصة — اسأل أي حاجة والرد بيظهر هنا أول بأول.</p></div>
 <main class="wrap" style="max-width:640px">
   <div class="card start-card" id="startCard">
@@ -101,11 +101,11 @@ $("msg").addEventListener("input",()=>{const m=$("msg");m.style.height="";m.styl
 
 $("startBtn").onclick=async()=>{const m=$("sm");
   const u=$("u").value.trim(),nm=$("n").value.trim();
-  if(!/^[A-Za-z0-9_.\-]{1,30}$/.test(u)){m.style.color="#c0283a";m.textContent="اكتب اسم المستخدم صح (حروف وأرقام إنجليزي).";return}
-  $("startBtn").disabled=true;m.style.color="#657689";m.textContent="جاري فتح المحادثة...";
+  if(!/^[A-Za-z0-9_.\-]{1,30}$/.test(u)){m.style.color="var(--danger-text)";m.textContent="اكتب اسم المستخدم صح (حروف وأرقام إنجليزي).";return}
+  $("startBtn").disabled=true;m.style.color="var(--mut)";m.textContent="جاري فتح المحادثة...";
   try{const d=await call("stuChatStart",{username:u,name:nm,text:"نسيت كلمة السر. اسم المستخدم: @"+u});
     S={sid:d.sessionId,username:u,name:nm};saveS();m.textContent="";showChat();poll();timer=setInterval(poll,5000)}
-  catch(e){m.style.color="#c0283a";m.textContent=e.message==="Failed to fetch"?"اتأكد من النت وجرّب تاني.":e.message}
+  catch(e){m.style.color="var(--danger-text)";m.textContent=e.message==="Failed to fetch"?"اتأكد من النت وجرّب تاني.":e.message}
   $("startBtn").disabled=false};
 
 const q=new URLSearchParams(location.search).get("u");if(q)$("u").value=q;
