@@ -165,6 +165,32 @@ body{background:#eef3f7}
 .nphA-days{display:flex;flex-wrap:wrap;gap:6px}
 .nphA-day{border:1.5px solid var(--line);background:var(--card,#fff);color:var(--mut);border-radius:999px;padding:6px 12px;font:inherit;font-size:11px;font-weight:800;cursor:pointer;transition:.15s}
 .nphA-day.on{background:rgba(212,175,90,.14);border-color:rgba(212,175,90,.55);color:#8a6a1c}
+@media(max-width:760px){#lecs{padding-bottom:110px}}
+.stuc{padding:16px;margin-bottom:12px;border:1px solid var(--line);border-radius:20px;box-shadow:0 2px 10px rgba(8,23,43,.05);transition:transform .18s,box-shadow .18s}
+.stuc:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(8,23,43,.10)}
+.pstep{display:flex;align-items:center;gap:8px;margin:16px 0 10px;font-weight:900;font-size:13.5px;color:var(--ink)}
+.pstep:first-child{margin-top:0}
+.pstep b{width:24px;height:24px;flex:none;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--teal),#0b2540);color:#fff;font-size:12px}
+.pstep small{color:var(--mut);font-weight:600;font-size:11.5px;margin-inline-start:2px}
+.plr{display:flex;align-items:center;gap:10px;padding:9px 2px;border-bottom:1px dashed var(--line)}
+.plr:last-child{border-bottom:0}
+.plr-ic{width:32px;height:32px;flex:none;border-radius:10px;display:grid;place-items:center;background:rgba(14,143,148,.12);color:var(--teal);font-size:14px}
+.plr-tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.plr-tx b{font-size:13px;overflow-wrap:anywhere}
+.plr-tx small{color:var(--mut);font-weight:600;font-size:11.5px}
+.plr-n{display:flex;flex-direction:column;gap:2px;align-items:flex-end;flex:none}
+.plr-n em{font-style:normal;font-size:11px;font-weight:800}
+.plr-n .ok{color:#198754}.plr-n .bad{color:#b02a37}
+.stuc-top{display:flex;align-items:center;gap:10px}
+.stuc-av{width:44px;height:44px;flex:none;border-radius:14px;display:grid;place-items:center;font-weight:900;font-size:16px;color:#fff;background:linear-gradient(135deg,var(--teal),#0b2540)}
+.stuc-av.off{background:linear-gradient(135deg,#94a3b8,#64748b)}
+.stuc-id{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.stuc-id b{font-size:15px}
+.stuc-id small{color:var(--mut);font-size:12px}
+.stuc-stats{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;color:var(--mut);font-size:12.5px;font-weight:600}
+.stuc-stats i{margin-inline-end:5px;color:var(--teal);font-size:12px}
+.stuc-note{color:var(--mut);font-size:12px;font-weight:700;margin:0 2px 10px}
+.lgday{font-weight:900;font-size:12.5px;color:var(--mut);padding:12px 4px 5px;border-bottom:1.5px solid var(--line);margin-top:4px}
 </style><link rel="stylesheet" href="admin-layout.css"><link rel="stylesheet" href="theory-extras.css"><link rel="stylesheet" href="community.css"><script src="theme.js"></script><link rel="stylesheet" href="theme.css"></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
@@ -200,7 +226,7 @@ body{background:#eef3f7}
     <div class="admin-location"><div><b id="adminPageTitle">نظرة عامة</b><small id="adminPageHint">اختار المهمة اللي عايز تنجزها</small></div><button class="admin-back hidden" id="adminBack" type="button">رجوع للمحاضرات</button></div>
     <section id="v-dash"></section>
     <section id="v-lec" class="hidden">
-      <div class="fl"><input id="fq" placeholder="دوّر على محاضرة..."><span class="pill gray" id="lcnt" style="align-self:center"></span></div>
+      <div class="fl"><input id="fq" placeholder="دوّر على محاضرة..."><span class="pill gray" id="lcnt" style="align-self:center;flex:none"></span></div>
       <div class="seg" id="trSeg"><button class="on" data-t="all">الكل</button><button data-t="practical">العملي</button><button data-t="theory">النظري</button></div>
       <div class="chips" id="stSeg"><button class="chip on" data-s="all">كل الحالات</button><button class="chip" data-s="published">منشورة</button><button class="chip" data-s="draft">مسودة</button></div>
       <div id="lecs"></div>
@@ -208,6 +234,7 @@ body{background:#eef3f7}
     <section id="v-man" class="hidden"></section>
     <section id="v-stu" class="hidden">
       <div class="sect"><i class="fa-solid fa-user-graduate"></i><div>الطلبة المسجلين<small>إدارة حسابات الطلبة ومتابعة نشاطهم</small></div></div>
+      <div class="fl" style="margin-bottom:12px"><input id="stq" placeholder="دوّر على طالب بالاسم أو اسم المستخدم..."></div>
       <div id="stuS"></div>
       <div id="stuL"></div>
     </section>
@@ -222,6 +249,7 @@ body{background:#eef3f7}
       <div class="sect"><i class="fa-solid fa-bell"></i><div>الإشعارات<small>ابعت إشعار لكل الطلبة أو لطالب معين</small></div></div>
       <div class="card" id="pushStat"></div>
       <div class="card" style="margin-top:12px">
+        <div class="pstep"><b>١</b>محتوى الإشعار<small>اكتب بنفسك أو أدخل نصًا جاهزًا من المكتبة</small></div>
         <div style="border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px;background:var(--bg2,#f7f4ec)">
           <label for="pushLibCat" style="font-weight:800;font-size:13px;display:block;margin-bottom:6px"><i class="fa-solid fa-book-open"></i> مكتبة المحتوى الجاهز</label>
           <select id="pushLibCat" aria-label="قسم مكتبة المحتوى"></select>
@@ -233,14 +261,17 @@ body{background:#eef3f7}
         <input id="pushTitle" placeholder="مثال: محاضرة جديدة نزلت">
         <label style="font-weight:800;font-size:13px;display:block;margin:10px 0 6px">نص الإشعار</label>
         <textarea id="pushBody" rows="3" placeholder="اكتب تفاصيل الإشعار..."></textarea>
-        <label for="pushBanner" style="font-weight:800;font-size:13px;display:block;margin:14px 0 6px">اختار صورة الإشعار</label>
+        <div class="pstep"><b>٢</b>صورة الإشعار<small>اختياري — مش بيغيّر كلامك</small></div>
+        <label for="pushBanner" style="font-weight:800;font-size:13px;display:block;margin:0 0 6px">اختار صورة الإشعار</label>
         <select id="pushBanner"><option value="lecture">محاضرة</option><option value="quiz">كويز</option><option value="reply">رد</option><option value="motivation">تحفيز</option><option value="salawat">صلاة على النبي</option><option value="hadith">حديث</option><option value="dua">دعاء</option><option value="encouragement">تشجيع</option><option value="none">بدون صورة</option><option value="custom">صورة من تصميمك</option></select>
         <p style="font-size:12px;color:var(--mut);margin:8px 0">العنوان والنص من كتابتك بالكامل. اختيار الصورة مش بيغيّر كلامك. اختار صورة من تصميمك عشان تغيّر النص المكتوب جوّه الصورة وترفع خلفية من جهازك.</p>
-        <div id="pushPreview" style="margin-top:12px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card)">
+        <div class="pstep"><b>٣</b>المعاينة</div>
+        <div id="pushPreview" style="margin-top:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card)">
           <div style="padding:14px"><small style="color:var(--mut)">معاينة تقريبية. الشكل النهائي حسب الجهاز</small><h3 id="pushPreviewTitle" style="margin:8px 0 4px;overflow-wrap:anywhere">FOUNDATIONS • عنوانك هنا</h3><p id="pushPreviewBody" style="margin:0;font-size:13px;overflow-wrap:anywhere">نص الإشعار اللي هتكتبه هيظهر هنا</p></div>
           <img id="pushPreviewImage" src="notification-images/lecture.png" alt="صورة الإشعار المختارة" style="width:100%;display:block">
         </div>
-        <div class="seg" id="pushAud" style="margin-top:12px"><button class="on" data-m="all">كل الطلبة</button><button data-m="one">طالب معين</button></div>
+        <div class="pstep"><b>٤</b>المستلمين والإرسال</div>
+        <div class="seg" id="pushAud" style="margin-top:0"><button class="on" data-m="all">كل الطلبة</button><button data-m="one">طالب معين</button></div>
         <div id="pushPick" class="hidden" style="margin-top:10px">
           <label for="pushUser">اختار طالبًا من الحسابات المسجلة</label><select id="pushUser" size="6" aria-label="قائمة الطلاب لاختيار مستلم الإشعار"><option value="">جاري تحميل قائمة الطلاب...</option></select><small style="display:block;color:var(--mut);margin-top:6px">كل الحسابات ظاهرة. الحساب غير المسجل في الإشعارات غير متاح للاختيار، ويحتاج تفعيل إشعاراته أولًا.</small>
         </div>
@@ -248,7 +279,7 @@ body{background:#eef3f7}
         <button type="button" class="btn sm" id="pushTest" style="margin-top:8px;width:100%"><i class="fa-solid fa-vial"></i> إرسال تجريبي لحسابي بس</button>
         <div id="pushMsg" style="margin-top:10px;font-size:13px;font-weight:700"></div>
       </div>
-      <div class="card hidden" id="pushLogCard" style="margin-top:12px"><b style="font-size:14px"><i class="fa-solid fa-clock-rotate-left"></i> آخر الإشعارات المرسلة</b><div id="pushLog" style="margin-top:8px"></div></div>
+      <div class="card hidden" id="pushLogCard" style="margin-top:12px"><b style="font-size:14px"><i class="fa-solid fa-clock-rotate-left"></i> آخر الإشعارات المرسلة</b><small style="display:block;color:var(--mut);font-weight:600;margin-top:2px">الأرقام تعني قبول خدمة الإشعارات للإرسال، وليس تأكيد ظهور الإشعار على الجهاز.</small><div id="pushLog" style="margin-top:8px"></div></div>
       <div class="card hidden" id="prayerCard" style="margin-top:12px">
         <div class="nphA-head">
           <div class="nphA-ic"><i class="fa-solid fa-mosque"></i></div>
@@ -623,9 +654,11 @@ async function loadPushLog(){
     const d=await api("adminPushLog",{});
     if(!d.log||!d.log.length)return;
     card.classList.remove("hidden");box.replaceChildren();
-    d.log.slice(0,10).forEach(r=>box.appendChild(h("div",{class:"mini"},
-      h("span",null,h("b",null,r.title||"")," — "+(r.audience==="ALL"?"لكل الطلبة":"لطالب: @"+r.audience)+" ✅"+r.sent+(r.failed?" ❌"+r.failed:"")),
-      h("small",{style:"color:var(--mut);font-weight:600"},ago(r.ts)))));
+    d.log.slice(0,10).forEach(r=>{const t=r.title||"",icn=t.includes("محاضرة")?"fa-book-open":t.includes("إعلان")?"fa-bullhorn":t.includes("رد")?"fa-reply":t.includes("كويز")?"fa-circle-question":"fa-bell";
+      box.appendChild(h("div",{class:"plr"},
+        h("span",{class:"plr-ic"},ic(icn)),
+        h("span",{class:"plr-tx"},h("b",null,t),h("small",null,(r.audience==="ALL"?"لكل الطلبة":"لطالب: @"+r.audience)+" · "+ago(r.ts))),
+        h("span",{class:"plr-n"},h("em",{class:"ok"},ic("fa-check")," "+r.sent),r.failed?h("em",{class:"bad"},ic("fa-xmark")," "+r.failed):null)))});
   }catch(e){/* نقطة النهاية لم تُنشر بعد على السيرفر — يظهر السجل بعد تحديث الباك إند */}
 }
 async function loadPush(){
@@ -713,7 +746,7 @@ function renderDash(){
   const box=$("v-dash");box.innerHTML="";
   const tot=L.length,th=L.filter(isTh).length,pub=L.filter(l=>l.status==="published").length;
   let items=0,files=0;L.forEach(l=>Object.keys(l.sections||{}).forEach(k=>(l.sections[k]||[]).forEach(i=>{items++;if(i.file)files++})));
-  const unr=SG.filter(s=>!s.reply).length,first=AD.split(" ")[0]||"";
+  const unr=SG.filter(s=>!s.reply).length,aws=AD.split(" ").filter(Boolean),first=(aws[0]==="عبد"&&aws[1])?aws[0]+" "+aws[1]:(aws[0]||"");
   box.appendChild(h("div",{class:"gr"},h("div",null,h("small",null,new Date().toLocaleDateString("ar-EG",{weekday:"long",day:"numeric",month:"long"})),h("h2",null,"أهلًا يا دكتور "+first),h("p",null,"ده ملخص سريع لحالة المنصة النهارده.")),h("div",{class:"grn"},ic("fa-user-doctor"))));
   const stats=[["fa-layer-group",tot,"إجمالي المحاضرات","#0e8f94"],["fa-book-open",th,"محاضرات نظرية","#8a6a1c"],["fa-hand-holding-medical",tot-th,"محاضرات عملية","#08617a"],["fa-eye",pub,"منشورة","#17a05d"],["fa-eye-slash",tot-pub,"مسودة","#d19a1f"],["fa-folder-open",items,"عناصر المحتوى","#3d5a80"],["fa-paperclip",files,"ملفات مرفوعة","#a23b72"],["fa-envelope-open-text",unr,"رسائل بدون رد","#e23b4e"]];
   box.appendChild(h("div",{class:"admin-actions"},[
@@ -725,7 +758,7 @@ function renderDash(){
   box.appendChild(h("details",{class:"admin-summary"},h("summary",null,"إحصائيات المنصة · "+tot+" محاضرة · "+unr+" رسالة عامة بدون رد"),h("div",{class:"sg"},stats.map(s=>h("div",{class:"st"},h("div",{class:"si",style:"background:"+s[3]},ic(s[0])),h("div",null,h("b",null,String(s[1])),h("small",null,s[2])))))));
   const emp=L.filter(l=>total(l)===0);
   if(emp.length)box.appendChild(h("div",{class:"blk"},h("h3",null,ic("fa-triangle-exclamation"),"محاضرات لسه فاضية"),emp.map(l=>h("div",{class:"mini"},h("span",null,l.titleAr||l.title),h("button",{class:"btn sm",onclick:()=>{sel=l.id;tab="explanation";view("man")}},"أضف محتوى")))));
-  box.appendChild(h("div",{class:"blk"},h("h3",null,ic("fa-clock-rotate-left"),"آخر النشاطات"),LG.length?LG.slice(0,6).map(r=>h("div",{class:"mini"},h("span",null,h("b",null,(r.name||"مجهول").split(" ")[0]+" "),(r.action||"")+(r.detail?" - "+r.detail:"")),h("small",{style:"color:var(--mut);font-weight:600"},ago(r.time)))):h("div",{class:"empty",style:"padding:14px"},"مفيش نشاط لسه.")))}
+  box.appendChild(h("div",{class:"blk"},h("h3",null,ic("fa-clock-rotate-left"),"آخر النشاطات"),LG.length?(LG.filter(r=>r.action!=="دخول").length?LG.filter(r=>r.action!=="دخول"):LG).slice(0,6).map(r=>h("div",{class:"mini"},h("span",null,h("b",null,(r.name||"مجهول").split(" ")[0]+" "),(r.action||"")+(r.detail?" - "+r.detail:"")),h("small",{style:"color:var(--mut);font-weight:600"},ago(r.time)))):h("div",{class:"empty",style:"padding:14px"},"مفيش نشاط لسه.")))}
 
 $("fq").oninput=e=>{fq=e.target.value.trim();listLecs()};
 document.querySelectorAll("#trSeg button").forEach(b=>b.onclick=()=>{fTr=b.dataset.t;document.querySelectorAll("#trSeg button").forEach(x=>x.classList.toggle("on",x===b));listLecs()});
@@ -946,34 +979,46 @@ function listSug(){const b=$("sgl");b.innerHTML="";
         h("button",{class:"btn red sm",onclick:async()=>{if(!confirm("حذف الرسالة نهائيًا؟"))return;busy(true,"جاري الحذف...");
           try{await api("deleteSuggestion",{id:s.id});SG=SG.filter(x=>x.id!==s.id);updBadge();sgChips();listSug()}catch(e){toast(net(e),true)}busy(false)}},ic("fa-trash"),"حذف"))))})}
 
-let ST=[];
+let ST=[],stq="",stf="all";
 async function loadStu(){const b=$("stuL");b.innerHTML="";b.appendChild(h("div",{class:"empty"},"جاري التحميل..."));
   try{ST=(await api("adminStudents")).students||[];renderStu()}
   catch(e){b.innerHTML="";$("stuS").innerHTML="";b.appendChild(h("div",{class:"empty card"},ic("fa-triangle-exclamation"),"مقدرناش نحمّل الطلبة. اتأكد إن السكريبت اتحدّث واتنشر بنسخة جديدة."))}}
+$("stq").oninput=e=>{stq=e.target.value.trim().toLowerCase();renderStu()};
 function renderStu(){const b=$("stuL"),s=$("stuS");b.innerHTML="";s.innerHTML="";
   const act=ST.filter(x=>x.status==="active").length,dis=ST.length-act;
   const today=ST.filter(x=>x.lastActiveAt&&(Date.now()-new Date(x.lastActiveAt))<864e5).length;
-  s.appendChild(h("div",{class:"card",style:"display:flex;gap:8px;flex-wrap:wrap;padding:12px 14px;margin-bottom:14px"},
-    h("span",{class:"pill teal"},"المسجلين: "+ST.length),
-    h("span",{class:"pill green"},"نشطين: "+act),
-    h("span",{class:"pill gold"},"نشطين النهارده: "+today),
-    h("span",{class:"pill gray"},"موقوفين: "+dis)));
+  s.appendChild(h("div",{class:"chips",id:"stuF",style:"margin-bottom:8px"},[["all","الكل "+ST.length],["active","نشطين "+act],["disabled","موقوفين "+dis]].map(f=>h("button",{class:"chip"+(stf===f[0]?" on":""),type:"button",onclick:()=>{stf=f[0];renderStu()}},f[1]))));
+  s.appendChild(h("p",{class:"stuc-note"},ic("fa-bolt"),"نشطين النهارده: "+today));
   if(!ST.length){b.appendChild(h("div",{class:"empty card"},ic("fa-user-graduate"),"لسه مفيش طلبة مسجلين. أول ما حد يعمل حساب من الموقع هيظهر هنا."));return}
-  ST.slice().reverse().forEach(x=>{const dis=x.status!=="active";
-    b.appendChild(h("div",{class:"card",style:"margin-bottom:10px;padding:14px"},
-      h("div",{style:"display:flex;align-items:center;gap:10px;flex-wrap:wrap"},
-        h("b",null,x.name||x.username),
-        h("small",{style:"color:var(--mut);direction:ltr"},"@"+x.username),
-        h("span",{class:"pill "+(dis?"gray":"green")},dis?"موقوف":"نشط"),
-        h("small",{style:"margin-inline-start:auto;color:var(--mut)"},x.lastActiveAt?("آخر نشاط "+ago(x.lastActiveAt)):"لسه مادخلش")),
-      h("div",{style:"display:flex;gap:12px;color:var(--mut);font-size:12.5px;margin-top:8px;flex-wrap:wrap"},
-        h("span",null,"خلّص "+(x.doneCount||0)+" عنصر"),
-        h("span",null,(x.notesCount||0)+" ملاحظة"),
-        h("span",null,"اتسجل "+(x.createdAt?ago(x.createdAt):"—"))),
+  const list=ST.filter(x=>(stf==="all"||(stf==="active")===(x.status==="active"))&&(!stq||(x.name||"").toLowerCase().includes(stq)||String(x.username||"").toLowerCase().includes(stq)));
+  if(!list.length){b.appendChild(h("div",{class:"empty card"},ic("fa-magnifying-glass"),"مفيش طالب مطابق للبحث."));return}
+  list.slice().reverse().forEach(x=>{const dis=x.status!=="active";
+    const nm=(x.name||x.username||"؟").trim();
+    b.appendChild(h("div",{class:"card stuc"},
+      h("div",{class:"stuc-top"},
+        h("span",{class:"stuc-av"+(dis?" off":"")},ic("fa-user-graduate")),
+        h("div",{class:"stuc-id"},
+          h("b",null,nm),
+          h("small",{dir:"ltr"},"@"+x.username)),
+        h("span",{class:"pill "+(dis?"gray":"green")},dis?"موقوف":"نشط")),
+      h("div",{class:"stuc-stats"},
+        h("span",null,ic("fa-clock"),x.lastActiveAt?("آخر نشاط "+ago(x.lastActiveAt)):"لسه مادخلش"),
+        h("span",null,ic("fa-circle-check"),"خلّص "+(x.doneCount||0)+" عنصر"),
+        h("span",null,ic("fa-note-sticky"),(x.notesCount||0)+" ملاحظة"),
+        h("span",null,ic("fa-user-plus"),"اتسجل "+(x.createdAt?ago(x.createdAt):"—"))),
       h("div",{class:"act",style:"margin-top:10px"},
+        h("button",{class:"btn sm",onclick:()=>stuMsg(x)},ic("fa-comment-dots"),"مراسلة"),
         h("button",{class:"btn sm",onclick:()=>stuReset(x)},ic("fa-key"),"كلمة سر جديدة"),
         h("button",{class:"btn sm",onclick:()=>stuToggle(x)},ic(dis?"fa-play":"fa-ban"),dis?"تفعيل":"إيقاف"),
         h("button",{class:"btn red sm",onclick:()=>stuDel(x)},ic("fa-trash"),"حذف"))))})}
+async function stuMsg(x){const uname=String(x.username||"");
+  busy(true);let sid=null;
+  try{const d=await api("adminChatStart",{username:uname});sid=d.sessionId||null}catch(e){sid=null}
+  if(!sid){try{if(!CH.length)CH=(await api("adminChats")).chats||[];const c=CH.find(y=>String(y.username)===uname);sid=c&&c.sessionId}catch(e){}}
+  busy(false);
+  view("sug");const tab=document.querySelector('#sgTabs [data-m="chat"]');if(tab)tab.click();
+  if(sid){openChat({sessionId:sid,username:uname,name:x.name||""})}
+  else toast("مفيش محادثة مفتوحة مع @"+uname+" لسه. المحادثة بتتفتح من ناحية الطالب من زرار «مراسلة الإدارة» في حسابه.",true)}
 async function stuReset(x){if(!confirm("توليد كلمة سر جديدة للطالب @"+x.username+"؟ هيتقفل من كل أجهزته ولازم يدخل بالجديدة."))return;busy(true,"جاري التوليد...");
   try{const d=await api("stuResetPw",{username:x.username});busy(false);
     openSheet("كلمة السر الجديدة",[
@@ -987,12 +1032,21 @@ async function stuToggle(x){const dis=x.status!=="active";
 async function stuDel(x){if(!confirm("حذف حساب @"+x.username+" نهائيًا؟ تقدّمه وملاحظاته على السيرفر هيتحذفوا كمان."))return;busy(true);
   try{await api("stuDelete",{username:x.username});ST=ST.filter(y=>y.username!==x.username);renderStu();toast("اتحذف الحساب.")}catch(e){toast(net(e),true)}busy(false)}
 
+let lgHide=true;
 async function loadLog(){const b=$("lgl");b.innerHTML="";b.appendChild(h("div",{class:"empty"},"جاري التحميل..."));
-  try{LG=(await api("adminLog")).log||[];b.innerHTML="";
-    if(!LG.length){b.appendChild(h("div",{class:"empty"},"السجل فارغ."));return}
-    const t=h("div",{class:"tlg"});
-    LG.slice(0,60).forEach(r=>t.appendChild(h("div",{class:"lg2"},h("b",null,r.name||"مجهول"),h("span",null,(r.action||"")+(r.detail?" - "+r.detail:"")),h("small",null,ago(r.time)))));
-    b.appendChild(t)}catch(e){b.innerHTML="";b.appendChild(h("div",{class:"empty"},"السجل غير متاح."))}}
+  try{LG=(await api("adminLog")).log||[];renderLog()}catch(e){b.innerHTML="";b.appendChild(h("div",{class:"empty"},"السجل غير متاح."))}}
+function renderLog(){const b=$("lgl");b.innerHTML="";
+  if(!LG.length){b.appendChild(h("div",{class:"empty"},"السجل فارغ."));return}
+  const rows=LG.filter(r=>!lgHide||r.action!=="دخول").slice(0,60);
+  b.appendChild(h("div",{style:"display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px"},
+    h("small",{style:"color:var(--mut);font-weight:700"},"آخر "+rows.length+" عملية"+(lgHide?" (بدون تسجيلات الدخول)":"")),
+    h("button",{class:"btn ghost sm",type:"button",onclick:()=>{lgHide=!lgHide;renderLog()}},ic(lgHide?"fa-eye":"fa-eye-slash"),lgHide?"عرض تسجيلات الدخول":"إخفاء تسجيلات الدخول")));
+  if(!rows.length){b.appendChild(h("div",{class:"empty"},"مفيش عمليات غير تسجيل الدخول في آخر السجل."));return}
+  const t=h("div",{class:"tlg"});let day="";
+  rows.forEach(r=>{const d=new Date(r.time),ds=isNaN(d)?"":d.toLocaleDateString("ar-EG",{weekday:"long",day:"numeric",month:"long"});
+    if(ds&&ds!==day){day=ds;t.appendChild(h("div",{class:"lgday"},ds))}
+    t.appendChild(h("div",{class:"lg2"},h("b",null,r.name||"مجهول"),h("span",null,(r.action||"")+(r.detail?" - "+r.detail:"")),h("small",null,ago(r.time))))});
+  b.appendChild(t)}
 
 if(PW&&AD)start();
 </script><script src="content-library.js"></script><script src="banner-studio.js"></script><script src="theory-extras.js"></script><script src="community.js"></script><script>const originalCommunityDash=renderDash;renderDash=function(){originalCommunityDash();if(window.NPHCommunity)NPHCommunity.admin(document.getElementById("v-dash"));};if(PW&&AD&&V==="dash")renderDash();</script></body></html>

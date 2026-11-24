@@ -56,7 +56,6 @@ html[data-theme=dark] :is(.seg,.tw,.fc,.mi,.cin,.ach-box,.sgc .msg,.ty span,.it 
   background:var(--surface-raised); color:var(--text-secondary); border-color:var(--line);
 }
 html[data-theme=dark] :is(.seg button,.tabbar button,.tab,.chip) {color:var(--text-secondary)}
-html[data-theme=dark] .seg button.on {background:#2c4a60;color:#fff;box-shadow:none}
 html[data-theme=dark] .tab {background:var(--surface);border-color:var(--line)}
 html[data-theme=dark] :is(.tab.on,.tabbar button.on,.ty input:checked+span) {
   background:linear-gradient(135deg,var(--accent-fill),var(--accent-fill-end));color:#fff;border-color:var(--border-ui);
@@ -64,7 +63,9 @@ html[data-theme=dark] :is(.tab.on,.tabbar button.on,.ty input:checked+span) {
 html[data-theme=dark] .tab.on em {background:#ffffff26;color:#fff}
 html[data-theme=dark] :is(.tab.tab-empty,.lec-extra-chip.is-empty) {opacity:1}
 html[data-theme=dark] .chip {background:var(--surface);border-color:var(--border-ui)}
-html[data-theme=dark] :is(.chip.on,.pre button.on) {background:var(--gold2);color:#352608;border-color:var(--gold2)}
+html[data-theme=dark] :is(.chip.on,.pre button.on,.seg button.on) {background:var(--gold2);color:#352608;border-color:var(--gold2);box-shadow:none}
+html[data-theme=dark] :is(.nphA-chip,.nphA-ric,.nphA-step button,.nphA-test,.nphA-chev.open,.nphA-lb i,.nphA-mini,.nphA-day.on) {color:var(--gold2)}
+html[data-theme=dark] :is(.nphA-chip,.nphA-day.on) {background:rgba(212,175,90,.16)}
 html[data-theme=dark] :is(.pill,.en,.ppct,.pcn,.pil,.mn,.plb>.row>span,.sts b,.lec-extra-chip,.tab em,.topt.practical i,.sect>div>i) {color:var(--accent-text)}
 html[data-theme=dark] .pill {background:var(--acs)}
 html[data-theme=dark] .pill.gold {background:var(--warning-surface);color:var(--warning-text)}
@@ -141,7 +142,8 @@ html[data-theme=dark] .te-progress {background:var(--surface-raised)}
 html[data-theme=dark] .te-kind-tabs button[aria-pressed=true] {background:var(--warning-surface);color:var(--warning-text);border-color:#8c743e}
 html[data-theme=dark] .aov {--txt3:#a6bacd}
 /* Retain light-mode readability while the same components share their palette. */
-html:not([data-theme=dark]) :is(.pcn,.ppct,.plb>.row>span,.en,.wk div.on) {color:var(--accent-text)}
+html:not([data-theme=dark]) :is(.pcn,.ppct,.en,.wk div.on) {color:var(--accent-text)}
+html:not([data-theme=dark]) .plb>.row>span {color:var(--accent-text)}
 html:not([data-theme=dark]) .pill.teal {color:var(--accent-text)}
 html:not([data-theme=dark]) .pill.green {color:var(--success-text)}
 html:not([data-theme=dark]) .bdg2 b {color:var(--text-secondary)}
