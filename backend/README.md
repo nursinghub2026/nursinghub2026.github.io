@@ -54,3 +54,13 @@ Student side is `notification-inbox.js` + `notification-inbox.css` (self-mountin
 5. Publish a new version on the existing deployment.
 
 Until activation, the bell still appears for signed-in students and the panel shows its empty state; reads and history start working once the routes are live. `stuInboxList_` returns the 30 newest notifications with per-student read flags; `stuInboxRead_` marks one or all as read. Nothing is ever broadcast by this PR itself: only notifications the owner sends through the composer create inbox rows.
+
+## Per-prayer and per-category notification images (feat/notification-prayer-images)
+
+Nine hosted banners under `notification-images/`: one per prayer (`prayer-fajr/dhuhr/asr/maghrib/isha.png`) and one per composer library category (`salawat.png`, `hadith.png`, `dua.png`, `encouragement.png`). All 1200x600 PNG, navy/gold, drawn for this project (no stock, no people, no copyrighted assets). Cairo font from Google Fonts (OFL) used at generation time only.
+
+- `PrayerReminders.gs`: `prayerSend_` takes an optional image key; the tick and the admin test pass the prayer name, so each prayer notification carries its own image. Falls back to the motivation banner when no key is given.
+- `Push.gs`: the banner whitelists (send validation + kind resolution) accept `salawat`, `hadith`, `dua`, `encouragement`. Resolution stays `notification-images/<kind>.png`.
+- `admin.html`: the composer image select offers the four new kinds; picking a library preset selects its category image automatically (the admin can still change it before sending).
+
+Activation after approval: back up the live files, apply the `PrayerReminders.gs` and `Push.gs` changes from this branch, publish a new version on the existing deployment. Until then, prayer notifications keep the motivation banner and composer sends of the new kinds fall back safely (unknown kinds resolve to `lecture` on the old whitelist, so no breakage, just the wrong image — apply the backend before using the new kinds).

@@ -99,7 +99,7 @@ function adminPushSend_(req) {
     if(typeof pushUploadImage_ !== 'function')return {ok:false,error:'استضافة الصور المخصصة لسه مش متظبطة'};
     try{imageUrl=pushUploadImage_(req.imagePng)}catch(e){return {ok:false,error:e.message}}
   }
-  const res = fcmSendToTokens_(targets, title, body, { url: noticeUrl, imageUrl, banner: ['lecture','quiz','reply','motivation','none'].indexOf(req.banner) >= 0 ? req.banner : 'lecture' });
+  const res = fcmSendToTokens_(targets, title, body, { url: noticeUrl, imageUrl, banner: ['lecture','quiz','reply','motivation','salawat','hadith','dua','encouragement','none'].indexOf(req.banner) >= 0 ? req.banner : 'lecture' });
   pushLogSheet_().appendRow([new Date(), username || 'ALL', title, body, res.sent, res.failed, res.configured]);
   // صندوق الإشعارات داخل الموقع (إضافي): نفس الإشعار يظهر في جرس الطلبة
   if (typeof inboxAppend_ === 'function') inboxAppend_(username, title, body, noticeUrl);
@@ -162,7 +162,7 @@ function fcmSendToTokens_(tokens, title, body, data) {
   tokens.forEach((tk) => {
     try {
       if (!bearer) bearer = fcmAccessToken_(sa);
-      const noticeKind = data && ['lecture','quiz','reply','motivation','none'].indexOf(data.banner) >= 0 ? data.banner : /chat/.test(String(data && data.url)) ? 'reply' : /كويز|اختبار/.test(title) ? 'quiz' : /محاضرة/.test(title) ? 'lecture' : 'motivation';
+      const noticeKind = data && ['lecture','quiz','reply','motivation','salawat','hadith','dua','encouragement','none'].indexOf(data.banner) >= 0 ? data.banner : /chat/.test(String(data && data.url)) ? 'reply' : /كويز|اختبار/.test(title) ? 'quiz' : /محاضرة/.test(title) ? 'lecture' : 'motivation';
       const noticeTitle = /^FOUNDATIONS/.test(title) ? title : 'FOUNDATIONS • ' + title;
       const msg = {
         message: {
