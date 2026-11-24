@@ -50,9 +50,9 @@ body{background:#eef3f7}
 .fl{display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:12px}
 .hint{background:#fff8e6;border:1px solid #f0dca4;color:#7a5a0e;border-radius:16px;padding:12px 14px;font-size:13px;font-weight:700;margin-bottom:12px;line-height:1.9}
 .lr{background:#fff;border-radius:22px;padding:16px;margin-bottom:12px;box-shadow:var(--sh);border-right:6px solid var(--teal);display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.lr.th{border-right-color:var(--vio)}
+.lr.th{border-right-color:#b8912f}
 .lr .ic2{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;color:#fff;font-size:21px;flex:none;background:linear-gradient(135deg,#0e8f94,#35c6c0)}
-.lr.th .ic2{background:linear-gradient(135deg,#6b4fb3,#9a7fe0)}
+.lr.th .ic2{background:linear-gradient(135deg,#8a6a1c,#d4af5a)}
 .mv{display:flex;flex-direction:column;align-items:center;gap:4px;flex:none}
 .mvb{width:40px;height:34px;border:1.5px solid var(--line);background:#fff;border-radius:11px;cursor:pointer;color:var(--ink2);font-size:14px;transition:.2s}
 .mvb:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -63,7 +63,7 @@ body{background:#eef3f7}
 .inf .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .act{display:flex;gap:6px;flex-wrap:wrap}
 .mh{color:#fff;border-radius:26px;padding:22px;margin:14px 0;background:linear-gradient(135deg,#08617a,#0e8f94 60%,#35c6c0);box-shadow:var(--sh2)}
-.mh.th{background:linear-gradient(135deg,#2c2266,#6b4fb3 60%,#9a7fe0)}
+.mh.th{background:linear-gradient(135deg,#08172b,#3d3418 60%,#8a6a1c)}
 .mh h2{font-size:20px;font-weight:900;line-height:1.5}.mh p{font-size:13px;opacity:.92;margin-top:4px}
 .tabs2{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;scrollbar-width:none}
 .tabs2 button{display:flex;align-items:center;gap:8px;white-space:nowrap;border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:11px 16px;font-weight:800;font-size:13px;cursor:pointer;font-family:inherit;color:var(--ink2)}
@@ -73,8 +73,8 @@ body{background:#eef3f7}
 .tsel{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .topt{border:2px solid var(--line);background:#f8fafc;border-radius:20px;padding:16px 10px;text-align:center;cursor:pointer;font-family:inherit;color:var(--ink);transition:.2s}
 .topt i{display:block;font-size:24px;margin-bottom:6px}.topt b{display:block;font-size:16px}.topt small{display:block;font-size:11px;color:var(--mut);line-height:1.6;margin-top:2px}
-.topt.practical i{color:var(--teal)}.topt.theory i{color:var(--vio)}
-.topt.practical.on{border-color:var(--teal);background:#e4f5f5}.topt.theory.on{border-color:var(--vio);background:#eee9fa}
+.topt.practical i{color:var(--teal)}.topt.theory i{color:#8a6a1c}
+.topt.practical.on{border-color:var(--teal);background:#e4f5f5}.topt.theory.on{border-color:#b8912f;background:#fbf3de}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}@media(max-width:560px){.g2{grid-template-columns:1fr}}
 .drop{display:flex;flex-direction:column;align-items:center;gap:6px;padding:24px 14px;border:2px dashed #b9c8d6;border-radius:22px;background:#f8fbfd;text-align:center;cursor:pointer;transition:.2s}
 .drop:hover{border-color:var(--teal);background:#eefafa}
@@ -327,7 +327,7 @@ function renderDash(){
   let items=0,files=0;L.forEach(l=>Object.keys(l.sections||{}).forEach(k=>(l.sections[k]||[]).forEach(i=>{items++;if(i.file)files++})));
   const unr=SG.filter(s=>!s.reply).length,first=AD.split(" ")[0]||"";
   box.appendChild(h("div",{class:"gr"},h("div",null,h("small",null,new Date().toLocaleDateString("ar-EG",{weekday:"long",day:"numeric",month:"long"})),h("h2",null,"أهلًا يا دكتور "+first),h("p",null,"ده ملخص سريع لحالة المنصة النهارده.")),h("div",{class:"grn"},ic("fa-user-doctor"))));
-  const stats=[["fa-layer-group",tot,"إجمالي المحاضرات","#0e8f94"],["fa-book-open",th,"محاضرات نظرية","#6b4fb3"],["fa-hand-holding-medical",tot-th,"محاضرات عملية","#08617a"],["fa-eye",pub,"منشورة","#17a05d"],["fa-eye-slash",tot-pub,"مسودة","#d19a1f"],["fa-folder-open",items,"عناصر المحتوى","#3d5a80"],["fa-paperclip",files,"ملفات مرفوعة","#a23b72"],["fa-envelope-open-text",unr,"رسائل بدون رد","#e23b4e"]];
+  const stats=[["fa-layer-group",tot,"إجمالي المحاضرات","#0e8f94"],["fa-book-open",th,"محاضرات نظرية","#8a6a1c"],["fa-hand-holding-medical",tot-th,"محاضرات عملية","#08617a"],["fa-eye",pub,"منشورة","#17a05d"],["fa-eye-slash",tot-pub,"مسودة","#d19a1f"],["fa-folder-open",items,"عناصر المحتوى","#3d5a80"],["fa-paperclip",files,"ملفات مرفوعة","#a23b72"],["fa-envelope-open-text",unr,"رسائل بدون رد","#e23b4e"]];
   box.appendChild(h("div",{class:"admin-actions"},[
     ["fa-plus","محاضرة جديدة","نظري أو عملي",()=>lecSheet(null)],
     ["fa-folder-open","إضافة محتوى","اختار المحاضرة والقسم",()=>view("lec")],
@@ -368,7 +368,7 @@ function listLecs(){const b=$("lecs");b.innerHTML="";const q=fq.toLowerCase();
         h("button",{class:"mvb",type:"button",disabled:pos===tl.length,onclick:()=>move(l,1),"aria-label":"تحريك لأسفل"},ic("fa-chevron-down"))):null,
       h("div",{class:"ic2"},ic(th?"fa-book-open":"fa-hand-holding-medical")),
       h("div",{class:"inf"},h("h3",null,l.titleAr||l.title),h("div",{class:"sb2"},l.title),
-        h("div",{class:"tags"},h("span",{class:"pill "+(th?"vio":"teal")},th?"نظري":"عملي"),h("span",{class:"pill "+(l.status==="published"?"green":"gold")},l.status==="published"?"منشورة":"مسودة"),h("span",{class:"pill gray"},total(l)+" عنصر"))),
+        h("div",{class:"tags"},h("span",{class:"pill "+(th?"gold":"teal")},th?"نظري":"عملي"),h("span",{class:"pill "+(l.status==="published"?"green":"gold")},l.status==="published"?"منشورة":"مسودة"),h("span",{class:"pill gray"},total(l)+" عنصر"))),
       h("div",{class:"act"},
         h("button",{class:"btn sm",onclick:()=>{sel=l.id;tab="explanation";view("man")}},ic("fa-folder-open"),"المحتوى"),
         h("button",{class:"btn ghost sm",onclick:()=>lecSheet(l)},ic("fa-pen"),"تعديل"),

@@ -26,8 +26,7 @@ html[data-theme=dark] {
   --sh:0 10px 30px #0005; --sh2:0 18px 44px #0008;
 }
 html[data-theme=dark] body.theory {
-  --ac:#6b4fb3; --ac2:#9a7fe0; --acs:#2a2949;
-  --accent-text:#d4bfff; --accent-fill:#58418b; --accent-fill-end:#463270;
+  --ac:#d4af5a; --ac2:#f0d58a; --acs:#3a301c;
 }
 html[data-theme=dark] body { background:var(--bg); color:var(--text-primary); }
 /* Explicit foreground/background pairs prevent white-on-white inherited ink. */
@@ -76,9 +75,9 @@ html[data-theme=dark] .pill.gray {background:var(--surface-raised);color:var(--t
 html[data-theme=dark] .pill.teal {background:#15383e;color:#75e0db}
 html[data-theme=dark] :is(.item p,.tp p,.lg2 span,.tx2,.admin-location b,.admin-summary summary,.banner-studio h3) {color:var(--text-primary)}
 html[data-theme=dark] :is(.admin-location small,.banner-studio p,.banner-studio small,.ha-publisher small,.ha-meta time,.ha-excerpt,.ha-post-foot>span) {color:var(--text-muted)}
-html[data-theme=dark] .topt.theory i {color:#d4bfff}
+html[data-theme=dark] .topt.theory i {color:#f0d58a}
 html[data-theme=dark] .topt.practical.on {background:#15383e;border-color:#75e0db}
-html[data-theme=dark] .topt.theory.on {background:#312a4b;border-color:#d4bfff}
+html[data-theme=dark] .topt.theory.on {background:#3a301c;border-color:#d4af5a}
 html[data-theme=dark] :is(.drop,.drop:hover,.sh-h button,.cp-comment-avatar,.bdg2 .bi2) {background:var(--surface-raised);color:var(--text-secondary);border-color:var(--border-ui)}
 html[data-theme=dark] .tp.hl {background:var(--danger-surface)}
 html[data-theme=dark] :is(.hint,.bdg2.got) {background:var(--warning-surface);color:var(--warning-text);border-color:#8c743e}
@@ -127,12 +126,12 @@ html[data-theme=dark] :is(.pdone.on,.pfav.on) {background:var(--warning-surface)
 html[data-theme=dark] :is(.pnoteh,.pnoteh small,.plpt) {color:var(--text-secondary)}
 html[data-theme=dark] .pbar {background:var(--surface-raised)}
 html[data-theme=dark] .band {background:linear-gradient(135deg,#075b64,#102b40)}
-html[data-theme=dark] body.theory .band {background:linear-gradient(135deg,#514079,#162239)}
+html[data-theme=dark] body.theory .band {background:linear-gradient(135deg,#7a5c14,#162239)}
 html[data-theme=dark] .ph {background:linear-gradient(160deg,#0a1b2d,#12384c 60%,#08636b)}
-html[data-theme=dark] body.theory .ph {background:linear-gradient(160deg,#130f2b,#2c2260 60%,#514079)}
+html[data-theme=dark] body.theory .ph {background:linear-gradient(160deg,#0a1b2d,#2e2812 60%,#7a5c14)}
 html[data-theme=dark] :is(.feat,.phero,.lh,.gr,.mot) {background:linear-gradient(145deg,#0c2339,#123b50 65%,#085b63)}
-html[data-theme=dark] body.theory .lh {background:linear-gradient(145deg,#130f2b,#2c2260 60%,#514079)}
-html[data-theme=dark] .tr.t1 {background:linear-gradient(145deg,#30255d,#514079)}
+html[data-theme=dark] body.theory .lh {background:linear-gradient(145deg,#0a1b2d,#2e2812 60%,#7a5c14)}
+html[data-theme=dark] .tr.t1 {background:linear-gradient(145deg,#3d3418,#7a5c14)}
 html[data-theme=dark] .tr.t2 {background:linear-gradient(145deg,#084b5c,#08636b)}
 html[data-theme=dark] .pcont .pci {background:#08636b}
 html[data-theme=dark] :is(.ty span i,.sect>i+div i,.te-admin-row a) {color:var(--accent-text)}
@@ -151,7 +150,7 @@ html:not([data-theme=dark]) .bub.adm b {color:#7d5b10}
 html:not([data-theme=dark]) .bub.adm small {color:#705f37;opacity:1}
 /* Preserve light text on dark lecture headers; .en is not always a list label. */
 html:not([data-theme=dark]) .lh .en {color:#bfeff0}
-html:not([data-theme=dark]) body.theory .lh .en {color:#d9c8f5}
+html:not([data-theme=dark]) body.theory .lh .en {color:#f0d58a}
 html:not([data-theme=dark]) .pill:not(.gold):not(.green):not(.red):not(.vio):not(.gray) {color:var(--accent-text)}
 html:not([data-theme=dark]) .lh .mp .pill {color:#fff}
 #pushUser[size] {min-height:180px;height:auto;max-width:100%;white-space:normal}
