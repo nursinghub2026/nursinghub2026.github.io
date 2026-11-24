@@ -102,3 +102,11 @@ Backend (additive):
 - `PrayerReminders.gs`: prayer reminders also append to the bell inbox (`inboxAppend_`, guarded) — an in-site fallback for students without tokens.
 
 Activation after approval: back up live files; update `Push.gs` and `PrayerReminders.gs`; add one typeof-guarded route line for `stuPushAttempt` to the `routeStudents_` map; publish a new version. Rollback: revert the deployment.
+
+## Prayer tick window matching (fix/prayer-tick-window)
+
+Bug found 2026-11-24 after the user reported zero notifications: `prayerTick_` only sent when the current HH:mm exactly equaled the prayer time, but the 5-minute trigger fires at a fixed phase (minutes ≡ 3 mod 5 on this project), so any prayer time not ending in 3 or 8 was silently skipped forever (Fajr, Asr, Maghrib, Isha).
+
+Fix: window matching — a prayer fires when it is 0–30 minutes past its time and has not been sent today (dedupe via new `PRAYER_SENT_V2` script property, per prayer per day; legacy `PRAYER_LAST` record is migrated so an already-sent prayer is not repeated). Send lands 2–6 minutes after the adhan instead of never. Also brings the repo in line with the approved live v30 wording, which previously existed only in the live project.
+
+Activation after approval: back up the live files, paste `PrayerReminders.gs` from this branch over the live one, publish a new version. The existing 5-minute trigger stays; nothing else changes. Rollback: re-paste the backup and publish.

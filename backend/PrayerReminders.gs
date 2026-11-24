@@ -126,6 +126,24 @@ function prayerSend_(title, body, onlyTestUser, imageKey, imgUrl) {
 }
 
 /* ينفَّذ من مشغّل زمني كل 5 دقائق. لا يرسل للطلبة إلا بالمفتاح العام وخارج وضع التجربة */
+/* مطابقة بنافذة زمنية (٣٠ دقيقة بعد الأذان) وليس بالدقيقة بالظبط: المشغّل كل ٥ دقائق
+   لا يضمن دقيقة بعينها، والمطابقة بالتساوي كانت تُسقط أي موعد لا يوافق طور المشغّل */
+var PRAYER_WINDOW_MIN_ = 30;
+function prayerMinOf_(hhmm) {
+  var p = String(hhmm || '').split(':');
+  if (p.length !== 2) return -1;
+  var h = parseInt(p[0], 10), m = parseInt(p[1], 10);
+  return (isNaN(h) || isNaN(m)) ? -1 : h * 60 + m;
+}
+function prayerSentMap_(today) {
+  var m = {};
+  try { m = JSON.parse(prayerProps_().getProperty('PRAYER_SENT_V2') || '{}'); } catch (e) { m = {}; }
+  if (!m || m.date !== today || typeof m.keys !== 'object') m = { date: today, keys: {} };
+  /* ترحيل من سجل المطابقة القديم: صلاة أُرسلت اليوم قبل التحديث لا تُعاد */
+  var legacy = prayerProps_().getProperty('PRAYER_LAST') || '';
+  if (legacy.indexOf(today + ':') === 0) m.keys[legacy.slice(today.length + 1)] = true;
+  return m;
+}
 function prayerTick_() {
   var cfg = prayerCfg_();
   if (!cfg.enabled) return { ok: true, skipped: 'disabled' };
@@ -133,18 +151,25 @@ function prayerTick_() {
   if (!times) return { ok: false, error: 'المواقيت غير متاحة' };
   var now = Utilities.formatDate(new Date(), 'Africa/Cairo', 'HH:mm');
   var today = Utilities.formatDate(new Date(), 'Africa/Cairo', 'yyyy-MM-dd');
-  var lastSent = prayerProps_().getProperty('PRAYER_LAST') || '';
+  var nowMin = prayerMinOf_(now);
+  var sentMap = prayerSentMap_(today);
+  var skippedDup = false;
   for (var i = 0; i < PRAYER_KEYS_.length; i++) {
     var k = PRAYER_KEYS_[i];
-    if (!cfg.prayers[k] || times[k] !== now) continue;
-    if (lastSent === today + ':' + k) return { ok: true, skipped: 'duplicate' };
+    if (!cfg.prayers[k]) continue;
+    var pMin = prayerMinOf_(times[k]);
+    if (pMin < 0) continue;
+    var late = nowMin - pMin;
+    if (late < 0 || late > PRAYER_WINDOW_MIN_) continue;
+    if (sentMap.keys[k]) { skippedDup = true; continue; }
     var title = 'حان الآن وقت صلاة ' + PRAYER_NAMES_[k] + ' 🕌';
-    var body = 'بتوقيت بورسعيد (' + prayerFmt12_(times[k]) + '). تقبّل الله طاعتكم 🤍';
+    var body = 'خُد استراحة للصلاة، موعد ' + PRAYER_NAMES_[k] + ' اليوم ' + prayerFmt12_(times[k]) + ' بتوقيت بورسعيد';
     var r = prayerSend_(title, body, cfg.testMode, k.toLowerCase(), prayerImg_(cfg, k));
-    prayerProps_().setProperty('PRAYER_LAST', today + ':' + k);
-    return { ok: true, prayer: k, sent: r.sent, failed: r.failed, testMode: cfg.testMode };
+    sentMap.keys[k] = true;
+    prayerProps_().setProperty('PRAYER_SENT_V2', JSON.stringify(sentMap));
+    return { ok: true, prayer: k, sent: r.sent, failed: r.failed, testMode: cfg.testMode, lateMin: late };
   }
-  return { ok: true, skipped: 'no-prayer-now' };
+  return { ok: true, skipped: skippedDup ? 'duplicate' : 'no-prayer-now' };
 }
 
 /* إعداد لمرة واحدة من المحرر: ينشئ المشغّل الزمني (كل 5 دقائق) بعد الموافقة على النشر */
@@ -194,7 +219,7 @@ function adminPrayerTest_(req) {
   var k = PRAYER_KEYS_.indexOf(req.prayer) >= 0 ? req.prayer : 'Dhuhr';
   var times = prayerTimes_() || {};
   var title = 'حان الآن وقت صلاة ' + PRAYER_NAMES_[k] + ' 🕌';
-  var body = 'بتوقيت بورسعيد (' + prayerFmt12_(times[k] || '--:--') + '). تقبّل الله طاعتكم 🤍 — رسالة تجريبية';
+  var body = 'خُد استراحة للصلاة، موعد ' + PRAYER_NAMES_[k] + ' اليوم ' + prayerFmt12_(times[k] || '--:--') + ' بتوقيت بورسعيد — رسالة تجريبية';
   var r = prayerSend_(title, body, true, k.toLowerCase(), prayerImg_(prayerCfg_(), k));
   return { ok: true, sent: r.sent, failed: r.failed, noTargets: r.noTargets === true };
 }
