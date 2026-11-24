@@ -52,3 +52,12 @@ r=c.adminPrayerGet_({});assert(r.ok&&r.images&&r.images.Fajr.kind==='default'&&r
 // التجربة الفورية تستخدم نفس صورة الصلاة المختارة
 c=makeCtx('09:00');c.adminPrayerSet_({images:{Fajr:'none'}});r=c.adminPrayerTest_({prayer:'Fajr'});assert.equal(c.__sends[0].data.imageUrl,'');
 console.log('PASS: disabled default, test-user-only, dedupe, all-devices mode, per-prayer toggle, forced test target, Dar Al-Ifta parsing (ص/م + Dhuhr quirk), Aladhan fallback, per-prayer images (default/none/ready/custom/clear/validation).');
+// 13. window matching: fires a few minutes after the adhan even when the 5-min trigger never hits the exact minute
+c=makeCtx('18:28');c.adminPrayerSet_({enabled:true});r=c.prayerTick_();assert(r.ok&&r.prayer==='Isha'&&r.lateMin===3,'fires within window at phase-misaligned minute');assert.equal(c.__sends.length,1);
+r=c.prayerTick_();assert(r.ok&&r.skipped==='duplicate','second tick in window does not resend');assert.equal(c.__sends.length,1);
+// 14. beyond the 30-min window: no send
+c=makeCtx('19:00');c.adminPrayerSet_({enabled:true});r=c.prayerTick_();assert(r.ok&&r.skipped==='no-prayer-now','35 min late is outside the window');assert.equal(c.__sends.length,0);
+// 15. legacy exact-match record migrates: a prayer already sent today before the fix is not resent
+c=makeCtx('18:28');c.__store['PRAYER_LAST']='2026-11-24:Isha';c.adminPrayerSet_({enabled:true});r=c.prayerTick_();assert(r.ok&&r.skipped==='duplicate','legacy record prevents resend');assert.equal(c.__sends.length,0);
+// 16. per-prayer dedupe survives across the day: Asr sent, Isha still fires later
+c=makeCtx('14:50');c.adminPrayerSet_({enabled:true});r=c.prayerTick_();assert(r.ok&&r.prayer==='Asr'&&r.lateMin===3);
