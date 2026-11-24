@@ -377,6 +377,7 @@ function initPushLibrary(){
   };
 }
 const PRAYER_AR={Fajr:'الفجر',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+const fmtT12=t=>{const m=/^(\d{1,2}):(\d{2})/.exec(t||'');if(!m)return t||'--:--';const h=+m[1];return (h%12||12)+':'+m[2]+(h<12?' ص':' م');};
 const PRAYER_ICONS={Fajr:'fa-star-and-crescent',Dhuhr:'fa-sun',Asr:'fa-cloud-sun',Maghrib:'fa-cloud-moon',Isha:'fa-moon'};
 const NPH_IMGS={default:'الصورة الأصلية',lecture:'محاضرة',quiz:'كويز',reply:'رد',motivation:'تحفيز',salawat:'صلاة على النبي',hadith:'حديث',dua:'دعاء',encouragement:'تشجيع',none:'بدون صورة',custom:'مخصصة (من جهازك)'};
 function mkPreview(){
@@ -561,14 +562,14 @@ async function loadPrayer(){
     card.classList.remove("hidden");
     $("prayerEnabled").checked=d.enabled===true;$("prayerTestMode").checked=d.testMode!==false;
     const T=$("prayerTimes");T.replaceChildren();
-    Object.keys(PRAYER_AR).forEach(k=>T.appendChild(h("span",{class:"nphA-chip"},h("i",{class:"fa-solid "+PRAYER_ICONS[k]}),PRAYER_AR[k]+" "+((d.times||{})[k]||"--:--"))));
+    Object.keys(PRAYER_AR).forEach(k=>T.appendChild(h("span",{class:"nphA-chip"},h("i",{class:"fa-solid "+PRAYER_ICONS[k]}),PRAYER_AR[k]+" "+fmtT12((d.times||{})[k]||"--:--"))));
     const list=$("prayerList");list.replaceChildren();PRAYER_UI={};
     Object.keys(PRAYER_AR).forEach(k=>{
       const info=(d.images||{})[k]||{kind:'default',preview:''};
       const ui=PRAYER_UI[k]={};
       const time=(d.times||{})[k]||'--:--';
       const title='حان الآن وقت صلاة '+PRAYER_AR[k]+' 🕌';
-      const body='بتوقيت بورسعيد ('+time+'). تقبّل الله طاعتكم 🤍';
+      const body='بتوقيت بورسعيد ('+fmtT12(time)+'). تقبّل الله طاعتكم 🤍';
       const sw=h("label",{class:"nphA-sw",title:"تفعيل تذكير "+PRAYER_AR[k]},h("input",{type:"checkbox"}),h("span"));
       sw.querySelector("input").checked=!d.prayers||d.prayers[k]!==false;sw.querySelector("input").dataset.k=k;
       const testBtn=h("button",{type:"button",class:"nphA-test",title:"إرسال تجريبي لحسابك"},h("i",{class:"fa-solid fa-vial"}));

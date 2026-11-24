@@ -25,11 +25,11 @@ c=makeCtx('11:47');c.adminPrayerSet_({enabled:true});r=c.prayerTick_();assert(r.
 assert.equal(c.__sends.length,1);assert.deepEqual(c.__sends[0].targets,['admin-device']);assert(c.__sends[0].title.includes('الظهر'));
 r=c.prayerTick_();assert(r.ok&&r.skipped==='duplicate');assert.equal(c.__sends.length,1);
 // 3. non-test mode sends to all devices
-c=makeCtx('17:05');c.adminPrayerSet_({enabled:true,testMode:false});r=c.prayerTick_();assert(r.ok&&r.testMode===false);assert.equal(c.__sends[0].targets.length,2);
+c=makeCtx('17:05');c.adminPrayerSet_({enabled:true,testMode:false});r=c.prayerTick_();assert(r.ok&&r.testMode===false);assert.equal(c.__sends[0].targets.length,2);assert(c.__sends[0].body.includes('5:05 م'),'12h evening format');
 // 4. prayer toggle off skips
 c=makeCtx('11:47');c.adminPrayerSet_({enabled:true,prayers:{Dhuhr:false}});r=c.prayerTick_();assert(r.ok&&r.skipped==='no-prayer-now');assert.equal(c.__sends.length,0);
 // 5. adminPrayerTest_ always to admin even when disabled, and get returns times
-c=makeCtx('09:00');r=c.adminPrayerTest_({prayer:'Fajr'});assert(r.ok&&r.sent===1);assert(c.__sends[0].title.includes('الفجر'));assert(c.__sends[0].body.includes('تجريبية'));
+c=makeCtx('09:00');r=c.adminPrayerTest_({prayer:'Fajr'});assert(r.ok&&r.sent===1);assert(c.__sends[0].title.includes('الفجر'));assert(c.__sends[0].body.includes('تجريبية'));assert(c.__sends[0].body.includes('5:12 ص'),'12h Arabic format');
 r=c.adminPrayerGet_({});assert(r.ok&&r.times&&r.times.Fajr==='05:12'&&r.testMode===true);
 // 6. no matching time
 c=makeCtx('10:00');c.adminPrayerSet_({enabled:true});r=c.prayerTick_();assert(r.ok&&r.skipped==='no-prayer-now');
