@@ -109,11 +109,16 @@ function adminPushSend_(req) {
   }
   if (!targets.length) return { ok: false, error: username ? 'مفيش جهاز مسجل للطالب ده' : 'مفيش أجهزة مسجلة لسه' };
   const requestedUrl = String(req.url || 'index.html');
-  const noticeUrl = /^(index\.html|Lectures\.html|Lecture\.html\?id=[a-zA-Z0-9%_-]+)$/.test(requestedUrl) ? requestedUrl : 'index.html';
+  const noticeUrl = /^(index\.html|Lectures\.html|Lecture\.html\?id=[a-zA-Z0-9%_-]+|community\.html)$/.test(requestedUrl) ? requestedUrl : 'index.html';
   let imageUrl = '';
   if(req.banner==='custom'){
     if(typeof pushUploadImage_ !== 'function')return {ok:false,error:'استضافة الصور المخصصة لسه مش متظبطة'};
     try{imageUrl=pushUploadImage_(req.imagePng)}catch(e){return {ok:false,error:e.message}}
+  }
+  const directImage = String(req.imageUrl || '').trim();
+  if (directImage) {
+    if (!/^https:\/\/res\.cloudinary\.com\/[a-z0-9_-]+\/image\/upload\/[A-Za-z0-9_.,!\/~%+\-]+\.(png|jpg|jpeg|webp)$/.test(directImage)) return { ok: false, error: 'رابط صورة الإشعار لازم يكون صورة Cloudinary مباشرة' };
+    imageUrl = directImage;
   }
   const res = fcmSendToTokens_(targets, title, body, { url: noticeUrl, imageUrl, banner: ['lecture','quiz','reply','motivation','salawat','hadith','dua','encouragement','none'].indexOf(req.banner) >= 0 ? req.banner : 'lecture' });
   pushLogSheet_().appendRow([new Date(), username || 'ALL', title, body, res.sent, res.failed, res.configured]);
