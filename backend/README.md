@@ -1,5 +1,9 @@
 # Push backend
 
+## adminPushLog (read-only delivery log), activation note
+
+This copy of `Push.gs` adds `adminPushLog_`, which returns the 20 newest PushLog rows for the admin composer history card. It reads only; it never writes or deletes. Activation after approval: back up the live files, add the same function to the live Push.gs, add one line to the route map in the live Students.gs (`adminPushLog: (typeof adminPushLog_ === 'function') ? adminPushLog_ : null,` next to `adminPushSend`), and publish a new version on the existing deployment. Until then the admin history card hides itself and the composer keeps working exactly as before.
+
 `Push.gs` is a backup of the notification-only Apps Script file, with the system notification appearance settings for this PR. No lecture or sheet data is changed.
 
 ## Deployment notes, not deployment authorization

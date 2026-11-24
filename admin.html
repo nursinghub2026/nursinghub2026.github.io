@@ -167,6 +167,13 @@ body{background:#eef3f7}
       <div class="sect"><i class="fa-solid fa-bell"></i><div>الإشعارات<small>ابعت إشعار لكل الطلبة أو لطالب معين</small></div></div>
       <div class="card" id="pushStat"></div>
       <div class="card" style="margin-top:12px">
+        <div style="border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:14px;background:var(--bg2,#f7f4ec)">
+          <label for="pushLibCat" style="font-weight:800;font-size:13px;display:block;margin-bottom:6px"><i class="fa-solid fa-book-open"></i> مكتبة المحتوى الجاهز</label>
+          <select id="pushLibCat" aria-label="قسم مكتبة المحتوى"></select>
+          <select id="pushLibItem" aria-label="نص من مكتبة المحتوى" style="margin-top:8px"></select>
+          <small id="pushLibSrc" style="display:block;color:var(--mut);margin:6px 0;min-height:16px"></small>
+          <button type="button" class="btn sm" id="pushLibInsert"><i class="fa-solid fa-arrow-down-to-bracket"></i> إدخال النص في الإشعار</button>
+        </div>
         <label style="font-weight:800;font-size:13px;display:block;margin-bottom:6px">عنوان الإشعار</label>
         <input id="pushTitle" placeholder="مثال: محاضرة جديدة نزلت">
         <label style="font-weight:800;font-size:13px;display:block;margin:10px 0 6px">نص الإشعار</label>
@@ -183,8 +190,10 @@ body{background:#eef3f7}
           <label for="pushUser">اختار طالبًا من الحسابات المسجلة</label><select id="pushUser" size="6" aria-label="قائمة الطلاب لاختيار مستلم الإشعار"><option value="">جاري تحميل قائمة الطلاب...</option></select><small style="display:block;color:var(--mut);margin-top:6px">كل الحسابات ظاهرة. الحساب غير المسجل في الإشعارات غير متاح للاختيار، ويحتاج تفعيل إشعاراته أولًا.</small>
         </div>
         <button class="btn" id="pushSend" style="margin-top:14px;width:100%"><i class="fa-solid fa-paper-plane"></i> إرسال الإشعار</button>
+        <button type="button" class="btn sm" id="pushTest" style="margin-top:8px;width:100%"><i class="fa-solid fa-vial"></i> إرسال تجريبي لحسابي بس</button>
         <div id="pushMsg" style="margin-top:10px;font-size:13px;font-weight:700"></div>
       </div>
+      <div class="card hidden" id="pushLogCard" style="margin-top:12px"><b style="font-size:14px"><i class="fa-solid fa-clock-rotate-left"></i> آخر الإشعارات المرسلة</b><div id="pushLog" style="margin-top:8px"></div></div>
     </section>
     <section id="v-log" class="hidden"><div class="sect"><i class="fa-solid fa-shield-halved"></i><div>سجل المشرفين<small>آخر العمليات على المنصة</small></div></div><div class="card" id="lgl"></div></section>
   </main>
@@ -265,6 +274,37 @@ function refresh(){if(V==="dash")renderDash();else if(V==="lec")listLecs();else 
 /* --- الإشعارات (المرحلة 3) --- */
 const PTPL={lec:["محاضرة جديدة نزلت","اتضافت محاضرة جديدة على المنصة.. افتح وابدأ ذاكر دلوقتي"],quiz:["كويز جديد متاح","جرب نفسك في الكويز الجديد وشوف مستواك"],mot:["افتكر هدفك","كل يوم مذاكرة بيقرّبك من التفوق.. كمّل يا بطل"]};
 let pushAud="all",customImagesReady=false;
+/* حساب الأدمن نفسه للإرسال التجريبي. يمكن تغييره من المتصفح: localStorage.NPH_PUSH_TEST_USER */
+const ADMIN_PUSH_TEST_USER=localStorage.getItem("NPH_PUSH_TEST_USER")||"abdelrhman.wae1";
+function initPushLibrary(){
+  const cat=$("pushLibCat"),item=$("pushLibItem"),src=$("pushLibSrc");
+  if(!cat||!window.NPHContentLibrary)return;
+  cat.replaceChildren(...NPHContentLibrary.map((c,i)=>h("option",{value:i},c.cat)));
+  function fillItems(){
+    const c=NPHContentLibrary[+cat.value||0];
+    item.replaceChildren(...c.items.map((x,i)=>h("option",{value:i},x.t)));
+    src.textContent=c.items[0]&&c.items[0].src?("المصدر: "+c.items[0].src):"";
+  }
+  cat.onchange=fillItems;
+  item.onchange=()=>{const c=NPHContentLibrary[+cat.value||0],x=c.items[+item.value||0];src.textContent=x.src?("المصدر: "+x.src):""};
+  fillItems();
+  $("pushLibInsert").onclick=()=>{
+    const c=NPHContentLibrary[+cat.value||0],x=c.items[+item.value||0];if(!x)return;
+    $("pushTitle").value=x.t;$("pushBody").value=x.b;
+    $("pushTitle").dispatchEvent(new Event("input"));$("pushBody").dispatchEvent(new Event("input"));
+  };
+}
+async function loadPushLog(){
+  const card=$("pushLogCard"),box=$("pushLog");if(!card||!box)return;
+  try{
+    const d=await api("adminPushLog",{});
+    if(!d.log||!d.log.length)return;
+    card.classList.remove("hidden");box.replaceChildren();
+    d.log.slice(0,10).forEach(r=>box.appendChild(h("div",{class:"mini"},
+      h("span",null,h("b",null,r.title||"")," — "+(r.audience==="ALL"?"لكل الطلبة":"لطالب: @"+r.audience)+" ✅"+r.sent+(r.failed?" ❌"+r.failed:"")),
+      h("small",{style:"color:var(--mut);font-weight:600"},ago(r.ts)))));
+  }catch(e){/* نقطة النهاية لم تُنشر بعد على السيرفر — يظهر السجل بعد تحديث الباك إند */}
+}
 async function loadPush(){
   const st=$("pushStat");st.innerHTML="";
   try{
@@ -280,6 +320,7 @@ async function loadPush(){
       registered.forEach(student=>{if(!student.username)return;known.add(student.username);const available=eligible.has(student.username),o=h("option",{value:student.username,disabled:!available},(student.name||student.username)+" · @"+student.username+(available?"":" · لم يفعّل الإشعارات"));dl.appendChild(o)});
     } catch(e) {toast("تعذر تحميل كل الحسابات. القائمة تعرض المسجلين في الإشعارات فقط.",true);}
     eligible.forEach(u=>{if(!known.has(u))dl.appendChild(h("option",{value:u},"@"+u))});
+    loadPushLog();
   }catch(e){
     st.appendChild(h("div",{class:"empty"},ic("fa-triangle-exclamation"),"خدمة الإشعارات لسه مش متظبطة على السيرفر (Push.gs مش متنشر أو FCM مش متعمله إعداد)"));
   }
@@ -298,25 +339,31 @@ function initPush(){
     pushAud=b.dataset.m;document.querySelectorAll("#pushAud button").forEach(x=>x.classList.toggle("on",x===b));
     $("pushPick").classList.toggle("hidden",pushAud!=="one");
   });
-  $("pushSend").onclick=async()=>{
+  async function doSend(forceUser,isTest){
     const title=$("pushTitle").value.trim(),body=$("pushBody").value.trim();
-    const un=pushAud==="one"?$("pushUser").value.trim():"";
+    const un=isTest?forceUser:(pushAud==="one"?$("pushUser").value.trim():"");
     const m=$("pushMsg");m.textContent="";
     if(!title||!body){m.textContent="اكتب العنوان والنص الأول";return}
     if($("pushBanner").value==="custom"&&!customImagesReady){m.textContent="الرفع التلقائي لسه مش متظبط على السيرفر. نزّل التصميم مؤقتًا أو اختار صورة جاهزة، لم يتم الإرسال.";return}
-    if(pushAud==="one"&&!un){m.textContent="اكتب اسم المستخدم للطالب";return}
-    const btn=$("pushSend");btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
+    if(!isTest&&pushAud==="one"&&!un){m.textContent="اختار الطالب من القائمة الأول";return}
+    if(!isTest&&pushAud==="all"&&!window.confirm("الإشعار هيوصل لكل الطلبة المسجلين. متأكد من الإرسال للكل؟"))return;
+    const btn=isTest?$("pushTest"):$("pushSend"),old=btn.innerHTML;
+    btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
     try{
       const banner=$("pushBanner").value;
       const imagePng=banner==="custom"?await NPHBanner.data():undefined;
       const d=await api("adminPushSend",{title,body,username:un,banner,imagePng});
-      m.textContent=d.configured===false?("اتسجل الإشعار في السجل، بس الإرسال الفعلي محتاج إعداد Firebase (لسه مش متعمل): وصل "+(d.sent||0)+" جهاز"):("تم الإرسال ✅ وصل "+(d.sent||0)+" جهاز"+((d.failed||0)?(" — فشل "+d.failed):""));
-      $("pushTitle").value="";$("pushBody").value="";previewPush();
+      m.textContent=d.configured===false?("اتسجل الإشعار في السجل، بس الإرسال الفعلي محتاج إعداد Firebase (لسه مش متعمل): وصل "+(d.sent||0)+" جهاز"):((isTest?"وصل التجريبي لحسابك ✅ ":"تم الإرسال ✅ وصل ")+(d.sent||0)+" جهاز"+((d.failed||0)?(" — فشل "+d.failed):""));
+      if(!isTest){$("pushTitle").value="";$("pushBody").value="";previewPush();}
+      loadPushLog();
     }catch(e){m.textContent=net(e)}
-    btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> إرسال الإشعار';
-  };
+    btn.disabled=false;btn.innerHTML=old;
+  }
+  $("pushSend").onclick=()=>doSend(null,false);
+  $("pushTest").onclick=()=>doSend(ADMIN_PUSH_TEST_USER,true);
 }
 initPush();
+initPushLibrary();
 
 function updBadge(){const cn=CH.reduce((a,c)=>a+(c.unread||0),0);const n=SG.filter(s=>!s.reply).length+cn;$("bdg").textContent=n;$("bdg").classList.toggle("hidden",!n);
   const cb=$("cbdg");if(cb){cb.textContent=cn;cb.classList.toggle("hidden",!cn)}}
@@ -607,4 +654,4 @@ async function loadLog(){const b=$("lgl");b.innerHTML="";b.appendChild(h("div",{
     b.appendChild(t)}catch(e){b.innerHTML="";b.appendChild(h("div",{class:"empty"},"السجل غير متاح."))}}
 
 if(PW&&AD)start();
-</script><script src="banner-studio.js"></script><script src="theory-extras.js"></script><script src="community.js"></script><script>const originalCommunityDash=renderDash;renderDash=function(){originalCommunityDash();if(window.NPHCommunity)NPHCommunity.admin(document.getElementById("v-dash"));};if(PW&&AD&&V==="dash")renderDash();</script></body></html>
+</script><script src="content-library.js"></script><script src="banner-studio.js"></script><script src="theory-extras.js"></script><script src="community.js"></script><script>const originalCommunityDash=renderDash;renderDash=function(){originalCommunityDash();if(window.NPHCommunity)NPHCommunity.admin(document.getElementById("v-dash"));};if(PW&&AD&&V==="dash")renderDash();</script></body></html>
