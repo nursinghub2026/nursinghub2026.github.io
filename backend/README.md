@@ -64,3 +64,13 @@ Nine hosted banners under `notification-images/`: one per prayer (`prayer-fajr/d
 - `admin.html`: the composer image select offers the four new kinds; picking a library preset selects its category image automatically (the admin can still change it before sending).
 
 Activation after approval: back up the live files, apply the `PrayerReminders.gs` and `Push.gs` changes from this branch, publish a new version on the existing deployment. Until then, prayer notifications keep the motivation banner and composer sends of the new kinds fall back safely (unknown kinds resolve to `lecture` on the old whitelist, so no breakage, just the wrong image — apply the backend before using the new kinds).
+
+## Scheduled weekly/one-shot reminders (feat/scheduled-notices)
+
+The admin writes reminders himself (title, body, banner, all students or one, Cairo time, optional weekly repeat); each fires as a push + an inbox row at its time. Storage is strictly append-only: `ScheduledNotices`, `ScheduledSends` (dedupe log), `ScheduledCancels` (cancel = new row, original untouched).
+
+- `backend/ScheduledNotices.gs`: `adminSchedAdd_` / `adminSchedList_` / `adminSchedCancel_` / `adminSchedSet_`, `schedTick_` (5-minute trigger), `schedInstallTrigger_`.
+- Sending is OFF by default (`SCHED_CFG.enabled=false`). Nothing reaches students until the owner flips the switch in the admin card himself. Occurrences older than a day are skipped, never back-sent.
+- Admin UI: new card in `admin.html` under the prayer card with form, enable switch, and list with cancel.
+
+Activation after approval: back up the live files; add `ScheduledNotices.gs` to the project; add four typeof-guarded lines to the `routeStudents_` map (`adminSchedAdd`, `adminSchedList`, `adminSchedCancel`, `adminSchedSet`); publish a new version; run `schedInstallTrigger_()` once from the editor. Rollback: revert the deployment and delete the trigger.
