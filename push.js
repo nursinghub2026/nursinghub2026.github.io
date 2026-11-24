@@ -23,6 +23,28 @@ function card(id,html){
 }
 function removeCard(id){var d=document.getElementById(id);if(d&&d.remove)d.remove()}
 
+/* Push status pill: class-driven states (idle / busy / on / retry / warn). */
+(function(){
+ var css='#nphPushEnable{position:fixed;z-index:970;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:8px;max-width:calc(100vw - 32px);padding:10px 18px;border-radius:999px;border:1px solid rgba(212,175,90,.6);background:linear-gradient(135deg,#0b2540,#16415f);color:#fff;font:800 12.5px/1 inherit;font-family:inherit;cursor:pointer;white-space:nowrap;box-shadow:0 10px 26px rgba(8,23,43,.35);-webkit-tap-highlight-color:transparent}'
+ +'#nphPushEnable i{color:#f0d58a;font-size:14px}'
+ +'#nphPushEnable.on{border-color:rgba(23,132,79,.3);background:rgba(255,255,255,.94);color:#17844f;box-shadow:0 6px 18px rgba(13,34,56,.12)}'
+ +'#nphPushEnable.on i{color:#17844f}'
+ +'html[data-theme=dark] #nphPushEnable.on{background:rgba(15,35,56,.94);color:#63d89e;border-color:rgba(99,216,158,.3)}'
+ +'html[data-theme=dark] #nphPushEnable.on i{color:#63d89e}'
+ +'#nphPushEnable.warn{border-color:rgba(212,175,90,.6);background:linear-gradient(135deg,#5e4111,#8a6a1c);color:#fff}'
+ +'#nphPushEnable.warn i{color:#ffe9b0}'
+ +'@media(min-width:761px){#nphPushEnable{bottom:22px;left:auto;right:22px;transform:none}}';
+ var st=document.createElement('style');st.textContent=css;document.head.append(st);
+})();
+function setBtn(b,state){
+ b.classList.remove('on','warn');
+ if(state==='on'){b.classList.add('on');b.innerHTML='<i class="fa-solid fa-circle-check"></i><span>الإشعارات مفعّلة</span>';}
+ else if(state==='busy'){b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i><span>جاري تفعيل الإشعارات…</span>';}
+ else if(state==='retry'){b.classList.add('warn');b.innerHTML='<i class="fa-solid fa-rotate-right"></i><span>اضغط للمحاولة تاني</span>';}
+ else if(state==='refresh'){b.classList.add('warn');b.innerHTML='<i class="fa-solid fa-rotate-right"></i><span>اضغط لتحديث تفعيل الإشعارات</span>';}
+ else{b.innerHTML='<i class="fa-solid fa-bell"></i><span>فعّل إشعارات المحاضرات والردود</span>';}
+}
+
 /* iOS outside the installed PWA: no push is possible. Say so instead of hiding. */
 if(ios&&!standalone){
  card('nphPushIos','<b>الإشعارات على آيفون 📱</b><br>إشعارات الموقع بتشتغل من التطبيق بس:<br>١. افتح الموقع في <b>سفاري</b><br>٢. اضغط <b>مشاركة</b> ← <b>«إضافة إلى الشاشة الرئيسية»</b><br>٣. افتح التطبيق اللي اتثبّت، سجّل دخولك، وفعّل الإشعارات منه');
@@ -71,13 +93,13 @@ function logAttempt(stage,msg){
 }
 
 async function enable(button){
- if(busy)return;busy=true;button.disabled=true;button.textContent='جاري تفعيل الإشعارات…';
+ if(busy)return;busy=true;button.disabled=true;setBtn(button,'busy');
  try{
   var a=auth();if(!a||!a.token)throw Error('سجل دخولك الأول');
   // Permission request precedes asynchronous SDK loading, preserving the click gesture.
   if(Notification.permission!=='granted'&&await Notification.requestPermission()!=='granted')throw Error('الإشعارات مش مسموحة');
   await register();
-  button.textContent='الإشعارات مفعّلة ✓';
+  setBtn(button,'on');
   return true;
  }catch(e){
   rememberError(e);showError(button,e);logAttempt('enable-error',e&&e.message);
@@ -85,32 +107,31 @@ async function enable(button){
  }finally{button.disabled=false;busy=false;}
 }
 function showError(button,e){
- button.textContent='اضغط للمحاولة تاني';
+ setBtn(button,'retry');
  card('nphPushErr','<b>الإشعارات لسه مش متفعلة على الجهاز ده</b><br>'+String((e&&e.message)||e)+'<br><small>لو الإذن متظبط والرسالة بتتكرر، جرب تفتح الموقع في كروم أو سفاري على نت ثابت.</small>');
 }
 window.NPH_PUSH_DISABLE=async function(){try{var m=await setup();await m.deleteToken();localStorage.removeItem('NPH_PUSH_OWNER');}catch(e){throw Error('مقدرناش نوقف إشعارات الحساب على الجهاز. اتأكد من النت وجرب تاني.');}};
 
 function mount(){
  var a=auth();if(!a||!a.token||document.getElementById('nphPushEnable'))return;
- var b=document.createElement('button');b.id='nphPushEnable';b.type='button';b.textContent='فعّل إشعارات المحاضرات والردود';
- b.style.cssText='position:fixed;bottom:76px;left:16px;max-width:calc(100vw - 32px);z-index:970;border:1px solid #d4af5a;border-radius:20px;padding:10px 16px;background:#0b2540;color:#fff;font:inherit;cursor:pointer';
+ var b=document.createElement('button');b.id='nphPushEnable';b.type='button';setBtn(b,'idle');
  host().append(b);
  if(Notification.permission==='granted'){
   if(localStorage.getItem('NPH_PUSH_OWNER')===a.username){
-   b.textContent='الإشعارات مفعّلة ✓';
-   setup().catch(function(){b.textContent='اضغط لتحديث تفعيل الإشعارات';});
+   setBtn(b,'on');
+   setup().catch(function(){setBtn(b,'refresh');});
    b.onclick=function(){enable(b)};
   }else{
    /* Auto-heal: permission was granted before but the token never saved. Retry silently, no tap needed. */
-   b.textContent='جاري تفعيل الإشعارات…';b.disabled=true;
-   register().then(function(){b.textContent='الإشعارات مفعّلة ✓';b.disabled=false;b.onclick=function(){enable(b)};})
+   setBtn(b,'busy');b.disabled=true;
+   register().then(function(){setBtn(b,'on');b.disabled=false;b.onclick=function(){enable(b)};})
     .catch(function(e){b.disabled=false;rememberError(e);showError(b,e);logAttempt('autoheal-error',e&&e.message);b.onclick=function(){enable(b)};});
   }
  }else if(Notification.permission==='denied'){
-  b.textContent='الإشعارات محظورة — اضغط لطريقة التشغيل';
-  b.onclick=function(){card('nphPushErr','<b>الإشعارات محظورة للموقع من المتصفح</b><br>اضغط أيقونة القفل 🔒 جنب الرابط ← إعدادات الموقع ← الإشعارات ← <b>سماح</b>، وبعدين ارجع اضغط هنا.');b.textContent='فعّل إشعارات المحاضرات والردود';b.onclick=function(){enable(b)};};
+  setBtn(b,'warn');
+  b.onclick=function(){card('nphPushErr','<b>الإشعارات محظورة للموقع من المتصفح</b><br>اضغط أيقونة القفل 🔒 جنب الرابط ← إعدادات الموقع ← الإشعارات ← <b>سماح</b>، وبعدين ارجع اضغط هنا.');setBtn(b,'idle');b.onclick=function(){enable(b)};};
  }else{
-  var err=lastError();if(err)b.textContent='اضغط للمحاولة تاني';
+  var err=lastError();if(err)setBtn(b,'retry');
   b.onclick=function(){enable(b)};
   maybePrompt(b);
  }
