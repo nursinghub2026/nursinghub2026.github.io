@@ -62,6 +62,7 @@
     h('div', { class: 'inbox-head' },
       h('div', { class: 'inbox-title' }, h('i', { class: 'fa-solid fa-bell' }), ' الإشعارات'),
       h('button', { class: 'inbox-all', type: 'button', onclick: markAll }, 'قرأت الكل')),
+    h('div', { class: 'inbox-push', id: 'nphPushSlot' }),
     list,
     h('div', { class: 'inbox-foot' }, 'إشعارات الإدارة تظهر هنا أول بأول'));
   const scrim = h('div', { class: 'inbox-scrim', hidden: true, onclick: () => setOpen(false) });
@@ -135,6 +136,7 @@
     if (!side) return false;
     if (!bell.isConnected) side.prepend(bell);
     if (!panel.isConnected) { document.body.appendChild(panel); document.body.appendChild(scrim); }
+    if (auth() && window.NPH_PUSH_MOUNT) window.NPH_PUSH_MOUNT(document.getElementById('nphPushSlot'));
     return true;
   }
   function syncVisibility() {

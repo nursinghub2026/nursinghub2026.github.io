@@ -23,22 +23,22 @@ function card(id,html){
 }
 function removeCard(id){var d=document.getElementById(id);if(d&&d.remove)d.remove()}
 
-/* Push status pill: class-driven states (idle / busy / on / retry / warn). */
+/* Push activation control: lives inside the inbox panel (#nphPushSlot).
+   No floating bottom element anywhere. States: idle / busy / on / retry / refresh. */
 (function(){
- var css='#nphPushEnable{position:fixed;z-index:970;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%);display:flex;align-items:center;gap:8px;max-width:calc(100vw - 32px);padding:10px 18px;border-radius:999px;border:1px solid rgba(212,175,90,.6);background:linear-gradient(135deg,#0b2540,#16415f);color:#fff;font:800 12.5px/1 inherit;font-family:inherit;cursor:pointer;white-space:nowrap;box-shadow:0 10px 26px rgba(8,23,43,.35);-webkit-tap-highlight-color:transparent}'
- +'#nphPushEnable i{color:#f0d58a;font-size:14px}'
- +'#nphPushEnable.on{border-color:rgba(23,132,79,.3);background:rgba(255,255,255,.94);color:#17844f;box-shadow:0 6px 18px rgba(13,34,56,.12)}'
- +'#nphPushEnable.on i{color:#17844f}'
- +'html[data-theme=dark] #nphPushEnable.on{background:rgba(15,35,56,.94);color:#63d89e;border-color:rgba(99,216,158,.3)}'
- +'html[data-theme=dark] #nphPushEnable.on i{color:#63d89e}'
- +'#nphPushEnable.warn{border-color:rgba(212,175,90,.6);background:linear-gradient(135deg,#5e4111,#8a6a1c);color:#fff}'
- +'#nphPushEnable.warn i{color:#ffe9b0}'
- +'@media(min-width:761px){#nphPushEnable{bottom:22px;left:auto;right:22px;transform:none}}';
+ var css='#nphPushCtl{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px 14px;border-radius:14px;border:1px solid rgba(212,175,90,.55);background:linear-gradient(135deg,#d4af5a,#f0d58a);color:#08172b;font:800 13px/1.4 inherit;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}'
+ +'#nphPushCtl i{font-size:14px}'
+ +'#nphPushCtl.on{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#7fe3ae;font-weight:800;cursor:default}'
+ +'#nphPushCtl.on i{color:#7fe3ae}'
+ +'#nphPushCtl.warn{border-color:rgba(212,175,90,.5);background:linear-gradient(135deg,#8a6a1c,#b48a2a);color:#fff}'
+ +'#nphPushCtl.warn i{color:#ffe9b0}'
+ +'#nphPushCtl:disabled{opacity:.75;cursor:wait}';
  var st=document.createElement('style');st.textContent=css;document.head.append(st);
 })();
 function setBtn(b,state){
+ if(!b)return;
  b.classList.remove('on','warn');
- if(state==='on'){b.classList.add('on');b.innerHTML='<i class="fa-solid fa-circle-check"></i><span>الإشعارات مفعّلة</span>';}
+ if(state==='on'){b.classList.add('on');b.innerHTML='<i class="fa-solid fa-circle-check"></i><span>الإشعارات مفعّلة على جهازك</span>';}
  else if(state==='busy'){b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i><span>جاري تفعيل الإشعارات…</span>';}
  else if(state==='retry'){b.classList.add('warn');b.innerHTML='<i class="fa-solid fa-rotate-right"></i><span>اضغط للمحاولة تاني</span>';}
  else if(state==='refresh'){b.classList.add('warn');b.innerHTML='<i class="fa-solid fa-rotate-right"></i><span>اضغط لتحديث تفعيل الإشعارات</span>';}
@@ -112,12 +112,10 @@ function showError(button,e){
 }
 window.NPH_PUSH_DISABLE=async function(){try{var m=await setup();await m.deleteToken();localStorage.removeItem('NPH_PUSH_OWNER');}catch(e){throw Error('مقدرناش نوقف إشعارات الحساب على الجهاز. اتأكد من النت وجرب تاني.');}};
 
-function mount(){
- var a=auth();if(!a||!a.token||document.getElementById('nphPushEnable'))return;
- var b=document.createElement('button');b.id='nphPushEnable';b.type='button';setBtn(b,'idle');
- host().append(b);
+function wire(b){
  if(Notification.permission==='granted'){
-  if(localStorage.getItem('NPH_PUSH_OWNER')===a.username){
+  var a=auth();
+  if(a&&localStorage.getItem('NPH_PUSH_OWNER')===a.username){
    setBtn(b,'on');
    setup().catch(function(){setBtn(b,'refresh');});
    b.onclick=function(){enable(b)};
@@ -135,6 +133,18 @@ function mount(){
   b.onclick=function(){enable(b)};
   maybePrompt(b);
  }
+}
+/* The activation control lives inside the inbox panel; nothing floats at the bottom of pages. */
+window.NPH_PUSH_MOUNT=function(container){
+ if(!container||document.getElementById('nphPushCtl'))return;
+ var b=document.createElement('button');b.id='nphPushCtl';b.type='button';setBtn(b,'idle');
+ container.appendChild(b);
+ wire(b);
+};
+function mount(){
+ var a=auth();if(!a||!a.token)return;
+ var slot=document.getElementById('nphPushSlot');
+ if(slot)window.NPH_PUSH_MOUNT(slot);
 }
 /* First-visit prompt: one clear tap. Once per device; dismissible. */
 function maybePrompt(button){
