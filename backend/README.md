@@ -85,3 +85,13 @@ Admin card in `admin.html` (التذكيرات التلقائية): master enabl
 5. Enable from the admin card; this installs the trigger. Rollback: disable from the card (removes the trigger), or redeploy the previous version.
 
 Until activation the admin card stays hidden (its load call fails silently), exactly like the prayer card before its backend shipped.
+
+## Push enable resilience + diagnostics (fix/push-enable-resilience)
+
+Frontend (`push.js`): first-visit prompt card (one tap, dismissible, once per device), auto-heal re-registration when permission was granted but no token saved, persistent error state with retry, iOS "install the PWA first" guidance, in-app-browser "open in Chrome/Safari" hint. Admin (`admin.html`): token coverage counts (enabled / not yet / total students) in the push section.
+
+Backend (additive):
+- `Push.gs`: `stuPushAttempt_` + append-only `PushAttempts` sheet (`ts, username, stage, message, ua`) — client logs why enabling failed per device. Auth optional so "سجل دخولك الأول" cases still get logged.
+- `PrayerReminders.gs`: prayer reminders also append to the bell inbox (`inboxAppend_`, guarded) — an in-site fallback for students without tokens.
+
+Activation after approval: back up live files; update `Push.gs` and `PrayerReminders.gs`; add one typeof-guarded route line for `stuPushAttempt` to the `routeStudents_` map; publish a new version. Rollback: revert the deployment.

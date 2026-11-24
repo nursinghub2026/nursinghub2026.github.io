@@ -33,6 +33,22 @@ function pushLogSheet_() {
   return sh;
 }
 
+/* سجل محاولات تفعيل الإشعارات من الأجهزة (تشخيص، append-only) */
+function pushAttemptsSheet_() {
+  const ss = pushSs_();
+  let sh = ss.getSheetByName('PushAttempts');
+  if (!sh) { sh = ss.insertSheet('PushAttempts'); sh.appendRow(['ts', 'username', 'stage', 'message', 'ua']); }
+  return sh;
+}
+
+/* يسجّل نجاح/فشل تفعيل الإشعارات من صفحة الطالب — بدون إلزام تسجيل الدخول حتى تتسجل حالات «سجل دخولك الأول» */
+function stuPushAttempt_(req) {
+  let un = '';
+  try { un = String((stuAuth_(req).o || {}).username || ''); } catch (e) {}
+  pushAttemptsSheet_().appendRow([new Date().toISOString(), un, String(req.stage || '').slice(0, 40), String(req.message || '').slice(0, 200), String(req.ua || '').slice(0, 200)]);
+  return { ok: true };
+}
+
 /* حفظ/تحديث توكن جهاز طالب */
 function stuPushToken_(req) {
   const s = stuAuth_(req); // بيرمي خطأ لو الجلسة مش صالحة
