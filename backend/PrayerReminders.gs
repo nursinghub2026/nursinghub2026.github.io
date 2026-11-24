@@ -7,13 +7,15 @@
  *   حتى يفعّل الأدمن المفتاح العام بنفسه، وطالما testMode=true كل الإرسال
  *   (المجدول والتجريبي) يذهب لحساب الأدمن فقط (PRAYER_TEST_USER ثابت هنا).
  * - منع التكرار: آخر صلاة مُرسلة محفوظة في Script Properties.
- * - المواقيت: Aladhan API المجاني (طريقة الهيئة المصرية العامة للمساحة، method=5)،
- *   يُخزَّن يوميًا؛ عند تعذر الشبكة تُستخدم آخر مواقيت محفوظة.
+ * - المواقيت: دار الإفتاء المصرية (مصدر أساسي، يتحدّث يوميًا) مع الرجوع التلقائي
+ *   إلى Aladhan API المجاني (طريقة الهيئة المصرية العامة للمساحة، method=5)،
+ *   يُخزَّن يوميًا؛ عند تعذر المصدرين تُستخدم آخر مواقيت محفوظة.
  */
 var PRAYER_KEYS_ = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
 var PRAYER_NAMES_ = { Fajr: 'الفجر', Dhuhr: 'الظهر', Asr: 'العصر', Maghrib: 'المغرب', Isha: 'العشاء' };
 var PRAYER_TEST_USER = 'abdelrhman.wae1'; // حساب الأدمن — وجهة كل الاختبارات، لا تُقبل من العميل
 var PRAYER_API_ = 'https://api.aladhan.com/v1/timingsByCity?city=Port%20Said&country=Egypt&method=5';
+var PRAYER_API_DARALIFTA_ = 'https://www.dar-alifta.org/ar/Prayer/GetPrayer?town=' + encodeURIComponent('بورسعيد');
 
 function prayerProps_() { return PropertiesService.getScriptProperties(); }
 
@@ -36,21 +38,50 @@ function prayerTimes_() {
     var cached = JSON.parse(prayerProps_().getProperty('PRAYER_TIMES') || 'null');
     if (cached && cached.date === today && cached.times) return cached.times;
   } catch (e) {}
+  var times = prayerTimesDarAlIfta_() || prayerTimesAladhan_();
+  if (times) {
+    prayerProps_().setProperty('PRAYER_TIMES', JSON.stringify({ date: today, times: times }));
+    return times;
+  }
+  try {
+    var old = JSON.parse(prayerProps_().getProperty('PRAYER_TIMES') || 'null');
+    if (old && old.times) return old.times;
+  } catch (e2) {}
+  return null;
+}
+
+/* المصدر الأساسي: دار الإفتاء المصرية — صف HTML لبورسعيد فيه صف اليوم بمعرفات ثابتة */
+function prayerTimesDarAlIfta_() {
+  try {
+    var res = UrlFetchApp.fetch(PRAYER_API_DARALIFTA_ + '&t=' + Date.now(), { muteHttpExceptions: true });
+    if (res.getResponseCode() !== 200) throw new Error('bad response');
+    var html = res.getContentText();
+    var ids = { Fajr: 'fajrpartial', Dhuhr: 'dhuhrpartial', Asr: 'asrpartial', Maghrib: 'maghribpartial', Isha: 'ishapartial' };
+    var times = {};
+    var ok = true;
+    PRAYER_KEYS_.forEach(function (k) {
+      var m = html.match(new RegExp('id="' + ids[k] + '"[^>]*>\\s*(\\d{1,2}):(\\d{2})\\s*([صم])'));
+      if (!m) { ok = false; return; }
+      var h = parseInt(m[1], 10);
+      /* الموقع يوسم الظهر بـ «م» رغم أنه قبل الظهر: الظهر يبقى كما هو، والباقي «م» تعني مساءً */
+      if (m[3] === 'م' && k !== 'Dhuhr' && h < 12) h += 12;
+      times[k] = (h < 10 ? '0' : '') + h + ':' + m[2];
+    });
+    if (!ok) throw new Error('parse failed');
+    return times;
+  } catch (e) { return null; }
+}
+
+/* الرجوع التلقائي: Aladhan API المجاني (هيئة المساحة المصرية، method=5) */
+function prayerTimesAladhan_() {
   try {
     var res = UrlFetchApp.fetch(PRAYER_API_ + '&t=' + Date.now(), { muteHttpExceptions: true });
     var data = JSON.parse(res.getContentText());
     if (res.getResponseCode() !== 200 || !data.data || !data.data.timings) throw new Error('bad response');
     var times = {};
     PRAYER_KEYS_.forEach(function (k) { times[k] = String(data.data.timings[k]).slice(0, 5); });
-    prayerProps_().setProperty('PRAYER_TIMES', JSON.stringify({ date: today, times: times }));
     return times;
-  } catch (e) {
-    try {
-      var old = JSON.parse(prayerProps_().getProperty('PRAYER_TIMES') || 'null');
-      if (old && old.times) return old.times;
-    } catch (e2) {}
-    return null;
-  }
+  } catch (e) { return null; }
 }
 
 function prayerSend_(title, body, onlyTestUser) {
