@@ -101,6 +101,8 @@ function adminPushSend_(req) {
   }
   const res = fcmSendToTokens_(targets, title, body, { url: noticeUrl, imageUrl, banner: ['lecture','quiz','reply','motivation','none'].indexOf(req.banner) >= 0 ? req.banner : 'lecture' });
   pushLogSheet_().appendRow([new Date(), username || 'ALL', title, body, res.sent, res.failed, res.configured]);
+  // صندوق الإشعارات داخل الموقع (إضافي): نفس الإشعار يظهر في جرس الطلبة
+  if (typeof inboxAppend_ === 'function') inboxAppend_(username, title, body, noticeUrl);
   return { ok: true, sent: res.sent, failed: res.failed, configured: res.configured };
 }
 
