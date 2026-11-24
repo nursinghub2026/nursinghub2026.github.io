@@ -94,6 +94,8 @@ function prayerSend_(title, body, onlyTestUser, imageKey) {
     if (onlyTestUser && un !== PRAYER_TEST_USER) continue;
     targets.push(tk);
   }
+  /* يظهر التذكير كمان في جرس الإشعارات داخل الموقع — بديل مضمون للطلبة اللي لسه مفعّلوش الإشعارات */
+  if (typeof inboxAppend_ === 'function') inboxAppend_(onlyTestUser ? PRAYER_TEST_USER : '', title, body, 'adhkar.html');
   if (!targets.length) return { sent: 0, failed: 0, configured: true, noTargets: true };
   var img = imageKey ? ('https://nursinghub2026.github.io/notification-images/prayer-' + imageKey + '.png') : '';
   return fcmSendToTokens_(targets, title, body, { url: 'adhkar.html', banner: 'motivation', tag: 'prayer', imageUrl: img });
