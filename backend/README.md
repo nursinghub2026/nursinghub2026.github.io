@@ -36,3 +36,21 @@ The admin writes the notification title and body and chooses lecture, quiz, repl
 New lecture and new content forms have an unchecked-by-default notice option. If enabled, editable title/body/banner are sent only after successful save, using adminPushSend. Draft lectures cannot send. Existing edit forms do not send. A push failure never repeats or rolls back the save, and a manual retry warns about possible duplicate delivery.
 
 The notification destination is allowlisted to index.html, Lectures.html, or Lecture.html with an encoded ID. Apply the small Push.gs destination change after backing up the current file and publish a new backend version. Until that publication, notices still open the homepage. Tests use mocked saves and push responses, never real lecture/file/sheet data.
+
+## Notifications inbox (feat/notification-inbox)
+
+Adds an in-site notifications inbox: a gold bell in the side navigation of every nav page opens a navy/gold panel that lists everything the admin posts through the notification composer (PR #31), newest first, with an unread badge and per-student read state. Pairs with the composer: every send is also stored in the inbox sheet, so a student who missed or dismissed the system notification can still read it in the site.
+
+Student side is `notification-inbox.js` + `notification-inbox.css` (self-mounting bell + panel, script tag wired into the 10 nav pages). Backend is `backend/NotificationInbox.gs`, with a guarded append call added to the composer send path in `backend/Push.gs`. All storage is additive: two new sheets, `InboxNotifications` (one row per sent notification) and `InboxReads` (one row per student per notification when read). No existing sheet, file, or route is changed.
+
+### Activation, after approval
+
+1. Back up the live Apps Script files.
+2. Add `NotificationInbox.gs` to the Apps Script project as a new file, unchanged.
+3. In the live `Push.gs`, inside the composer send function, after the push log append, add the guarded inbox append (exact diff in this branch's `backend/Push.gs`).
+4. In the live `Students.gs` route map inside `routeStudents_`, add two typeof-guarded lines next to the existing student routes:
+   - `stuInboxList: (typeof stuInboxList_ === 'function') ? stuInboxList_ : null,`
+   - `stuInboxRead: (typeof stuInboxRead_ === 'function') ? stuInboxRead_ : null,`
+5. Publish a new version on the existing deployment.
+
+Until activation, the bell still appears for signed-in students and the panel shows its empty state; reads and history start working once the routes are live. `stuInboxList_` returns the 30 newest notifications with per-student read flags; `stuInboxRead_` marks one or all as read. Nothing is ever broadcast by this PR itself: only notifications the owner sends through the composer create inbox rows.
