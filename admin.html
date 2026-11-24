@@ -166,8 +166,15 @@ body{background:#eef3f7}
 .nphA-day{border:1.5px solid var(--line);background:var(--card,#fff);color:var(--mut);border-radius:999px;padding:6px 12px;font:inherit;font-size:11px;font-weight:800;cursor:pointer;transition:.15s}
 .nphA-day.on{background:rgba(212,175,90,.14);border-color:rgba(212,175,90,.55);color:#8a6a1c}
 @media(max-width:760px){#lecs{padding-bottom:110px}}
-.stuc{padding:16px;margin-bottom:12px;border:1px solid var(--line);border-radius:20px;box-shadow:0 2px 10px rgba(8,23,43,.05);transition:transform .18s,box-shadow .18s}
-.stuc:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(8,23,43,.10)}
+.stur{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:14px;margin-bottom:8px;background:var(--card,#fff);cursor:pointer;transition:.15s}
+.stur:hover{border-color:var(--teal);box-shadow:0 4px 14px rgba(8,23,43,.07)}
+.stur-av{width:34px;height:34px;flex:none;border-radius:11px;display:grid;place-items:center;font-size:13px;color:#fff;background:linear-gradient(135deg,var(--teal),#0b2540)}
+.stur-av.off{background:linear-gradient(135deg,#94a3b8,#64748b)}
+.stur-id{flex:1;min-width:0}
+.stur-id b{font-size:14px;display:block;overflow-wrap:anywhere}
+.stur-id small{color:var(--mut);font-size:11.5px}
+.stur .pill{flex:none}
+.stur>i{color:var(--mut);font-size:11px;flex:none}
 .pstep{display:flex;align-items:center;gap:8px;margin:16px 0 10px;font-weight:900;font-size:13.5px;color:var(--ink)}
 .pstep:first-child{margin-top:0}
 .pstep b{width:24px;height:24px;flex:none;border-radius:8px;display:grid;place-items:center;background:linear-gradient(135deg,var(--teal),#0b2540);color:#fff;font-size:12px}
@@ -994,23 +1001,28 @@ function renderStu(){const b=$("stuL"),s=$("stuS");b.innerHTML="";s.innerHTML=""
   if(!list.length){b.appendChild(h("div",{class:"empty card"},ic("fa-magnifying-glass"),"مفيش طالب مطابق للبحث."));return}
   list.slice().reverse().forEach(x=>{const dis=x.status!=="active";
     const nm=(x.name||x.username||"؟").trim();
-    b.appendChild(h("div",{class:"card stuc"},
-      h("div",{class:"stuc-top"},
-        h("span",{class:"stuc-av"+(dis?" off":"")},ic("fa-user-graduate")),
-        h("div",{class:"stuc-id"},
-          h("b",null,nm),
-          h("small",{dir:"ltr"},"@"+x.username)),
-        h("span",{class:"pill "+(dis?"gray":"green")},dis?"موقوف":"نشط")),
-      h("div",{class:"stuc-stats"},
-        h("span",null,ic("fa-clock"),x.lastActiveAt?("آخر نشاط "+ago(x.lastActiveAt)):"لسه مادخلش"),
-        h("span",null,ic("fa-circle-check"),"خلّص "+(x.doneCount||0)+" عنصر"),
-        h("span",null,ic("fa-note-sticky"),(x.notesCount||0)+" ملاحظة"),
-        h("span",null,ic("fa-user-plus"),"اتسجل "+(x.createdAt?ago(x.createdAt):"—"))),
-      h("div",{class:"act",style:"margin-top:10px"},
-        h("button",{class:"btn sm",onclick:()=>stuMsg(x)},ic("fa-comment-dots"),"مراسلة"),
-        h("button",{class:"btn sm",onclick:()=>stuReset(x)},ic("fa-key"),"كلمة سر جديدة"),
-        h("button",{class:"btn sm",onclick:()=>stuToggle(x)},ic(dis?"fa-play":"fa-ban"),dis?"تفعيل":"إيقاف"),
-        h("button",{class:"btn red sm",onclick:()=>stuDel(x)},ic("fa-trash"),"حذف"))))})}
+    b.appendChild(h("div",{class:"stur",onclick:()=>stuDetail(x)},
+      h("span",{class:"stur-av"+(dis?" off":"")},ic("fa-user-graduate")),
+      h("div",{class:"stur-id"},
+        h("b",null,nm),
+        h("small",{dir:"ltr"},"@"+x.username)),
+      h("span",{class:"pill "+(dis?"gray":"green")},dis?"موقوف":"نشط"),
+      ic("fa-chevron-left")))})}
+function stuDetail(x){const dis=x.status!=="active";const nm=(x.name||x.username||"؟").trim();
+  openSheet(nm,[
+    h("div",{style:"display:flex;align-items:center;gap:10px;margin-bottom:4px"},
+      h("small",{dir:"ltr",style:"color:var(--mut)"},"@"+x.username),
+      h("span",{class:"pill "+(dis?"gray":"green")},dis?"موقوف":"نشط")),
+    h("div",{class:"stuc-stats",style:"margin:12px 0 2px;display:grid;grid-template-columns:1fr 1fr;gap:9px"},
+      h("span",null,ic("fa-clock"),x.lastActiveAt?("آخر نشاط "+ago(x.lastActiveAt)):"لسه مادخلش"),
+      h("span",null,ic("fa-circle-check"),"خلّص "+(x.doneCount||0)+" عنصر"),
+      h("span",null,ic("fa-note-sticky"),(x.notesCount||0)+" ملاحظة"),
+      h("span",null,ic("fa-user-plus"),"اتسجل "+(x.createdAt?ago(x.createdAt):"—"))),
+    h("div",{style:"display:flex;flex-direction:column;gap:8px;margin-top:16px"},
+      h("button",{class:"btn sm",style:"width:100%;justify-content:center",onclick:()=>stuMsg(x)},ic("fa-comment-dots"),"مراسلة خاصة"),
+      h("button",{class:"btn sm",style:"width:100%;justify-content:center",onclick:()=>stuReset(x)},ic("fa-key"),"كلمة سر جديدة"),
+      h("button",{class:"btn sm",style:"width:100%;justify-content:center",onclick:()=>stuToggle(x)},ic(dis?"fa-play":"fa-ban"),dis?"تفعيل الحساب":"إيقاف الحساب"),
+      h("button",{class:"btn red sm",style:"width:100%;justify-content:center",onclick:()=>stuDel(x)},ic("fa-trash"),"حذف الحساب"))])}
 async function stuMsg(x){const uname=String(x.username||"");
   busy(true);let sid=null;
   try{const d=await api("adminChatStart",{username:uname});sid=d.sessionId||null}catch(e){sid=null}
@@ -1028,9 +1040,9 @@ async function stuReset(x){if(!confirm("توليد كلمة سر جديدة لل
   catch(e){busy(false);toast(net(e),true)}}
 async function stuToggle(x){const dis=x.status!=="active";
   if(!confirm((dis?"تفعيل":"إيقاف")+" حساب @"+x.username+"؟"+(dis?"":" هيتقفل فورًا ومش هيقدر يزامن تقدّمه.")))return;busy(true);
-  try{await api("stuSetStatus",{username:x.username,status:dis?"active":"disabled"});x.status=dis?"active":"disabled";renderStu();toast(dis?"اتفعّل الحساب.":"اتوقّف الحساب.")}catch(e){toast(net(e),true)}busy(false)}
+  try{await api("stuSetStatus",{username:x.username,status:dis?"active":"disabled"});x.status=dis?"active":"disabled";renderStu();closeSheet();toast(dis?"اتفعّل الحساب.":"اتوقّف الحساب.")}catch(e){toast(net(e),true)}busy(false)}
 async function stuDel(x){if(!confirm("حذف حساب @"+x.username+" نهائيًا؟ تقدّمه وملاحظاته على السيرفر هيتحذفوا كمان."))return;busy(true);
-  try{await api("stuDelete",{username:x.username});ST=ST.filter(y=>y.username!==x.username);renderStu();toast("اتحذف الحساب.")}catch(e){toast(net(e),true)}busy(false)}
+  try{await api("stuDelete",{username:x.username});ST=ST.filter(y=>y.username!==x.username);renderStu();closeSheet();toast("اتحذف الحساب.")}catch(e){toast(net(e),true)}busy(false)}
 
 let lgHide=true;
 async function loadLog(){const b=$("lgl");b.innerHTML="";b.appendChild(h("div",{class:"empty"},"جاري التحميل..."));
