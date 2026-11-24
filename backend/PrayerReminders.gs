@@ -100,6 +100,14 @@ function prayerTimesAladhan_() {
   } catch (e) { return null; }
 }
 
+/* عرض الوقت بصيغة 12 ساعة مع ص/م (التخزين والمقارنات يفضلوا 24 ساعة) */
+function prayerFmt12_(hhmm) {
+  var m = /^(\d{1,2}):(\d{2})/.exec(String(hhmm || ''));
+  if (!m) return hhmm || '--:--';
+  var h = parseInt(m[1], 10);
+  return (h % 12 || 12) + ':' + m[2] + (h < 12 ? ' ص' : ' م');
+}
+
 function prayerSend_(title, body, onlyTestUser, imageKey, imgUrl) {
   if (typeof fcmSendToTokens_ !== 'function') return { sent: 0, failed: 0, configured: false };
   var rows = pushTokensSheet_().getDataRange().getValues();
@@ -131,7 +139,7 @@ function prayerTick_() {
     if (!cfg.prayers[k] || times[k] !== now) continue;
     if (lastSent === today + ':' + k) return { ok: true, skipped: 'duplicate' };
     var title = 'حان الآن وقت صلاة ' + PRAYER_NAMES_[k] + ' 🕌';
-    var body = 'بتوقيت بورسعيد (' + times[k] + '). تقبّل الله طاعتكم 🤍';
+    var body = 'بتوقيت بورسعيد (' + prayerFmt12_(times[k]) + '). تقبّل الله طاعتكم 🤍';
     var r = prayerSend_(title, body, cfg.testMode, k.toLowerCase(), prayerImg_(cfg, k));
     prayerProps_().setProperty('PRAYER_LAST', today + ':' + k);
     return { ok: true, prayer: k, sent: r.sent, failed: r.failed, testMode: cfg.testMode };
@@ -186,7 +194,7 @@ function adminPrayerTest_(req) {
   var k = PRAYER_KEYS_.indexOf(req.prayer) >= 0 ? req.prayer : 'Dhuhr';
   var times = prayerTimes_() || {};
   var title = 'حان الآن وقت صلاة ' + PRAYER_NAMES_[k] + ' 🕌';
-  var body = 'بتوقيت بورسعيد (' + (times[k] || '--:--') + '). تقبّل الله طاعتكم 🤍 — رسالة تجريبية';
+  var body = 'بتوقيت بورسعيد (' + prayerFmt12_(times[k] || '--:--') + '). تقبّل الله طاعتكم 🤍 — رسالة تجريبية';
   var r = prayerSend_(title, body, true, k.toLowerCase(), prayerImg_(prayerCfg_(), k));
   return { ok: true, sent: r.sent, failed: r.failed, noTargets: r.noTargets === true };
 }
