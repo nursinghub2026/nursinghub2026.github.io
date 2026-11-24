@@ -6,7 +6,7 @@ function makeCtx(nowTime){
   const store={};const sends=[];let triggers=[];
   const ctx={console,Date,JSON,Error,Object,Array,String,Number,RegExp,Math,
     PropertiesService:{getScriptProperties:()=>({getProperty:k=>store[k]!==undefined?store[k]:null,setProperty:(k,v)=>{store[k]=v}})},
-    Utilities:{formatDate:(d,tz,fmt)=>fmt==='HH:mm'?nowTime:'2026-11-24'},
+    Utilities:{formatDate:(d,tz,fmt)=>fmt==='HH:mm'?nowTime:(fmt==='u'?'3':'2026-11-24')},
     Session:{getScriptTimeZone:()=>'Africa/Cairo'},
     stuRequireAdmin_:()=>{},
     ScriptApp:{
@@ -109,5 +109,15 @@ r=c.autoAdhkarTick_();assert.equal(c.__sends.length,2); // 31 دقيقة > 30 �
 r=c.adminAutoSet_({cats:{salawat:{gapMin:5}}});assert.equal(r.cfg.cats.salawat.gapMin,30); // أقل من الحد → 30
 r=c.adminAutoSet_({cats:{salawat:{gapMin:9999}}});assert.equal(r.cfg.cats.salawat.gapMin,720); // أعلى من الحد → 720
 r=c.adminAutoGet_({});assert(r.imageHosting===false); // لا توجد PushImages.gs في سياق الاختبار
+
+// 15. days-of-week: category skipped on unselected days, default all days, invalid values sanitized
+// (اليوم في الاختبار: u=3 → الأربعاء → رقم 3)
+c=makeCtx('10:00');c.adminAutoSet_({enabled:true,cats:{salawat:{on:true,days:[3]}}});
+r=c.autoAdhkarTick_();assert.equal(c.__sends.length,1); // الأربعاء مختار → يُرسل
+c=makeCtx('10:00');c.adminAutoSet_({enabled:true,cats:{salawat:{on:true,days:[0,6]}}});
+r=c.autoAdhkarTick_();assert.equal(c.__sends.length,0); // أحد وسبت بس → لا إرسال
+r=c.adminAutoSet_({cats:{salawat:{days:[]}}});assert.deepEqual(r.cfg.cats.salawat.days,[0,1,2,3,4,5,6]); // الفاضي → كل الأيام
+r=c.adminAutoSet_({cats:{salawat:{days:[1,1,9,-2,3]}}});assert.deepEqual(r.cfg.cats.salawat.days,[1,3]); // تنقية وتكرار
+r=c.adminAutoGet_({});assert.deepEqual(r.cfg.cats.hadith.days,[0,1,2,3,4,5,6]); // الافتراضي كل الأيام
 
 console.log('PASS: disabled-by-default, category gating, admin-only test mode, min-gap, perDay cap, quiet hours Fajr-Isha, morning/evening windows, rotation without repeats + wrap, forced test target, trigger install/remove, content override set/get/reset, per-category images (none/custom/upload/clear/validation), per-category recurrence gapMin.');

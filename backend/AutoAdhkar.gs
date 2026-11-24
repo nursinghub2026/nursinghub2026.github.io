@@ -102,6 +102,7 @@ function autoCfg_() {
       if (typeof c.banner !== 'string' || AUTO_BANNER_IDS.indexOf(c.banner) < 0) c.banner = 'default';
       if (typeof c.customImage !== 'string' || !/^https:\/\/res\.cloudinary\.com\//.test(c.customImage)) c.customImage = '';
       c.gapMin = Math.max(30, Math.min(720, parseInt(c.gapMin, 10) || AUTO_MIN_GAP_MIN));
+      if (!Array.isArray(c.days) || !c.days.length || c.days.some(function (d) { return !Number.isInteger(d) || d < 0 || d > 6; })) c.days = [0, 1, 2, 3, 4, 5, 6];
     });
     if (typeof cfg.enabled !== 'boolean') cfg.enabled = false;
     if (typeof cfg.testMode !== 'boolean') cfg.testMode = true;
@@ -183,6 +184,8 @@ function autoTz_() { try { return Session.getScriptTimeZone() || 'Africa/Cairo';
 function autoNowHHMM_() { return Utilities.formatDate(new Date(), autoTz_(), 'HH:mm'); }
 function autoTodayStr_() { return Utilities.formatDate(new Date(), autoTz_(), 'yyyy-MM-dd'); }
 function autoMin_(hhmm) { var p = String(hhmm || '0:0').split(':'); return (+p[0]) * 60 + (+p[1]); }
+/* يوم الأسبوع الحالي بتوقيت القاهرة بصيغة JS (الأحد=0 … السبت=6) */
+function autoDay_() { return parseInt(Utilities.formatDate(new Date(), autoTz_(), 'u'), 10) % 7; }
 
 /* نافذة الإرسال: من الفجر للعشاء — من مواقيت اليوم اللي بيخزنها PrayerReminders، أو احتياطي ثابت */
 function autoWindow_() {
@@ -252,6 +255,7 @@ function autoAdhkarTick_() {
   Object.keys(cfg.cats).forEach(function (cat) {
     var c = cfg.cats[cat];
     if (!c || !c.on) return;
+    if (Array.isArray(c.days) && c.days.length && c.days.indexOf(autoDay_()) < 0) return;
     var count = st.counts[cat] || 0;
     if (count >= Math.max(1, Math.min(5, c.perDay || 1))) return;
     if (!autoCatInWindow_(cat, nowMin, w)) return;
@@ -295,6 +299,10 @@ function adminAutoSet_(req) {
       if (c.perDay) cfg.cats[k].perDay = Math.max(1, Math.min(5, parseInt(c.perDay, 10) || 1));
       if (typeof c.banner === 'string' && AUTO_BANNER_IDS.indexOf(c.banner) >= 0 && (c.banner !== 'custom' || cfg.cats[k].customImage)) cfg.cats[k].banner = c.banner;
       if (c.gapMin) cfg.cats[k].gapMin = Math.max(30, Math.min(720, parseInt(c.gapMin, 10) || AUTO_MIN_GAP_MIN));
+      if (Array.isArray(c.days)) {
+        var dd = c.days.filter(function (x) { return Number.isInteger(x) && x >= 0 && x <= 6; });
+        cfg.cats[k].days = dd.length ? dd.filter(function (v, i) { return dd.indexOf(v) === i; }) : [0, 1, 2, 3, 4, 5, 6];
+      }
     });
   }
   autoProps_().setProperty(AUTO_CFG_KEY, JSON.stringify(cfg));

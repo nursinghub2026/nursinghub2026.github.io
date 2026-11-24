@@ -162,6 +162,9 @@ body{background:#eef3f7}
 .nphA-it textarea{width:100%;font:inherit;font-size:12px;padding:7px 9px;border:1px solid var(--line);border-radius:9px;background:var(--bg);margin:6px 0 0;min-height:46px;resize:vertical}
 .nphA-it .x{float:left;border:none;background:transparent;color:#b4453c;cursor:pointer;font-size:11.5px;font-weight:800;padding:3px 6px;border-radius:8px}
 .nphA-note{font-size:10.5px;color:var(--mut);font-weight:600;margin-top:8px;line-height:1.7}
+.nphA-days{display:flex;flex-wrap:wrap;gap:6px}
+.nphA-day{border:1.5px solid var(--line);background:var(--card,#fff);color:var(--mut);border-radius:999px;padding:6px 12px;font:inherit;font-size:11px;font-weight:800;cursor:pointer;transition:.15s}
+.nphA-day.on{background:rgba(212,175,90,.14);border-color:rgba(212,175,90,.55);color:#8a6a1c}
 </style><link rel="stylesheet" href="admin-layout.css"><link rel="stylesheet" href="theory-extras.css"><link rel="stylesheet" href="community.css"><script src="theme.js"></script><link rel="stylesheet" href="theme.css"></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
@@ -414,6 +417,7 @@ function mkImgPicker(o){
 }
 const AUTO_CATS={morning:['أذكار الصباح','الفجر → الظهر','fa-sun'],evening:['أذكار المساء','العصر → العشاء','fa-cloud-moon'],salawat:['صلاة على النبي ﷺ','على مدار اليوم','fa-heart'],hadith:['حديث صحيح','على مدار اليوم','fa-book-open'],dua:['دعاء','على مدار اليوم','fa-hands-praying'],encouragement:['تشجيع','على مدار اليوم','fa-star']};
 const AUTO_GAPS=[[30,"كل ٣٠ دقيقة"],[60,"كل ساعة"],[90,"كل ساعة ونص"],[120,"كل ساعتين"],[180,"كل ٣ ساعات"],[240,"كل ٤ ساعات"],[360,"كل ٦ ساعات"],[720,"كل ١٢ ساعة"]];
+const DAYS_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
 const AUTO_DEF_IMG={morning:'dua',evening:'dua',salawat:'salawat',hadith:'hadith',dua:'dua',encouragement:'encouragement'};
 let AUTO_UI={};
 async function loadAuto(){
@@ -462,6 +466,15 @@ async function loadAuto(){
       ui.gap=h("select");
       AUTO_GAPS.forEach(g=>ui.gap.appendChild(h("option",{value:g[0]},g[1])));
       ui.gap.value=String(Math.max(30,Math.min(720,parseInt(c.gapMin)||90)));
+      ui.days=(Array.isArray(c.days)&&c.days.length?c.days:[0,1,2,3,4,5,6]).slice();
+      const daysBox=h("div",{class:"nphA-days"});
+      DAYS_AR.forEach((nm,di)=>{
+        const db=h("button",{type:"button",class:"nphA-day"+(ui.days.includes(di)?" on":"")},nm);
+        db.onclick=()=>{const i=ui.days.indexOf(di);
+          if(i>=0){if(ui.days.length>1){ui.days.splice(i,1);db.classList.remove("on");}}
+          else{ui.days.push(di);db.classList.add("on");}};
+        daysBox.appendChild(db);
+      });
       updPv();
       const edBox=h("div");
       const chev=h("button",{type:"button",class:"nphA-chev",title:"النصوص والصورة والتكرار"},h("i",{class:"fa-solid fa-chevron-down"}));
@@ -470,6 +483,8 @@ async function loadAuto(){
         ui.picker.el,
         h("div",{class:"nphA-lb"},h("i",{class:"fa-solid fa-repeat"}),"التكرار (كل قد إيه)"),
         ui.gap,
+        h("div",{class:"nphA-lb"},h("i",{class:"fa-solid fa-calendar-week"}),"أيام التشغيل"),
+        daysBox,
         h("div",{class:"nphA-lb"},h("i",{class:"fa-solid fa-pen"}),"نصوص النوع"),
         edBox,
         h("div",{class:"nphA-note"},"الصورة والتكرار والتفعيل تتثبت بزر «حفظ الإعدادات» أسفل الكارت، والنصوص لها زر حفظ خاص بها."));
@@ -530,7 +545,7 @@ function initAuto(){
     const cats={};
     document.querySelectorAll("#autoList .nphA-sw input").forEach(cb=>cats[cb.dataset.k]={on:cb.checked});
     document.querySelectorAll("#autoList .nphA-step").forEach(st=>{const k=st.dataset.k;cats[k]=cats[k]||{};cats[k].perDay=parseInt(st.querySelector("b").textContent)||1});
-    Object.keys(AUTO_UI).forEach(k=>{cats[k]=cats[k]||{};cats[k].banner=AUTO_UI[k].picker.getKind();cats[k].gapMin=parseInt(AUTO_UI[k].gap.value)||90;});
+    Object.keys(AUTO_UI).forEach(k=>{cats[k]=cats[k]||{};cats[k].banner=AUTO_UI[k].picker.getKind();cats[k].gapMin=parseInt(AUTO_UI[k].gap.value)||90;cats[k].days=AUTO_UI[k].days.slice().sort();});
     try{
       const d=await api("adminAutoSet",{enabled:$("autoEnabled").checked,testMode:$("autoTestMode").checked,cats});
       m.textContent="اتحفظ ✅"+(d.cfg.testMode?" (وضع التجربة شغال: الإرسال لحسابك فقط)":"")+(d.cfg.enabled&&!d.triggerInstalled?" — تنبيه: المؤقت لم يُنصّب":"");
