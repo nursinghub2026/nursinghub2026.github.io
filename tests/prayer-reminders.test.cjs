@@ -14,6 +14,7 @@ function makeCtx(nowTime){
     stuRequireAdmin_:()=>{},ScriptApp:{getProjectTriggers:()=>[],newTrigger:()=>({timeBased:()=>({everyMinutes:()=>({create:()=>({})})})})},
     pushTokensSheet_:()=>({getDataRange:()=>({getValues:()=>[['u','t'],['abdelrhman.wae1','admin-device'],['student2','student-device']]})}),
     fcmSendToTokens_:(targets,title,body,data)=>{sends.push({targets,title,body,data});return{sent:targets.length,failed:0,configured:true}},
+    pushUploadImage_:(b64)=>'https://res.cloudinary.com/demo/image/upload/v1/foundations-notices/'+String(b64).length+'.png',
     __store:store,__sends:sends};
   vm.createContext(ctx);vm.runInContext(code,ctx);return ctx;
 }
@@ -36,4 +37,18 @@ c=makeCtx('10:00');c.adminPrayerSet_({enabled:true});r=c.prayerTick_();assert(r.
 c=makeCtx('11:47');r=c.adminPrayerGet_({});assert(r.ok);assert.equal(r.times.Fajr,'05:12');assert.equal(r.times.Dhuhr,'11:47');assert.equal(r.times.Asr,'14:47');assert.equal(r.times.Maghrib,'17:05');assert.equal(r.times.Isha,'18:25');
 // 8. Dar Al-Ifta down -> Aladhan fallback supplies same times
 c=makeCtx('11:47');c.__failDar=true;r=c.adminPrayerGet_({});assert(r.ok);assert.equal(r.times.Dhuhr,'11:47');assert.equal(r.times.Maghrib,'17:05');
-console.log('PASS: disabled default, test-user-only, dedupe, all-devices mode, per-prayer toggle, forced test target, Dar Al-Ifta parsing (ص/م + Dhuhr quirk), Aladhan fallback.');
+// 9. per-prayer images: default file, none, ready-made, custom upload, clear, invalid rejected
+c=makeCtx('11:47');c.adminPrayerSet_({enabled:true});r=c.prayerTick_();
+assert(c.__sends[0].data.imageUrl.endsWith('prayer-dhuhr.png')); // الافتراضي
+c=makeCtx('11:47');c.adminPrayerSet_({enabled:true,images:{Dhuhr:'none'}});r=c.prayerTick_();assert.equal(c.__sends[0].data.imageUrl,'');
+c=makeCtx('11:47');c.adminPrayerSet_({enabled:true,images:{Dhuhr:'hadith'}});r=c.prayerTick_();assert(c.__sends[0].data.imageUrl.endsWith('/hadith.png'));
+c=makeCtx('11:47');c.adminPrayerSet_({enabled:true,images:{Dhuhr:'javascript:x'}});r=c.prayerTick_();assert(c.__sends[0].data.imageUrl.endsWith('prayer-dhuhr.png')); // قيمة غريبة → الافتراضي
+c=makeCtx('11:47');c.adminPrayerSet_({enabled:true,images:{Dhuhr:'custom'}});r=c.prayerTick_();assert(c.__sends[0].data.imageUrl.endsWith('prayer-dhuhr.png')); // custom بدون رفع مرفوض
+c=makeCtx('11:47');c.adminPrayerSet_({enabled:true});r=c.adminPrayerImage_({prayer:'Dhuhr',imagePng:'AAAA'});
+assert(r.ok&&r.kind==='custom'&&r.preview.includes('res.cloudinary.com'));r=c.prayerTick_();assert(c.__sends[0].data.imageUrl.includes('res.cloudinary.com'));
+r=c.adminPrayerImage_({prayer:'Dhuhr'});assert(r.ok&&r.kind==='default'&&r.preview.endsWith('prayer-dhuhr.png')); // إزالة → افتراضي
+r=c.adminPrayerImage_({prayer:'Nope'});assert.equal(r.ok,false);
+r=c.adminPrayerGet_({});assert(r.ok&&r.images&&r.images.Fajr.kind==='default'&&r.images.Fajr.preview.endsWith('prayer-fajr.png')&&typeof r.imageHosting==='boolean');
+// التجربة الفورية تستخدم نفس صورة الصلاة المختارة
+c=makeCtx('09:00');c.adminPrayerSet_({images:{Fajr:'none'}});r=c.adminPrayerTest_({prayer:'Fajr'});assert.equal(c.__sends[0].data.imageUrl,'');
+console.log('PASS: disabled default, test-user-only, dedupe, all-devices mode, per-prayer toggle, forced test target, Dar Al-Ifta parsing (ص/م + Dhuhr quirk), Aladhan fallback, per-prayer images (default/none/ready/custom/clear/validation).');

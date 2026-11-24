@@ -77,12 +77,19 @@ Admin card in `admin.html` (التذكيرات التلقائية): master enabl
 
 1. Back up the live Apps Script files.
 2. Add `AutoAdhkar.gs` to the Apps Script project as a new file, unchanged.
-3. In the live `Students.gs` route map inside `routeStudents_`, add three typeof-guarded lines next to the existing admin routes:
+3. In the live `Students.gs` route map inside `routeStudents_`, add five typeof-guarded lines next to the existing admin routes:
    - `adminAutoGet: (typeof adminAutoGet_ === 'function') ? adminAutoGet_ : null,`
    - `adminAutoSet: (typeof adminAutoSet_ === 'function') ? adminAutoSet_ : null,`
    - `adminAutoTest: (typeof adminAutoTest_ === 'function') ? adminAutoTest_ : null,`
-4. Publish a new version on the existing deployment.
-5. Enable from the admin card; this installs the trigger. Rollback: disable from the card (removes the trigger), or redeploy the previous version.
+   - `adminAutoContent: (typeof adminAutoContent_ === 'function') ? adminAutoContent_ : null,`
+   - `adminAutoImage: (typeof adminAutoImage_ === 'function') ? adminAutoImage_ : null,`
+4. For the prayer card's per-prayer image controls, update the live `PrayerReminders.gs` and `PushImages.gs` from this branch (both add-only: new optional `images` config, `adminPrayerImage_`, and a raised upload cap) and add one more route line:
+   - `adminPrayerImage: (typeof adminPrayerImage_ === 'function') ? adminPrayerImage_ : null,`
+   Existing live prayer config (`enabled`/`testMode`/`prayers`) is preserved: the new `images` field defaults to the original per-prayer images, so nothing students see changes until the admin picks otherwise.
+5. Publish a new version on the existing deployment.
+6. Enable from the admin card; this installs the trigger. Rollback: disable from the card (removes the trigger), or redeploy the previous version.
+
+Admin card extras in `admin.html`: per-category expander with notification preview, per-category text editing (new `AutoContent` sheet, created on first save only; falls back to the built-in sourced library, resettable), per-category image choice (original / ready-made / none / custom upload via the same Cloudinary path as the composer), and per-category recurrence (`gapMin` 30–720 minutes, default 90). The prayer card gets the same refined design with per-prayer enable, image choice, preview and his-account-only test.
 
 Until activation the admin card stays hidden (its load call fails silently), exactly like the prayer card before its backend shipped.
 

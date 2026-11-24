@@ -128,19 +128,43 @@ body{background:#eef3f7}
 .nphA-sw input:checked+span{background:linear-gradient(150deg,#f0d58a,#d4af5a);border-color:#c9a24a}
 .nphA-sw input:checked+span::before{transform:translateX(-19px)}
 .nphA-list{margin-top:12px;border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.nphA-row{display:flex;align-items:center;gap:10px;padding:11px 12px;background:var(--card,#fff)}
+.nphA-row{display:flex;align-items:center;gap:8px;padding:10px;background:var(--card,#fff)}
 .nphA-row+.nphA-row{border-top:1px solid var(--line)}
 .nphA-ric{width:34px;height:34px;flex:none;border-radius:11px;background:rgba(212,175,90,.14);color:#a87f22;display:grid;place-items:center;font-size:13.5px}
-.nphA-name{flex:1;min-width:0;font-weight:800;font-size:12.5px;line-height:1.35}
-.nphA-name small{display:block;font-weight:600;font-size:10.5px;color:var(--mut)}
-.nphA-step{display:flex;align-items:center;gap:2px;flex:none;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:2px}
-.nphA-step button{width:26px;height:26px;border:none;background:transparent;color:#a87f22;font-size:14px;font-weight:900;cursor:pointer;border-radius:8px;line-height:1}
+.nphA-name{flex:1;min-width:0;font-weight:800;font-size:12px;line-height:1.4}
+.nphA-name small{display:block;font-weight:600;font-size:10px;color:var(--mut)}
+.nphA-step{display:flex;align-items:center;gap:1px;flex:none;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:1px}
+.nphA-step button{width:24px;height:26px;border:none;background:transparent;color:#a87f22;font-size:14px;font-weight:900;cursor:pointer;border-radius:8px;line-height:1}
 .nphA-step button:active{background:rgba(212,175,90,.2)}
-.nphA-step b{min-width:36px;text-align:center;font-size:11.5px;font-weight:900;color:var(--ink)}
-.nphA-test{width:34px;height:34px;flex:none;border-radius:50%;border:1.5px solid rgba(212,175,90,.55);background:transparent;color:#a87f22;font-size:12.5px;cursor:pointer;display:grid;place-items:center;transition:.2s}
+.nphA-step b{min-width:29px;text-align:center;font-size:11px;font-weight:900;color:var(--ink)}
+.nphA-test{width:32px;height:32px;flex:none;border-radius:50%;border:1.5px solid rgba(212,175,90,.55);background:transparent;color:#a87f22;font-size:12px;cursor:pointer;display:grid;place-items:center;transition:.2s}
 .nphA-test:active{background:rgba(212,175,90,.18)}
 .nphA-save{width:100%;margin-top:14px;border:none;border-radius:16px;padding:13px;font:inherit;font-weight:900;font-size:14px;cursor:pointer;background:linear-gradient(150deg,#f0d58a,#d4af5a);color:#08172b;box-shadow:0 6px 18px rgba(212,175,90,.4);display:flex;align-items:center;justify-content:center;gap:8px}
 .nphA-save:active{transform:scale(.985)}
+.nphA-chev{width:26px;height:30px;flex:none;border:none;background:transparent;color:var(--mut);font-size:10.5px;cursor:pointer;border-radius:9px;display:grid;place-items:center;transition:.2s}
+.nphA-chev.open{transform:rotate(180deg);color:#a87f22}
+.nphA-det{padding:12px 14px 14px;background:var(--bg);border-top:1px solid var(--line)}
+.nphA-pv{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--card,#fff)}
+.nphA-pv .cap{padding:10px 12px}
+.nphA-pv .cap small{color:var(--mut);font-size:10.5px;font-weight:700}
+.nphA-pv .cap b{display:block;font-size:12.5px;margin:5px 0 3px;overflow-wrap:anywhere}
+.nphA-pv .cap p{margin:0;font-size:11.5px;line-height:1.7;overflow-wrap:anywhere}
+.nphA-pv img{width:100%;display:block}
+.nphA-lb{font-weight:800;font-size:11.5px;margin:12px 0 6px;display:flex;align-items:center;gap:6px}
+.nphA-lb i{color:#a87f22;font-size:11px}
+.nphA-row2{display:flex;gap:8px;align-items:center}
+.nphA-row2 select{flex:1;min-width:0;font-size:12px;padding:8px 10px;margin:0}
+.nphA-mini{border:1.5px solid rgba(212,175,90,.55);background:transparent;color:#a87f22;font:inherit;font-weight:800;font-size:11.5px;padding:8px 12px;border-radius:11px;cursor:pointer;white-space:nowrap}
+.nphA-mini:active{background:rgba(212,175,90,.15)}
+.nphA-mini:disabled{opacity:.45;cursor:default}
+.nphA-it{border:1px solid var(--line);border-radius:12px;padding:8px;background:var(--card,#fff);margin-top:8px}
+.nphA-it input{width:100%;font:inherit;font-size:12px;font-weight:800;padding:7px 9px;border:1px solid var(--line);border-radius:9px;background:var(--bg);margin:0}
+.nphA-it textarea{width:100%;font:inherit;font-size:12px;padding:7px 9px;border:1px solid var(--line);border-radius:9px;background:var(--bg);margin:6px 0 0;min-height:46px;resize:vertical}
+.nphA-it .x{float:left;border:none;background:transparent;color:#b4453c;cursor:pointer;font-size:11.5px;font-weight:800;padding:3px 6px;border-radius:8px}
+.nphA-note{font-size:10.5px;color:var(--mut);font-weight:600;margin-top:8px;line-height:1.7}
+.nphA-days{display:flex;flex-wrap:wrap;gap:6px}
+.nphA-day{border:1.5px solid var(--line);background:var(--card,#fff);color:var(--mut);border-radius:999px;padding:6px 12px;font:inherit;font-size:11px;font-weight:800;cursor:pointer;transition:.15s}
+.nphA-day.on{background:rgba(212,175,90,.14);border-color:rgba(212,175,90,.55);color:#8a6a1c}
 </style><link rel="stylesheet" href="admin-layout.css"><link rel="stylesheet" href="theory-extras.css"><link rel="stylesheet" href="community.css"><script src="theme.js"></script><link rel="stylesheet" href="theme.css"></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
@@ -226,14 +250,16 @@ body{background:#eef3f7}
       </div>
       <div class="card hidden" id="pushLogCard" style="margin-top:12px"><b style="font-size:14px"><i class="fa-solid fa-clock-rotate-left"></i> آخر الإشعارات المرسلة</b><div id="pushLog" style="margin-top:8px"></div></div>
       <div class="card hidden" id="prayerCard" style="margin-top:12px">
-        <b style="font-size:14px"><i class="fa-solid fa-mosque"></i> تذكير مواقيت الصلاة (بتوقيت بورسعيد)</b>
-        <div id="prayerTimes" style="font-size:12.5px;color:var(--mut);margin:8px 0"></div>
-        <label style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:13px;margin:8px 0"><input type="checkbox" id="prayerEnabled"> تفعيل التذكير التلقائي</label>
-        <label style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;margin:8px 0"><input type="checkbox" id="prayerTestMode"> وضع التجربة: الإرسال لحسابي فقط (الطلبة لا يصلهم شيء)</label>
-        <div id="prayerList" style="display:flex;flex-wrap:wrap;gap:10px;margin:8px 0"></div>
-        <button type="button" class="btn sm" id="prayerSave"><i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات</button>
-        <button type="button" class="btn sm" id="prayerTest"><i class="fa-solid fa-vial"></i> إرسال تذكير تجريبي لحسابي</button>
-        <div id="prayerMsg" style="margin-top:8px;font-size:13px;font-weight:700"></div>
+        <div class="nphA-head">
+          <div class="nphA-ic"><i class="fa-solid fa-mosque"></i></div>
+          <div><b>تذكير مواقيت الصلاة</b><small>بتوقيت بورسعيد — يتجدد يوميًا من دار الإفتاء المصرية</small></div>
+        </div>
+        <div class="nphA-chips" id="prayerTimes"></div>
+        <div class="nphA-swrow"><div><div class="t">تفعيل التذكير التلقائي</div><div class="d">إشعار عند دخول وقت كل صلاة مفعّلة</div></div><label class="nphA-sw"><input type="checkbox" id="prayerEnabled"><span></span></label></div>
+        <div class="nphA-swrow"><div><div class="t">وضع التجربة</div><div class="d">الإرسال لحسابك فقط — لا يصل الطلبة شيء</div></div><label class="nphA-sw"><input type="checkbox" id="prayerTestMode"><span></span></label></div>
+        <div class="nphA-list" id="prayerList"></div>
+        <button type="button" class="nphA-save" id="prayerSave"><i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات</button>
+        <div id="prayerMsg" style="margin-top:10px;font-size:13px;font-weight:800;text-align:center"></div>
       </div>
       <div class="card hidden" id="autoCard" style="margin-top:12px">
         <div class="nphA-head">
@@ -351,7 +377,49 @@ function initPushLibrary(){
   };
 }
 const PRAYER_AR={Fajr:'الفجر',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+const PRAYER_ICONS={Fajr:'fa-star-and-crescent',Dhuhr:'fa-sun',Asr:'fa-cloud-sun',Maghrib:'fa-cloud-moon',Isha:'fa-moon'};
+const NPH_IMGS={default:'الصورة الأصلية',lecture:'محاضرة',quiz:'كويز',reply:'رد',motivation:'تحفيز',salawat:'صلاة على النبي',hadith:'حديث',dua:'دعاء',encouragement:'تشجيع',none:'بدون صورة',custom:'مخصصة (من جهازك)'};
+function mkPreview(){
+  const img=h("img",{alt:"معاينة صورة الإشعار"});const t=h("b");const b=h("p");
+  const box=h("div",{class:"nphA-pv"},img,h("div",{class:"cap"},h("small",null,"معاينة تقريبية — الشكل النهائي حسب الجهاز"),t,b));
+  return {el:box,set:(src,title,body)=>{img.style.display=src?"":"none";if(src)img.src=src;t.textContent=title||"";b.textContent=body||"";}};
+}
+function imgToPng1200(f){
+  return new Promise((res,rej)=>{
+    const url=URL.createObjectURL(f);const im=new Image();
+    im.onload=()=>{URL.revokeObjectURL(url);
+      const cv=document.createElement("canvas");cv.width=1200;cv.height=600;const g=cv.getContext("2d");
+      const s=Math.max(1200/im.width,600/im.height),w=im.width*s,hh=im.height*s;
+      g.drawImage(im,(1200-w)/2,(600-hh)/2,w,hh);
+      const b64=cv.toDataURL("image/png").split(",")[1];
+      if(b64.length>3400000){rej(new Error("الصورة كبيرة أوي — جرّب صورة أبسط أو لقطة شاشة"));return;}
+      res(b64);};
+    im.onerror=()=>{URL.revokeObjectURL(url);rej(new Error("تعذر قراءة الصورة"));};
+    im.src=url;});
+}
+function mkImgPicker(o){
+  const sel=h("select");
+  ['default','lecture','quiz','reply','motivation','salawat','hadith','dua','encouragement','none'].forEach(v=>sel.appendChild(h("option",{value:v},NPH_IMGS[v])));
+  const addCustom=()=>{if(!sel.querySelector('option[value="custom"]'))sel.appendChild(h("option",{value:"custom"},NPH_IMGS.custom));};
+  if(o.kind==='custom')addCustom();
+  sel.value=NPH_IMGS[o.kind]?o.kind:'default';
+  const up=h("button",{type:"button",class:"nphA-mini"},h("i",{class:"fa-solid fa-upload"})," رفع من جهازك");
+  if(!o.hosting){up.disabled=true;up.title="رفع الصور المخصصة لسه مش متظبط على السيرفر";}
+  const file=h("input",{type:"file",accept:"image/*",style:"display:none"});
+  up.onclick=()=>file.click();
+  file.onchange=async()=>{const f=file.files&&file.files[0];file.value="";if(!f)return;
+    up.disabled=true;
+    try{const b64=await imgToPng1200(f);await o.onUpload(b64);}catch(e){if(o.onError)o.onError(e);}
+    up.disabled=false;};
+  sel.onchange=()=>{if(o.onChange)o.onChange(sel.value);};
+  const el=h("div",null,h("div",{class:"nphA-lb"},h("i",{class:"fa-solid fa-image"}),"صورة الإشعار"),h("div",{class:"nphA-row2"},sel,up),file);
+  return {el,getKind:()=>sel.value,setKind:k=>{if(k==='custom')addCustom();sel.value=k;}};
+}
 const AUTO_CATS={morning:['أذكار الصباح','الفجر → الظهر','fa-sun'],evening:['أذكار المساء','العصر → العشاء','fa-cloud-moon'],salawat:['صلاة على النبي ﷺ','على مدار اليوم','fa-heart'],hadith:['حديث صحيح','على مدار اليوم','fa-book-open'],dua:['دعاء','على مدار اليوم','fa-hands-praying'],encouragement:['تشجيع','على مدار اليوم','fa-star']};
+const AUTO_GAPS=[[30,"كل ٣٠ دقيقة"],[60,"كل ساعة"],[90,"كل ساعة ونص"],[120,"كل ساعتين"],[180,"كل ٣ ساعات"],[240,"كل ٤ ساعات"],[360,"كل ٦ ساعات"],[720,"كل ١٢ ساعة"]];
+const DAYS_AR=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+const AUTO_DEF_IMG={morning:'dua',evening:'dua',salawat:'salawat',hadith:'hadith',dua:'dua',encouragement:'encouragement'};
+let AUTO_UI={};
 async function loadAuto(){
   const card=$("autoCard");if(!card)return;
   try{
@@ -362,9 +430,10 @@ async function loadAuto(){
     $("autoStatus").replaceChildren(
       h("span",{class:"nphA-chip"},h("i",{class:"fa-solid "+(d.triggerInstalled?"fa-clock":"fa-pause")}),d.triggerInstalled?"المؤقت شغال (كل ٣٠ دقيقة)":"المؤقت متوقف"),
       h("span",{class:"nphA-chip"},h("i",{class:"fa-solid fa-paper-plane"}),"المرسل اليوم: "+(today||"لا شيء بعد")));
-    const list=$("autoList");list.replaceChildren();
+    const list=$("autoList");list.replaceChildren();AUTO_UI={};
     Object.keys(AUTO_CATS).forEach(k=>{
-      const meta=AUTO_CATS[k], c=(d.cfg.cats||{})[k]||{on:false,perDay:1};
+      const meta=AUTO_CATS[k], c=(d.cfg.cats||{})[k]||{on:false,perDay:1,banner:'default',gapMin:90,customImage:''};
+      const ui=AUTO_UI[k]={};
       const sw=h("label",{class:"nphA-sw",title:"تفعيل النوع"},h("input",{type:"checkbox"}),h("span"));
       sw.querySelector("input").checked=c.on===true;sw.querySelector("input").dataset.k=k;
       const val=h("b",null,(c.perDay||1)+"×");
@@ -377,12 +446,97 @@ async function loadAuto(){
       const testBtn=h("button",{type:"button",class:"nphA-test",title:"إرسال تجريبي لحسابك"},h("i",{class:"fa-solid fa-vial"}));
       testBtn.onclick=async()=>{const m=$("autoMsg");m.textContent="جاري إرسال تجربة «"+meta[0]+"» لحسابك...";
         try{const r=await api("adminAutoTest",{cat:k});m.textContent=r.result&&r.result.noTargets?"مفيش جهاز مسجل على حسابك — فعّل إشعاراتك من الموقع الأول":"وصل التجريبي لحسابك ✅";}catch(e){m.textContent=net(e)}};
+      const pv=mkPreview();
+      ui.customUrl=c.customImage||'';
+      ui.pvTitle=meta[0];ui.pvBody='';
+      function updPv(){const kd=ui.picker.getKind();let src='';
+        if(kd==='custom')src=ui.customUrl||'';
+        else if(kd==='none')src='';
+        else if(kd==='default')src='notification-images/'+AUTO_DEF_IMG[k]+'.png';
+        else src='notification-images/'+kd+'.png';
+        pv.set(src,ui.pvTitle||meta[0],ui.pvBody||'افتح التفاصيل لتحميل النصوص ومعاينة أول عنصر');}
+      ui.picker=mkImgPicker({kind:c.banner||'default',customUrl:ui.customUrl,hosting:d.imageHosting===true,
+        onUpload:async(b64)=>{const m=$("autoMsg");m.textContent="جاري رفع الصورة...";
+          const r=await api("adminAutoImage",{cat:k,imagePng:b64});
+          ui.customUrl=((r.cfg.cats||{})[k]||{}).customImage||'';
+          ui.picker.setKind('custom');updPv();
+          m.textContent="اترفعت ✅ — اضغط «حفظ الإعدادات» لتثبيت كل التعديلات";},
+        onError:e=>{$("autoMsg").textContent=e.message||"تعذر تجهيز الصورة";},
+        onChange:()=>updPv()});
+      ui.gap=h("select");
+      AUTO_GAPS.forEach(g=>ui.gap.appendChild(h("option",{value:g[0]},g[1])));
+      ui.gap.value=String(Math.max(30,Math.min(720,parseInt(c.gapMin)||90)));
+      ui.days=(Array.isArray(c.days)&&c.days.length?c.days:[0,1,2,3,4,5,6]).slice();
+      const daysBox=h("div",{class:"nphA-days"});
+      DAYS_AR.forEach((nm,di)=>{
+        const db=h("button",{type:"button",class:"nphA-day"+(ui.days.includes(di)?" on":"")},nm);
+        db.onclick=()=>{const i=ui.days.indexOf(di);
+          if(i>=0){if(ui.days.length>1){ui.days.splice(i,1);db.classList.remove("on");}}
+          else{ui.days.push(di);db.classList.add("on");}};
+        daysBox.appendChild(db);
+      });
+      updPv();
+      const edBox=h("div");
+      const chev=h("button",{type:"button",class:"nphA-chev",title:"النصوص والصورة والتكرار"},h("i",{class:"fa-solid fa-chevron-down"}));
+      const det=h("div",{class:"nphA-det hidden"},
+        pv.el,
+        ui.picker.el,
+        h("div",{class:"nphA-lb"},h("i",{class:"fa-solid fa-repeat"}),"التكرار (كل قد إيه)"),
+        ui.gap,
+        h("div",{class:"nphA-lb"},h("i",{class:"fa-solid fa-calendar-week"}),"أيام التشغيل"),
+        daysBox,
+        h("div",{class:"nphA-lb"},h("i",{class:"fa-solid fa-pen"}),"نصوص النوع"),
+        edBox,
+        h("div",{class:"nphA-note"},"الصورة والتكرار والتفعيل تتثبت بزر «حفظ الإعدادات» أسفل الكارت، والنصوص لها زر حفظ خاص بها."));
+      let loaded=false;
+      chev.onclick=()=>{const open=det.classList.toggle("hidden")===false;chev.classList.toggle("open",open);
+        if(open&&!loaded){loaded=true;autoLoadItems(k,edBox,ui,updPv);}};
       list.appendChild(h("div",{class:"nphA-row"},
         h("div",{class:"nphA-ric"},h("i",{class:"fa-solid "+meta[2]})),
         h("div",{class:"nphA-name"},meta[0],h("small",null,meta[1])),
-        step,testBtn,sw));
+        step,testBtn,chev,sw));
+      list.appendChild(det);
     });
   }catch(e){/* وحدة التذكيرات التلقائية لم تُنشر بعد على السيرفر */}
+}
+async function autoLoadItems(cat,ed,ui,updPv){
+  ed.replaceChildren(h("div",{class:"nphA-note"},"جاري تحميل النصوص..."));
+  let items=[],isCustom=false;
+  try{
+    const d=await api("adminAutoContent",{cat,contentAction:"get"});
+    items=d.items.map(x=>({t:x.t,b:x.b}));isCustom=d.custom===true;
+  }catch(e){ed.replaceChildren(h("div",{class:"nphA-note"},net(e)));return}
+  ed.replaceChildren();
+  const listEl=h("div");
+  const note=h("div",{class:"nphA-note"});
+  const render=()=>{
+    listEl.replaceChildren();
+    items.forEach((it,idx)=>{
+      const ti=h("input",{value:it.t,placeholder:"العنوان",maxlength:"80"});
+      ti.oninput=()=>{it.t=ti.value;if(idx===0)updPv();};
+      const ta=h("textarea",{placeholder:"النص",maxlength:"240"});ta.value=it.b;
+      ta.oninput=()=>{it.b=ta.value;if(idx===0)updPv();};
+      const del=h("button",{type:"button",class:"x"},h("i",{class:"fa-solid fa-trash-can"})," حذف");
+      del.onclick=()=>{items.splice(idx,1);render();if(idx===0)updPv();};
+      listEl.appendChild(h("div",{class:"nphA-it"},del,ti,ta));
+    });
+    if(items[0]){ui.pvTitle=items[0].t;ui.pvBody=items[0].b;}
+    note.textContent=items.length+" عنصر "+(isCustom?"(معدّلة منك)":"(المكتبة الأصلية)")+" — حتى ٣٠ عنصر؛ العنوان ٨٠ حرف والنص ٢٤٠";
+  };
+  const add=h("button",{type:"button",class:"nphA-mini"},h("i",{class:"fa-solid fa-plus"})," إضافة عنصر");
+  add.onclick=()=>{if(items.length>=30)return;items.push({t:"",b:""});render();};
+  const save=h("button",{type:"button",class:"nphA-mini"},h("i",{class:"fa-solid fa-floppy-disk"})," حفظ النصوص");
+  save.onclick=async()=>{const m=$("autoMsg");m.textContent="";
+    try{const r=await api("adminAutoContent",{cat,contentAction:"set",items:items.filter(i=>i.t.trim()&&i.b.trim())});
+      items=r.items.map(x=>({t:x.t,b:x.b}));isCustom=true;render();updPv();
+      m.textContent="اتحفظت نصوص «"+AUTO_CATS[cat][0]+"» ✅";}catch(e){m.textContent=net(e)}};
+  const reset=h("button",{type:"button",class:"nphA-mini"},h("i",{class:"fa-solid fa-rotate-left"})," استعادة المكتبة");
+  reset.onclick=async()=>{const m=$("autoMsg");m.textContent="";
+    try{const r=await api("adminAutoContent",{cat,contentAction:"reset"});
+      items=r.items.map(x=>({t:x.t,b:x.b}));isCustom=false;render();updPv();
+      m.textContent="رجعت المكتبة الأصلية ✅";}catch(e){m.textContent=net(e)}};
+  ed.append(listEl,h("div",{class:"nphA-row2",style:"margin-top:8px;flex-wrap:wrap"},add,save,reset),note);
+  render();updPv();
 }
 function initAuto(){
   if(!$("autoSave"))return;
@@ -391,6 +545,7 @@ function initAuto(){
     const cats={};
     document.querySelectorAll("#autoList .nphA-sw input").forEach(cb=>cats[cb.dataset.k]={on:cb.checked});
     document.querySelectorAll("#autoList .nphA-step").forEach(st=>{const k=st.dataset.k;cats[k]=cats[k]||{};cats[k].perDay=parseInt(st.querySelector("b").textContent)||1});
+    Object.keys(AUTO_UI).forEach(k=>{cats[k]=cats[k]||{};cats[k].banner=AUTO_UI[k].picker.getKind();cats[k].gapMin=parseInt(AUTO_UI[k].gap.value)||90;cats[k].days=AUTO_UI[k].days.slice().sort();});
     try{
       const d=await api("adminAutoSet",{enabled:$("autoEnabled").checked,testMode:$("autoTestMode").checked,cats});
       m.textContent="اتحفظ ✅"+(d.cfg.testMode?" (وضع التجربة شغال: الإرسال لحسابك فقط)":"")+(d.cfg.enabled&&!d.triggerInstalled?" — تنبيه: المؤقت لم يُنصّب":"");
@@ -398,17 +553,52 @@ function initAuto(){
     }catch(e){m.textContent=net(e)}
   };
 }
+let PRAYER_UI={};
 async function loadPrayer(){
   const card=$("prayerCard");if(!card)return;
   try{
     const d=await api("adminPrayerGet",{});
     card.classList.remove("hidden");
     $("prayerEnabled").checked=d.enabled===true;$("prayerTestMode").checked=d.testMode!==false;
-    $("prayerTimes").textContent=d.times?("مواقيت اليوم: "+Object.keys(PRAYER_AR).map(k=>PRAYER_AR[k]+" "+(d.times[k]||"--:--")).join(" · ")):"تعذر جلب مواقيت اليوم من الخادم";
-    const list=$("prayerList");list.replaceChildren();
+    const T=$("prayerTimes");T.replaceChildren();
+    Object.keys(PRAYER_AR).forEach(k=>T.appendChild(h("span",{class:"nphA-chip"},h("i",{class:"fa-solid "+PRAYER_ICONS[k]}),PRAYER_AR[k]+" "+((d.times||{})[k]||"--:--"))));
+    const list=$("prayerList");list.replaceChildren();PRAYER_UI={};
     Object.keys(PRAYER_AR).forEach(k=>{
-      const cb=h("input",{type:"checkbox"});cb.checked=!d.prayers||d.prayers[k]!==false;cb.dataset.k=k;
-      list.appendChild(h("label",{style:"display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700"},cb,PRAYER_AR[k]));
+      const info=(d.images||{})[k]||{kind:'default',preview:''};
+      const ui=PRAYER_UI[k]={};
+      const time=(d.times||{})[k]||'--:--';
+      const title='حان الآن وقت صلاة '+PRAYER_AR[k]+' 🕌';
+      const body='بتوقيت بورسعيد ('+time+'). تقبّل الله طاعتكم 🤍';
+      const sw=h("label",{class:"nphA-sw",title:"تفعيل تذكير "+PRAYER_AR[k]},h("input",{type:"checkbox"}),h("span"));
+      sw.querySelector("input").checked=!d.prayers||d.prayers[k]!==false;sw.querySelector("input").dataset.k=k;
+      const testBtn=h("button",{type:"button",class:"nphA-test",title:"إرسال تجريبي لحسابك"},h("i",{class:"fa-solid fa-vial"}));
+      testBtn.onclick=async()=>{const m=$("prayerMsg");m.textContent="جاري إرسال تجربة «"+PRAYER_AR[k]+"» لحسابك...";
+        try{const r=await api("adminPrayerTest",{prayer:k});m.textContent=r.noTargets?"مفيش جهاز مسجل على حسابك — فعّل إشعاراتك من الموقع الأول":"وصل التجريبي لحسابك ✅";}catch(e){m.textContent=net(e)}};
+      const pv=mkPreview();
+      function updPv(){const kd=ui.picker.getKind();let src='';
+        if(kd==='custom')src=ui.customUrl||'';
+        else if(kd==='none')src='';
+        else if(kd==='default')src='notification-images/prayer-'+k.toLowerCase()+'.png';
+        else src='notification-images/'+kd+'.png';
+        pv.set(src,title,body);}
+      ui.customUrl=info.kind==='custom'?(info.preview||''):'';
+      ui.picker=mkImgPicker({kind:info.kind||'default',customUrl:ui.customUrl,hosting:d.imageHosting===true,
+        onUpload:async(b64)=>{const m=$("prayerMsg");m.textContent="جاري رفع الصورة...";
+          const r=await api("adminPrayerImage",{prayer:k,imagePng:b64});
+          ui.customUrl=r.preview||'';ui.picker.setKind('custom');updPv();
+          m.textContent="اترفعت ✅ — اضغط «حفظ الإعدادات» لتثبيت كل التعديلات";},
+        onError:e=>{$("prayerMsg").textContent=e.message||"تعذر تجهيز الصورة";},
+        onChange:()=>updPv()});
+      updPv();
+      const chev=h("button",{type:"button",class:"nphA-chev",title:"صورة الإشعار والمعاينة"},h("i",{class:"fa-solid fa-chevron-down"}));
+      const det=h("div",{class:"nphA-det hidden"},pv.el,ui.picker.el,
+        h("div",{class:"nphA-note"},"اختيار الصورة يتثبت بزر «حفظ الإعدادات» أسفل الكارت."));
+      chev.onclick=()=>{const open=det.classList.toggle("hidden")===false;chev.classList.toggle("open",open);};
+      list.appendChild(h("div",{class:"nphA-row"},
+        h("div",{class:"nphA-ric"},h("i",{class:"fa-solid "+PRAYER_ICONS[k]})),
+        h("div",{class:"nphA-name"},PRAYER_AR[k],h("small",null,"الوقت اليوم: "+time)),
+        testBtn,chev,sw));
+      list.appendChild(det);
     });
   }catch(e){/* وحدة تذكير الصلاة لم تُنشر بعد على السيرفر */}
 }
@@ -416,17 +606,13 @@ function initPrayer(){
   if(!$("prayerSave"))return;
   $("prayerSave").onclick=async()=>{
     const m=$("prayerMsg");m.textContent="";
-    const prayers={};document.querySelectorAll("#prayerList input").forEach(cb=>prayers[cb.dataset.k]=cb.checked);
+    const prayers={},images={};
+    document.querySelectorAll("#prayerList .nphA-sw input").forEach(cb=>prayers[cb.dataset.k]=cb.checked);
+    Object.keys(PRAYER_UI).forEach(k=>images[k]=PRAYER_UI[k].picker.getKind());
     try{
-      const d=await api("adminPrayerSet",{enabled:$("prayerEnabled").checked,testMode:$("prayerTestMode").checked,prayers});
+      const d=await api("adminPrayerSet",{enabled:$("prayerEnabled").checked,testMode:$("prayerTestMode").checked,prayers,images});
       m.textContent="اتحفظ ✅"+(d.testMode?" (وضع التجربة شغال: الإرسال لحسابك فقط)":"");
-    }catch(e){m.textContent=net(e)}
-  };
-  $("prayerTest").onclick=async()=>{
-    const m=$("prayerMsg");m.textContent="جاري إرسال التجربة لحسابك...";
-    try{
-      const d=await api("adminPrayerTest",{prayer:"Dhuhr"});
-      m.textContent=d.noTargets?"مفيش جهاز مسجل على حسابك — فعّل إشعاراتك من الموقع الأول":"وصل التجريبي لحسابك ✅ ("+(d.sent||0)+" جهاز)";
+      loadPrayer();
     }catch(e){m.textContent=net(e)}
   };
 }

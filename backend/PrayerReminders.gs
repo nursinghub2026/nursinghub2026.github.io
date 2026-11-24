@@ -25,10 +25,26 @@ function prayerCfg_() {
     var c = raw ? JSON.parse(raw) : {};
     var prayers = {};
     PRAYER_KEYS_.forEach(function (k) { prayers[k] = !(c.prayers && c.prayers[k] === false); });
-    return { enabled: c.enabled === true, testMode: c.testMode !== false, prayers: prayers };
+    return { enabled: c.enabled === true, testMode: c.testMode !== false, prayers: prayers, images: (c.images && typeof c.images === 'object') ? c.images : {} };
   } catch (e) {
-    return { enabled: false, testMode: true, prayers: { Fajr: true, Dhuhr: true, Asr: true, Maghrib: true, Isha: true } };
+    return { enabled: false, testMode: true, prayers: { Fajr: true, Dhuhr: true, Asr: true, Maghrib: true, Isha: true }, images: {} };
   }
+}
+
+/* صور مسموح بها لكل صلاة: default=صورة الصلاة الأصلية، none=بدون صورة، custom=صورة مرفوعة */
+var PRAYER_IMAGE_IDS = ['default', 'none', 'lecture', 'quiz', 'reply', 'motivation', 'salawat', 'hadith', 'dua', 'encouragement', 'custom'];
+
+/* رابط صورة الصلاة الفعلي — لا يقبل إلا ملفات الموقع المعروفة أو رابط الاستضافة الموثوق */
+function prayerImg_(cfg, k) {
+  var e = cfg.images && cfg.images[k];
+  var kind = (typeof e === 'string') ? e : ((e && e.kind) || 'default');
+  if (kind === 'custom') {
+    var u = (e && e.url) || '';
+    return /^https:\/\/res\.cloudinary\.com\//.test(u) ? u : '';
+  }
+  if (kind === 'none') return '';
+  if (kind !== 'default' && PRAYER_IMAGE_IDS.indexOf(kind) >= 0) return 'https://nursinghub2026.github.io/notification-images/' + kind + '.png';
+  return 'https://nursinghub2026.github.io/notification-images/prayer-' + k.toLowerCase() + '.png';
 }
 
 /* مواقيت اليوم بتوقيت القاهرة، مع تخزين يومي واستخدام المخزن عند تعذر الشبكة */
@@ -84,7 +100,7 @@ function prayerTimesAladhan_() {
   } catch (e) { return null; }
 }
 
-function prayerSend_(title, body, onlyTestUser, imageKey) {
+function prayerSend_(title, body, onlyTestUser, imageKey, imgUrl) {
   if (typeof fcmSendToTokens_ !== 'function') return { sent: 0, failed: 0, configured: false };
   var rows = pushTokensSheet_().getDataRange().getValues();
   var targets = [];
@@ -97,7 +113,7 @@ function prayerSend_(title, body, onlyTestUser, imageKey) {
   /* يظهر التذكير كمان في جرس الإشعارات داخل الموقع — بديل مضمون للطلبة اللي لسه مفعّلوش الإشعارات */
   if (typeof inboxAppend_ === 'function') inboxAppend_(onlyTestUser ? PRAYER_TEST_USER : '', title, body, 'adhkar.html');
   if (!targets.length) return { sent: 0, failed: 0, configured: true, noTargets: true };
-  var img = imageKey ? ('https://nursinghub2026.github.io/notification-images/prayer-' + imageKey + '.png') : '';
+  var img = (imgUrl !== undefined && imgUrl !== null) ? imgUrl : (imageKey ? ('https://nursinghub2026.github.io/notification-images/prayer-' + imageKey + '.png') : '');
   return fcmSendToTokens_(targets, title, body, { url: 'adhkar.html', banner: 'motivation', tag: 'prayer', imageUrl: img });
 }
 
@@ -116,7 +132,7 @@ function prayerTick_() {
     if (lastSent === today + ':' + k) return { ok: true, skipped: 'duplicate' };
     var title = 'حان الآن وقت صلاة ' + PRAYER_NAMES_[k] + ' 🕌';
     var body = 'بتوقيت بورسعيد (' + times[k] + '). تقبّل الله طاعتكم 🤍';
-    var r = prayerSend_(title, body, cfg.testMode, k.toLowerCase());
+    var r = prayerSend_(title, body, cfg.testMode, k.toLowerCase(), prayerImg_(cfg, k));
     prayerProps_().setProperty('PRAYER_LAST', today + ':' + k);
     return { ok: true, prayer: k, sent: r.sent, failed: r.failed, testMode: cfg.testMode };
   }
@@ -138,7 +154,12 @@ function adminPrayerGet_(req) {
   stuRequireAdmin_(req);
   var cfg = prayerCfg_();
   var times = prayerTimes_();
-  return { ok: true, enabled: cfg.enabled, testMode: cfg.testMode, prayers: cfg.prayers, times: times, testUser: PRAYER_TEST_USER };
+  var images = {};
+  PRAYER_KEYS_.forEach(function (k) {
+    var e = cfg.images[k];
+    images[k] = { kind: (typeof e === 'string') ? e : ((e && e.kind) || 'default'), preview: prayerImg_(cfg, k) };
+  });
+  return { ok: true, enabled: cfg.enabled, testMode: cfg.testMode, prayers: cfg.prayers, times: times, testUser: PRAYER_TEST_USER, images: images, imageHosting: (typeof pushImageConfigured_ === 'function') ? pushImageConfigured_() : false };
 }
 
 function adminPrayerSet_(req) {
@@ -148,6 +169,12 @@ function adminPrayerSet_(req) {
   if (typeof req.testMode === 'boolean') cfg.testMode = req.testMode;
   if (req.prayers && typeof req.prayers === 'object') {
     PRAYER_KEYS_.forEach(function (k) { if (typeof req.prayers[k] === 'boolean') cfg.prayers[k] = req.prayers[k]; });
+  }
+  if (req.images && typeof req.images === 'object') {
+    PRAYER_KEYS_.forEach(function (k) {
+      var v = String(req.images[k] || '');
+      if (PRAYER_IMAGE_IDS.indexOf(v) >= 0 && v !== 'custom') cfg.images[k] = v;
+    });
   }
   prayerProps_().setProperty('PRAYER_CFG', JSON.stringify(cfg));
   return { ok: true, enabled: cfg.enabled, testMode: cfg.testMode, prayers: cfg.prayers };
@@ -160,6 +187,24 @@ function adminPrayerTest_(req) {
   var times = prayerTimes_() || {};
   var title = 'حان الآن وقت صلاة ' + PRAYER_NAMES_[k] + ' 🕌';
   var body = 'بتوقيت بورسعيد (' + (times[k] || '--:--') + '). تقبّل الله طاعتكم 🤍 — رسالة تجريبية';
-  var r = prayerSend_(title, body, true, k.toLowerCase());
+  var r = prayerSend_(title, body, true, k.toLowerCase(), prayerImg_(prayerCfg_(), k));
   return { ok: true, sent: r.sent, failed: r.failed, noTargets: r.noTargets === true };
+}
+
+/* رفع صورة مخصصة لصلاة (نفس مسار الاستضافة المجانية بتاع المؤلف) أو إزالتها */
+function adminPrayerImage_(req) {
+  stuRequireAdmin_(req);
+  var k = String(req.prayer || '');
+  if (PRAYER_KEYS_.indexOf(k) < 0) return { ok: false, error: 'صلاة غير معروفة' };
+  var cfg = prayerCfg_();
+  if (req.imagePng) {
+    if (typeof pushUploadImage_ !== 'function') return { ok: false, error: 'رفع الصور غير متاح حاليًا' };
+    var url = pushUploadImage_(String(req.imagePng));
+    if (!/^https:\/\/res\.cloudinary\.com\//.test(url)) return { ok: false, error: 'فشل رفع الصورة' };
+    cfg.images[k] = { kind: 'custom', url: url };
+  } else {
+    delete cfg.images[k];
+  }
+  prayerProps_().setProperty('PRAYER_CFG', JSON.stringify(cfg));
+  return { ok: true, kind: cfg.images[k] ? 'custom' : 'default', preview: prayerImg_(cfg, k) };
 }
