@@ -23,6 +23,28 @@ function card(id,html){
 }
 function removeCard(id){var d=document.getElementById(id);if(d&&d.remove)d.remove()}
 
+/* Push activation control: lives inside the inbox panel (#nphPushSlot).
+   No floating bottom element anywhere. States: idle / busy / on / retry / refresh. */
+(function(){
+ var css='#nphPushCtl{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px 14px;border-radius:14px;border:1px solid rgba(212,175,90,.55);background:linear-gradient(135deg,#d4af5a,#f0d58a);color:#08172b;font:800 13px/1.4 inherit;font-family:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}'
+ +'#nphPushCtl i{font-size:14px}'
+ +'#nphPushCtl.on{border-color:rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#7fe3ae;font-weight:800;cursor:default}'
+ +'#nphPushCtl.on i{color:#7fe3ae}'
+ +'#nphPushCtl.warn{border-color:rgba(212,175,90,.5);background:linear-gradient(135deg,#8a6a1c,#b48a2a);color:#fff}'
+ +'#nphPushCtl.warn i{color:#ffe9b0}'
+ +'#nphPushCtl:disabled{opacity:.75;cursor:wait}';
+ var st=document.createElement('style');st.textContent=css;document.head.append(st);
+})();
+function setBtn(b,state){
+ if(!b)return;
+ b.classList.remove('on','warn');
+ if(state==='on'){b.classList.add('on');b.innerHTML='<i class="fa-solid fa-circle-check"></i><span>الإشعارات مفعّلة على جهازك</span>';}
+ else if(state==='busy'){b.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i><span>جاري تفعيل الإشعارات…</span>';}
+ else if(state==='retry'){b.classList.add('warn');b.innerHTML='<i class="fa-solid fa-rotate-right"></i><span>اضغط للمحاولة تاني</span>';}
+ else if(state==='refresh'){b.classList.add('warn');b.innerHTML='<i class="fa-solid fa-rotate-right"></i><span>اضغط لتحديث تفعيل الإشعارات</span>';}
+ else{b.innerHTML='<i class="fa-solid fa-bell"></i><span>فعّل إشعارات المحاضرات والردود</span>';}
+}
+
 /* iOS outside the installed PWA: no push is possible. Say so instead of hiding. */
 if(ios&&!standalone){
  card('nphPushIos','<b>الإشعارات على آيفون 📱</b><br>إشعارات الموقع بتشتغل من التطبيق بس:<br>١. افتح الموقع في <b>سفاري</b><br>٢. اضغط <b>مشاركة</b> ← <b>«إضافة إلى الشاشة الرئيسية»</b><br>٣. افتح التطبيق اللي اتثبّت، سجّل دخولك، وفعّل الإشعارات منه');
@@ -71,13 +93,13 @@ function logAttempt(stage,msg){
 }
 
 async function enable(button){
- if(busy)return;busy=true;button.disabled=true;button.textContent='جاري تفعيل الإشعارات…';
+ if(busy)return;busy=true;button.disabled=true;setBtn(button,'busy');
  try{
   var a=auth();if(!a||!a.token)throw Error('سجل دخولك الأول');
   // Permission request precedes asynchronous SDK loading, preserving the click gesture.
   if(Notification.permission!=='granted'&&await Notification.requestPermission()!=='granted')throw Error('الإشعارات مش مسموحة');
   await register();
-  button.textContent='الإشعارات مفعّلة ✓';
+  setBtn(button,'on');
   return true;
  }catch(e){
   rememberError(e);showError(button,e);logAttempt('enable-error',e&&e.message);
@@ -85,35 +107,44 @@ async function enable(button){
  }finally{button.disabled=false;busy=false;}
 }
 function showError(button,e){
- button.textContent='اضغط للمحاولة تاني';
+ setBtn(button,'retry');
  card('nphPushErr','<b>الإشعارات لسه مش متفعلة على الجهاز ده</b><br>'+String((e&&e.message)||e)+'<br><small>لو الإذن متظبط والرسالة بتتكرر، جرب تفتح الموقع في كروم أو سفاري على نت ثابت.</small>');
 }
 window.NPH_PUSH_DISABLE=async function(){try{var m=await setup();await m.deleteToken();localStorage.removeItem('NPH_PUSH_OWNER');}catch(e){throw Error('مقدرناش نوقف إشعارات الحساب على الجهاز. اتأكد من النت وجرب تاني.');}};
 
-function mount(){
- var a=auth();if(!a||!a.token||document.getElementById('nphPushEnable'))return;
- var b=document.createElement('button');b.id='nphPushEnable';b.type='button';b.textContent='فعّل إشعارات المحاضرات والردود';
- b.style.cssText='position:fixed;bottom:76px;left:16px;max-width:calc(100vw - 32px);z-index:970;border:1px solid #d4af5a;border-radius:20px;padding:10px 16px;background:#0b2540;color:#fff;font:inherit;cursor:pointer';
- host().append(b);
+function wire(b){
  if(Notification.permission==='granted'){
-  if(localStorage.getItem('NPH_PUSH_OWNER')===a.username){
-   b.textContent='الإشعارات مفعّلة ✓';
-   setup().catch(function(){b.textContent='اضغط لتحديث تفعيل الإشعارات';});
+  var a=auth();
+  if(a&&localStorage.getItem('NPH_PUSH_OWNER')===a.username){
+   setBtn(b,'on');
+   setup().catch(function(){setBtn(b,'refresh');});
    b.onclick=function(){enable(b)};
   }else{
    /* Auto-heal: permission was granted before but the token never saved. Retry silently, no tap needed. */
-   b.textContent='جاري تفعيل الإشعارات…';b.disabled=true;
-   register().then(function(){b.textContent='الإشعارات مفعّلة ✓';b.disabled=false;b.onclick=function(){enable(b)};})
+   setBtn(b,'busy');b.disabled=true;
+   register().then(function(){setBtn(b,'on');b.disabled=false;b.onclick=function(){enable(b)};})
     .catch(function(e){b.disabled=false;rememberError(e);showError(b,e);logAttempt('autoheal-error',e&&e.message);b.onclick=function(){enable(b)};});
   }
  }else if(Notification.permission==='denied'){
-  b.textContent='الإشعارات محظورة — اضغط لطريقة التشغيل';
-  b.onclick=function(){card('nphPushErr','<b>الإشعارات محظورة للموقع من المتصفح</b><br>اضغط أيقونة القفل 🔒 جنب الرابط ← إعدادات الموقع ← الإشعارات ← <b>سماح</b>، وبعدين ارجع اضغط هنا.');b.textContent='فعّل إشعارات المحاضرات والردود';b.onclick=function(){enable(b)};};
+  setBtn(b,'warn');
+  b.onclick=function(){card('nphPushErr','<b>الإشعارات محظورة للموقع من المتصفح</b><br>اضغط أيقونة القفل 🔒 جنب الرابط ← إعدادات الموقع ← الإشعارات ← <b>سماح</b>، وبعدين ارجع اضغط هنا.');setBtn(b,'idle');b.onclick=function(){enable(b)};};
  }else{
-  var err=lastError();if(err)b.textContent='اضغط للمحاولة تاني';
+  var err=lastError();if(err)setBtn(b,'retry');
   b.onclick=function(){enable(b)};
   maybePrompt(b);
  }
+}
+/* The activation control lives inside the inbox panel; nothing floats at the bottom of pages. */
+window.NPH_PUSH_MOUNT=function(container){
+ if(!container||document.getElementById('nphPushCtl'))return;
+ var b=document.createElement('button');b.id='nphPushCtl';b.type='button';setBtn(b,'idle');
+ container.appendChild(b);
+ wire(b);
+};
+function mount(){
+ var a=auth();if(!a||!a.token)return;
+ var slot=document.getElementById('nphPushSlot');
+ if(slot)window.NPH_PUSH_MOUNT(slot);
 }
 /* First-visit prompt: one clear tap. Once per device; dismissible. */
 function maybePrompt(button){
