@@ -84,7 +84,7 @@ function prayerTimesAladhan_() {
   } catch (e) { return null; }
 }
 
-function prayerSend_(title, body, onlyTestUser) {
+function prayerSend_(title, body, onlyTestUser, imageKey) {
   if (typeof fcmSendToTokens_ !== 'function') return { sent: 0, failed: 0, configured: false };
   var rows = pushTokensSheet_().getDataRange().getValues();
   var targets = [];
@@ -95,7 +95,8 @@ function prayerSend_(title, body, onlyTestUser) {
     targets.push(tk);
   }
   if (!targets.length) return { sent: 0, failed: 0, configured: true, noTargets: true };
-  return fcmSendToTokens_(targets, title, body, { url: 'adhkar.html', banner: 'motivation', tag: 'prayer' });
+  var img = imageKey ? ('https://nursinghub2026.github.io/notification-images/prayer-' + imageKey + '.png') : '';
+  return fcmSendToTokens_(targets, title, body, { url: 'adhkar.html', banner: 'motivation', tag: 'prayer', imageUrl: img });
 }
 
 /* ينفَّذ من مشغّل زمني كل 5 دقائق. لا يرسل للطلبة إلا بالمفتاح العام وخارج وضع التجربة */
@@ -113,7 +114,7 @@ function prayerTick_() {
     if (lastSent === today + ':' + k) return { ok: true, skipped: 'duplicate' };
     var title = 'حان الآن وقت صلاة ' + PRAYER_NAMES_[k] + ' 🕌';
     var body = 'بتوقيت بورسعيد (' + times[k] + '). تقبّل الله طاعتكم 🤍';
-    var r = prayerSend_(title, body, cfg.testMode);
+    var r = prayerSend_(title, body, cfg.testMode, k.toLowerCase());
     prayerProps_().setProperty('PRAYER_LAST', today + ':' + k);
     return { ok: true, prayer: k, sent: r.sent, failed: r.failed, testMode: cfg.testMode };
   }
@@ -157,6 +158,6 @@ function adminPrayerTest_(req) {
   var times = prayerTimes_() || {};
   var title = 'حان الآن وقت صلاة ' + PRAYER_NAMES_[k] + ' 🕌';
   var body = 'بتوقيت بورسعيد (' + (times[k] || '--:--') + '). تقبّل الله طاعتكم 🤍 — رسالة تجريبية';
-  var r = prayerSend_(title, body, true);
+  var r = prayerSend_(title, body, true, k.toLowerCase());
   return { ok: true, sent: r.sent, failed: r.failed, noTargets: r.noTargets === true };
 }
