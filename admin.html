@@ -204,6 +204,15 @@ body{background:#eef3f7}
         <button type="button" class="btn sm" id="prayerTest"><i class="fa-solid fa-vial"></i> إرسال تذكير تجريبي لحسابي</button>
         <div id="prayerMsg" style="margin-top:8px;font-size:13px;font-weight:700"></div>
       </div>
+      <div class="card hidden" id="autoCard" style="margin-top:12px">
+        <b style="font-size:14px"><i class="fa-solid fa-wand-magic-sparkles"></i> التذكيرات التلقائية (أذكار ومحتوى يومي)</b>
+        <div id="autoStatus" style="font-size:12.5px;color:var(--mut);margin:8px 0"></div>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:13px;margin:8px 0"><input type="checkbox" id="autoEnabled"> تفعيل الإرسال التلقائي</label>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;margin:8px 0"><input type="checkbox" id="autoTestMode"> وضع التجربة: الإرسال لحسابي فقط (الطلبة لا يصلهم شيء)</label>
+        <div id="autoList" style="display:grid;gap:8px;margin:8px 0"></div>
+        <button type="button" class="btn sm" id="autoSave"><i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات</button>
+        <div id="autoMsg" style="margin-top:8px;font-size:13px;font-weight:700"></div>
+      </div>
     </section>
     <section id="v-log" class="hidden"><div class="sect"><i class="fa-solid fa-shield-halved"></i><div>سجل المشرفين<small>آخر العمليات على المنصة</small></div></div><div class="card" id="lgl"></div></section>
   </main>
@@ -308,6 +317,42 @@ function initPushLibrary(){
   };
 }
 const PRAYER_AR={Fajr:'الفجر',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+const AUTO_CATS={morning:'أذكار الصباح (الفجر → الظهر)',evening:'أذكار المساء (العصر → العشاء)',salawat:'صلاة على النبي ﷺ',hadith:'حديث صحيح',dua:'دعاء',encouragement:'تشجيع'};
+async function loadAuto(){
+  const card=$("autoCard");if(!card)return;
+  try{
+    const d=await api("adminAutoGet",{});
+    card.classList.remove("hidden");
+    $("autoEnabled").checked=d.cfg.enabled===true;$("autoTestMode").checked=d.cfg.testMode!==false;
+    $("autoStatus").textContent="الإرسال بين الفجر والعشاء فقط (مواقيت اليوم). المؤقت: "+(d.triggerInstalled?"شغال (كل 30 دقيقة)":"متوقف")+". المرسل اليوم: "+Object.keys(d.state.counts||{}).map(k=>(AUTO_CATS[k]||k).split(' (')[0]+" "+d.state.counts[k]).join(" · ")||"لاشيء";
+    const list=$("autoList");list.replaceChildren();
+    Object.keys(AUTO_CATS).forEach(k=>{
+      const c=(d.cfg.cats||{})[k]||{on:false,perDay:1};
+      const cb=h("input",{type:"checkbox"});cb.checked=c.on===true;cb.dataset.k=k;
+      const sel=h("select",{style:"font:inherit;font-size:12px;padding:4px 8px;border-radius:8px;border:1px solid var(--line)"},
+        [1,2,3,4,5].map(n=>h("option",{value:String(n),selected:String(n)===String(c.perDay||1)?"":undefined},n+"× يوميًا")));
+      sel.dataset.k=k;
+      const testBtn=h("button",{type:"button",class:"btn sm",style:"padding:4px 10px;font-size:11.5px"},"تجربة");
+      testBtn.onclick=async()=>{const m=$("autoMsg");m.textContent="جاري إرسال تجربة "+AUTO_CATS[k].split(' (')[0]+" لحسابك...";
+        try{const r=await api("adminAutoTest",{cat:k});m.textContent=r.result&&r.result.noTargets?"مفيش جهاز مسجل على حسابك — فعّل إشعاراتك من الموقع الأول":"وصل التجريبي لحسابك ✅";}catch(e){m.textContent=net(e)}};
+      list.appendChild(h("div",{style:"display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;font-weight:700"},
+        h("label",{style:"display:flex;align-items:center;gap:6px;flex:1;min-width:170px"},cb,AUTO_CATS[k]),sel,testBtn));
+    });
+  }catch(e){/* وحدة التذكيرات التلقائية لم تُنشر بعد على السيرفر */}
+}
+function initAuto(){
+  if(!$("autoSave"))return;
+  $("autoSave").onclick=async()=>{
+    const m=$("autoMsg");m.textContent="";
+    const cats={};document.querySelectorAll("#autoList input[type=checkbox]").forEach(cb=>cats[cb.dataset.k]={on:cb.checked});
+    document.querySelectorAll("#autoList select").forEach(sel=>{cats[sel.dataset.k]=cats[sel.dataset.k]||{};cats[sel.dataset.k].perDay=parseInt(sel.value,10)||1});
+    try{
+      const d=await api("adminAutoSet",{enabled:$("autoEnabled").checked,testMode:$("autoTestMode").checked,cats});
+      m.textContent="اتحفظ ✅"+(d.cfg.testMode?" (وضع التجربة شغال: الإرسال لحسابك فقط)":"")+(d.cfg.enabled&&!d.triggerInstalled?" — تنبيه: المؤقت لم يُنصّب":"");
+      loadAuto();
+    }catch(e){m.textContent=net(e)}
+  };
+}
 async function loadPrayer(){
   const card=$("prayerCard");if(!card)return;
   try{
@@ -366,7 +411,7 @@ async function loadPush(){
       registered.forEach(student=>{if(!student.username)return;known.add(student.username);const available=eligible.has(student.username),o=h("option",{value:student.username,disabled:!available},(student.name||student.username)+" · @"+student.username+(available?"":" · لم يفعّل الإشعارات"));dl.appendChild(o)});
     } catch(e) {toast("تعذر تحميل كل الحسابات. القائمة تعرض المسجلين في الإشعارات فقط.",true);}
     eligible.forEach(u=>{if(!known.has(u))dl.appendChild(h("option",{value:u},"@"+u))});
-    loadPushLog();initPushLibrary();loadPrayer();
+    loadPushLog();initPushLibrary();loadPrayer();loadAuto();
   }catch(e){
     st.appendChild(h("div",{class:"empty"},ic("fa-triangle-exclamation"),"خدمة الإشعارات لسه مش متظبطة على السيرفر (Push.gs مش متنشر أو FCM مش متعمله إعداد)"));
     initPushLibrary();
@@ -411,7 +456,7 @@ function initPush(){
 }
 initPush();
 initPushLibrary();
-initPrayer();
+initPrayer();initAuto();
 
 function updBadge(){const cn=CH.reduce((a,c)=>a+(c.unread||0),0);const n=SG.filter(s=>!s.reply).length+cn;$("bdg").textContent=n;$("bdg").classList.toggle("hidden",!n);
   const cb=$("cbdg");if(cb){cb.textContent=cn;cb.classList.toggle("hidden",!cn)}}
