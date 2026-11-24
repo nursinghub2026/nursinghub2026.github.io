@@ -329,14 +329,14 @@ async function loadAuto(){
     Object.keys(AUTO_CATS).forEach(k=>{
       const c=(d.cfg.cats||{})[k]||{on:false,perDay:1};
       const cb=h("input",{type:"checkbox"});cb.checked=c.on===true;cb.dataset.k=k;
-      const sel=h("select",{style:"font:inherit;font-size:12px;padding:4px 8px;border-radius:8px;border:1px solid var(--line)"},
+      const sel=h("select",{style:"font:inherit;font-size:11.5px;padding:4px 6px;border-radius:8px;border:1px solid var(--line);max-width:92px"},
         [1,2,3,4,5].map(n=>h("option",{value:String(n),selected:String(n)===String(c.perDay||1)?"":undefined},n+"× يوميًا")));
       sel.dataset.k=k;
-      const testBtn=h("button",{type:"button",class:"btn sm",style:"padding:4px 10px;font-size:11.5px"},"تجربة");
+      const testBtn=h("button",{type:"button",class:"btn sm",style:"padding:4px 10px;font-size:11px;flex:none"},"تجربة");
       testBtn.onclick=async()=>{const m=$("autoMsg");m.textContent="جاري إرسال تجربة "+AUTO_CATS[k].split(' (')[0]+" لحسابك...";
         try{const r=await api("adminAutoTest",{cat:k});m.textContent=r.result&&r.result.noTargets?"مفيش جهاز مسجل على حسابك — فعّل إشعاراتك من الموقع الأول":"وصل التجريبي لحسابك ✅";}catch(e){m.textContent=net(e)}};
-      list.appendChild(h("div",{style:"display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;font-weight:700"},
-        h("label",{style:"display:flex;align-items:center;gap:6px;flex:1;min-width:170px"},cb,AUTO_CATS[k]),sel,testBtn));
+      list.appendChild(h("div",{style:"display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700"},
+        h("label",{style:"display:flex;align-items:center;gap:6px;flex:1;min-width:0"},cb,AUTO_CATS[k]),sel,testBtn));
     });
   }catch(e){/* وحدة التذكيرات التلقائية لم تُنشر بعد على السيرفر */}
 }
