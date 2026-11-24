@@ -276,9 +276,11 @@ const PTPL={lec:["محاضرة جديدة نزلت","اتضافت محاضرة �
 let pushAud="all",customImagesReady=false;
 /* حساب الأدمن نفسه للإرسال التجريبي. يمكن تغييره من المتصفح: localStorage.NPH_PUSH_TEST_USER */
 const ADMIN_PUSH_TEST_USER=localStorage.getItem("NPH_PUSH_TEST_USER")||"abdelrhman.wae1";
+let pushLibReady=false;
 function initPushLibrary(){
   const cat=$("pushLibCat"),item=$("pushLibItem"),src=$("pushLibSrc");
-  if(!cat||!window.NPHContentLibrary)return;
+  if(!cat||!window.NPHContentLibrary||pushLibReady)return;
+  pushLibReady=true;
   cat.replaceChildren(...NPHContentLibrary.map((c,i)=>h("option",{value:i},c.cat)));
   function fillItems(){
     const c=NPHContentLibrary[+cat.value||0];
@@ -320,9 +322,10 @@ async function loadPush(){
       registered.forEach(student=>{if(!student.username)return;known.add(student.username);const available=eligible.has(student.username),o=h("option",{value:student.username,disabled:!available},(student.name||student.username)+" · @"+student.username+(available?"":" · لم يفعّل الإشعارات"));dl.appendChild(o)});
     } catch(e) {toast("تعذر تحميل كل الحسابات. القائمة تعرض المسجلين في الإشعارات فقط.",true);}
     eligible.forEach(u=>{if(!known.has(u))dl.appendChild(h("option",{value:u},"@"+u))});
-    loadPushLog();
+    loadPushLog();initPushLibrary();
   }catch(e){
     st.appendChild(h("div",{class:"empty"},ic("fa-triangle-exclamation"),"خدمة الإشعارات لسه مش متظبطة على السيرفر (Push.gs مش متنشر أو FCM مش متعمله إعداد)"));
+    initPushLibrary();
   }
 }
 function initPush(){
