@@ -65,6 +65,27 @@ Nine hosted banners under `notification-images/`: one per prayer (`prayer-fajr/d
 
 Activation after approval: back up the live files, apply the `PrayerReminders.gs` and `Push.gs` changes from this branch, publish a new version on the existing deployment. Until then, prayer notifications keep the motivation banner and composer sends of the new kinds fall back safely (unknown kinds resolve to `lecture` on the old whitelist, so no breakage, just the wrong image — apply the backend before using the new kinds).
 
+## Scheduled daily reminders: adhkar, salawat, hadith, du'a, encouragement (feat/auto-adhkar)
+
+`backend/AutoAdhkar.gs` adds admin-configurable automatic reminders from the site's own sourced content library. Six categories (morning adhkar, evening adhkar, salawat, hadith, du'a, encouragement), each with its own toggle and per-day count (1-5). Sends only between Fajr and Isha using the day's stored prayer times (fixed fallback window if missing); morning adhkar only before Dhuhr, evening adhkar only after Asr. A persisted per-category pointer rotates through the content without repeats until the whole category is used. Minimum 90 minutes between sends of the same category. Every automatic send also lands in the bell inbox as a guaranteed fallback.
+
+Safety defaults: `enabled=false`, `testMode=true` (sends only to the admin account `abdelrhman.wae1`). The time-driven trigger (every 30 minutes) is installed when the admin enables the feature from the new admin card and deleted when disabled. Nothing reaches students until the admin turns test mode off himself after testing on his own account.
+
+Admin card in `admin.html` (التذكيرات التلقائية): master enable, test-mode toggle, per-category toggle + daily count + an instant test send that always goes to the admin account only.
+
+### Activation, after approval
+
+1. Back up the live Apps Script files.
+2. Add `AutoAdhkar.gs` to the Apps Script project as a new file, unchanged.
+3. In the live `Students.gs` route map inside `routeStudents_`, add three typeof-guarded lines next to the existing admin routes:
+   - `adminAutoGet: (typeof adminAutoGet_ === 'function') ? adminAutoGet_ : null,`
+   - `adminAutoSet: (typeof adminAutoSet_ === 'function') ? adminAutoSet_ : null,`
+   - `adminAutoTest: (typeof adminAutoTest_ === 'function') ? adminAutoTest_ : null,`
+4. Publish a new version on the existing deployment.
+5. Enable from the admin card; this installs the trigger. Rollback: disable from the card (removes the trigger), or redeploy the previous version.
+
+Until activation the admin card stays hidden (its load call fails silently), exactly like the prayer card before its backend shipped.
+
 ## Push enable resilience + diagnostics (fix/push-enable-resilience)
 
 Frontend (`push.js`): first-visit prompt card (one tap, dismissible, once per device), auto-heal re-registration when permission was granted but no token saved, persistent error state with retry, iOS "install the PWA first" guidance, in-app-browser "open in Chrome/Safari" hint. Admin (`admin.html`): token coverage counts (enabled / not yet / total students) in the push section.

@@ -110,6 +110,37 @@ body{background:#eef3f7}
 .ach-in:focus{border-color:var(--ac,#0e8f94);background:#fff}
 .ach-send{width:44px;height:44px;flex:none;border:none;border-radius:50%;background:linear-gradient(135deg,#0e8f94,#0b6f73);color:#fff;font-size:15px;cursor:pointer;display:grid;place-items:center}
 .ach-send i{transform:scaleX(-1)}
+/* التذكيرات التلقائية — بطاقة مصقولة */
+.nphA-head{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.nphA-ic{width:42px;height:42px;flex:none;border-radius:14px;background:linear-gradient(150deg,#f0d58a,#d4af5a);color:#08172b;display:grid;place-items:center;font-size:17px;box-shadow:0 4px 12px rgba(212,175,90,.35)}
+.nphA-head b{font-size:14.5px;display:block}
+.nphA-head small{display:block;color:var(--mut);font-weight:600;font-size:11.5px;margin-top:2px}
+.nphA-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.nphA-chip{background:rgba(212,175,90,.1);color:#8a6a1c;border:1px solid rgba(212,175,90,.4);border-radius:999px;padding:5px 13px;font-size:11.5px;font-weight:800;display:inline-flex;align-items:center;gap:6px}
+.nphA-chip i{font-size:11px}
+.nphA-swrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:16px;margin-top:8px;background:var(--bg)}
+.nphA-swrow .t{font-weight:800;font-size:13px}
+.nphA-swrow .d{font-weight:600;font-size:11px;color:var(--mut);margin-top:2px}
+.nphA-sw{position:relative;width:46px;height:26px;flex:none}
+.nphA-sw input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;z-index:1}
+.nphA-sw span{position:absolute;inset:0;border-radius:999px;background:#d7dee7;border:1.5px solid #c3ccd8;transition:.25s}
+.nphA-sw span::before{content:'';position:absolute;top:2px;inset-inline-start:3px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 2px 5px rgba(0,0,0,.25);transition:.25s}
+.nphA-sw input:checked+span{background:linear-gradient(150deg,#f0d58a,#d4af5a);border-color:#c9a24a}
+.nphA-sw input:checked+span::before{transform:translateX(-19px)}
+.nphA-list{margin-top:12px;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.nphA-row{display:flex;align-items:center;gap:10px;padding:11px 12px;background:var(--card,#fff)}
+.nphA-row+.nphA-row{border-top:1px solid var(--line)}
+.nphA-ric{width:34px;height:34px;flex:none;border-radius:11px;background:rgba(212,175,90,.14);color:#a87f22;display:grid;place-items:center;font-size:13.5px}
+.nphA-name{flex:1;min-width:0;font-weight:800;font-size:12.5px;line-height:1.35}
+.nphA-name small{display:block;font-weight:600;font-size:10.5px;color:var(--mut)}
+.nphA-step{display:flex;align-items:center;gap:2px;flex:none;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:2px}
+.nphA-step button{width:26px;height:26px;border:none;background:transparent;color:#a87f22;font-size:14px;font-weight:900;cursor:pointer;border-radius:8px;line-height:1}
+.nphA-step button:active{background:rgba(212,175,90,.2)}
+.nphA-step b{min-width:36px;text-align:center;font-size:11.5px;font-weight:900;color:var(--ink)}
+.nphA-test{width:34px;height:34px;flex:none;border-radius:50%;border:1.5px solid rgba(212,175,90,.55);background:transparent;color:#a87f22;font-size:12.5px;cursor:pointer;display:grid;place-items:center;transition:.2s}
+.nphA-test:active{background:rgba(212,175,90,.18)}
+.nphA-save{width:100%;margin-top:14px;border:none;border-radius:16px;padding:13px;font:inherit;font-weight:900;font-size:14px;cursor:pointer;background:linear-gradient(150deg,#f0d58a,#d4af5a);color:#08172b;box-shadow:0 6px 18px rgba(212,175,90,.4);display:flex;align-items:center;justify-content:center;gap:8px}
+.nphA-save:active{transform:scale(.985)}
 </style><link rel="stylesheet" href="admin-layout.css"><link rel="stylesheet" href="theory-extras.css"><link rel="stylesheet" href="community.css"><script src="theme.js"></script><link rel="stylesheet" href="theme.css"></head><body>
 <div class="toast" id="toast"></div>
 <div class="busy" id="busy"><div><div class="spin"></div><p id="busyMsg" style="font-weight:800"></p></div></div>
@@ -203,6 +234,18 @@ body{background:#eef3f7}
         <button type="button" class="btn sm" id="prayerSave"><i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات</button>
         <button type="button" class="btn sm" id="prayerTest"><i class="fa-solid fa-vial"></i> إرسال تذكير تجريبي لحسابي</button>
         <div id="prayerMsg" style="margin-top:8px;font-size:13px;font-weight:700"></div>
+      </div>
+      <div class="card hidden" id="autoCard" style="margin-top:12px">
+        <div class="nphA-head">
+          <div class="nphA-ic"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <div><b>التذكيرات التلقائية</b><small>أذكار ومحتوى يومي يصل تلقائيًا بين الفجر والعشاء</small></div>
+        </div>
+        <div class="nphA-chips" id="autoStatus"></div>
+        <div class="nphA-swrow"><div><div class="t">تفعيل الإرسال التلقائي</div><div class="d">جدولة كل ٣٠ دقيقة في المواعيد المناسبة</div></div><label class="nphA-sw"><input type="checkbox" id="autoEnabled"><span></span></label></div>
+        <div class="nphA-swrow"><div><div class="t">وضع التجربة</div><div class="d">الإرسال لحسابك فقط — لا يصل الطلبة شيء</div></div><label class="nphA-sw"><input type="checkbox" id="autoTestMode"><span></span></label></div>
+        <div class="nphA-list" id="autoList"></div>
+        <button type="button" class="nphA-save" id="autoSave"><i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات</button>
+        <div id="autoMsg" style="margin-top:10px;font-size:13px;font-weight:800;text-align:center"></div>
       </div>
     </section>
     <section id="v-log" class="hidden"><div class="sect"><i class="fa-solid fa-shield-halved"></i><div>سجل المشرفين<small>آخر العمليات على المنصة</small></div></div><div class="card" id="lgl"></div></section>
@@ -308,6 +351,53 @@ function initPushLibrary(){
   };
 }
 const PRAYER_AR={Fajr:'الفجر',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+const AUTO_CATS={morning:['أذكار الصباح','الفجر → الظهر','fa-sun'],evening:['أذكار المساء','العصر → العشاء','fa-cloud-moon'],salawat:['صلاة على النبي ﷺ','على مدار اليوم','fa-heart'],hadith:['حديث صحيح','على مدار اليوم','fa-book-open'],dua:['دعاء','على مدار اليوم','fa-hands-praying'],encouragement:['تشجيع','على مدار اليوم','fa-star']};
+async function loadAuto(){
+  const card=$("autoCard");if(!card)return;
+  try{
+    const d=await api("adminAutoGet",{});
+    card.classList.remove("hidden");
+    $("autoEnabled").checked=d.cfg.enabled===true;$("autoTestMode").checked=d.cfg.testMode!==false;
+    const today=Object.keys(d.state.counts||{}).map(k=>(AUTO_CATS[k]?AUTO_CATS[k][0]:k)+" "+d.state.counts[k]).join(" · ");
+    $("autoStatus").replaceChildren(
+      h("span",{class:"nphA-chip"},h("i",{class:"fa-solid "+(d.triggerInstalled?"fa-clock":"fa-pause")}),d.triggerInstalled?"المؤقت شغال (كل ٣٠ دقيقة)":"المؤقت متوقف"),
+      h("span",{class:"nphA-chip"},h("i",{class:"fa-solid fa-paper-plane"}),"المرسل اليوم: "+(today||"لا شيء بعد")));
+    const list=$("autoList");list.replaceChildren();
+    Object.keys(AUTO_CATS).forEach(k=>{
+      const meta=AUTO_CATS[k], c=(d.cfg.cats||{})[k]||{on:false,perDay:1};
+      const sw=h("label",{class:"nphA-sw",title:"تفعيل النوع"},h("input",{type:"checkbox"}),h("span"));
+      sw.querySelector("input").checked=c.on===true;sw.querySelector("input").dataset.k=k;
+      const val=h("b",null,(c.perDay||1)+"×");
+      const step=h("div",{class:"nphA-step",title:"عدد المرات يوميًا"});
+      const minus=h("button",{type:"button"},"−"), plus=h("button",{type:"button"},"+");
+      step.dataset.k=k;
+      minus.onclick=()=>{val.textContent=Math.max(1,(parseInt(val.textContent)||1)-1)+"×"};
+      plus.onclick=()=>{val.textContent=Math.min(5,(parseInt(val.textContent)||1)+1)+"×"};
+      step.append(minus,val,plus);
+      const testBtn=h("button",{type:"button",class:"nphA-test",title:"إرسال تجريبي لحسابك"},h("i",{class:"fa-solid fa-vial"}));
+      testBtn.onclick=async()=>{const m=$("autoMsg");m.textContent="جاري إرسال تجربة «"+meta[0]+"» لحسابك...";
+        try{const r=await api("adminAutoTest",{cat:k});m.textContent=r.result&&r.result.noTargets?"مفيش جهاز مسجل على حسابك — فعّل إشعاراتك من الموقع الأول":"وصل التجريبي لحسابك ✅";}catch(e){m.textContent=net(e)}};
+      list.appendChild(h("div",{class:"nphA-row"},
+        h("div",{class:"nphA-ric"},h("i",{class:"fa-solid "+meta[2]})),
+        h("div",{class:"nphA-name"},meta[0],h("small",null,meta[1])),
+        step,testBtn,sw));
+    });
+  }catch(e){/* وحدة التذكيرات التلقائية لم تُنشر بعد على السيرفر */}
+}
+function initAuto(){
+  if(!$("autoSave"))return;
+  $("autoSave").onclick=async()=>{
+    const m=$("autoMsg");m.textContent="";
+    const cats={};
+    document.querySelectorAll("#autoList .nphA-sw input").forEach(cb=>cats[cb.dataset.k]={on:cb.checked});
+    document.querySelectorAll("#autoList .nphA-step").forEach(st=>{const k=st.dataset.k;cats[k]=cats[k]||{};cats[k].perDay=parseInt(st.querySelector("b").textContent)||1});
+    try{
+      const d=await api("adminAutoSet",{enabled:$("autoEnabled").checked,testMode:$("autoTestMode").checked,cats});
+      m.textContent="اتحفظ ✅"+(d.cfg.testMode?" (وضع التجربة شغال: الإرسال لحسابك فقط)":"")+(d.cfg.enabled&&!d.triggerInstalled?" — تنبيه: المؤقت لم يُنصّب":"");
+      loadAuto();
+    }catch(e){m.textContent=net(e)}
+  };
+}
 async function loadPrayer(){
   const card=$("prayerCard");if(!card)return;
   try{
@@ -371,7 +461,7 @@ async function loadPush(){
         h("span",{style:"flex:1;background:rgba(13,34,56,.06);color:var(--mut);border-radius:12px;padding:8px 10px;text-align:center"},"إجمالي الطلبة: "+registered.length)));
     } catch(e) {toast("تعذر تحميل كل الحسابات. القائمة تعرض المسجلين في الإشعارات فقط.",true);}
     eligible.forEach(u=>{if(!known.has(u))dl.appendChild(h("option",{value:u},"@"+u))});
-    loadPushLog();initPushLibrary();loadPrayer();
+    loadPushLog();initPushLibrary();loadPrayer();loadAuto();
   }catch(e){
     st.appendChild(h("div",{class:"empty"},ic("fa-triangle-exclamation"),"خدمة الإشعارات لسه مش متظبطة على السيرفر (Push.gs مش متنشر أو FCM مش متعمله إعداد)"));
     initPushLibrary();
@@ -416,7 +506,7 @@ function initPush(){
 }
 initPush();
 initPushLibrary();
-initPrayer();
+initPrayer();initAuto();
 
 function updBadge(){const cn=CH.reduce((a,c)=>a+(c.unread||0),0);const n=SG.filter(s=>!s.reply).length+cn;$("bdg").textContent=n;$("bdg").classList.toggle("hidden",!n);
   const cb=$("cbdg");if(cb){cb.textContent=cn;cb.classList.toggle("hidden",!cn)}}
