@@ -100,7 +100,7 @@ function lecRow(l){
   return h("div",{class:"plec"},
     h("div",{class:"plb"},
       h("div",{class:"row"},h("a",{href:"Lecture.html?id="+encodeURIComponent(l.id)},l.titleAr||l.title),h("span",null,p.total?p.pct+"%":"—")),
-      h("div",{class:"pbar sm"+(th?"":" ")},h("i",{style:"width:"+p.pct+"%;"+(th?"background:linear-gradient(90deg,#6b4fb3,#9a7fe0)":"")}))));
+      h("div",{class:"pbar sm"+(th?"":" ")},h("i",{style:"width:"+p.pct+"%;"+(th?"background:linear-gradient(90deg,#8a6a1c,#d4af5a)":"")}))));
 }
 function render(){
   app.innerHTML="";
@@ -143,8 +143,8 @@ function render(){
   const gr=h("div",{class:"pgrid"});
   gr.appendChild(h("div",{class:"card pcard rv"},
     h("h3",null,ic("fa-layer-group")," نسبة كل تراك"),
-    h("div",{class:"tr2"},h("div",{class:"ti2",style:"background:linear-gradient(135deg,#6b4fb3,#9a7fe0)"},ic("fa-book-open")),
-      h("div",{class:"tb2"},h("div",{class:"row"},h("b",null,"النظري"),h("span",null,oT.done+"/"+oT.total)),h("div",{class:"pbar"},h("i",{style:"width:"+oT.pct+"%;background:linear-gradient(90deg,#6b4fb3,#9a7fe0)"})))),
+    h("div",{class:"tr2"},h("div",{class:"ti2",style:"background:linear-gradient(135deg,#8a6a1c,#d4af5a)"},ic("fa-book-open")),
+      h("div",{class:"tb2"},h("div",{class:"row"},h("b",null,"النظري"),h("span",null,oT.done+"/"+oT.total)),h("div",{class:"pbar"},h("i",{style:"width:"+oT.pct+"%;background:linear-gradient(90deg,#8a6a1c,#d4af5a)"})))),
     h("div",{class:"tr2"},h("div",{class:"ti2",style:"background:linear-gradient(135deg,#0e8f94,#35c6c0)"},ic("fa-hand-holding-medical")),
       h("div",{class:"tb2"},h("div",{class:"row"},h("b",null,"العملي"),h("span",null,oP.done+"/"+oP.total)),h("div",{class:"pbar"},h("i",{style:"width:"+oP.pct+"%"}))))));
   const wk=NPH.last7();
@@ -162,7 +162,7 @@ function render(){
     app.appendChild(h("div",{class:"card pcard rv",style:"margin-top:16px"},
       h("h3",null,ic("fa-star")," المفضلة"),
       favs.map(f=>h("a",{class:"pli",href:"Lecture.html?id="+encodeURIComponent(f.lecture.id)+"&tab="+encodeURIComponent(f.sec)},
-        h("div",{class:"pii",style:f.lecture.track==="theory"?"background:linear-gradient(135deg,#6b4fb3,#9a7fe0)":"background:linear-gradient(135deg,#0e8f94,#35c6c0)"},ic("fa-star")),
+        h("div",{class:"pii",style:f.lecture.track==="theory"?"background:linear-gradient(135deg,#8a6a1c,#d4af5a)":"background:linear-gradient(135deg,#0e8f94,#35c6c0)"},ic("fa-star")),
         h("div",{class:"pib"},h("b",null,f.item.title),h("small",null,(f.lecture.titleAr||f.lecture.title)+" - "+(SEC_N[f.sec]||f.sec))),
         h("span",{class:"pil"},"افتح ",ic("fa-arrow-left"))))));
   }

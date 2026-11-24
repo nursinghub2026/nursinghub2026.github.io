@@ -59,13 +59,13 @@
 .tr p{font-size:14px;opacity:.93;line-height:1.9;flex:1}
 .tr .go{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:14px;background:rgba(255,255,255,.2);padding:10px 18px;border-radius:30px;align-self:flex-start}
 .tr .cn{position:absolute;top:24px;left:22px;font-size:12px;font-weight:800;background:rgba(0,0,0,.22);padding:5px 14px;border-radius:30px}
-.t1{background:linear-gradient(145deg,#3d2f7a,#6b4fb3 60%,#9a7fe0)}.t2{background:linear-gradient(145deg,#08617a,#0e8f94 60%,#35c6c0)}
+.t1{background:linear-gradient(145deg,#7a5c14,#a8842a 60%,#d4af5a)}.t2{background:linear-gradient(145deg,#08617a,#0e8f94 60%,#35c6c0)}
 .sec{margin-top:40px}
 .lst{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
 .lcm{display:flex;gap:14px;align-items:center;background:#fff;border-radius:22px;padding:16px;box-shadow:var(--sh);transition:.25s;border:1px solid rgba(13,34,56,.05)}
 .lcm:hover{transform:translateY(-4px);box-shadow:var(--sh2)}
 .lcm .n{width:54px;height:54px;flex:none;border-radius:17px;display:grid;place-items:center;font-size:21px;color:#fff;background:linear-gradient(135deg,#0e8f94,#35c6c0)}
-.lcm.v .n{background:linear-gradient(135deg,#6b4fb3,#9a7fe0)}
+.lcm.v .n{background:linear-gradient(135deg,#8a6a1c,#d4af5a)}
 .lcm b{display:block;font-size:16px;line-height:1.5}.lcm small{color:var(--mut);font-size:12px;direction:ltr;display:block;text-align:right}
 .mot{margin-top:40px;border-radius:30px;padding:36px 22px;text-align:center;color:#fff;background:linear-gradient(135deg,#0d2238,#16506a 60%,#0e8f94);position:relative;overflow:hidden;box-shadow:var(--sh2)}
 .mot::before{content:"\f10d";font-family:"Font Awesome 6 Free";font-weight:900;position:absolute;top:10px;right:22px;font-size:80px;opacity:.08}
@@ -195,7 +195,7 @@ function draw(L){L=L||[];const T=L.filter(l=>l.track==="theory"),P=L.filter(l=>l
   R.forEach(l=>{const th=l.track==="theory";
     b.appendChild(h("a",{class:"lcm"+(th?" v":""),href:"Lecture.html?id="+encodeURIComponent(l.id)},
       h("div",{class:"n"},ic(th?"fa-book-open":"fa-hand-holding-medical")),
-      h("div",null,h("b",null,l.titleAr||l.title),h("small",null,l.title),h("span",{class:"pill "+(th?"vio":"teal"),style:"margin-top:4px"},th?"نظري":"عملي"))))})}
+      h("div",null,h("b",null,l.titleAr||l.title),h("small",null,l.title),h("span",{class:"pill "+(th?"gold":"teal"),style:"margin-top:4px"},th?"نظري":"عملي"))))})}
 try{const c=JSON.parse(localStorage.getItem("NPH_PUB_V1")||"null");if(c)draw(c)}catch(e){}
 fetch(API).then(r=>r.json()).then(d=>{if(d.ok){draw(d.lectures);try{localStorage.setItem("NPH_PUB_V1",JSON.stringify(d.lectures))}catch(e){}}}).catch(()=>{});
 </script><script src="firebase-config.js"></script><script src="push.js" defer></script></body></html>
