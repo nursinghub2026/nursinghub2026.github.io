@@ -51,6 +51,17 @@ function stuPushToken_(req) {
   return { ok: true };
 }
 
+/* آخر الإشعارات المرسلة للوحة الإدارة (قراءة فقط من PushLog) */
+function adminPushLog_(req) {
+  stuRequireAdmin_(req);
+  const sh = pushLogSheet_();
+  const last = sh.getLastRow();
+  if (last < 2) return { ok: true, log: [] };
+  const n = Math.min(20, last - 1);
+  const rows = sh.getRange(last - n + 1, 1, n, 7).getValues();
+  return { ok: true, log: rows.reverse().map(r => ({ ts: r[0] instanceof Date ? r[0].toISOString() : String(r[0]), audience: String(r[1]), title: String(r[2]), body: String(r[3]), sent: Number(r[4]) || 0, failed: Number(r[5]) || 0, configured: r[6] === true })) };
+}
+
 /* قائمة الأجهزة المسجلة للوحة الإدارة */
 function adminPushList_(req) {
   stuRequireAdmin_(req);
