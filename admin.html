@@ -194,6 +194,16 @@ body{background:#eef3f7}
         <div id="pushMsg" style="margin-top:10px;font-size:13px;font-weight:700"></div>
       </div>
       <div class="card hidden" id="pushLogCard" style="margin-top:12px"><b style="font-size:14px"><i class="fa-solid fa-clock-rotate-left"></i> آخر الإشعارات المرسلة</b><div id="pushLog" style="margin-top:8px"></div></div>
+      <div class="card hidden" id="prayerCard" style="margin-top:12px">
+        <b style="font-size:14px"><i class="fa-solid fa-mosque"></i> تذكير مواقيت الصلاة (بتوقيت بورسعيد)</b>
+        <div id="prayerTimes" style="font-size:12.5px;color:var(--mut);margin:8px 0"></div>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:13px;margin:8px 0"><input type="checkbox" id="prayerEnabled"> تفعيل التذكير التلقائي</label>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:12.5px;margin:8px 0"><input type="checkbox" id="prayerTestMode"> وضع التجربة: الإرسال لحسابي فقط (الطلبة لا يصلهم شيء)</label>
+        <div id="prayerList" style="display:flex;flex-wrap:wrap;gap:10px;margin:8px 0"></div>
+        <button type="button" class="btn sm" id="prayerSave"><i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات</button>
+        <button type="button" class="btn sm" id="prayerTest"><i class="fa-solid fa-vial"></i> إرسال تذكير تجريبي لحسابي</button>
+        <div id="prayerMsg" style="margin-top:8px;font-size:13px;font-weight:700"></div>
+      </div>
     </section>
     <section id="v-log" class="hidden"><div class="sect"><i class="fa-solid fa-shield-halved"></i><div>سجل المشرفين<small>آخر العمليات على المنصة</small></div></div><div class="card" id="lgl"></div></section>
   </main>
@@ -296,6 +306,39 @@ function initPushLibrary(){
     $("pushTitle").dispatchEvent(new Event("input"));$("pushBody").dispatchEvent(new Event("input"));
   };
 }
+const PRAYER_AR={Fajr:'الفجر',Dhuhr:'الظهر',Asr:'العصر',Maghrib:'المغرب',Isha:'العشاء'};
+async function loadPrayer(){
+  const card=$("prayerCard");if(!card)return;
+  try{
+    const d=await api("adminPrayerGet",{});
+    card.classList.remove("hidden");
+    $("prayerEnabled").checked=d.enabled===true;$("prayerTestMode").checked=d.testMode!==false;
+    $("prayerTimes").textContent=d.times?("مواقيت اليوم: "+Object.keys(PRAYER_AR).map(k=>PRAYER_AR[k]+" "+(d.times[k]||"--:--")).join(" · ")):"تعذر جلب مواقيت اليوم من الخادم";
+    const list=$("prayerList");list.replaceChildren();
+    Object.keys(PRAYER_AR).forEach(k=>{
+      const cb=h("input",{type:"checkbox"});cb.checked=!d.prayers||d.prayers[k]!==false;cb.dataset.k=k;
+      list.appendChild(h("label",{style:"display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700"},cb,PRAYER_AR[k]));
+    });
+  }catch(e){/* وحدة تذكير الصلاة لم تُنشر بعد على السيرفر */}
+}
+function initPrayer(){
+  if(!$("prayerSave"))return;
+  $("prayerSave").onclick=async()=>{
+    const m=$("prayerMsg");m.textContent="";
+    const prayers={};document.querySelectorAll("#prayerList input").forEach(cb=>prayers[cb.dataset.k]=cb.checked);
+    try{
+      const d=await api("adminPrayerSet",{enabled:$("prayerEnabled").checked,testMode:$("prayerTestMode").checked,prayers});
+      m.textContent="اتحفظ ✅"+(d.testMode?" (وضع التجربة شغال: الإرسال لحسابك فقط)":"");
+    }catch(e){m.textContent=net(e)}
+  };
+  $("prayerTest").onclick=async()=>{
+    const m=$("prayerMsg");m.textContent="جاري إرسال التجربة لحسابك...";
+    try{
+      const d=await api("adminPrayerTest",{prayer:"Dhuhr"});
+      m.textContent=d.noTargets?"مفيش جهاز مسجل على حسابك — فعّل إشعاراتك من الموقع الأول":"وصل التجريبي لحسابك ✅ ("+(d.sent||0)+" جهاز)";
+    }catch(e){m.textContent=net(e)}
+  };
+}
 async function loadPushLog(){
   const card=$("pushLogCard"),box=$("pushLog");if(!card||!box)return;
   try{
@@ -322,7 +365,7 @@ async function loadPush(){
       registered.forEach(student=>{if(!student.username)return;known.add(student.username);const available=eligible.has(student.username),o=h("option",{value:student.username,disabled:!available},(student.name||student.username)+" · @"+student.username+(available?"":" · لم يفعّل الإشعارات"));dl.appendChild(o)});
     } catch(e) {toast("تعذر تحميل كل الحسابات. القائمة تعرض المسجلين في الإشعارات فقط.",true);}
     eligible.forEach(u=>{if(!known.has(u))dl.appendChild(h("option",{value:u},"@"+u))});
-    loadPushLog();initPushLibrary();
+    loadPushLog();initPushLibrary();loadPrayer();
   }catch(e){
     st.appendChild(h("div",{class:"empty"},ic("fa-triangle-exclamation"),"خدمة الإشعارات لسه مش متظبطة على السيرفر (Push.gs مش متنشر أو FCM مش متعمله إعداد)"));
     initPushLibrary();
@@ -367,6 +410,7 @@ function initPush(){
 }
 initPush();
 initPushLibrary();
+initPrayer();
 
 function updBadge(){const cn=CH.reduce((a,c)=>a+(c.unread||0),0);const n=SG.filter(s=>!s.reply).length+cn;$("bdg").textContent=n;$("bdg").classList.toggle("hidden",!n);
   const cb=$("cbdg");if(cb){cb.textContent=cn;cb.classList.toggle("hidden",!cn)}}

@@ -1,5 +1,9 @@
 # Push backend
 
+## PrayerReminders.gs (prayer-time reminders), activation note
+
+Adds admin-controlled prayer reminders for Port Said (Dar Al-Ifta Egypt GetPrayer endpoint as primary source, refreshed daily, with automatic fallback to the Aladhan free API using the Egyptian General Authority of Survey method; cached daily). Activation after approval, backup first: add `PrayerReminders.gs` to the live project, add three lines to the route map in the live Students.gs (`adminPrayerGet`, `adminPrayerSet`, `adminPrayerTest` mapped to their `_` functions with the same typeof guard as `adminPushSend`), publish a new version, then run `prayerInstallTrigger_()` once from the editor to create the 5-minute time trigger. Safe by default: enabled=false and testMode=true, so nothing reaches students until the admin turns the master switch on AND turns test mode off; every test send goes to the admin account constant in the file, never to a client-chosen user. Duplicate sends are prevented per prayer per day in Script Properties.
+
 ## adminPushLog (read-only delivery log), activation note
 
 This copy of `Push.gs` adds `adminPushLog_`, which returns the 20 newest PushLog rows for the admin composer history card. It reads only; it never writes or deletes. Activation after approval: back up the live files, add the same function to the live Push.gs, add one line to the route map in the live Students.gs (`adminPushLog: (typeof adminPushLog_ === 'function') ? adminPushLog_ : null,` next to `adminPushSend`), and publish a new version on the existing deployment. Until then the admin history card hides itself and the composer keeps working exactly as before.
