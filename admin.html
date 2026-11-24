@@ -273,6 +273,22 @@ body{background:#eef3f7}
         <button type="button" class="nphA-save" id="autoSave"><i class="fa-solid fa-floppy-disk"></i> حفظ الإعدادات</button>
         <div id="autoMsg" style="margin-top:10px;font-size:13px;font-weight:800;text-align:center"></div>
       </div>
+      <div class="card" id="schedCard" style="margin-top:12px">
+        <b style="font-size:14px"><i class="fa-solid fa-calendar-check"></i> تذكيرات مجدولة (أسبوعية أو مرة واحدة)</b>
+        <div style="font-size:12.5px;color:var(--mut);margin:6px 0">اكتب التذكير وحدد وقته بتوقيت بورسعيد. يظهر للطلبة في جرس الإشعارات + push في وقته. فعّل خيار "أسبوعي" للتكرار في نفس اليوم والساعة كل أسبوع.</div>
+        <input id="schedTitle" maxlength="80" placeholder="العنوان (مثال: كويز الأسبوع)" style="width:100%;margin:6px 0">
+        <textarea id="schedBody" maxlength="240" rows="2" placeholder="نص التذكير" style="width:100%;margin:6px 0"></textarea>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0">
+          <select id="schedBanner"><option value="lecture">محاضرة</option><option value="quiz" selected>كويز</option><option value="reply">رد</option><option value="motivation">تحفيز</option><option value="salawat">صلاة على النبي</option><option value="hadith">حديث</option><option value="dua">دعاء</option><option value="encouragement">تشجيع</option><option value="none">بدون صورة</option></select>
+          <select id="schedAud"><option value="">كل الطلبة</option><option value="abdelrhman.wae1">حسابي فقط (تجربة)</option></select>
+          <input type="datetime-local" id="schedAt" style="font-family:inherit">
+          <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700"><input type="checkbox" id="schedWeekly"> أسبوعي</label>
+        </div>
+        <button type="button" class="btn sm" id="schedAdd"><i class="fa-solid fa-plus"></i> إضافة التذكير</button>
+        <label style="display:flex;align-items:center;gap:8px;font-weight:800;font-size:13px;margin:10px 0"><input type="checkbox" id="schedEnabled"> تفعيل الإرسال التلقائي للطلبة (مقفول افتراضيًا — فعّله لما تكون جاهز)</label>
+        <div id="schedMsg" style="margin-top:6px;font-size:13px;font-weight:700"></div>
+        <div id="schedList" style="margin-top:10px;display:flex;flex-direction:column;gap:8px"></div>
+      </div>
     </section>
     <section id="v-log" class="hidden"><div class="sect"><i class="fa-solid fa-shield-halved"></i><div>سجل المشرفين<small>آخر العمليات على المنصة</small></div></div><div class="card" id="lgl"></div></section>
   </main>
@@ -617,6 +633,48 @@ function initPrayer(){
     }catch(e){m.textContent=net(e)}
   };
 }
+async function loadSched(){
+  const card=$("schedCard");if(!card)return;
+  const list=$("schedList"),msg=$("schedMsg");
+  async function refresh(){
+    try{
+      const d=await api("adminSchedList",{});
+      $("schedEnabled").checked=d.enabled===true;
+      list.replaceChildren();
+      if(!d.items||!d.items.length){list.appendChild(h("small",{style:"color:var(--mut)"},"لسه مفيش تذكيرات مجدولة"));return}
+      d.items.forEach(n=>{
+        const state=n.canceled?"ملغي":(n.sent?"اتبعت ✅":"مجدول");
+        const row=h("div",{class:"mini"},
+          h("span",null,h("b",null,n.title)," — "+(n.username?("لطالب: @"+n.username):"لكل الطلبة")+(n.weekly?" · أسبوعي":"")),
+          h("small",{style:"color:var(--mut);font-weight:600"},n.sendAt+" • "+state),
+          (n.canceled||(n.sent&&!n.weekly))?null:h("button",{type:"button",class:"btn sm",style:"padding:2px 10px;font-size:11px",onclick:async()=>{
+            if(!confirm("إلغاء التذكير ده؟"))return;
+            try{await api("adminSchedCancel",{id:n.id});refresh()}catch(e){msg.textContent=net(e)}
+          }},"إلغاء"));
+        list.appendChild(row);
+      });
+    }catch(e){list.replaceChildren(h("small",{style:"color:var(--mut)"},"قائمة التذكيرات هتظهر بعد تحديث الباك إند"))}
+  }
+  $("schedAdd").onclick=async()=>{
+    msg.textContent="";
+    const at=$("schedAt").value?$("schedAt").value.replace("T"," "):"";
+    if(!at){msg.textContent="حدد وقت الإرسال";return}
+    try{
+      const d=await api("adminSchedAdd",{title:$("schedTitle").value.trim(),body:$("schedBody").value.trim(),banner:$("schedBanner").value,username:$("schedAud").value,sendAt:at,weekly:$("schedWeekly").checked});
+      msg.textContent="اتسجل ✅"+(d.enabled?"":" (الإرسال التلقائي مقفول — فعّله من المفتاح تحت)");
+      $("schedTitle").value="";$("schedBody").value="";
+      refresh();
+    }catch(e){msg.textContent=net(e)}
+  };
+  $("schedEnabled").onchange=async()=>{
+    msg.textContent="";
+    try{
+      const d=await api("adminSchedSet",{enabled:$("schedEnabled").checked});
+      msg.textContent=d.enabled?"الإرسال التلقائي شغال ✅ — التذكيرات هتوصل للطلبة في مواعيدها":"اتقفل الإرسال التلقائي. التذكيرات محفوظة بس مش هتتبعت";
+    }catch(e){msg.textContent=net(e);$("schedEnabled").checked=false}
+  };
+  refresh();
+}
 async function loadPushLog(){
   const card=$("pushLogCard"),box=$("pushLog");if(!card||!box)return;
   try{
@@ -648,7 +706,7 @@ async function loadPush(){
         h("span",{style:"flex:1;background:rgba(13,34,56,.06);color:var(--mut);border-radius:12px;padding:8px 10px;text-align:center"},"إجمالي الطلبة: "+registered.length)));
     } catch(e) {toast("تعذر تحميل كل الحسابات. القائمة تعرض المسجلين في الإشعارات فقط.",true);}
     eligible.forEach(u=>{if(!known.has(u))dl.appendChild(h("option",{value:u},"@"+u))});
-    loadPushLog();initPushLibrary();loadPrayer();loadAuto();
+    loadPushLog();initPushLibrary();loadPrayer();loadAuto();loadSched();
   }catch(e){
     st.appendChild(h("div",{class:"empty"},ic("fa-triangle-exclamation"),"خدمة الإشعارات لسه مش متظبطة على السيرفر (Push.gs مش متنشر أو FCM مش متعمله إعداد)"));
     initPushLibrary();

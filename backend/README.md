@@ -102,3 +102,13 @@ Backend (additive):
 - `PrayerReminders.gs`: prayer reminders also append to the bell inbox (`inboxAppend_`, guarded) — an in-site fallback for students without tokens.
 
 Activation after approval: back up live files; update `Push.gs` and `PrayerReminders.gs`; add one typeof-guarded route line for `stuPushAttempt` to the `routeStudents_` map; publish a new version. Rollback: revert the deployment.
+
+## Scheduled weekly/one-shot reminders (feat/scheduled-notices-v2)
+
+The admin writes reminders himself (title, body, banner, all students or one, Cairo time, optional weekly repeat); each fires as a push + an inbox row at its time. Storage is strictly append-only: `ScheduledNotices`, `ScheduledSends` (dedupe log), `ScheduledCancels` (cancel = new row, original untouched).
+
+- `backend/ScheduledNotices.gs`: `adminSchedAdd_` / `adminSchedList_` / `adminSchedCancel_` / `adminSchedSet_`, `schedTick_` (5-minute trigger), `schedInstallTrigger_`.
+- Sending is OFF by default (`SCHED_CFG.enabled=false`). Nothing reaches students until the owner flips the switch in the admin card himself. Occurrences older than a day are skipped, never back-sent.
+- Admin UI: new card in `admin.html` under the auto-adhkar card with form, enable switch, and list with cancel.
+
+Activation after approval: back up the live files; add `ScheduledNotices.gs` to the project; add four typeof-guarded lines to the `routeStudents_` map (`adminSchedAdd`, `adminSchedList`, `adminSchedCancel`, `adminSchedSet`); publish a new version; run `schedInstallTrigger_()` once from the editor. Rollback: revert the deployment and delete the trigger.
