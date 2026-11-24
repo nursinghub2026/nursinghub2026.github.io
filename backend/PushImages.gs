@@ -9,7 +9,7 @@ function pushImageConfigured_() {
 function pushUploadImage_(base64) {
   if(!pushImageConfigured_()) throw new Error('استضافة الصور المخصصة لسه مش متظبطة، اختار صورة جاهزة مؤقتًا');
   const raw=String(base64||'');
-  if(raw.length>1000000 || !/^[A-Za-z0-9+/]+=*$/.test(raw))throw new Error('صورة الإشعار غير صالحة أو كبيرة');
+  if(raw.length>3500000 || !/^[A-Za-z0-9+/]+=*$/.test(raw))throw new Error('صورة الإشعار غير صالحة أو كبيرة');
   const bytes=Utilities.base64Decode(raw);
   if(bytes.length<24 || bytes.slice(0,8).map(b=>(b+256)%256).join(',')!=='137,80,78,71,13,10,26,10')throw new Error('الصورة لازم تكون PNG');
   const num=(i)=>{let n=0;for(let j=0;j<4;j++)n=n*256+(bytes[i+j]+256)%256;return n;};

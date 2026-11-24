@@ -15,6 +15,9 @@ function makeCtx(nowTime){
       deleteTrigger:(t)=>{triggers=triggers.filter(x=>x!==t)}
     },
     pushTokensSheet_:()=>({getDataRange:()=>({getValues:()=>[['u','t'],['abdelrhman.wae1','admin-device'],['student2','student-device']]})}),
+    __sheets:{},
+    pushSs_:function(){return{getSheetByName:(n)=>ctx.__sheets[n]||null,insertSheet:(n)=>{const rows=[['cat','title','body']];const s={getDataRange:()=>({getValues:()=>rows.map(r=>r.slice())}),appendRow:(r)=>rows.push(r.slice()),deleteRow:(i)=>rows.splice(i-1,1)};ctx.__sheets[n]=s;return s}}},
+    pushUploadImage_:(b64)=>{ctx.__uploads=(ctx.__uploads||0)+1;return'https://res.cloudinary.com/demo/image/upload/v1/foundations-notices/'+b64.length+'.png'},
     fcmSendToTokens_:(targets,title,body,data)=>{sends.push({targets,title,body,data});return{sent:targets.length,failed:0,configured:true}},
     inboxAppend_:()=>{},
     __store:store,__sends:sends,__triggers:()=>triggers};
@@ -78,4 +81,33 @@ c=makeCtx('10:00');c.adminAutoSet_({enabled:true});assert.equal(c.__triggers().l
 r=c.adminAutoSet_({enabled:false});assert.equal(r.triggerInstalled,false);assert.equal(c.__triggers().length,0);
 r=c.adminAutoGet_({});assert(r.ok&&r.cfg&&r.state&&r.window&&typeof r.triggerInstalled==='boolean');
 
-console.log('PASS: disabled-by-default, category gating, admin-only test mode, min-gap, perDay cap, quiet hours Fajr-Isha, morning/evening windows, rotation without repeats + wrap, forced test target, trigger install/remove.');
+// 12. content override: set -> tick uses custom item, custom flag; reset -> back to library
+c=makeCtx('10:00');c.adminAutoSet_({enabled:true,cats:{salawat:{on:true}}});
+r=c.adminAutoContent_({cat:'salawat',contentAction:'set',items:[{t:'عنوان مخصص',b:'نص مخصص من الأدمن'},{t:'تجاهل بدون نص',b:''}]});
+assert(r.ok&&r.custom===true&&r.items.length===1); // عناصر ناقصة تُستبعد
+r=c.autoAdhkarTick_();assert.equal(c.__sends[0].title,'عنوان مخصص');
+r=c.adminAutoContent_({cat:'salawat',contentAction:'get'});assert(r.ok&&r.custom===true&&r.items[0].t==='عنوان مخصص'&&r.defaults.length===4);
+r=c.adminAutoContent_({cat:'salawat',contentAction:'reset'});assert(r.ok&&r.custom===false);
+r=c.adminAutoContent_({cat:'salawat',contentAction:'get'});assert(r.custom===false&&r.items.length===4); // المكتبة المدمجة
+r=c.adminAutoContent_({cat:'salawat',contentAction:'set',items:[]});assert.equal(r.ok,false); // رفض القائمة الفارغة
+r=c.adminAutoContent_({cat:'nope',contentAction:'get'});assert.equal(r.ok,false);
+
+// 13. per-category image: none -> no imageUrl; custom only via upload; bad URLs rejected
+c=makeCtx('10:00');c.adminAutoSet_({enabled:true,cats:{hadith:{on:true,perDay:2,banner:'none'}}});
+r=c.autoAdhkarTick_();assert.equal(c.__sends[0].data.imageUrl,'');assert.equal(c.__sends[0].data.banner,'none');
+r=c.adminAutoSet_({cats:{hadith:{banner:'custom'}}});assert.equal(r.cfg.cats.hadith.banner,'none'); // custom بدون رفع مرفوض
+r=c.adminAutoImage_({cat:'hadith',imagePng:'AAAA'});assert(r.ok&&r.cfg.cats.hadith.banner==='custom'&&r.cfg.cats.hadith.customImage.includes('res.cloudinary.com'));
+clearGap(c,'hadith');r=c.autoAdhkarTick_();assert(c.__sends[1].data.imageUrl.includes('res.cloudinary.com'));assert.equal(c.__sends[1].data.banner,'motivation');
+r=c.adminAutoImage_({cat:'hadith'});assert(r.ok&&r.cfg.cats.hadith.banner==='default'&&r.cfg.cats.hadith.customImage==='');
+r=c.adminAutoSet_({cats:{hadith:{banner:'javascript:x'}}});assert.equal(r.cfg.cats.hadith.banner,'default'); // قيم غريبة مرفوضة
+
+// 14. gapMin: per-category recurrence honored and clamped (30..720)
+c=makeCtx('10:00');c.adminAutoSet_({enabled:true,cats:{salawat:{on:true,perDay:5,gapMin:30}}});
+r=c.autoAdhkarTick_();assert.equal(c.__sends.length,1);
+let st14=JSON.parse(c.__store.AUTO_ADHKAR_STATE_V1);st14.lastAt.salawat=Date.now()-31*60000;c.__store.AUTO_ADHKAR_STATE_V1=JSON.stringify(st14);
+r=c.autoAdhkarTick_();assert.equal(c.__sends.length,2); // 31 دقيقة > 30 → يُرسل
+r=c.adminAutoSet_({cats:{salawat:{gapMin:5}}});assert.equal(r.cfg.cats.salawat.gapMin,30); // أقل من الحد → 30
+r=c.adminAutoSet_({cats:{salawat:{gapMin:9999}}});assert.equal(r.cfg.cats.salawat.gapMin,720); // أعلى من الحد → 720
+r=c.adminAutoGet_({});assert(r.imageHosting===false); // لا توجد PushImages.gs في سياق الاختبار
+
+console.log('PASS: disabled-by-default, category gating, admin-only test mode, min-gap, perDay cap, quiet hours Fajr-Isha, morning/evening windows, rotation without repeats + wrap, forced test target, trigger install/remove, content override set/get/reset, per-category images (none/custom/upload/clear/validation), per-category recurrence gapMin.');

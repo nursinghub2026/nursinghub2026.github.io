@@ -35,8 +35,9 @@ test('Push.gs accepts the new banner kinds in both whitelists', () => {
 test('prayer reminders pass a per-prayer hosted image', () => {
   const s = read('backend/PrayerReminders.gs');
   assert.ok(s.includes("notification-images/prayer-' + imageKey + '.png"), 'image URL built per prayer key');
-  assert.ok(s.includes('prayerSend_(title, body, cfg.testMode, k.toLowerCase())'), 'tick passes the prayer key');
-  assert.ok(s.includes('prayerSend_(title, body, true, k.toLowerCase())'), 'admin test passes the prayer key');
+  assert.ok(s.includes('prayerSend_(title, body, cfg.testMode, k.toLowerCase(), prayerImg_(cfg, k))'), 'tick passes the prayer key with its resolved image');
+  assert.ok(s.includes('prayerSend_(title, body, true, k.toLowerCase(), prayerImg_(prayerCfg_(), k))'), 'admin test passes the prayer key with its resolved image');
+  assert.ok(s.includes("notification-images/prayer-' + k.toLowerCase() + '.png"), 'default resolves to the per-prayer hosted image');
   assert.ok(s.includes("banner: 'motivation'"), 'motivation stays as fallback banner');
 });
 

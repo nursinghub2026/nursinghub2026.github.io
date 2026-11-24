@@ -70,6 +70,9 @@ var AUTO_BANNERS = {
   salawat: 'salawat', hadith: 'hadith', dua: 'dua', encouragement: 'encouragement'
 };
 
+/* صور مسموح بها لكل فئة: default=لافتة الفئة، none=بدون صورة، custom=صورة مرفوعة على الاستضافة المجانية */
+var AUTO_BANNER_IDS = ['default', 'none', 'lecture', 'quiz', 'reply', 'motivation', 'salawat', 'hadith', 'dua', 'encouragement', 'custom'];
+
 function autoProps_() { return PropertiesService.getScriptProperties(); }
 
 function autoDefaultCfg_() {
@@ -93,11 +96,77 @@ function autoCfg_() {
     if (!raw) return autoDefaultCfg_();
     var cfg = JSON.parse(raw);
     var def = autoDefaultCfg_();
-    Object.keys(def.cats).forEach(function (k) { if (!cfg.cats || !cfg.cats[k]) { cfg.cats = cfg.cats || {}; cfg.cats[k] = def.cats[k]; } });
+    Object.keys(def.cats).forEach(function (k) {
+      if (!cfg.cats || !cfg.cats[k]) { cfg.cats = cfg.cats || {}; cfg.cats[k] = def.cats[k]; }
+      var c = cfg.cats[k];
+      if (typeof c.banner !== 'string' || AUTO_BANNER_IDS.indexOf(c.banner) < 0) c.banner = 'default';
+      if (typeof c.customImage !== 'string' || !/^https:\/\/res\.cloudinary\.com\//.test(c.customImage)) c.customImage = '';
+      c.gapMin = Math.max(30, Math.min(720, parseInt(c.gapMin, 10) || AUTO_MIN_GAP_MIN));
+    });
     if (typeof cfg.enabled !== 'boolean') cfg.enabled = false;
     if (typeof cfg.testMode !== 'boolean') cfg.testMode = true;
     return cfg;
   } catch (e) { return autoDefaultCfg_(); }
+}
+
+/* ==== محتوى الفئات القابل للتعديل (ورقة AutoContent الجديدة — تُنشأ عند أول حفظ فقط) ==== */
+
+function autoContentSheet_(create) {
+  var ss = pushSs_();
+  var sh = ss.getSheetByName('AutoContent');
+  if (!sh && create) {
+    sh = ss.insertSheet('AutoContent');
+    sh.appendRow(['cat', 'title', 'body']);
+  }
+  return sh;
+}
+
+/* عناصر الفئة الفعلية: تعديلات الأدمن إن وُجدت، وإلا المكتبة المدمجة */
+function autoItems_(cat) {
+  try {
+    var sh = autoContentSheet_(false);
+    if (sh) {
+      var rows = sh.getDataRange().getValues(), out = [];
+      for (var i = 1; i < rows.length && out.length < 30; i++) {
+        if (String(rows[i][0]) === cat && String(rows[i][1] || '') && String(rows[i][2] || '')) {
+          out.push({ t: String(rows[i][1]).slice(0, 80), b: String(rows[i][2]).slice(0, 240) });
+        }
+      }
+      if (out.length) return out;
+    }
+  } catch (e) {}
+  return AUTO_CONTENT[cat] || [];
+}
+
+function autoHasCustom_(cat) {
+  try {
+    var sh = autoContentSheet_(false);
+    if (!sh) return false;
+    var rows = sh.getDataRange().getValues();
+    for (var i = 1; i < rows.length; i++) if (String(rows[i][0]) === cat) return true;
+  } catch (e) {}
+  return false;
+}
+
+/* استبدال عناصر فئة بالكامل داخل ورقة AutoContent فقط — لا يمس أي ورقة أخرى */
+function autoContentWrite_(cat, items) {
+  var sh = autoContentSheet_(true);
+  var rows = sh.getDataRange().getValues();
+  for (var i = rows.length - 1; i >= 1; i--) if (String(rows[i][0]) === cat) sh.deleteRow(i + 1);
+  (items || []).forEach(function (it) { sh.appendRow([cat, it.t, it.b]); });
+}
+
+/* صورة الفئة الفعلية: default→لافتة الفئة، none→بدون، جاهزة→ملف الموقع، custom→رابط الاستضافة */
+function autoCatImage_(catCfg, cat) {
+  var b = (catCfg && catCfg.banner) || 'default';
+  if (b === 'default') b = AUTO_BANNERS[cat] || 'motivation';
+  if (b === 'custom') {
+    var u = (catCfg && catCfg.customImage) || '';
+    return /^https:\/\/res\.cloudinary\.com\//.test(u) ? { url: u, banner: 'motivation' } : { url: '', banner: 'none' };
+  }
+  if (b === 'none') return { url: '', banner: 'none' };
+  if (AUTO_BANNER_IDS.indexOf(b) < 0) b = AUTO_BANNERS[cat] || 'motivation';
+  return { url: 'https://nursinghub2026.github.io/notification-images/' + b + '.png', banner: b };
 }
 
 function autoState_() {
@@ -153,17 +222,17 @@ function autoTargets_(testMode) {
 }
 
 function autoSendCat_(cat, cfg, st) {
-  var items = AUTO_CONTENT[cat];
+  var items = autoItems_(cat);
   if (!items || !items.length) return { sent: 0, error: 'no content' };
   var ptr = (st.ptr[cat] || 0) % items.length;
   var item = items[ptr];
   var targets = autoTargets_(cfg.testMode);
   if (!targets.length) return { sent: 0, noTargets: true };
-  var banner = AUTO_BANNERS[cat] || 'motivation';
+  var img = autoCatImage_(cfg.cats && cfg.cats[cat], cat);
   var res = fcmSendToTokens_(targets, item.t, String(item.b).slice(0, 240), {
-    imageUrl: 'https://nursinghub2026.github.io/notification-images/' + banner + '.png',
+    imageUrl: img.url,
     url: 'adhkar.html',
-    banner: banner
+    banner: img.banner
   });
   if (typeof inboxAppend_ === 'function') inboxAppend_(cfg.testMode ? AUTO_TEST_USER : '', item.t, String(item.b).slice(0, 240), 'adhkar.html');
   st.ptr[cat] = (ptr + 1) % items.length;
@@ -187,7 +256,8 @@ function autoAdhkarTick_() {
     if (count >= Math.max(1, Math.min(5, c.perDay || 1))) return;
     if (!autoCatInWindow_(cat, nowMin, w)) return;
     var last = st.lastAt[cat] || 0;
-    if (now - last < AUTO_MIN_GAP_MIN * 60000) return;
+    var gap = Math.max(30, Math.min(720, parseInt(c.gapMin, 10) || AUTO_MIN_GAP_MIN));
+    if (now - last < gap * 60000) return;
     var r = autoSendCat_(cat, cfg, st);
     if (r && (r.sent > 0 || r.noTargets)) {
       st.counts[cat] = count + 1;
@@ -209,7 +279,7 @@ function autoFindTrigger_() {
 
 function adminAutoGet_(req) {
   stuRequireAdmin_(req);
-  return { ok: true, cfg: autoCfg_(), state: autoState_(), triggerInstalled: !!autoFindTrigger_(), testUser: AUTO_TEST_USER, window: autoWindow_(), now: autoNowHHMM_() };
+  return { ok: true, cfg: autoCfg_(), state: autoState_(), triggerInstalled: !!autoFindTrigger_(), testUser: AUTO_TEST_USER, window: autoWindow_(), now: autoNowHHMM_(), imageHosting: (typeof pushImageConfigured_ === 'function') ? pushImageConfigured_() : false };
 }
 
 function adminAutoSet_(req) {
@@ -223,6 +293,8 @@ function adminAutoSet_(req) {
       if (!c) return;
       if (typeof c.on === 'boolean') cfg.cats[k].on = c.on;
       if (c.perDay) cfg.cats[k].perDay = Math.max(1, Math.min(5, parseInt(c.perDay, 10) || 1));
+      if (typeof c.banner === 'string' && AUTO_BANNER_IDS.indexOf(c.banner) >= 0 && (c.banner !== 'custom' || cfg.cats[k].customImage)) cfg.cats[k].banner = c.banner;
+      if (c.gapMin) cfg.cats[k].gapMin = Math.max(30, Math.min(720, parseInt(c.gapMin, 10) || AUTO_MIN_GAP_MIN));
     });
   }
   autoProps_().setProperty(AUTO_CFG_KEY, JSON.stringify(cfg));
@@ -240,8 +312,58 @@ function adminAutoTest_(req) {
   stuRequireAdmin_(req);
   var cat = String(req.cat || '');
   if (!AUTO_CONTENT[cat]) return { ok: false, error: 'فئة غير معروفة' };
+  var cfg = autoCfg_();
+  cfg.testMode = true;
   var st = autoState_();
-  var r = autoSendCat_(cat, { testMode: true }, st);
+  var r = autoSendCat_(cat, cfg, st);
   autoProps_().setProperty(AUTO_STATE_KEY, JSON.stringify(st));
   return { ok: true, result: r };
+}
+
+/* تعديل نصوص فئة: get (الفعلية + الافتراضية) / set (استبدال كامل بعد تحقق) / reset (رجوع للمكتبة) */
+function adminAutoContent_(req) {
+  stuRequireAdmin_(req);
+  var cat = String(req.cat || '');
+  if (!AUTO_CONTENT[cat]) return { ok: false, error: 'فئة غير معروفة' };
+  var act = String(req.contentAction || 'get');
+  if (act === 'get') {
+    return { ok: true, cat: cat, items: autoItems_(cat), defaults: AUTO_CONTENT[cat], custom: autoHasCustom_(cat) };
+  }
+  if (act === 'reset') {
+    autoContentWrite_(cat, null);
+    return { ok: true, items: AUTO_CONTENT[cat], custom: false };
+  }
+  if (act === 'set') {
+    var items = Array.isArray(req.items) ? req.items : [];
+    var clean = [];
+    for (var i = 0; i < items.length && clean.length < 30; i++) {
+      var t = String((items[i] && items[i].t) || '').trim().slice(0, 80);
+      var b = String((items[i] && items[i].b) || '').trim().slice(0, 240);
+      if (t && b) clean.push({ t: t, b: b });
+    }
+    if (!clean.length) return { ok: false, error: 'أضف عنصرًا واحدًا على الأقل بعنوان ونص' };
+    autoContentWrite_(cat, clean);
+    return { ok: true, items: clean, custom: true };
+  }
+  return { ok: false, error: 'إجراء غير معروف' }
+}
+
+/* رفع صورة مخصصة لفئة (نفس مسار الاستضافة المجانية بتاع المؤلف) أو إزالتها */
+function adminAutoImage_(req) {
+  stuRequireAdmin_(req);
+  var cat = String(req.cat || '');
+  if (!AUTO_CONTENT[cat]) return { ok: false, error: 'فئة غير معروفة' };
+  var cfg = autoCfg_();
+  if (req.imagePng) {
+    if (typeof pushUploadImage_ !== 'function') return { ok: false, error: 'رفع الصور غير متاح حاليًا' };
+    var url = pushUploadImage_(String(req.imagePng)); // يرمي خطأ عربي واضح عند صورة غير صالحة
+    if (!/^https:\/\/res\.cloudinary\.com\//.test(url)) return { ok: false, error: 'فشل رفع الصورة' };
+    cfg.cats[cat].customImage = url;
+    cfg.cats[cat].banner = 'custom';
+  } else {
+    cfg.cats[cat].customImage = '';
+    if (cfg.cats[cat].banner === 'custom') cfg.cats[cat].banner = 'default';
+  }
+  autoProps_().setProperty(AUTO_CFG_KEY, JSON.stringify(cfg));
+  return { ok: true, cfg: cfg };
 }
