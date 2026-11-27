@@ -113,3 +113,4 @@ body.fd .nav .tgl2 .tg-kn{width:18px;height:18px;top:3px;left:3px}
 body.fd[data-theme=dark] .nav .tgl2 .tg-kn{left:25px}
 @media(min-width:900px){body.fd .nav .tgl2.fd-tg{width:58px!important;height:32px!important}body.fd .nav .tgl2 .tg-kn{width:24px;height:24px;top:4px;left:4px}body.fd[data-theme=dark] .nav .tgl2 .tg-kn{left:30px}}
 body.fd .nav .brand b{font-size:15.5px!important}body.fd .nav .brand small{font-size:6.5px!important;letter-spacing:1.2px!important}@media(min-width:900px){body.fd .nav .brand b{font-size:22px!important}}
+body.fd .hb{background:linear-gradient(180deg,transparent 0,var(--hbend,#0d2238) 42%,var(--hbend,#0d2238) 100%)!important}body.fd[data-theme=light] .hb{--hbend:#0c2e55}body.fd[data-theme=dark] .hb{--hbend:#0a1a33}
