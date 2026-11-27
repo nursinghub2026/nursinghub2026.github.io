@@ -445,3 +445,17 @@ body.fd.adm #login .lgc{-webkit-backdrop-filter:none!important;backdrop-filter:n
 body.fd.adm[data-theme=dark] #login .lgc{background:rgba(10,24,48,.86)!important}
 body.fd.adm #login .theme-control.fd-tg{height:32px!important;min-height:0!important;width:56px!important;top:14px!important;right:14px!important;padding:0!important;line-height:0}
 body.fd.adm #login.lgx[style*="none"],body.fd.adm #login.hidden,body.fd[data-screen=app] #login.lgx{display:none!important}
+
+/* v3 tablet + desktop layout */
+@media(min-width:700px){
+ body.fd.adm .top-in{max-width:1080px!important;width:100%;margin:0 auto!important;padding:22px 28px 6px!important;box-sizing:border-box;flex-direction:row!important;justify-content:space-between!important;align-items:center!important;flex-wrap:nowrap!important}
+ body.fd.adm .top .tb{flex:none;margin-inline:0!important}
+ body.fd.adm .main{max-width:1080px!important;width:100%;margin:10px auto 0!important;padding:0 28px 130px!important;box-sizing:border-box}
+ body.fd.adm .tabbar{position:fixed!important;left:50%!important;right:auto!important;transform:translateX(-50%);width:min(760px,calc(100% - 28px));bottom:calc(14px + env(safe-area-inset-bottom))!important;margin:0!important;z-index:40}
+ body.fd.adm .tabbar button{font-size:12px!important;padding:10px 4px 9px!important}
+ body.fd.adm .tabbar button i{font-size:19px!important}
+}
+@media(min-width:1000px){
+ body.fd.adm .top-in,body.fd.adm .main{max-width:1180px!important}
+ body.fd.adm .tabbar{width:min(820px,calc(100% - 40px))}
+}
