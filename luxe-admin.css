@@ -441,3 +441,5 @@ body.fd.adm #login .field input{width:100%;box-sizing:border-box;min-height:50px
 body.fd.adm #login .btn.full{width:100%;box-sizing:border-box}
 body.fd.adm #login .theme-control{position:fixed!important;top:max(14px,env(safe-area-inset-top));right:14px;left:auto;z-index:50;width:56px;height:32px;margin:0}
 @media(min-width:900px){body.fd.adm #login .lgc{max-width:480px!important;padding:40px 36px 34px!important}}
+body.fd.adm #login .lgc{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;transform:none!important;filter:none!important;animation:none!important}
+body.fd.adm[data-theme=dark] #login .lgc{background:rgba(10,24,48,.86)!important}
