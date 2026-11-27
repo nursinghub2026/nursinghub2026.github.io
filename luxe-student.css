@@ -114,3 +114,20 @@ body.fd[data-theme=dark] .nav .tgl2 .tg-kn{left:25px}
 @media(min-width:900px){body.fd .nav .tgl2.fd-tg{width:58px!important;height:32px!important}body.fd .nav .tgl2 .tg-kn{width:24px;height:24px;top:4px;left:4px}body.fd[data-theme=dark] .nav .tgl2 .tg-kn{left:30px}}
 body.fd .nav .brand b{font-size:15.5px!important}body.fd .nav .brand small{font-size:6.5px!important;letter-spacing:1.2px!important}@media(min-width:900px){body.fd .nav .brand b{font-size:22px!important}}
 body.fd .hb{background:linear-gradient(180deg,transparent 0,var(--hbend,#0d2238) 42%,var(--hbend,#0d2238) 100%)!important}body.fd[data-theme=light] .hb{--hbend:#0c2e55}body.fd[data-theme=dark] .hb{--hbend:#0a1a33}
+/* ---- inner pages ---- */
+body.fd .ph{background:linear-gradient(160deg,rgba(8,23,43,.62),rgba(13,47,74,.5) 55%,rgba(14,143,148,.42))!important;border-radius:0 0 34px 34px!important;border-bottom:1px solid rgba(240,213,138,.55);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 18px 44px rgba(4,14,34,.35),inset 0 1px 0 rgba(255,255,255,.18)}
+body.fd.theory .ph{background:linear-gradient(160deg,rgba(8,23,43,.62),rgba(70,56,20,.5) 55%,rgba(184,134,43,.45))!important}
+body.fd .ph .k{background:rgba(255,255,255,.12);border:1px solid rgba(240,213,138,.5);color:#f6e2a6}
+body.fd .ph h1{text-shadow:0 3px 18px rgba(4,14,34,.5)}
+body.fd .chip,body.fd .track-switch button,body.fd .track-switch a{border:1px solid rgba(212,175,90,.5)!important;box-shadow:0 6px 16px rgba(10,30,55,.12)}
+body.fd .chip.on,body.fd .chip.act,body.fd .chip.active,body.fd .track-switch .on,body.fd .track-switch .act,body.fd .track-switch .active{background:linear-gradient(135deg,#d4af5a,#f0d58a)!important;color:#2c2003!important;border-color:transparent!important;box-shadow:0 10px 24px rgba(212,175,90,.45)}
+body.fd[data-theme=dark] .chip:not(.on):not(.act):not(.active){background:rgba(255,255,255,.07)!important;color:#e6eef6!important}
+body.fd .btn:not(.ghost):not(.red):not(.glass):not(.dark):not(.gold){background:linear-gradient(135deg,#d4af5a,#f0d58a)!important;color:#2c2003!important;box-shadow:0 12px 26px rgba(212,175,90,.4),inset 0 1px 0 rgba(255,255,255,.5)}
+body.fd .field input,body.fd .field textarea,body.fd .field select,body.fd .cinput{border:1.5px solid rgba(212,175,90,.45)!important;border-radius:16px!important}
+body.fd .field input:focus,body.fd .field textarea:focus,body.fd .cinput:focus{border-color:#d4af5a!important;box-shadow:0 0 0 4px rgba(240,213,138,.25)!important}
+body.fd .chat-shell,body.fd .chat-head{border:1px solid rgba(212,175,90,.35)}
+body.fd .chat-head{background:linear-gradient(135deg,rgba(8,23,43,.85),rgba(14,143,148,.6))!important}
+body.fd .pill.teal,body.fd .pill.gold{border:1px solid rgba(212,175,90,.4)}
+body.fd .sect i{background:linear-gradient(135deg,#d4af5a,#f0d58a)!important;color:#2c2003!important;box-shadow:0 8px 20px rgba(212,175,90,.45)}
+body.fd .start-card,body.fd .st,body.fd .sheet,body.fd .menu{border:1px solid rgba(212,175,90,.32)}
+body.fd[data-theme=dark] :is(.start-card,.st,.sheet,.menu,.chat-shell){background:linear-gradient(160deg,rgba(23,46,78,.92),rgba(13,28,50,.94))!important}
