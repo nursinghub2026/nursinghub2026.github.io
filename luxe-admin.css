@@ -459,3 +459,8 @@ body.fd.adm #login.lgx[style*="none"],body.fd.adm #login.hidden,body.fd[data-scr
  body.fd.adm .top-in,body.fd.adm .main{max-width:1180px!important}
  body.fd.adm .tabbar{width:min(820px,calc(100% - 40px))}
 }
+body.fd.adm[data-theme=dark] .main details{background:rgba(255,255,255,.06)!important;color:#eaf0fb!important;border:1px solid rgba(160,190,240,.2)!important}
+body.fd.adm[data-theme=dark] .main details summary,body.fd.adm[data-theme=dark] .main details summary *{color:#eaf0fb!important}
+body.fd.adm:not([data-theme=dark]) .main details{background:rgba(255,255,255,.92)!important;color:#10284f!important}
+body.fd.adm:not([data-theme=dark]) .main details summary,body.fd.adm:not([data-theme=dark]) .main details summary *{color:#10284f!important}
+@media(min-width:700px){body.fd.adm #pushPreviewImage{display:block;max-width:560px;width:100%;margin-inline:auto;border-radius:16px}}
