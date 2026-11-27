@@ -464,3 +464,4 @@ body.fd.adm[data-theme=dark] .main details summary,body.fd.adm[data-theme=dark] 
 body.fd.adm:not([data-theme=dark]) .main details{background:rgba(255,255,255,.92)!important;color:#10284f!important}
 body.fd.adm:not([data-theme=dark]) .main details summary,body.fd.adm:not([data-theme=dark]) .main details summary *{color:#10284f!important}
 @media(min-width:700px){body.fd.adm #pushPreviewImage{display:block;max-width:560px;width:100%;margin-inline:auto;border-radius:16px}}
+@media(min-width:700px){body.fd.adm #pushPreview #pushPreviewImage{display:block!important;max-width:560px!important;width:100%!important;margin:10px auto 14px!important;border-radius:16px!important}}
