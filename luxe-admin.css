@@ -443,3 +443,4 @@ body.fd.adm #login .theme-control{position:fixed!important;top:max(14px,env(safe
 @media(min-width:900px){body.fd.adm #login .lgc{max-width:480px!important;padding:40px 36px 34px!important}}
 body.fd.adm #login .lgc{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;transform:none!important;filter:none!important;animation:none!important}
 body.fd.adm[data-theme=dark] #login .lgc{background:rgba(10,24,48,.86)!important}
+body.fd.adm #login .theme-control.fd-tg{height:32px!important;min-height:0!important;width:56px!important;top:14px!important;right:14px!important;padding:0!important;line-height:0}
