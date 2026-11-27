@@ -425,3 +425,19 @@ body.fd.adm .banner-studio canvas{border-radius:16px;box-shadow:0 12px 30px rgba
 body.fd.adm .hidden{display:none!important}
 body.fd.adm .lgx{padding:18px;box-sizing:border-box}
 body.fd.adm .lgx .lgc{max-width:420px;width:100%;margin:0 auto;padding:30px 22px;border-radius:30px;box-sizing:border-box}
+
+/* ===== v3: login fixes + responsive (trial page only) ===== */
+body.fd.adm #login.lgx{display:flex!important;align-items:center;justify-content:center;min-height:100vh;min-height:100dvh;padding:max(76px,env(safe-area-inset-top)) 16px 28px!important;box-sizing:border-box;position:relative;z-index:2}
+body.fd.adm #login .lgc{width:100%!important;max-width:440px!important;margin:0 auto!important;padding:30px 22px 26px!important;box-sizing:border-box;border-radius:30px!important;text-align:center;background:rgba(255,255,255,.9)!important;border:1px solid rgba(243,217,143,.55)!important;box-shadow:0 30px 70px -20px rgba(8,30,80,.5)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+body.fd.adm[data-theme=dark] #login .lgc{background:rgba(10,24,48,.72)!important;border-color:rgba(243,217,143,.28)!important;box-shadow:0 30px 70px -20px rgba(0,0,0,.8),0 0 80px -24px rgba(243,217,143,.25)!important}
+body.fd.adm #login .lgc h1{text-align:center!important;font-family:Cinzel,serif!important;letter-spacing:3px!important;font-size:24px!important;margin:6px 0 8px;direction:ltr;background:none!important;-webkit-text-fill-color:currentColor;color:#10284f!important}
+body.fd.adm[data-theme=dark] #login .lgc h1{color:#fff!important}
+body.fd.adm #login .lgc p{color:#2e4260!important;font-weight:600;font-size:13px;line-height:1.9;margin:0 0 18px;opacity:1!important;text-align:center}
+body.fd.adm[data-theme=dark] #login .lgc p{color:#c9d7ea!important}
+body.fd.adm #login .field{text-align:right;margin-bottom:14px}
+body.fd.adm #login .field label{color:#10284f!important;font-weight:800}
+body.fd.adm[data-theme=dark] #login .field label{color:#e6edf8!important}
+body.fd.adm #login .field input{width:100%;box-sizing:border-box;min-height:50px}
+body.fd.adm #login .btn.full{width:100%;box-sizing:border-box}
+body.fd.adm #login .theme-control{position:fixed!important;top:max(14px,env(safe-area-inset-top));right:14px;left:auto;z-index:50;width:56px;height:32px;margin:0}
+@media(min-width:900px){body.fd.adm #login .lgc{max-width:480px!important;padding:40px 36px 34px!important}}
