@@ -468,3 +468,8 @@ body.fd[data-theme=light] .hero .fn,body.fd[data-theme=light] .hero .institution
 
 /* v20 small gold words = pill gold like big title */
 body.fd[data-theme=light] .hero .fn,body.fd[data-theme=light] .hero .institution .fn,body.fd[data-theme=light] .ph .k,body.fd[data-theme=light] .phero .k,body.fd[data-theme=light] .vcard .vlab,body.fd[data-theme=light] .lc .en{background:linear-gradient(135deg,#b88a2e,#f3d98f 45%,#d9b25a 70%,#f7e6b0)!important;-webkit-background-clip:text!important;background-clip:text!important;filter:drop-shadow(0 1px 0 rgba(110,72,8,.85)) drop-shadow(0 0 1.5px rgba(110,72,8,.45))!important}
+
+/* v21 chips + cat icon = pill gold */
+body.fd[data-theme=light] .pill,body.fd[data-theme=light] .pill *{background:linear-gradient(135deg,#b88a2e,#f3d98f 45%,#d9b25a 70%,#f7e6b0)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;color:transparent!important;filter:drop-shadow(0 1px 0 rgba(110,72,8,.85)) drop-shadow(0 0 1.5px rgba(110,72,8,.45))!important}
+body.fd[data-theme=light] .pill{background-color:transparent!important}
+body.fd[data-theme=light] .cat>i{background:linear-gradient(135deg,#b88a2e,#f3d98f 45%,#d9b25a 70%,#f7e6b0)!important;color:#2a1d04!important;box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 8px 16px -4px rgba(217,178,90,.9)!important}
