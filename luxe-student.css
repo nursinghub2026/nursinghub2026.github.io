@@ -136,3 +136,23 @@ body.fd .menu{background:linear-gradient(160deg,rgba(8,23,43,.94),rgba(13,47,74,
 body.fd .menu-heading h2,body.fd .menu-group h3{color:#fff!important}
 body.fd .menu-heading small,body.fd .menu-group p{color:#f0d58a!important}
 body.fd[data-theme=dark] :is(.sr,.sb) input,body.fd[data-theme=dark] input[type=search]{background:transparent!important;box-shadow:none!important}
+/* ---- unified palette: navy + sky blue + gold (teal removed) ---- */
+body.fd{--teal:#9a7418;--teal2:#d4af5a;--ac:#9a7418;--ac2:#d4af5a;--acs:rgba(212,175,90,.2);--sky2:#17508a}
+body.fd[data-theme=dark]{--teal:#f0d58a;--teal2:#d4af5a;--ac:#f0d58a;--ac2:#d4af5a;--acs:rgba(240,213,138,.14)}
+body.fd .ph{background:linear-gradient(160deg,rgba(8,23,43,.62),rgba(13,47,74,.5) 55%,rgba(23,80,138,.45))!important}
+body.fd.theory .ph{background:linear-gradient(160deg,rgba(8,23,43,.62),rgba(13,47,74,.5) 55%,rgba(23,80,138,.45))!important}
+body.fd :is(.lh,.phero,.feat,.mot,.t2,.v){background:linear-gradient(150deg,#08172b,#0d2f4a 55%,#17508a)!important}
+body.fd .chat-head{background:linear-gradient(135deg,rgba(8,23,43,.88),rgba(23,80,138,.65))!important}
+body.fd :is(.lcm .n,.pempty .pei,.ti2,.pii,.rp .rh i,.av,.csend,.bub.me,.sect>i,.tp .tic){background:linear-gradient(135deg,#d4af5a,#f0d58a)!important;color:#2c2003!important;box-shadow:0 8px 18px rgba(212,175,90,.35)!important}
+body.fd .tp .tic{background:rgba(212,175,90,.2)!important;color:#8a6a1c!important;box-shadow:none!important}
+body.fd[data-theme=dark] .tp .tic{color:#f0d58a!important}
+body.fd .ty input:checked+span{background:linear-gradient(135deg,#d4af5a,#f0d58a)!important;color:#2c2003!important;box-shadow:0 8px 18px rgba(212,175,90,.4)!important}
+body.fd .ty input:checked+span i{color:#2c2003!important}
+body.fd .tp::before{background:linear-gradient(90deg,#d4af5a,#f0d58a)!important}
+body.fd .rp{background:linear-gradient(135deg,rgba(212,175,90,.14),rgba(240,213,138,.08))!important;border:1px solid rgba(212,175,90,.4)!important}
+body.fd .rp .rh b{color:#8a6a1c}
+body.fd[data-theme=dark] .rp .rh b{color:#f0d58a}
+body.fd .pill.teal,body.fd .pill{background:rgba(212,175,90,.2);color:#7a5c12}
+body.fd[data-theme=dark] .pill.teal,body.fd[data-theme=dark] .pill{background:rgba(240,213,138,.14);color:#f0d58a}
+body.fd .lh .pill,body.fd .ph .pill{background:rgba(255,255,255,.16)!important;color:#fff!important}
+body.fd .en{color:inherit}
