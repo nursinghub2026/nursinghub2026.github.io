@@ -394,3 +394,4 @@ body.fd[data-theme=light] .btn.glass{background:rgba(255,255,255,.6)!important;b
 body.fd[data-theme=light] .btn.lg:not(.glass){background:linear-gradient(135deg,#f3dc95,#d4a63f)!important;color:#2a1d04!important}
 body.fd[data-theme=light] .btn.lg:not(.glass) *{color:#2a1d04!important}
 body.fd[data-theme=light] .st{background:linear-gradient(150deg,rgba(255,255,255,.65),rgba(255,255,255,.35))!important}
+body.fd .tw{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
