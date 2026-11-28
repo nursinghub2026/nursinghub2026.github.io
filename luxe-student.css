@@ -282,3 +282,9 @@ body.fd .tr.t1,body.fd .tr.t2{background:linear-gradient(150deg,rgba(40,80,150,.
 body.fd .tr.t1{border-color:rgba(240,213,138,.6)!important}
 body.fd .tr.t1 :is(h2,h3,p,span,b){color:#fff!important;text-shadow:0 1px 8px rgba(0,20,60,.45)}
 body.fd .gr{background:linear-gradient(150deg,rgba(20,45,95,.4),rgba(10,25,60,.3))!important;border:1px solid rgba(255,255,255,.2)!important}
+/* home hero: no teal, sky + gold only */
+body.fd .institution .fn{color:#f0d58a!important}
+body.fd .home-brand-title h1{background:linear-gradient(110deg,#fff 20%,#f0d58a 90%)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;color:transparent!important;text-shadow:none!important;filter:drop-shadow(0 2px 8px rgba(5,25,70,.45))}
+body.fd :is(.vcard) {background:linear-gradient(150deg,rgba(30,65,130,.5),rgba(10,28,66,.5))!important;border:1px solid rgba(255,255,255,.25)!important}
+body.fd:not([data-theme=dark]) .vcard :is(.vq,.vs,span,small,b){color:#fff!important;text-shadow:0 1px 6px rgba(0,20,60,.5)}
+body.fd .vcard .vdots i,body.fd .vcard .dots i{background:rgba(255,255,255,.5)!important}
