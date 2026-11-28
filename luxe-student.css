@@ -198,3 +198,5 @@ body.fd:not([data-theme=dark]) .start-card *{color:#33475e!important}
 body.fd:not([data-theme=dark]) .start-card :is(h1,h2,h3,h4,b,strong){color:#0d2f4a!important}
 body.fd:not([data-theme=dark]) .start-card .btn,body.fd:not([data-theme=dark]) .start-card .btn *{color:#2c2003!important}
 body.fd[data-theme=dark] .lc .k :is(b,strong,span:first-child,.v,.num){color:#f0d58a!important}
+body.fd[data-theme=dark] .lc b,body.fd[data-theme=dark] .lc strong{color:#f0d58a!important}
+body.fd:not([data-theme=dark]) .lc b,body.fd:not([data-theme=dark]) .lc strong{color:#7a5c12!important}
