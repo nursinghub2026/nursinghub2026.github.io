@@ -440,3 +440,14 @@ body.fd[data-theme=light] .hero .home-brand-title h1{filter:drop-shadow(0 2px 2p
 body.fd[data-theme=light] .ph .k i,body.fd[data-theme=light] .phero .k i,body.fd[data-theme=light] .hd i.fa-solid{color:#c99a3a!important;-webkit-text-fill-color:#c99a3a!important}
 body.fd[data-theme=light] .vcard .vr{background:var(--mg)!important;color:#2a1d04!important;-webkit-text-fill-color:#2a1d04!important;box-shadow:0 4px 12px rgba(201,153,58,.5),inset 0 1px 0 rgba(255,255,255,.6)}
 body.fd[data-theme=light] .ty span i,body.fd[data-theme=light] .sect>i{color:#c99a3a!important}
+
+/* v16 variants (index, day) */
+html.v16a body.fd[data-theme=light] .hero :is(.home-brand-title h1,.fn,.institution .fn){background:linear-gradient(180deg,#e0a21a 0%,#b87a08 55%,#9a6204 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;color:transparent!important;-webkit-text-stroke:.8px rgba(70,40,0,.55);filter:drop-shadow(0 2px 0 rgba(70,40,0,.45)) drop-shadow(0 0 10px rgba(255,220,120,.7))}
+html.v16a body.fd[data-theme=light] .vcard .vlab{background:none!important;-webkit-text-fill-color:#9a6204!important;color:#9a6204!important;filter:none;font-weight:900}
+html.v16a body.fd[data-theme=light] .vcard .vr{background:linear-gradient(135deg,#d99a12,#f3c850 50%,#c88a0c)!important;color:#2a1700!important;-webkit-text-fill-color:#2a1700!important}
+html.v16b body.fd[data-theme=light] .hero .home-brand-title h1{background:none!important;-webkit-text-fill-color:#0b2f5e!important;color:#0b2f5e!important;filter:drop-shadow(0 2px 0 rgba(255,255,255,.7));position:relative;display:inline-block}
+html.v16b body.fd[data-theme=light] .hero .home-brand-title h1::after{content:"";display:block;height:4px;width:64%;margin:8px auto 0;border-radius:4px;background:linear-gradient(90deg,transparent,#e9a812 20%,#ffd75a 50%,#e9a812 80%,transparent);box-shadow:0 0 12px rgba(255,205,70,.8)}
+html.v16b body.fd[data-theme=light] .hero .home-brand-title .en2{color:#9a6204!important;font-weight:900}
+html.v16b body.fd[data-theme=light] .hero :is(.fn,.institution .fn){background:none!important;-webkit-text-fill-color:#b87a08!important;color:#b87a08!important;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8)) drop-shadow(0 0 8px rgba(255,210,90,.6));font-weight:800}
+html.v16b body.fd[data-theme=light] .vcard .vlab{background:none!important;-webkit-text-fill-color:#9a6204!important;color:#9a6204!important;filter:none}
+html.v16b body.fd[data-theme=light] .vcard .vr{background:linear-gradient(135deg,#ffd75a,#e9a812)!important;color:#2a1700!important;-webkit-text-fill-color:#2a1700!important}
