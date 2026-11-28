@@ -131,3 +131,7 @@ body.fd .pill.teal,body.fd .pill.gold{border:1px solid rgba(212,175,90,.4)}
 body.fd .sect i{background:linear-gradient(135deg,#d4af5a,#f0d58a)!important;color:#2c2003!important;box-shadow:0 8px 20px rgba(212,175,90,.45)}
 body.fd .start-card,body.fd .st,body.fd .sheet,body.fd .menu{border:1px solid rgba(212,175,90,.32)}
 body.fd[data-theme=dark] :is(.start-card,.st,.sheet,.menu,.chat-shell){background:linear-gradient(160deg,rgba(23,46,78,.92),rgba(13,28,50,.94))!important}
+body.fd .lh .mp .pill,body.fd .lh .pill{background:rgba(255,255,255,.16)!important;color:#fff!important;border:1px solid rgba(240,213,138,.45)}
+body.fd .menu{background:linear-gradient(160deg,rgba(8,23,43,.94),rgba(13,47,74,.92))!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(240,213,138,.4)}
+body.fd .menu-heading h2,body.fd .menu-group h3{color:#fff!important}
+body.fd .menu-heading small,body.fd .menu-group p{color:#f0d58a!important}
