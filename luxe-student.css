@@ -539,3 +539,10 @@ body.fd[data-theme=dark] .student-dock a:not(.on) *,body.fd[data-theme=dark] .st
 body.fd[data-theme=light] .student-dock a:not(.on) *,body.fd[data-theme=light] .student-dock button:not(.on) *{color:#0a2142!important;text-shadow:0 1px 0 rgba(255,255,255,.8)}
 body.fd .student-dock .on{box-shadow:0 2px 0 rgba(255,255,255,.85) inset,0 -4px 10px rgba(150,100,10,.25) inset,0 14px 24px -6px rgba(217,178,90,.9)!important}
 body.fd .nav :is(.mbtn,.abtn2,.inbox-bell){-webkit-backdrop-filter:blur(18px) saturate(1.9)!important;backdrop-filter:blur(18px) saturate(1.9)!important;box-shadow:0 1px 0 rgba(255,255,255,.55) inset,0 8px 18px -6px rgba(0,0,0,.35)!important}
+/* v26mark one glass recipe */
+body.fd #site-menu .menu-group a,body.fd #site-menu .menu-tools button{border-radius:22px!important;-webkit-backdrop-filter:blur(18px) saturate(1.8)!important;backdrop-filter:blur(18px) saturate(1.8)!important}
+body.fd[data-theme=light] #site-menu .menu-group a,body.fd[data-theme=light] #site-menu .menu-tools button{box-shadow:0 2px 0 #fff inset,0 -8px 16px rgba(255,255,255,.4) inset,0 12px 24px -10px rgba(15,45,90,.3)!important}
+body.fd[data-theme=dark] #site-menu .menu-group a,body.fd[data-theme=dark] #site-menu .menu-tools button{background:linear-gradient(155deg,rgba(120,160,230,.24),rgba(14,28,64,.55))!important;border:1px solid rgba(255,255,255,.14)!important;box-shadow:0 2px 0 rgba(255,255,255,.22) inset,0 12px 24px -10px rgba(0,0,0,.55)!important}
+body.fd .inbox-panel{border-radius:28px!important;-webkit-backdrop-filter:blur(26px) saturate(2)!important;backdrop-filter:blur(26px) saturate(2)!important}
+body.fd[data-theme=dark] .inbox-panel{background:linear-gradient(155deg,rgba(40,70,130,.78),rgba(10,22,50,.9))!important;box-shadow:0 2px 0 rgba(255,255,255,.2) inset,0 22px 48px -10px rgba(0,0,0,.7)!important}
+body.fd[data-theme=light] .inbox-panel{box-shadow:0 2px 0 #fff inset,0 22px 48px -12px rgba(15,45,90,.4)!important}
