@@ -387,3 +387,4 @@ body.fd .lc .band{display:flex!important;flex-direction:row;align-items:center!i
 body.fd .lc .band :is(.no,.ico){position:static!important;inset:auto!important;transform:none!important;margin:0!important}
 body.fd[data-theme=light] .student-dock :is(a,button,span,i,small):not(.on *):not(.act *):not([aria-current] *){color:var(--dn)!important}
 body.fd[data-theme=light] .student-dock :is(.on,.act,[aria-current]) :is(span,i,small,b){color:#2a1d04!important}
+body.fd .gr:has(.lc){background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important}
