@@ -395,3 +395,38 @@ body.fd[data-theme=light] .btn.lg:not(.glass){background:linear-gradient(135deg,
 body.fd[data-theme=light] .btn.lg:not(.glass) *{color:#2a1d04!important}
 body.fd[data-theme=light] .st{background:linear-gradient(150deg,rgba(255,255,255,.65),rgba(255,255,255,.35))!important}
 body.fd .tw{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+
+/* v14 */
+body.fd #vs{background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;border-radius:0!important;padding:6px 2px 16px!important}
+body.fd #vs>.v{border-radius:28px!important;border:1px solid rgba(240,213,138,.35)!important;box-shadow:0 12px 30px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.16)!important}
+body.fd #vs>.v::before{inset:10px;top:10px;right:10px;bottom:10px;left:10px;border:1px solid rgba(240,213,138,.22)!important;border-radius:20px!important}
+body.fd[data-theme=light] #vs>.v{border:1px solid rgba(255,255,255,.85)!important}
+body.fd[data-theme=light] #vs>.v::before{border-color:rgba(232,169,12,.35)!important}
+body.fd .ty{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:10px!important}
+body.fd .ty label{grid-column:span 2}
+body.fd .ty label:nth-child(n+4){grid-column:span 3}
+body.fd .ty span{min-height:76px;justify-content:center;border-radius:20px!important;background:linear-gradient(150deg,rgba(255,255,255,.14),rgba(255,255,255,.05))!important;border:1px solid rgba(255,255,255,.2)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:#fff;white-space:nowrap;overflow:visible;font-size:13px!important}
+body.fd .ty span i{color:#f0d58a!important;font-size:20px!important}
+body.fd .ty input:checked+span{background:linear-gradient(135deg,#f8dc84,#e0aa2c)!important;color:#3d2a00!important;border-color:rgba(255,255,255,.5)!important;box-shadow:0 8px 20px rgba(224,170,44,.4)!important}
+body.fd .ty input:checked+span i{color:#5a3d00!important}
+body.fd[data-theme=light] .ty span{background:linear-gradient(150deg,rgba(255,255,255,.8),rgba(255,255,255,.5))!important;border-color:rgba(255,255,255,.95)!important;color:#0b2f5e}
+body.fd[data-theme=light] .ty span i{color:#e8a90c!important}
+/* day gold: bright, glowing */
+body.fd[data-theme=light]{--dg:#d99a00}
+body.fd[data-theme=light] .hero .home-brand-title h1{background:linear-gradient(180deg,#ffd85a 0%,#f5b82a 55%,#e8a010 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;color:transparent!important;filter:drop-shadow(0 2px 6px rgba(150,90,0,.35)) drop-shadow(0 0 14px rgba(255,214,90,.55))}
+body.fd[data-theme=light] .hero .home-brand-title .en2{color:#0b2f5e!important;font-weight:800}
+body.fd[data-theme=light] .hero .fn,body.fd[data-theme=light] .hero .institution .fn{color:#f2b01e!important;text-shadow:0 1px 0 rgba(120,70,0,.3),0 0 12px rgba(255,214,90,.6)}
+body.fd[data-theme=light] .hero .un,body.fd[data-theme=light] .hero .un span{color:#0b2f5e!important}
+body.fd[data-theme=light] .hd .brand b,body.fd[data-theme=light] header :is(.fn,small,.sub){color:#e8a90c!important}
+body.fd[data-theme=light] .ph .k,body.fd[data-theme=light] .phero .k{color:#e8a90c!important;text-shadow:0 1px 0 rgba(120,70,0,.25)}
+body.fd[data-theme=light] .vcard .vlab{color:#e8a90c!important;text-shadow:0 1px 0 rgba(120,70,0,.2)}
+body.fd[data-theme=light] .vcard .vr{background:linear-gradient(135deg,#ffe58a,#f0b92a)!important;color:#4a3000!important;text-shadow:none!important;box-shadow:0 4px 12px rgba(240,185,42,.45)}
+body.fd[data-theme=light] .vcard .vq{color:#0b2f5e!important}
+body.fd[data-theme=light] .vcard{border:1px solid rgba(255,255,255,.9)!important}
+body.fd[data-theme=light] .vcard::before{border-color:rgba(240,185,42,.55)!important}
+body.fd[data-theme=light] .vcard :is(.dots,.dot,.vdots) *,body.fd[data-theme=light] .vcard i.dot{background:rgba(11,47,94,.25)}
+/* lecture card icon + number clear */
+body.fd[data-theme=light] .lc .ico{background:linear-gradient(150deg,#fff,rgba(255,255,255,.75))!important;border:1px solid #fff!important;box-shadow:0 6px 16px rgba(11,47,94,.18)!important}
+body.fd[data-theme=light] .lc .ico,body.fd[data-theme=light] .lc .ico *{color:#0b2f5e!important;opacity:1!important}
+body.fd[data-theme=light] .lc .num{color:#e8a010!important;opacity:1!important;font-weight:900!important;-webkit-text-fill-color:#e8a010!important;text-shadow:0 2px 0 rgba(120,70,0,.18),0 0 14px rgba(255,214,90,.5)}
+body.fd[data-theme=dark] .lc .num{opacity:1!important}
