@@ -216,3 +216,4 @@ body.fd:not([data-theme=dark]){background:#4a93d6}
  body.fd .student-dock .on::after{content:"";position:absolute;bottom:-9px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:#f3d98f;box-shadow:0 0 8px #f3d98f}
  body.fd .student-dock a:active,body.fd .student-dock button:active{transform:scale(.92)}
 }
+body.fd footer.ft{background:linear-gradient(180deg,rgba(8,23,43,.35),rgba(6,16,31,.7))!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid rgba(240,213,138,.4)}
