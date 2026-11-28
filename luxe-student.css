@@ -255,3 +255,30 @@ body.fd .tr.t1{background:linear-gradient(150deg,rgba(247,218,128,.85),rgba(196,
 body.fd .hb{background:linear-gradient(180deg,transparent,rgba(8,20,44,.28) 55%,rgba(8,20,44,.12))!important}
 body.fd:not([data-theme=dark]) .hb{background:linear-gradient(180deg,transparent,rgba(255,255,255,.1))!important}
 body.fd:not([data-theme=dark]) .hb :is(h2,h3,p,small){color:#fff!important;text-shadow:0 1px 8px rgba(0,20,60,.5)}
+/* === harmony pass: one calm palette, admin-style header, one card style === */
+/* sky: calmer */
+body.fd[data-theme=dark] .sk-bg.n{background:radial-gradient(90% 40% at 80% 0,rgba(70,105,200,.22),transparent 70%),linear-gradient(180deg,#0b1a44 0,#08142f 50%,#061024 100%)!important}
+body.fd[data-theme=light] .sk-bg{background:linear-gradient(180deg,#3d78b9 0,#5f9ad3 40%,#93c0e6 75%,#c3dcf1 100%)!important}
+body.fd[data-theme=light] .sk-c{opacity:.6}
+body.fd[data-theme=dark] .sk-sh{box-shadow:0 0 6px rgba(200,225,255,.7);opacity:.8}
+body.fd[data-theme=dark] .sk-sh:nth-of-type(n+11){display:none}
+body.fd[data-theme=dark] .sk-s.g2{background:#cfe0ff;box-shadow:0 0 5px #9fc2ff}
+/* header: same as admin, light glass, no heavy bar */
+body.fd .nav{background:linear-gradient(180deg,rgba(8,20,44,.55),rgba(8,20,44,.22))!important;-webkit-backdrop-filter:blur(14px) saturate(1.4)!important;backdrop-filter:blur(14px) saturate(1.4)!important;border-bottom:1px solid rgba(255,255,255,.12)!important;box-shadow:none!important}
+body.fd .nav::before,body.fd .nav::after,body.fd .nav .brand::before,body.fd .nav .brand::after{display:none!important}
+body.fd .nav .brand small{color:#f0d58a!important}
+body.fd .nav :is(.mbtn,.abtn2){width:40px!important;height:40px!important;border-radius:14px!important;background:rgba(255,255,255,.07)!important;border:1px solid rgba(255,255,255,.14)!important;color:#f0d58a!important;box-shadow:none!important}
+body.fd .nav .tgl2.fd-tg{border:1px solid rgba(255,255,255,.2)!important;box-shadow:none!important}
+/* page headings: transparent like the admin one */
+body.fd .ph{background:transparent!important;border-radius:0!important;box-shadow:none!important;border:0!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding-top:26px!important;padding-bottom:30px!important}
+body.fd .ph::before,body.fd .ph::after{display:none!important}
+body.fd .ph :is(h1,h2,p){color:#fff!important;text-shadow:0 1px 10px rgba(5,25,70,.6)}
+body.fd .ph :is(.k,.pill,.eyebrow,.tag,span){background:transparent!important;border:0!important;color:#f0d58a!important;letter-spacing:3px}
+/* one card style */
+body.fd :is(.lc,.tp,.start-card,.st,.rp,.card,.pempty,.cd,.fcard,.vs,.authb,.ha-heading,.mot,.feat,.v,.sb,.band,.lcm,.ha-post,.it){border-radius:22px!important}
+body.fd[data-theme=dark] :is(.lc,.tp,.start-card,.st,.rp,.card,.pempty,.sheet,.menu,.cd,.fcard,.vs,.authb,.ha-heading,.mot,.feat,.v,.sb,.band,.lcm,.ha-post,.it,.chat-shell,.gr){background:linear-gradient(150deg,rgba(60,95,160,.28),rgba(14,28,60,.3))!important;border:1px solid rgba(255,255,255,.16)!important;box-shadow:0 10px 30px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.14)!important}
+body.fd:not([data-theme=dark]) :is(.lc,.tp,.start-card,.st,.rp,.card,.pempty,.sheet,.menu,.cd,.fcard,.vs,.authb,.ha-heading,.mot,.feat,.v,.sb,.band,.lcm,.ha-post,.it){background:linear-gradient(150deg,rgba(255,255,255,.5),rgba(255,255,255,.26))!important;border:1px solid rgba(255,255,255,.7)!important;box-shadow:0 10px 28px rgba(15,45,90,.16),inset 0 1px 0 rgba(255,255,255,.8)!important}
+body.fd .tr.t1,body.fd .tr.t2{background:linear-gradient(150deg,rgba(40,80,150,.5),rgba(10,30,70,.5))!important;border:1px solid rgba(255,255,255,.28)!important;box-shadow:0 10px 30px rgba(5,20,60,.3),inset 0 1px 0 rgba(255,255,255,.25)!important}
+body.fd .tr.t1{border-color:rgba(240,213,138,.6)!important}
+body.fd .tr.t1 :is(h2,h3,p,span,b){color:#fff!important;text-shadow:0 1px 8px rgba(0,20,60,.45)}
+body.fd .gr{background:linear-gradient(150deg,rgba(20,45,95,.4),rgba(10,25,60,.3))!important;border:1px solid rgba(255,255,255,.2)!important}
