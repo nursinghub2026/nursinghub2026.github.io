@@ -14,7 +14,7 @@ function dress(t){t.classList.add('fd-tg');if(!t.querySelector('.tg-sky')){t.inn
 function find(){var t=d.querySelector('.tgl2');if(t){dress(t);new MutationObserver(function(){if(!t.querySelector('.tg-sky'))dress(t)}).observe(t,{childList:true})}return !!t}
 if(!find()){var n=0,iv=setInterval(function(){if(find()||++n>40)clearInterval(iv)},150)}
 /* trial only: keep navigation inside the -new copies */
-var PG=/^(?:\.\/)?(index|Lectures|Lecture|progress|chat|adhkar|tips|suggestions)\.html(?=$|[?#])/;
+var PG=/^(?:\.\/)?(index|Lectures|Lecture|progress|chat|adhkar|tips|suggestions|student|community)\.html(?=$|[?#])/;
 function rw(root){(root||d).querySelectorAll('a[href]').forEach(function(a){var v=a.getAttribute('href');if(!v)return;if(v==='./'||v==='/'||v==='index.html'){a.setAttribute('href','index-new.html');return}var m=v.match(PG);if(m)a.setAttribute('href',v.replace(PG,m[1]+'-new.html'))})}
 rw();new MutationObserver(function(){rw()}).observe(d.body,{childList:true,subtree:true});
 /* mark active dock item when the page code did not */
@@ -22,3 +22,5 @@ function dockOn(){var dk=d.querySelector('.student-dock');if(!dk||dk.querySelect
 setTimeout(dockOn,600);setTimeout(dockOn,2000);
 })();
 ;(function(){var m=/[?&]v=(16[ab])/.exec(location.search);if(m)document.documentElement.classList.add('v'+m[1])})();
+/* trial: account button goes to trial student page */
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('#abtn');if(a&&window.NPHAuth&&NPHAuth.isLoggedIn&&NPHAuth.isLoggedIn()){e.preventDefault();e.stopImmediatePropagation();location.href='student-new.html'}},true);
