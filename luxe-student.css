@@ -248,3 +248,7 @@ body.fd .tr.t1{background:linear-gradient(150deg,rgba(240,213,138,.62),rgba(184,
 body.fd .tr.t2{background:linear-gradient(150deg,rgba(70,130,215,.55),rgba(14,45,100,.4))!important;-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border:1px solid rgba(190,220,255,.6)!important;box-shadow:0 14px 34px rgba(5,25,70,.35),inset 0 1px 0 rgba(255,255,255,.4)!important}
 body.fd .tr :is(h2,h3,p,span,b){color:#fff!important;text-shadow:0 1px 8px rgba(0,20,60,.45)}
 body.fd .tr.t1 :is(h2,h3,p,span,b){color:#2a1d04!important;text-shadow:none}
+body.fd .gr{background:linear-gradient(150deg,rgba(255,255,255,.22),rgba(255,255,255,.08))!important;-webkit-backdrop-filter:blur(16px) saturate(1.5)!important;backdrop-filter:blur(16px) saturate(1.5)!important;border:1px solid rgba(255,255,255,.4)!important;box-shadow:0 14px 38px rgba(8,30,70,.2),inset 0 1px 0 rgba(255,255,255,.5)!important}
+body.fd[data-theme=dark] .gr{background:linear-gradient(150deg,rgba(70,110,175,.2),rgba(14,28,60,.16))!important;border:1px solid rgba(240,213,138,.3)!important}
+body.fd .gr :is(h1,h2,h3,p,span,small){color:#fff!important;text-shadow:0 1px 8px rgba(0,20,60,.5)}
+body.fd .tr.t1{background:linear-gradient(150deg,rgba(247,218,128,.85),rgba(196,146,44,.7))!important}
