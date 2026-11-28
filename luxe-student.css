@@ -189,3 +189,8 @@ body.fd[data-theme=dark] :is(.lcm,.ha-post){background:linear-gradient(150deg,rg
 .fd[data-theme=light] .sk-bg{background:linear-gradient(180deg,#1f5fa8 0,#3f86cf 45%,#6aa9e0 100%)!important}
 body.fd .it{border-right:6px solid #d4af5a!important;background:linear-gradient(150deg,rgba(255,255,255,.66),rgba(255,255,255,.36))!important;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.7)!important;border-bottom:1px solid rgba(255,255,255,.5)!important;border-left:1px solid rgba(255,255,255,.5)!important}
 body.fd[data-theme=dark] .it{background:linear-gradient(150deg,rgba(40,70,115,.5),rgba(12,26,50,.55))!important;border-top:1px solid rgba(240,213,138,.25)!important}
+body.fd:not([data-theme=dark]) .start-card{background:linear-gradient(150deg,rgba(255,255,255,.88),rgba(255,255,255,.66))!important}
+body.fd:not([data-theme=dark]) .start-card :is(p,span,small,div){color:#33475e}
+body.fd:not([data-theme=dark]) .start-card h1,body.fd:not([data-theme=dark]) .start-card h2,body.fd:not([data-theme=dark]) .start-card h3,body.fd:not([data-theme=dark]) .start-card b{color:#0d2f4a}
+body.fd .fi,body.fd .fic,body.fd .file-ic,body.fd .fx{color:#d4af5a!important}
+body.fd[data-theme=dark] :is(.fi,.fic,.file-ic,.fx) i{color:#f0d58a!important}
