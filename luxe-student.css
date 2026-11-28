@@ -296,3 +296,5 @@ body.fd[data-theme=dark] :is(.item,.tab,.nx){background:linear-gradient(150deg,r
 body.fd .lh{background:linear-gradient(150deg,rgba(30,65,130,.5),rgba(10,28,66,.5))!important;border:1px solid rgba(255,255,255,.22)!important;-webkit-backdrop-filter:blur(18px)!important;backdrop-filter:blur(18px)!important}
 body.fd .tw{background:rgba(10,28,66,.28)!important;border:1px solid rgba(255,255,255,.16)!important}
 body.fd:not([data-theme=dark]) .item :is(b,h3,h4,.nm,span,small){color:#08203a}
+body.fd[data-theme=dark] .tab:is(.on,.act,.active,[aria-selected=true],.sel){background:linear-gradient(135deg,#e6c36a,#c89a35)!important;color:#2a1d04!important}
+body.fd[data-theme=dark] .tab:is(.on,.act,.active,[aria-selected=true],.sel) *{color:#2a1d04!important}
