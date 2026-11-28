@@ -186,3 +186,6 @@ body.fd :is(.hw,.home-sec,.sec,section.wrap){background:transparent!important}
 body.fd:not([data-theme=dark]){background:linear-gradient(180deg,#1f5ea6,#3f86cf 55%,#8fbdea) fixed!important}
 body.fd :is(.lcm,.ha-post){background:linear-gradient(150deg,rgba(255,255,255,.62),rgba(255,255,255,.34))!important;-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);border:1px solid rgba(255,255,255,.7)!important}
 body.fd[data-theme=dark] :is(.lcm,.ha-post){background:linear-gradient(150deg,rgba(40,70,115,.5),rgba(12,26,50,.55))!important;border:1px solid rgba(240,213,138,.3)!important}
+.fd[data-theme=light] .sk-bg{background:linear-gradient(180deg,#1f5fa8 0,#3f86cf 45%,#6aa9e0 100%)!important}
+body.fd .it{border-right:6px solid #d4af5a!important;background:linear-gradient(150deg,rgba(255,255,255,.66),rgba(255,255,255,.36))!important;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.7)!important;border-bottom:1px solid rgba(255,255,255,.5)!important;border-left:1px solid rgba(255,255,255,.5)!important}
+body.fd[data-theme=dark] .it{background:linear-gradient(150deg,rgba(40,70,115,.5),rgba(12,26,50,.55))!important;border-top:1px solid rgba(240,213,138,.25)!important}
