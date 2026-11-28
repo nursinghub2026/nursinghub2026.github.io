@@ -388,3 +388,9 @@ body.fd .lc .band :is(.no,.ico){position:static!important;inset:auto!important;t
 body.fd[data-theme=light] .student-dock :is(a,button,span,i,small):not(.on *):not(.act *):not([aria-current] *){color:var(--dn)!important}
 body.fd[data-theme=light] .student-dock :is(.on,.act,[aria-current]) :is(span,i,small,b){color:#2a1d04!important}
 body.fd .gr:has(.lc){background:none!important;border:0!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;padding:0!important}
+body.fd .lc .band{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:none!important;border:0!important;box-shadow:none!important}
+body.fd[data-theme=light] :is(.st,.btn.glass,.hs) :is(b,span,small,div,i,strong){color:var(--dn)!important;text-shadow:none!important}
+body.fd[data-theme=light] .btn.glass{background:rgba(255,255,255,.6)!important;border:1px solid rgba(255,255,255,.95)!important;color:var(--dn)!important}
+body.fd[data-theme=light] .btn.lg:not(.glass){background:linear-gradient(135deg,#f3dc95,#d4a63f)!important;color:#2a1d04!important}
+body.fd[data-theme=light] .btn.lg:not(.glass) *{color:#2a1d04!important}
+body.fd[data-theme=light] .st{background:linear-gradient(150deg,rgba(255,255,255,.65),rgba(255,255,255,.35))!important}
