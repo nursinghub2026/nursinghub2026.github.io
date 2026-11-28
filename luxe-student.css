@@ -289,3 +289,10 @@ body.fd :is(.vcard) {background:linear-gradient(150deg,rgba(30,65,130,.5),rgba(1
 body.fd:not([data-theme=dark]) .vcard :is(.vq,.vs,span,small,b){color:#fff!important;text-shadow:0 1px 6px rgba(0,20,60,.5)}
 body.fd .vcard .vdots i,body.fd .vcard .dots i{background:rgba(255,255,255,.5)!important}
 body.fd:not([data-theme=dark]) :is(.vcard,.vs,.v.vcard){background:linear-gradient(150deg,rgba(30,65,130,.5),rgba(10,28,66,.5))!important;border:1px solid rgba(255,255,255,.25)!important}
+/* lecture page: same glass as the rest */
+body.fd:not([data-theme=dark]) :is(.item,.tab,.nx,.btn.ghost){background:linear-gradient(150deg,rgba(255,255,255,.55),rgba(255,255,255,.28))!important;border:1px solid rgba(255,255,255,.7)!important;-webkit-backdrop-filter:blur(18px)!important;backdrop-filter:blur(18px)!important;color:#08203a!important}
+body.fd:not([data-theme=dark]) .tab.on,body.fd:not([data-theme=dark]) .tab.act,body.fd:not([data-theme=dark]) .tab[aria-selected=true]{background:linear-gradient(135deg,#e6c36a,#c89a35)!important;color:#2a1d04!important}
+body.fd[data-theme=dark] :is(.item,.tab,.nx){background:linear-gradient(150deg,rgba(60,95,160,.28),rgba(14,28,60,.3))!important;border:1px solid rgba(255,255,255,.16)!important;color:#fff!important;-webkit-backdrop-filter:blur(18px)!important;backdrop-filter:blur(18px)!important}
+body.fd .lh{background:linear-gradient(150deg,rgba(30,65,130,.5),rgba(10,28,66,.5))!important;border:1px solid rgba(255,255,255,.22)!important;-webkit-backdrop-filter:blur(18px)!important;backdrop-filter:blur(18px)!important}
+body.fd .tw{background:rgba(10,28,66,.28)!important;border:1px solid rgba(255,255,255,.16)!important}
+body.fd:not([data-theme=dark]) .item :is(b,h3,h4,.nm,span,small){color:#08203a}
