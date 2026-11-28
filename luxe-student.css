@@ -163,3 +163,11 @@ body.fd[data-theme=dark] :is(.en,.t2){color:#c9d8e8}
 body.fd .sect .n,body.fd .sect .cnt,body.fd .sect>span,body.fd .sect b{color:#7a5c12}
 body.fd[data-theme=dark] :is(.sect .n,.sect .cnt,.sect>span,.sect b){color:#f0d58a}
 body.fd .lc .k,body.fd .lc .num,body.fd .lc .lbl,body.fd .hd b{color:#7a5c12}
+body.fd .lc .en{color:#7a5c12!important}
+body.fd[data-theme=dark] .lc .en{color:#f0d58a!important}
+body.fd .lh .en{color:#f0d58a!important}
+body.fd .tw{background:rgba(8,23,43,.38)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:22px;border:1px solid rgba(240,213,138,.3)}
+body.fd .tab.on{background:linear-gradient(135deg,#d4af5a,#f0d58a)!important;color:#2c2003!important;box-shadow:0 10px 24px rgba(212,175,90,.45)!important}
+body.fd .tab.on *{color:#2c2003!important}
+body.fd .tr.t2{background:linear-gradient(145deg,#0d2f4a,#17508a 60%,#2a6fb8)!important}
+body.fd .ic2{background:rgba(255,255,255,.18)!important;color:#fff!important}
