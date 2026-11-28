@@ -200,3 +200,19 @@ body.fd:not([data-theme=dark]) .start-card .btn,body.fd:not([data-theme=dark]) .
 body.fd[data-theme=dark] .lc .k :is(b,strong,span:first-child,.v,.num){color:#f0d58a!important}
 body.fd[data-theme=dark] .lc b,body.fd[data-theme=dark] .lc strong{color:#f0d58a!important}
 body.fd:not([data-theme=dark]) .lc b,body.fd:not([data-theme=dark]) .lc strong{color:#7a5c12!important}
+/* === atmosphere parity with admin: sky follows the whole page === */
+body.fd .fd-sky{position:fixed!important;top:0;left:0;right:0;height:100vh!important;height:100lvh!important;-webkit-mask-image:none!important;mask-image:none!important;z-index:-1}
+body.fd[data-theme=dark] .sk-s{opacity:.9}
+body.fd[data-theme=dark] .sk-sh{animation-duration:4.2s}
+body.fd{background:#06142a}
+body.fd:not([data-theme=dark]){background:#4a93d6}
+/* === bottom bar: admin style floating glass, white icons, glowing gold active === */
+@media(max-width:760px){
+ body.fd .student-dock{left:14px!important;right:14px!important;bottom:calc(12px + env(safe-area-inset-bottom))!important;border-radius:30px!important;padding:7px 6px!important;border:1px solid rgba(255,255,255,.18)!important;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.04)),rgba(8,20,44,.78)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(255,255,255,.22) inset,0 24px 44px -14px rgba(0,0,0,.75)!important}
+ body.fd .student-dock a,body.fd .student-dock button{color:#fff!important;border-radius:22px!important;transition:transform .3s cubic-bezier(.2,.8,.2,1),color .3s;position:relative;font-size:10.5px}
+ body.fd .student-dock i{color:#fff!important}
+ body.fd .student-dock .on{background:linear-gradient(135deg,#b88a2e,#f3d98f 45%,#d9b25a 70%,#f7e6b0)!important;color:#2a1d04!important;transform:translateY(-6px);box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 12px 22px -6px rgba(217,178,90,.9),0 0 26px rgba(243,217,143,.55)!important}
+ body.fd .student-dock .on i,body.fd .student-dock .on span{color:#2a1d04!important}
+ body.fd .student-dock .on::after{content:"";position:absolute;bottom:-9px;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:#f3d98f;box-shadow:0 0 8px #f3d98f}
+ body.fd .student-dock a:active,body.fd .student-dock button:active{transform:scale(.92)}
+}
