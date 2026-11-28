@@ -288,3 +288,4 @@ body.fd .home-brand-title h1{background:linear-gradient(110deg,#fff 20%,#f0d58a 
 body.fd :is(.vcard) {background:linear-gradient(150deg,rgba(30,65,130,.5),rgba(10,28,66,.5))!important;border:1px solid rgba(255,255,255,.25)!important}
 body.fd:not([data-theme=dark]) .vcard :is(.vq,.vs,span,small,b){color:#fff!important;text-shadow:0 1px 6px rgba(0,20,60,.5)}
 body.fd .vcard .vdots i,body.fd .vcard .dots i{background:rgba(255,255,255,.5)!important}
+body.fd:not([data-theme=dark]) :is(.vcard,.vs,.v.vcard){background:linear-gradient(150deg,rgba(30,65,130,.5),rgba(10,28,66,.5))!important;border:1px solid rgba(255,255,255,.25)!important}
