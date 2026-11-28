@@ -16,4 +16,7 @@ if(!find()){var n=0,iv=setInterval(function(){if(find()||++n>40)clearInterval(iv
 var PG=/^(?:\.\/)?(index|Lectures|Lecture|progress|chat|adhkar|tips|suggestions)\.html(?=$|[?#])/;
 function rw(root){(root||d).querySelectorAll('a[href]').forEach(function(a){var v=a.getAttribute('href');if(!v)return;if(v==='./'||v==='/'||v==='index.html'){a.setAttribute('href','index-new.html');return}var m=v.match(PG);if(m)a.setAttribute('href',v.replace(PG,m[1]+'-new.html'))})}
 rw();new MutationObserver(function(){rw()}).observe(d.body,{childList:true,subtree:true});
+/* mark active dock item when the page code did not */
+function dockOn(){var dk=d.querySelector('.student-dock');if(!dk||dk.querySelector('.on'))return;var f=location.pathname.split('/').pop(),q=location.search,m=null;dk.querySelectorAll('a').forEach(function(a){var h=a.getAttribute('href')||'',pg=h.split('?')[0];if(pg===f&&(h.indexOf('?')<0||q.indexOf(h.split('?')[1])>-1))m=a});if(!m&&(f==='Lecture-new.html'||f==='Lectures-new.html')){dk.querySelectorAll('a').forEach(function(a){if(!m&&(a.getAttribute('href')||'').indexOf('Lectures-new')===0)m=a})}if(m)m.classList.add('on')}
+setTimeout(dockOn,600);setTimeout(dockOn,2000);
 })();
