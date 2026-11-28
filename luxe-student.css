@@ -430,3 +430,5 @@ body.fd[data-theme=light] .lc .ico{background:linear-gradient(150deg,#fff,rgba(2
 body.fd[data-theme=light] .lc .ico,body.fd[data-theme=light] .lc .ico *{color:#0b2f5e!important;opacity:1!important}
 body.fd[data-theme=light] .lc .num{color:#e8a010!important;opacity:1!important;font-weight:900!important;-webkit-text-fill-color:#e8a010!important;text-shadow:0 2px 0 rgba(120,70,0,.18),0 0 14px rgba(255,214,90,.5)}
 body.fd[data-theme=dark] .lc .num{opacity:1!important}
+body.fd[data-theme=light] .lc .band .no{color:#e8a010!important;-webkit-text-fill-color:#e8a010!important;opacity:1!important;font-weight:900!important;text-shadow:0 2px 0 rgba(120,70,0,.2),0 0 16px rgba(255,214,90,.6)!important;background:none!important}
+body.fd[data-theme=dark] .lc .band .no{color:#ffe08a!important;-webkit-text-fill-color:#ffe08a!important;opacity:1!important;text-shadow:0 0 14px rgba(240,213,138,.45)!important}
