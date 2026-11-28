@@ -21,3 +21,4 @@ rw();new MutationObserver(function(){rw()}).observe(d.body,{childList:true,subtr
 function dockOn(){var dk=d.querySelector('.student-dock');if(!dk||dk.querySelector('.on'))return;var f=location.pathname.split('/').pop(),q=location.search,m=null;dk.querySelectorAll('a').forEach(function(a){var h=a.getAttribute('href')||'',pg=h.split('?')[0];if(pg===f&&(h.indexOf('?')<0||q.indexOf(h.split('?')[1])>-1))m=a});if(!m&&(f==='Lecture-new.html'||f==='Lectures-new.html')){dk.querySelectorAll('a').forEach(function(a){if(!m&&(a.getAttribute('href')||'').indexOf('Lectures-new')===0)m=a})}if(m)m.classList.add('on')}
 setTimeout(dockOn,600);setTimeout(dockOn,2000);
 })();
+;(function(){var m=/[?&]v=(16[ab])/.exec(location.search);if(m)document.documentElement.classList.add('v'+m[1])})();
