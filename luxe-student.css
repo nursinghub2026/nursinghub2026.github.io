@@ -298,3 +298,55 @@ body.fd .tw{background:rgba(10,28,66,.28)!important;border:1px solid rgba(255,25
 body.fd:not([data-theme=dark]) .item :is(b,h3,h4,.nm,span,small){color:#08203a}
 body.fd[data-theme=dark] .tab:is(.on,.act,.active,[aria-selected=true],.sel){background:linear-gradient(135deg,#e6c36a,#c89a35)!important;color:#2a1d04!important}
 body.fd[data-theme=dark] .tab:is(.on,.act,.active,[aria-selected=true],.sel) *{color:#2a1d04!important}
+/* === DAY PALETTE v7: soft sky, white glass, navy text, gold accents === */
+body.fd[data-theme=light] .sk-bg{background:linear-gradient(180deg,#7fb5e8 0,#a6cbed 38%,#cfe4f6 72%,#e9f2fb 100%)!important}
+body.fd[data-theme=light] .sk-c{opacity:.75}
+body.fd[data-theme=light]{--dn:#0b2a4d;--dn2:#2b4a6b;--dg:#9a6f14}
+body.fd[data-theme=light] .nav{background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.3))!important;border-bottom:1px solid rgba(255,255,255,.75)!important;box-shadow:0 6px 24px rgba(15,45,90,.10)!important;-webkit-backdrop-filter:blur(18px) saturate(1.6)!important;backdrop-filter:blur(18px) saturate(1.6)!important}
+body.fd[data-theme=light] .nav .brand b{color:var(--dn)!important;text-shadow:none!important;-webkit-text-fill-color:var(--dn)!important}
+body.fd[data-theme=light] .nav .brand small{color:var(--dg)!important}
+body.fd[data-theme=light] .nav :is(.mbtn,.abtn2){background:rgba(255,255,255,.6)!important;border:1px solid rgba(255,255,255,.9)!important;color:var(--dn)!important;box-shadow:0 2px 8px rgba(15,45,90,.10)!important}
+body.fd[data-theme=light] .nav :is(.mbtn,.abtn2) *{color:var(--dn)!important}
+body.fd[data-theme=light] .ph :is(h1,h2){color:var(--dn)!important;text-shadow:0 1px 0 rgba(255,255,255,.6)!important}
+body.fd[data-theme=light] .ph p{color:var(--dn2)!important;text-shadow:none!important}
+body.fd[data-theme=light] .ph :is(.k,.pill,.eyebrow,.tag,span){color:var(--dg)!important}
+body.fd[data-theme=light] .track-switch>*{background:rgba(255,255,255,.55)!important;border:1px solid rgba(255,255,255,.9)!important;color:var(--dn)!important;box-shadow:0 4px 14px rgba(15,45,90,.10)!important;-webkit-backdrop-filter:blur(14px)!important;backdrop-filter:blur(14px)!important}
+body.fd[data-theme=light] .track-switch>:is(.on,.act,.active,.sel,[aria-selected=true],[aria-current]){background:linear-gradient(135deg,#f0d58a,#d2a43e)!important;color:#2a1d04!important;border-color:rgba(255,255,255,.9)!important}
+body.fd[data-theme=light] .track-switch>* *{color:inherit!important}
+body.fd[data-theme=light] .sb{background:rgba(255,255,255,.6)!important;border:1px solid rgba(255,255,255,.9)!important;box-shadow:0 8px 24px rgba(15,45,90,.10)!important}
+body.fd[data-theme=light] .sb input{color:var(--dn)!important;background:transparent!important}
+body.fd[data-theme=light] .sb input::placeholder{color:#5a7391!important}
+body.fd[data-theme=light] .sb i{color:var(--dg)!important}
+body.fd[data-theme=light] :is(.hd,.sect) :is(h2,h3,h1){color:var(--dn)!important;text-shadow:none!important}
+body.fd[data-theme=light] .hd :is(.cnt,.ct,span,div):not(i){color:var(--dn2)}
+body.fd[data-theme=light] .lc .band{background:transparent!important;border-bottom:1px solid rgba(11,42,77,.08)!important;box-shadow:none!important}
+body.fd[data-theme=light] .lc .band::before,body.fd[data-theme=light] .lc .band::after{display:none!important}
+body.fd[data-theme=light] .lc .no{color:rgba(154,111,20,.55)!important;-webkit-text-fill-color:rgba(154,111,20,.55)!important;text-shadow:none!important}
+body.fd[data-theme=light] .lc .ico{background:rgba(255,255,255,.7)!important;border:1px solid rgba(255,255,255,.9)!important;color:var(--dg)!important}
+body.fd[data-theme=light] .lc .ico *{color:var(--dg)!important}
+body.fd[data-theme=light] .lc .en{color:var(--dg)!important}
+body.fd[data-theme=light] .lc h3{color:var(--dn)!important}
+body.fd[data-theme=light] .lc :is(.t2,.ds){color:var(--dn2)!important}
+body.fd[data-theme=light] .lc .pill,body.fd[data-theme=light] .lc .pill.gray{background:rgba(255,255,255,.6)!important;border:1px solid rgba(255,255,255,.9)!important;color:var(--dn)!important}
+body.fd[data-theme=light] .lc .sts>div{background:rgba(255,255,255,.55)!important;border:1px solid rgba(255,255,255,.85)!important}
+body.fd[data-theme=light] .lc .sts b{color:var(--dn)!important}
+body.fd[data-theme=light] .lc .sts small{color:var(--dn2)!important}
+body.fd[data-theme=light] .lc .btn{background:linear-gradient(135deg,#f0d58a,#d2a43e)!important;color:#2a1d04!important;border:1px solid rgba(255,255,255,.8)!important;box-shadow:0 8px 20px rgba(154,111,20,.25)!important}
+body.fd[data-theme=light] .lc .btn *{color:#2a1d04!important}
+body.fd[data-theme=light] :is(.lh){background:linear-gradient(150deg,rgba(255,255,255,.55),rgba(255,255,255,.3))!important;border:1px solid rgba(255,255,255,.85)!important}
+body.fd[data-theme=light] .lh :is(h1,h2,h3,b,strong){color:var(--dn)!important;text-shadow:none!important}
+body.fd[data-theme=light] .lh :is(p,small,span,div,.k){color:var(--dn2)!important;text-shadow:none!important}
+body.fd[data-theme=light] .tw{background:rgba(255,255,255,.4)!important;border:1px solid rgba(255,255,255,.8)!important}
+body.fd[data-theme=light] :is(.vcard,.vs,.v.vcard){background:linear-gradient(150deg,rgba(255,255,255,.55),rgba(255,255,255,.3))!important;border:1px solid rgba(255,255,255,.85)!important}
+body.fd[data-theme=light] .vcard :is(.vq,.vs,span,small,b,div,p){color:var(--dn)!important;text-shadow:none!important}
+body.fd[data-theme=light] .vcard .vlab{color:var(--dg)!important}
+body.fd[data-theme=light] .tr.t2,body.fd[data-theme=light] .gr{background:linear-gradient(150deg,rgba(255,255,255,.55),rgba(255,255,255,.3))!important;border:1px solid rgba(255,255,255,.85)!important;box-shadow:0 10px 28px rgba(15,45,90,.14),inset 0 1px 0 rgba(255,255,255,.8)!important}
+body.fd[data-theme=light] .tr.t1{background:linear-gradient(150deg,rgba(247,226,150,.8),rgba(220,175,70,.55))!important;border:1px solid rgba(255,255,255,.85)!important}
+body.fd[data-theme=light] .tr :is(h2,h3,p,span,b,div,i),body.fd[data-theme=light] .gr :is(h1,h2,h3,p,span,small,b,div,i){color:var(--dn)!important;text-shadow:none!important}
+body.fd[data-theme=light] .tr.t1 :is(h2,h3,p,span,b,div,i){color:#2a1d04!important}
+body.fd[data-theme=light] .institution .fn{color:var(--dg)!important}
+body.fd[data-theme=light] .home-brand-title h1{background:linear-gradient(110deg,#0b2a4d 25%,#9a6f14 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;filter:none!important}
+body.fd[data-theme=light] .hb :is(h2,h3,p,small){color:var(--dn)!important;text-shadow:none!important}
+body.fd[data-theme=light] :is(.home-greeting,.home-intro,.lead,.institution,.un,.en2) {color:var(--dn2)!important;text-shadow:none!important}
+body.fd[data-theme=light] .ft :is(.ft-b,.ft-s,.ft-u,.credit span){color:var(--dn)!important;text-shadow:none!important}
+body.fd[data-theme=light] .ft{background:linear-gradient(180deg,rgba(255,255,255,.2),rgba(255,255,255,.5))!important;border-top:1px solid rgba(255,255,255,.8)!important}
