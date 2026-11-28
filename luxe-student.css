@@ -514,3 +514,17 @@ body.fd .nav .brand small{font-size:4.6px!important;letter-spacing:.2px!importan
 }
 @media(max-width:340px){body.fd .nav :is(.mbtn,.abtn2,.inbox-bell){width:30px!important;height:30px!important}body.fd .nav .tgl2.fd-tg{width:36px!important}}
 /* v23bmark */
+/* v24mark light menu + inbox glass */
+body.fd[data-theme=light] #site-menu .menu-group a{background:linear-gradient(150deg,rgba(255,255,255,.82),rgba(255,255,255,.55))!important;border:1px solid rgba(184,138,46,.35)!important;color:#0b2540!important;box-shadow:0 6px 18px rgba(11,37,64,.10)!important}
+body.fd[data-theme=light] #site-menu .menu-group a *{color:#0b2540!important}
+body.fd[data-theme=light] #site-menu .menu-group a small,body.fd[data-theme=light] #site-menu .menu-group a .ms,body.fd[data-theme=light] #site-menu .menu-group a span:not(.mi):not(.ml)+span{color:#5a6b80!important}
+body.fd[data-theme=light] #site-menu .menu-group a .mi,body.fd[data-theme=light] #site-menu .menu-group a .mi *{background:rgba(184,138,46,.14)!important;color:#a87a1c!important;border-color:rgba(184,138,46,.4)!important}
+body.fd[data-theme=light] #site-menu .menu-group a>i,body.fd[data-theme=light] #site-menu .menu-group a .chev{color:#b88a2e!important}
+body.fd[data-theme=light] #site-menu .menu-group h3,body.fd[data-theme=light] #site-menu h3{color:#0b2540!important}
+body.fd[data-theme=light] #site-menu .menu-tools button{background:linear-gradient(150deg,rgba(255,255,255,.85),rgba(255,255,255,.6))!important;color:#0b2540!important;border:1px solid rgba(184,138,46,.4)!important}
+body.fd[data-theme=light] .inbox-panel{background:linear-gradient(165deg,rgba(255,255,255,.94),rgba(240,246,252,.9))!important;border:1px solid rgba(184,138,46,.5)!important;box-shadow:0 18px 44px rgba(11,37,64,.22)!important}
+body.fd[data-theme=light] .inbox-title,body.fd[data-theme=light] .inbox-title i{color:#a87a1c!important}
+body.fd[data-theme=light] .inbox-all{color:#8a6414!important;border-color:rgba(184,138,46,.55)!important}
+body.fd[data-theme=light] .inbox-empty{color:#44566b!important}
+body.fd[data-theme=light] .inbox-foot{color:#5a6b80!important;border-color:rgba(184,138,46,.25)!important}
+body.fd[data-theme=light] .inbox-list *{color:#0b2540}
