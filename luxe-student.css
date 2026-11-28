@@ -252,3 +252,6 @@ body.fd .gr{background:linear-gradient(150deg,rgba(255,255,255,.22),rgba(255,255
 body.fd[data-theme=dark] .gr{background:linear-gradient(150deg,rgba(70,110,175,.2),rgba(14,28,60,.16))!important;border:1px solid rgba(240,213,138,.3)!important}
 body.fd .gr :is(h1,h2,h3,p,span,small){color:#fff!important;text-shadow:0 1px 8px rgba(0,20,60,.5)}
 body.fd .tr.t1{background:linear-gradient(150deg,rgba(247,218,128,.85),rgba(196,146,44,.7))!important}
+body.fd .hb{background:linear-gradient(180deg,transparent,rgba(8,20,44,.28) 55%,rgba(8,20,44,.12))!important}
+body.fd:not([data-theme=dark]) .hb{background:linear-gradient(180deg,transparent,rgba(255,255,255,.1))!important}
+body.fd:not([data-theme=dark]) .hb :is(h2,h3,p,small){color:#fff!important;text-shadow:0 1px 8px rgba(0,20,60,.5)}
