@@ -24,3 +24,7 @@ setTimeout(dockOn,600);setTimeout(dockOn,2000);
 ;(function(){var m=/[?&]v=(16[ab])/.exec(location.search);if(m)document.documentElement.classList.add('v'+m[1])})();
 /* trial: account button goes to trial student page */
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('#abtn');if(a&&window.NPHAuth&&NPHAuth.isLoggedIn&&NPHAuth.isLoggedIn()){e.preventDefault();e.stopImmediatePropagation();location.href='student-new.html'}},true);
+
+/* trial header: 2 buttons each side (menu + bell | theme + profile) */
+(function(){function mv(){var l=document.querySelector('.nav-side.ns-l'),b=document.querySelector('.nav-side.ns-r .inbox-bell');var m=l&&l.querySelector('.mbtn');if(l&&b&&m&&b.parentNode!==l){m.insertAdjacentElement('afterend',b);return true}return !!(b&&b.parentNode===l)}
+if(!mv()){var n=0,t=setInterval(function(){if(mv()||++n>40)clearInterval(t)},150)}})();
