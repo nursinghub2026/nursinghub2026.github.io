@@ -474,3 +474,20 @@ body.fd[data-theme=light] .pill,body.fd[data-theme=light] .lc .pill,body.fd[data
 body.fd[data-theme=light] .cat>i{background:linear-gradient(135deg,#b88a2e,#f3d98f 45%,#d9b25a 70%,#f7e6b0)!important;color:#2a1d04!important;box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 8px 16px -4px rgba(217,178,90,.9)!important}
 /* v21g chips */
 body.fd[data-theme=light] .hd .pill,body.fd[data-theme=light] .mt .pill,body.fd[data-theme=light] .lc .mt .pill.gray,body.fd[data-theme=light] .lc .mt .pill{background-image:linear-gradient(135deg,#b88a2e,#f3d98f 45%,#d9b25a 70%,#f7e6b0)!important;background-color:rgba(12,38,76,.9)!important;-webkit-background-clip:text,padding-box!important;background-clip:text,padding-box!important;-webkit-text-fill-color:transparent!important;color:transparent!important;border:1px solid rgba(243,217,143,.55)!important;box-shadow:0 4px 10px -4px rgba(12,38,76,.35)!important;-webkit-text-stroke:0;filter:drop-shadow(0 1px 0 rgba(0,0,0,.35))} /* v21gmark */
+/* v22 one gold palette: no teal/green accents */
+body.fd{--accent-text:#7a5c12;--success-text:#7a5c12;--success-surface:rgba(212,175,90,.2)}
+html[data-theme=dark] body.fd,body.fd[data-theme=dark]{--accent-text:#f0d58a;--success-text:#f0d58a;--success-surface:rgba(240,213,138,.14)}
+body.fd .pdone.on,body.fd .pfav.on,html[data-theme=dark] body.fd :is(.pdone.on,.pfav.on){background:linear-gradient(135deg,#b88a2e,#f3d98f 45%,#d9b25a 70%,#f7e6b0)!important;color:#2a1d04!important;border-color:rgba(243,217,143,.6)!important}
+html[data-theme=dark] body.fd :is(.pdone,.pfav){color:#f0d58a;border-color:rgba(240,213,138,.35)}
+body.fd .pdonechip,html[data-theme=dark] body.fd .pdonechip{background:rgba(12,38,76,.88)!important;color:#f0d58a!important;border:1px solid rgba(243,217,143,.55)!important}
+html[data-theme=dark] body.fd :is(.rp,.rp .rh b){color:#f0d58a}
+/* v22 header: even spacing */
+body.fd .nav-in{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:8px;padding-inline:10px!important}
+body.fd .nav-side{display:flex!important;align-items:center;gap:6px;width:auto!important;min-width:0}
+body.fd .nav .brand{min-width:0;justify-self:center;text-align:center;overflow:hidden}
+body.fd .nav .brand b{font-size:clamp(13px,4.3vw,20px)!important;letter-spacing:clamp(.3px,.35vw,2px)!important;white-space:nowrap}
+body.fd .nav .brand small{font-size:clamp(5px,1.6vw,8px)!important;letter-spacing:.6px!important;white-space:nowrap}
+body.fd .nav :is(.mbtn,.abtn2,.inbox-bell){width:38px!important;height:38px!important;flex:none;padding:0!important}
+body.fd .nav .tgl2.fd-tg{width:50px!important;flex:none}
+body.fd .nav .inbox-badge{top:-5px!important;inset-inline-start:auto!important;right:-5px!important;left:auto!important;min-width:16px;height:16px;font-size:9.5px;line-height:16px;padding:0 4px}
+/* v22mark */
