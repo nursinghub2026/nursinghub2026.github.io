@@ -183,3 +183,6 @@ body.fd[data-theme=dark] :is(.lc .k,.lc .pill){background:rgba(255,255,255,.08)!
 body.fd :is(.lcm .n,.pempty .pei,.ti2,.pii,.rp .rh i,.av,.sect>i,.tp .tic,.ic2){box-shadow:0 8px 18px rgba(212,175,90,.35),inset 0 1px 0 rgba(255,255,255,.7)!important;border:1px solid rgba(255,255,255,.5)}
 body.fd .tr.t2 .ic2{background:rgba(255,255,255,.2)!important;border:1px solid rgba(255,255,255,.4)}
 body.fd :is(.hw,.home-sec,.sec,section.wrap){background:transparent!important}
+body.fd:not([data-theme=dark]){background:linear-gradient(180deg,#1f5ea6,#3f86cf 55%,#8fbdea) fixed!important}
+body.fd :is(.lcm,.ha-post){background:linear-gradient(150deg,rgba(255,255,255,.62),rgba(255,255,255,.34))!important;-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);border:1px solid rgba(255,255,255,.7)!important}
+body.fd[data-theme=dark] :is(.lcm,.ha-post){background:linear-gradient(150deg,rgba(40,70,115,.5),rgba(12,26,50,.55))!important;border:1px solid rgba(240,213,138,.3)!important}
