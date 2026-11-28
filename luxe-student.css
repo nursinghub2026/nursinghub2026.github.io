@@ -491,3 +491,6 @@ body.fd .nav :is(.mbtn,.abtn2,.inbox-bell){width:38px!important;height:38px!impo
 body.fd .nav .tgl2.fd-tg{width:50px!important;flex:none}
 body.fd .nav .inbox-badge{top:-5px!important;inset-inline-start:auto!important;right:-5px!important;left:auto!important;min-width:16px;height:16px;font-size:9.5px;line-height:16px;padding:0 4px}
 /* v22mark */
+body.fd[data-theme=light] .nav .inbox-bell{background:linear-gradient(150deg,rgba(255,255,255,.85),rgba(255,255,255,.5))!important;border:1px solid rgba(255,255,255,.95)!important;box-shadow:0 2px 8px rgba(15,45,90,.1)!important}
+body.fd[data-theme=light] .nav .inbox-bell i{color:#d99a00!important}
+/* v22bmark */
