@@ -550,3 +550,7 @@ body.fd[data-theme=light] .inbox-panel{box-shadow:0 2px 0 #fff inset,0 22px 48px
 body.fd :is(.vcard,.authb,.tr,.lcm,.ha-post,.mot,.card,.lc,.track-switch,.sb,.pcard,.profile-card,.feat,.tp,.sg){-webkit-backdrop-filter:blur(20px) saturate(1.8)!important;backdrop-filter:blur(20px) saturate(1.8)!important;position:relative}
 body.fd[data-theme=dark] :is(.vcard,.authb,.tr,.lcm,.ha-post,.mot,.card,.lc,.track-switch,.sb,.pcard,.profile-card,.feat,.tp,.sg){border-color:rgba(255,255,255,.15)!important;box-shadow:0 2px 0 rgba(255,255,255,.2) inset,0 -10px 22px rgba(120,170,255,.07) inset,0 16px 32px -14px rgba(0,0,0,.6)!important}
 body.fd[data-theme=light] :is(.vcard,.authb,.tr,.lcm,.ha-post,.mot,.card,.lc,.track-switch,.sb,.pcard,.profile-card,.feat,.tp,.sg){border-color:rgba(255,255,255,.95)!important;box-shadow:0 2px 0 #fff inset,0 -10px 22px rgba(255,255,255,.45) inset,0 16px 32px -14px rgba(15,45,90,.35)!important}
+/* v28mark header 2+2 */
+body.fd .nav-side{display:flex!important;align-items:center;gap:6px}
+body.fd .nav-side.ns-l{justify-self:start}
+body.fd .nav-side.ns-r{justify-self:end}
