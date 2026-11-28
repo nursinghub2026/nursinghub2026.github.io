@@ -175,3 +175,11 @@ body.fd .tr.t2,body.fd .tr.t2 *{color:#fff!important}
 body.fd .tr.t2 .ic2{background:rgba(255,255,255,.18)!important}
 body.fd .sect .pill{background:rgba(255,255,255,.9)!important;color:#7a5c12!important;border:1px solid rgba(212,175,90,.6)!important}
 body.fd .sect .pill *{color:#7a5c12!important}
+/* glass */
+body.fd :is(.lc,.tp,.start-card,.st,.rp,.card,.pempty,.sheet,.menu,.cd,.fcard,.vs){background:linear-gradient(150deg,rgba(255,255,255,.62),rgba(255,255,255,.34))!important;-webkit-backdrop-filter:blur(20px) saturate(1.5);backdrop-filter:blur(20px) saturate(1.5);border:1px solid rgba(255,255,255,.7)!important;box-shadow:0 14px 38px rgba(8,30,70,.22),inset 0 1px 0 rgba(255,255,255,.8)!important}
+body.fd[data-theme=dark] :is(.lc,.tp,.start-card,.st,.rp,.card,.pempty,.sheet,.menu,.cd,.fcard,.vs,.chat-shell){background:linear-gradient(150deg,rgba(40,70,115,.5),rgba(12,26,50,.55))!important;border:1px solid rgba(240,213,138,.3)!important;box-shadow:0 14px 38px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.14)!important}
+body.fd :is(.lc .k,.lc .pill){background:rgba(255,255,255,.45)!important;border:1px solid rgba(255,255,255,.6)}
+body.fd[data-theme=dark] :is(.lc .k,.lc .pill){background:rgba(255,255,255,.08)!important;border:1px solid rgba(240,213,138,.2)}
+body.fd :is(.lcm .n,.pempty .pei,.ti2,.pii,.rp .rh i,.av,.sect>i,.tp .tic,.ic2){box-shadow:0 8px 18px rgba(212,175,90,.35),inset 0 1px 0 rgba(255,255,255,.7)!important;border:1px solid rgba(255,255,255,.5)}
+body.fd .tr.t2 .ic2{background:rgba(255,255,255,.2)!important;border:1px solid rgba(255,255,255,.4)}
+body.fd :is(.hw,.home-sec,.sec,section.wrap){background:transparent!important}
