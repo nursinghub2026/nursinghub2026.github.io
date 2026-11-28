@@ -383,3 +383,7 @@ body.fd[data-theme=dark] .student-dock{background:linear-gradient(150deg,rgba(60
 body.fd:not([data-theme=dark]) .lc .sts>div,body.fd .lc .sts>div{border-radius:16px!important}
 body.fd .lc .pill{border-radius:999px!important}
 body.fd .lc .btn{border-radius:16px!important}
+body.fd .lc .band{display:flex!important;flex-direction:row;align-items:center!important;justify-content:space-between!important;position:relative!important;overflow:visible!important}
+body.fd .lc .band :is(.no,.ico){position:static!important;inset:auto!important;transform:none!important;margin:0!important}
+body.fd[data-theme=light] .student-dock :is(a,button,span,i,small):not(.on *):not(.act *):not([aria-current] *){color:var(--dn)!important}
+body.fd[data-theme=light] .student-dock :is(.on,.act,[aria-current]) :is(span,i,small,b){color:#2a1d04!important}
