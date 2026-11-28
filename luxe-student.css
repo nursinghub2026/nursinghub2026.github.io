@@ -231,3 +231,20 @@ body.fd[data-theme=dark] .sk-c{opacity:.2}
 body.fd[data-theme=light] .sk-bg{background:linear-gradient(180deg,#1a58a8 0,#2f7bcb 35%,#5aa2e6 70%,#9ccdf3 100%)!important}
 body.fd[data-theme=light] .sk-c{opacity:.85}
 @media(prefers-reduced-motion:reduce){body.fd .sk-sh{display:none}}
+/* === true glass pass === */
+body.fd :is(.lc,.tp,.start-card,.st,.rp,.card,.pempty,.sheet,.menu,.cd,.fcard,.vs,.authb,.ha-heading,.mot,.feat,.v,.sb,.band,.lcm,.ha-post,.it,.vcard){-webkit-backdrop-filter:blur(22px) saturate(1.7)!important;backdrop-filter:blur(22px) saturate(1.7)!important}
+/* day */
+body.fd:not([data-theme=dark]) :is(.lc,.tp,.start-card,.st,.rp,.card,.pempty,.sheet,.menu,.cd,.fcard,.vs,.authb,.ha-heading,.mot,.feat,.v,.sb,.band,.lcm,.ha-post,.it){background:linear-gradient(150deg,rgba(255,255,255,.42),rgba(255,255,255,.16))!important;border:1px solid rgba(255,255,255,.65)!important;box-shadow:0 14px 38px rgba(8,30,70,.2),inset 0 1px 0 rgba(255,255,255,.75),inset 0 -1px 0 rgba(255,255,255,.2)!important;color:#0b2540}
+body.fd:not([data-theme=dark]) :is(.lc,.tp,.st,.rp,.card,.cd,.fcard,.vs,.feat,.v,.sb,.band,.lcm,.ha-post,.it,.ha-heading,.mot,.authb) :is(h1,h2,h3,h4,b,strong){color:#08203a!important}
+body.fd:not([data-theme=dark]) :is(.lc,.tp,.st,.rp,.card,.cd,.fcard,.vs,.feat,.v,.sb,.band,.lcm,.ha-post,.it,.ha-heading,.mot,.authb) :is(p,small,span,div,li){color:#12324f}
+body.fd:not([data-theme=dark]) .lc .k{background:rgba(255,255,255,.3)!important;border:1px solid rgba(255,255,255,.6)}
+body.fd:not([data-theme=dark]) .lc .pill{background:rgba(255,255,255,.35)!important;color:#08203a!important;border:1px solid rgba(255,255,255,.7)}
+body.fd:not([data-theme=dark]) .lc b{color:#6b4f0c!important}
+/* night */
+body.fd[data-theme=dark] :is(.lc,.tp,.start-card,.st,.rp,.card,.pempty,.sheet,.menu,.cd,.fcard,.vs,.authb,.ha-heading,.mot,.feat,.v,.sb,.band,.lcm,.ha-post,.it,.chat-shell){background:linear-gradient(150deg,rgba(70,110,175,.30),rgba(14,28,60,.26))!important;border:1px solid rgba(240,213,138,.38)!important;box-shadow:0 14px 38px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.2)!important}
+body.fd[data-theme=dark] .lc .k{background:rgba(255,255,255,.07)!important}
+/* home track cards: translucent gold and navy-blue glass */
+body.fd .tr.t1{background:linear-gradient(150deg,rgba(240,213,138,.62),rgba(184,138,46,.38))!important;-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border:1px solid rgba(255,235,170,.7)!important;box-shadow:0 14px 34px rgba(60,40,0,.3),inset 0 1px 0 rgba(255,255,255,.55)!important}
+body.fd .tr.t2{background:linear-gradient(150deg,rgba(70,130,215,.55),rgba(14,45,100,.4))!important;-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);border:1px solid rgba(190,220,255,.6)!important;box-shadow:0 14px 34px rgba(5,25,70,.35),inset 0 1px 0 rgba(255,255,255,.4)!important}
+body.fd .tr :is(h2,h3,p,span,b){color:#fff!important;text-shadow:0 1px 8px rgba(0,20,60,.45)}
+body.fd .tr.t1 :is(h2,h3,p,span,b){color:#2a1d04!important;text-shadow:none}
