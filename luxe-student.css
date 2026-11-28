@@ -432,3 +432,11 @@ body.fd[data-theme=light] .lc .num{color:#e8a010!important;opacity:1!important;f
 body.fd[data-theme=dark] .lc .num{opacity:1!important}
 body.fd[data-theme=light] .lc .band .no{color:#e8a010!important;-webkit-text-fill-color:#e8a010!important;opacity:1!important;font-weight:900!important;text-shadow:0 2px 0 rgba(120,70,0,.2),0 0 16px rgba(255,214,90,.6)!important;background:none!important}
 body.fd[data-theme=dark] .lc .band .no{color:#ffe08a!important;-webkit-text-fill-color:#ffe08a!important;opacity:1!important;text-shadow:0 0 14px rgba(240,213,138,.45)!important}
+
+/* v15 day gold = dock/header metallic gold */
+body.fd[data-theme=light]{--mg:linear-gradient(135deg,#b88a2e 0%,#e9c565 38%,#c9993a 68%,#eed48a 100%)}
+body.fd[data-theme=light] .hero .home-brand-title h1,body.fd[data-theme=light] .hero .fn,body.fd[data-theme=light] .hero .institution .fn,body.fd[data-theme=light] .lc .band .no,body.fd[data-theme=light] .ph .k,body.fd[data-theme=light] .phero .k,body.fd[data-theme=light] .vcard .vlab,body.fd[data-theme=light] .lc .en,body.fd[data-theme=light] .hd .brand b{background:var(--mg)!important;-webkit-background-clip:text!important;background-clip:text!important;-webkit-text-fill-color:transparent!important;color:transparent!important;text-shadow:none!important;filter:drop-shadow(0 1px 1px rgba(120,80,10,.35)) drop-shadow(0 0 8px rgba(233,197,101,.35))}
+body.fd[data-theme=light] .hero .home-brand-title h1{filter:drop-shadow(0 2px 2px rgba(120,80,10,.35)) drop-shadow(0 0 14px rgba(233,197,101,.45))}
+body.fd[data-theme=light] .ph .k i,body.fd[data-theme=light] .phero .k i,body.fd[data-theme=light] .hd i.fa-solid{color:#c99a3a!important;-webkit-text-fill-color:#c99a3a!important}
+body.fd[data-theme=light] .vcard .vr{background:var(--mg)!important;color:#2a1d04!important;-webkit-text-fill-color:#2a1d04!important;box-shadow:0 4px 12px rgba(201,153,58,.5),inset 0 1px 0 rgba(255,255,255,.6)}
+body.fd[data-theme=light] .ty span i,body.fd[data-theme=light] .sect>i{color:#c99a3a!important}
