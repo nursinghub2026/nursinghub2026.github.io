@@ -554,3 +554,9 @@ body.fd[data-theme=light] :is(.vcard,.authb,.tr,.lcm,.ha-post,.mot,.card,.lc,.tr
 body.fd .nav-side{display:flex!important;align-items:center;gap:6px}
 body.fd .nav-side.ns-l{justify-self:start}
 body.fd .nav-side.ns-r{justify-self:end}
+/* v29mark icon contrast */
+body.fd[data-theme=dark] .tic i{color:#2a1d04!important}
+body.fd[data-theme=dark] .rh i{color:#f0d58a!important}
+body.fd[data-theme=light] .nav :is(.mbtn,.abtn2,.inbox-bell) i{color:#8a5d00!important}
+body.fd[data-theme=light] :is(.k i,.authb>i,.authb .fa-user-lock){color:#8a5d00!important}
+body.fd[data-theme=light] .sect i{color:#8a5d00!important}
